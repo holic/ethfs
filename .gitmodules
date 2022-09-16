@@ -10,3 +10,6 @@
 [submodule "packages/contracts/lib/sstore2"]
 	path = packages/contracts/lib/sstore2
 	url = https://github.com/0xsequence/sstore2
+[submodule "packages/contracts/lib/ethier"]
+	path = packages/contracts/lib/ethier
+	url = https://github.com/divergencetech/ethier
