@@ -1,0 +1,174 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "contract FileStore",
+        "name": "_fileStore",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "FileNotFound",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "FilenameExists",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
+    "name": "fileExists",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "fileStore",
+    "outputs": [
+      {
+        "internalType": "contract FileStore",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "name": "filenames",
+    "outputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "",
+        "type": "string"
+      }
+    ],
+    "name": "files",
+    "outputs": [
+      {
+        "internalType": "bytes32",
+        "name": "",
+        "type": "bytes32"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
+    "name": "readFile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "mimeType",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "contentEncoding",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32[]",
+            "name": "checksums",
+            "type": "bytes32[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "mimeType",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "contentEncoding",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32[]",
+            "name": "checksums",
+            "type": "bytes32[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      }
+    ],
+    "name": "writeFile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]

@@ -95,6 +95,25 @@
         "type": "bytes32"
       }
     ],
+    "name": "codeSizeAtChecksum",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "size",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "checksum",
+        "type": "bytes32"
+      }
+    ],
     "name": "read",
     "outputs": [
       {
