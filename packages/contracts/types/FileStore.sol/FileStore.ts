@@ -13,7 +13,11 @@ import type {
   Signer,
   utils,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -21,7 +25,7 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "./common";
+} from "../common";
 
 export type FileStruct = {
   size: PromiseOrValue<BigNumberish>;
@@ -126,8 +130,38 @@ export interface FileStoreInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "writeChunk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "writeFile", data: BytesLike): Result;
 
-  events: {};
+  events: {
+    "NewChunk(bytes32,uint256)": EventFragment;
+    "NewFile(bytes32,uint256,string,string)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "NewChunk"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewFile"): EventFragment;
 }
+
+export interface NewChunkEventObject {
+  checksum: string;
+  size: BigNumber;
+}
+export type NewChunkEvent = TypedEvent<
+  [string, BigNumber],
+  NewChunkEventObject
+>;
+
+export type NewChunkEventFilter = TypedEventFilter<NewChunkEvent>;
+
+export interface NewFileEventObject {
+  checksum: string;
+  size: BigNumber;
+  contentType: string;
+  contentEncoding: string;
+}
+export type NewFileEvent = TypedEvent<
+  [string, BigNumber, string, string],
+  NewFileEventObject
+>;
+
+export type NewFileEventFilter = TypedEventFilter<NewFileEvent>;
 
 export interface FileStore extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -306,7 +340,29 @@ export interface FileStore extends BaseContract {
     writeFile(file: FileStruct, overrides?: CallOverrides): Promise<string>;
   };
 
-  filters: {};
+  filters: {
+    "NewChunk(bytes32,uint256)"(
+      checksum?: PromiseOrValue<BytesLike> | null,
+      size?: null
+    ): NewChunkEventFilter;
+    NewChunk(
+      checksum?: PromiseOrValue<BytesLike> | null,
+      size?: null
+    ): NewChunkEventFilter;
+
+    "NewFile(bytes32,uint256,string,string)"(
+      checksum?: PromiseOrValue<BytesLike> | null,
+      size?: null,
+      contentType?: null,
+      contentEncoding?: null
+    ): NewFileEventFilter;
+    NewFile(
+      checksum?: PromiseOrValue<BytesLike> | null,
+      size?: null,
+      contentType?: null,
+      contentEncoding?: null
+    ): NewFileEventFilter;
+  };
 
   estimateGas: {
     checksumExists(

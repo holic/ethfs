@@ -32,13 +32,24 @@ struct File {
     bytes32[] checksums;
 }
 
-contract FileStore {
-    // bytes checksum => sstore2 pointer
+interface IFileStore {
+    event NewChunk(bytes32 indexed checksum, uint256 size);
+    event NewFile(
+        bytes32 indexed checksum,
+        uint256 size,
+        string contentType,
+        string contentEncoding
+    );
+}
+
+contract FileStore is IFileStore {
+    // data checksum => sstore2 pointer
     mapping(bytes32 => address) public chunks;
     bytes32[] public checksums;
 
     error ChunkTooBig();
-    error ChecksumNotFound();
+    error ChunkExists(bytes32 checksum);
+    error ChunkNotFound(bytes32 checksum);
     error EmptyFile();
 
     function checksumExists(bytes32 checksum) public view returns (bool) {
@@ -47,7 +58,7 @@ contract FileStore {
 
     function chunkSize(bytes32 checksum) public view returns (uint256 size) {
         if (!checksumExists(checksum)) {
-            revert ChecksumNotFound();
+            revert ChunkNotFound(checksum);
         }
         return Bytecode.codeSize(chunks[checksum]) - 1;
     }
@@ -57,11 +68,12 @@ contract FileStore {
             revert ChunkTooBig();
         }
         checksum = keccak256(chunk);
-        // TODO: revert if exists
-        if (chunks[checksum] == address(0)) {
-            chunks[checksum] = SSTORE2.write(chunk);
-            checksums.push(checksum);
+        if (chunks[checksum] != address(0)) {
+            revert ChunkExists(checksum);
         }
+        chunks[checksum] = SSTORE2.write(chunk);
+        checksums.push(checksum);
+        emit NewChunk(checksum, chunk.length);
         return checksum;
     }
 
@@ -75,7 +87,9 @@ contract FileStore {
             revert EmptyFile();
         }
         file.size = size;
-        return writeChunk(abi.encode(file));
+        checksum = writeChunk(abi.encode(file));
+        emit NewFile(checksum, size, file.contentType, file.contentEncoding);
+        return checksum;
     }
 
     function readChunk(bytes32 checksum)
@@ -84,15 +98,12 @@ contract FileStore {
         returns (bytes memory chunk)
     {
         if (!checksumExists(checksum)) {
-            revert ChecksumNotFound();
+            revert ChunkNotFound(checksum);
         }
         return SSTORE2.read(chunks[checksum]);
     }
 
     function readFile(bytes32 checksum) public view returns (File memory file) {
-        if (!checksumExists(checksum)) {
-            revert ChecksumNotFound();
-        }
         return abi.decode(readChunk(checksum), (File));
     }
 
