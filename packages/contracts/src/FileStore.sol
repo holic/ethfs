@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "sstore2/SSTORE2.sol";
 import "sstore2/utils/Bytecode.sol";
+import "ethier/contracts/utils/DynamicBuffer.sol";
 
 // TODO: test gas on file wrapper with one chunk (two sstore2 calls) vs. file wrapper with data
 
@@ -120,17 +121,11 @@ contract FileStore is IFileStore {
         view
         returns (bytes memory data)
     {
-        // TODO: test gas using DynamicBuffer
         uint256 size = file.size;
-        data = new bytes(size);
-        uint256 offset = 0;
+        data = DynamicBuffer.allocate(size);
         for (uint256 i = 0; i < file.checksums.length; i++) {
             bytes memory chunk = readChunk(file.checksums[i]);
-            uint256 chunkLength = chunk.length;
-            for (uint256 j = 0; j < chunkLength; j++) {
-                data[offset + j] = chunk[j];
-            }
-            offset += chunkLength;
+            DynamicBuffer.appendSafe(data, chunk);
         }
         return data;
     }

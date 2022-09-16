@@ -4,7 +4,7 @@
 #
 # See https://github.com/holic/web3-scaffold/pull/23
 
-[default]
+[profile.default]
 src = 'packages/contracts/src'
 test = 'packages/contracts/test'
 out = 'packages/contracts/out'
