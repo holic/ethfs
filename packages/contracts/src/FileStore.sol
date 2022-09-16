@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.9;
 
-import "sstore2/SSTORE2.sol";
-import "sstore2/utils/Bytecode.sol";
-import "ethier/contracts/utils/DynamicBuffer.sol";
+import {SSTORE2} from "sstore2/SSTORE2.sol";
+import {Bytecode} from "sstore2/utils/Bytecode.sol";
+import {DynamicBuffer} from "ethier/contracts/utils/DynamicBuffer.sol";
 
 // TODO: test gas on file wrapper with one chunk (two sstore2 calls) vs. file wrapper with data
 

@@ -21,6 +21,154 @@
     "type": "error"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "checksum",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "size",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentType",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "contentEncoding",
+        "type": "string"
+      }
+    ],
+    "name": "FileCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
+    "name": "FileDeleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferStarted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "acceptOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "contentType",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "contentEncoding",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32[]",
+            "name": "checksums",
+            "type": "bytes32[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      }
+    ],
+    "name": "createFile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
+    "name": "deleteFile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "string",
@@ -91,6 +239,32 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pendingOwner",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "string",
@@ -137,36 +311,35 @@
         "internalType": "string",
         "name": "filename",
         "type": "string"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
       }
     ],
-    "name": "writeFile",
+    "name": "readFileData",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "transferOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

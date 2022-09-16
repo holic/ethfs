@@ -7,23 +7,8 @@ import "../src/FileStore.sol";
 contract FileStoreTest is Test, IFileStore {
     FileStore private fileStore;
 
-    error FileDoesNotExist(string filename);
-
     function setUp() public {
         fileStore = new FileStore();
-    }
-
-    function slice(
-        string memory str,
-        uint256 startIndex,
-        uint256 endIndex
-    ) public pure returns (string memory) {
-        bytes memory strBytes = bytes(str);
-        bytes memory result = new bytes(endIndex - startIndex);
-        for (uint256 i = startIndex; i < endIndex; i++) {
-            result[i - startIndex] = strBytes[i];
-        }
-        return string(result);
     }
 
     function testWrite() public {
