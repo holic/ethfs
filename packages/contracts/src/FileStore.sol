@@ -26,17 +26,18 @@ import "sstore2/utils/Bytecode.sol";
 // }
 
 struct File {
-    uint256 size;
-    string mimeType;
-    string contentEncoding;
+    uint256 size; // automatically calculated on write
+    string contentType; // e.g. image/png, text/javascript
+    string contentEncoding; // optional, e.g. gzip, fflate
     bytes32[] checksums;
 }
 
 contract FileStore {
-    // blob checksum => sstore2 pointer
+    // bytes checksum => sstore2 pointer
     mapping(bytes32 => address) public chunks;
     bytes32[] public checksums;
 
+    error ChunkTooBig();
     error ChecksumNotFound();
     error EmptyFile();
 
@@ -48,14 +49,15 @@ contract FileStore {
         if (!checksumExists(checksum)) {
             revert ChecksumNotFound();
         }
-        // in tests, this was returning bytes length + 1, so I am reducing by 1 here
-        // TODO: confirm this on real eth node
         return Bytecode.codeSize(chunks[checksum]) - 1;
     }
 
     function writeChunk(bytes memory chunk) public returns (bytes32 checksum) {
-        // TODO: raise if chunk is too big?
+        if (chunk.length > 24575) {
+            revert ChunkTooBig();
+        }
         checksum = keccak256(chunk);
+        // TODO: revert if exists
         if (chunks[checksum] == address(0)) {
             chunks[checksum] = SSTORE2.write(chunk);
             checksums.push(checksum);
@@ -73,7 +75,6 @@ contract FileStore {
             revert EmptyFile();
         }
         file.size = size;
-        // TODO: check that chunk size == bytes size
         return writeChunk(abi.encode(file));
     }
 
@@ -93,6 +94,14 @@ contract FileStore {
             revert ChecksumNotFound();
         }
         return abi.decode(readChunk(checksum), (File));
+    }
+
+    function readFileData(bytes32 checksum)
+        public
+        view
+        returns (bytes memory data)
+    {
+        return readFileData(readFile(checksum));
     }
 
     function readFileData(File memory file)

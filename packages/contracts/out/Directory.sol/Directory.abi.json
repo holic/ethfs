@@ -109,7 +109,7 @@
           },
           {
             "internalType": "string",
-            "name": "mimeType",
+            "name": "contentType",
             "type": "string"
           },
           {
@@ -147,7 +147,7 @@
           },
           {
             "internalType": "string",
-            "name": "mimeType",
+            "name": "contentType",
             "type": "string"
           },
           {

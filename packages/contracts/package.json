@@ -11,7 +11,7 @@
     "clean": "rm -rf types",
     "build": "pnpm clean && pnpm compile && pnpm types",
     "compile": "forge build --force",
-    "types": "typechain --target ethers-v5 \"out/**/!(*.t|test|Test|Script|Vm|console|console2).sol/!(*.abi).json\" --out-dir types && tsc",
+    "types": "typechain --target ethers-v5 \"out/**/!(*.s|*.t|test|Test|Script|Vm|console|console2).sol/!(*.abi).json\" --out-dir types && tsc",
     "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
     "lint": "solhint --config ../../.solhint.json \"src/**/*.sol\"",
     "lint:fix": "pnpm lint --fix"

@@ -27,15 +27,8 @@ contract FileStoreTest is Test {
     }
 
     function testWrite() public {
-        // bytes memory data = bytes(
-        //     slice(
-        //         vm.readFile("packages/contracts/test/files/three.min.js"),
-        //         0,
-        //         3000
-        //     )
-        // );
         bytes memory data = bytes(
-            vm.readFile("packages/contracts/test/files/2b.txt")
+            vm.readFile("packages/contracts/test/files/24kb-1.txt")
         );
         bytes32 checksum = keccak256(data);
 
@@ -43,27 +36,65 @@ contract FileStoreTest is Test {
             fileStore.checksumExists(checksum),
             "expected checksum to not exist"
         );
-        // TODO: why does this not fail? its way over 24kb
         fileStore.writeChunk(data);
         assertTrue(
             fileStore.checksumExists(checksum),
             "expected checksum to exist"
         );
 
-        bytes memory storedChunk = fileStore.readChunk(checksum);
-        assertEq(data, storedChunk, "expected data to match");
+        bytes memory storedData = fileStore.readChunk(checksum);
+        assertEq(data, storedData, "expected data to match");
         assertEq(
             checksum,
-            keccak256(storedChunk),
+            keccak256(storedData),
             "expected checksums to match"
         );
+    }
 
-        // TODO: figure out how to tell forge to limit this at write time
-        emit log_named_uint("chunk size", fileStore.chunkSize(checksum));
-        emit log_named_uint("data size", storedChunk.length);
-        assertTrue(
-            fileStore.chunkSize(checksum) <= 24576,
-            "sstore2 write exceeds maximum contract size"
+    function testWriteTooBig() public {
+        vm.expectRevert(abi.encodeWithSelector(FileStore.ChunkTooBig.selector));
+        fileStore.writeChunk(
+            bytes(vm.readFile("packages/contracts/test/files/24kb.txt"))
+        );
+    }
+
+    function testReadFileData() public {
+        bytes32[] memory checksums = new bytes32[](3);
+        checksums[0] = fileStore.writeChunk("hello");
+        checksums[1] = fileStore.writeChunk(" ");
+        checksums[2] = fileStore.writeChunk("world");
+
+        File memory file = File({
+            size: 0,
+            contentType: "text/plain",
+            contentEncoding: "",
+            checksums: checksums
+        });
+        bytes32 fileChecksum = fileStore.writeFile(file);
+
+        assertEq("hello world", fileStore.readFileData(fileChecksum));
+    }
+
+    function testReadFileDataBig() public {
+        bytes32[] memory checksums = new bytes32[](2);
+        checksums[0] = fileStore.writeChunk(
+            bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
+        );
+        checksums[1] = fileStore.writeChunk(
+            bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
+        );
+
+        File memory file = File({
+            size: 0,
+            contentType: "text/plain",
+            contentEncoding: "",
+            checksums: checksums
+        });
+        bytes32 fileChecksum = fileStore.writeFile(file);
+
+        assertEq(
+            bytes(vm.readFile("packages/contracts/test/files/48kb-2.txt")),
+            fileStore.readFileData(fileChecksum)
         );
     }
 }

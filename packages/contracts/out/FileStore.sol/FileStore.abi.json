@@ -6,6 +6,11 @@
   },
   {
     "inputs": [],
+    "name": "ChunkTooBig",
+    "type": "error"
+  },
+  {
+    "inputs": [],
     "name": "EmptyFile",
     "type": "error"
   },
@@ -149,7 +154,7 @@
           },
           {
             "internalType": "string",
-            "name": "mimeType",
+            "name": "contentType",
             "type": "string"
           },
           {
@@ -182,7 +187,7 @@
           },
           {
             "internalType": "string",
-            "name": "mimeType",
+            "name": "contentType",
             "type": "string"
           },
           {
@@ -199,6 +204,25 @@
         "internalType": "struct File",
         "name": "file",
         "type": "tuple"
+      }
+    ],
+    "name": "readFileData",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "checksum",
+        "type": "bytes32"
       }
     ],
     "name": "readFileData",
@@ -242,7 +266,7 @@
           },
           {
             "internalType": "string",
-            "name": "mimeType",
+            "name": "contentType",
             "type": "string"
           },
           {
