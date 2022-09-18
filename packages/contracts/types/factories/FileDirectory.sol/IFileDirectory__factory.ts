@@ -5,9 +5,9 @@
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
 import type {
-  IDirectory,
-  IDirectoryInterface,
-} from "../../Directory.sol/IDirectory";
+  IFileDirectory,
+  IFileDirectoryInterface,
+} from "../../FileDirectory.sol/IFileDirectory";
 
 const _abi = [
   {
@@ -62,15 +62,15 @@ const _abi = [
   },
 ];
 
-export class IDirectory__factory {
+export class IFileDirectory__factory {
   static readonly abi = _abi;
-  static createInterface(): IDirectoryInterface {
-    return new utils.Interface(_abi) as IDirectoryInterface;
+  static createInterface(): IFileDirectoryInterface {
+    return new utils.Interface(_abi) as IFileDirectoryInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IDirectory {
-    return new Contract(address, _abi, signerOrProvider) as IDirectory;
+  ): IFileDirectory {
+    return new Contract(address, _abi, signerOrProvider) as IFileDirectory;
   }
 }

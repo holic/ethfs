@@ -41,7 +41,7 @@ export type FileStructOutput = [BigNumber, string, string, string[]] & {
   checksums: string[];
 };
 
-export interface DirectoryInterface extends utils.Interface {
+export interface FileDirectoryInterface extends utils.Interface {
   functions: {
     "acceptOwnership()": FunctionFragment;
     "createFile(string,(uint256,string,string,bytes32[]))": FunctionFragment;
@@ -209,12 +209,12 @@ export type OwnershipTransferredEvent = TypedEvent<
 export type OwnershipTransferredEventFilter =
   TypedEventFilter<OwnershipTransferredEvent>;
 
-export interface Directory extends BaseContract {
+export interface FileDirectory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: DirectoryInterface;
+  interface: FileDirectoryInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

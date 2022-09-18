@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IDirectory__factory = void 0;
+exports.IFileDirectory__factory = void 0;
 const ethers_1 = require("ethers");
 const _abi = [
     {
@@ -57,7 +57,7 @@ const _abi = [
         type: "event",
     },
 ];
-class IDirectory__factory {
+class IFileDirectory__factory {
     static createInterface() {
         return new ethers_1.utils.Interface(_abi);
     }
@@ -65,5 +65,5 @@ class IDirectory__factory {
         return new ethers_1.Contract(address, _abi, signerOrProvider);
     }
 }
-exports.IDirectory__factory = IDirectory__factory;
-IDirectory__factory.abi = _abi;
+exports.IFileDirectory__factory = IFileDirectory__factory;
+IFileDirectory__factory.abi = _abi;

@@ -4,7 +4,7 @@ pragma solidity ^0.8.9;
 import {File, FileStore} from "./FileStore.sol";
 import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
 
-interface IDirectory {
+interface IFileDirectory {
     event FileCreated(
         string indexed filename,
         bytes32 indexed checksum,
@@ -15,7 +15,7 @@ interface IDirectory {
     event FileDeleted(string indexed filename);
 }
 
-contract Directory is IDirectory, Ownable2Step {
+contract FileDirectory is IFileDirectory, Ownable2Step {
     FileStore public immutable fileStore;
 
     // filename => File checksum

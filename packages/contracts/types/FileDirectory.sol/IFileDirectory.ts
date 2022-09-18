@@ -12,7 +12,7 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export interface IDirectoryInterface extends utils.Interface {
+export interface IFileDirectoryInterface extends utils.Interface {
   functions: {};
 
   events: {
@@ -45,12 +45,12 @@ export type FileDeletedEvent = TypedEvent<[string], FileDeletedEventObject>;
 
 export type FileDeletedEventFilter = TypedEventFilter<FileDeletedEvent>;
 
-export interface IDirectory extends BaseContract {
+export interface IFileDirectory extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: IDirectoryInterface;
+  interface: IFileDirectoryInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

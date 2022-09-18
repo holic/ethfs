@@ -28,8 +28,8 @@ import {DynamicBuffer} from "ethier/contracts/utils/DynamicBuffer.sol";
 
 struct File {
     uint256 size; // automatically calculated on write
-    string contentType; // e.g. image/png, text/javascript
-    string contentEncoding; // optional, e.g. gzip, fflate
+    string contentType; // e.g. image/png, text/javascript, datauri
+    string contentEncoding; // optional, e.g. gzip
     bytes32[] checksums;
 }
 
@@ -42,6 +42,8 @@ interface IFileStore {
         string contentEncoding
     );
 }
+
+// TODO: clarify that these are already encoded as data URI for easy inclusion in HTML?
 
 contract FileStore is IFileStore {
     // data checksum => sstore2 pointer

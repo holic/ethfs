@@ -2,16 +2,16 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
-import "../src/Directory.sol";
+import "../src/FileDirectory.sol";
 import "../src/FileStore.sol";
 
-contract DirectoryTest is Test, IDirectory {
+contract FileDirectoryTest is Test, IFileDirectory {
     FileStore private fileStore;
-    Directory private directory;
+    FileDirectory private directory;
 
     function setUp() public {
         fileStore = new FileStore();
-        directory = new Directory(fileStore);
+        directory = new FileDirectory(fileStore);
     }
 
     function testWriteFile() public {
