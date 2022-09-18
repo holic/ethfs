@@ -5,27 +5,6 @@ import {SSTORE2} from "sstore2/SSTORE2.sol";
 import {Bytecode} from "sstore2/utils/Bytecode.sol";
 import {DynamicBuffer} from "ethier/contracts/utils/DynamicBuffer.sol";
 
-// TODO: test gas on file wrapper with one chunk (two sstore2 calls) vs. file wrapper with data
-
-// enum FileStorageType {
-//     Bytes,
-//     Chunks
-// }
-
-// struct File {
-//     FileStorageType storageType;
-//     string mimeType;
-//     string contentEncoding;
-//     bytes data;
-// }
-
-// if (file.storageType === FileStorageType.Bytes) {
-//     return file.data;
-// } else {
-//     bytes32[] memory checksums = abi.decode(file.data, (bytes32[]));
-//     // read
-// }
-
 struct File {
     uint256 size; // automatically calculated on write
     string contentType; // e.g. image/png, text/javascript, datauri
