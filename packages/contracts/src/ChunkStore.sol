@@ -9,7 +9,7 @@ interface IChunkStore {
     event NewChunk(bytes32 indexed checksum, uint256 size);
 }
 
-contract ChunkStore is IChunkStore {
+abstract contract ChunkStore is IChunkStore {
     // data checksum => sstore2 pointer
     mapping(bytes32 => address) public _chunks;
     bytes32[] public _checksums;
