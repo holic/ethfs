@@ -123,31 +123,47 @@
         "type": "string"
       },
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
+        "internalType": "string",
+        "name": "contentType",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "contentEncoding",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes[]",
+        "name": "chunks",
+        "type": "bytes[]"
+      }
+    ],
+    "name": "createFile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "contentType",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "contentEncoding",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "checksums",
+        "type": "bytes32[]"
       }
     ],
     "name": "createFile",

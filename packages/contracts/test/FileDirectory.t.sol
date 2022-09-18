@@ -2,8 +2,8 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
-import "../src/FileDirectory.sol";
-import "../src/FileStore.sol";
+import {IFileDirectory, FileDirectory} from "../src/FileDirectory.sol";
+import {FileStore} from "../src/FileStore.sol";
 
 contract FileDirectoryTest is Test, IFileDirectory {
     FileStore private fileStore;
@@ -22,15 +22,7 @@ contract FileDirectoryTest is Test, IFileDirectory {
         vm.expectEmit(true, false, false, false);
         emit FileCreated("hello.txt", bytes32(0), 0, "text/plain", "");
 
-        directory.createFile(
-            "hello.txt",
-            File({
-                size: data.length,
-                contentType: "text/plain",
-                contentEncoding: "",
-                checksums: checksums
-            })
-        );
+        directory.createFile("hello.txt", "text/plain", "", checksums);
 
         bytes memory storedData = directory.readFileData("hello.txt");
         assertEq("hello world", string(storedData));

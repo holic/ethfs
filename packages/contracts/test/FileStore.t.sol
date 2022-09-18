@@ -2,9 +2,10 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
-import "../src/FileStore.sol";
+import {IChunkStore, ChunkStore} from "../src/ChunkStore.sol";
+import {IFileStore, FileStore, File} from "../src/FileStore.sol";
 
-contract FileStoreTest is Test, IFileStore {
+contract FileStoreTest is Test, IChunkStore, IFileStore {
     FileStore private fileStore;
 
     function setUp() public {
@@ -43,7 +44,9 @@ contract FileStoreTest is Test, IFileStore {
     }
 
     function testWriteTooBig() public {
-        vm.expectRevert(abi.encodeWithSelector(FileStore.ChunkTooBig.selector));
+        vm.expectRevert(
+            abi.encodeWithSelector(ChunkStore.ChunkTooBig.selector)
+        );
         fileStore.writeChunk(
             bytes(vm.readFile("packages/contracts/test/files/24kb.txt"))
         );
@@ -55,13 +58,11 @@ contract FileStoreTest is Test, IFileStore {
         checksums[1] = fileStore.writeChunk(" ");
         checksums[2] = fileStore.writeChunk("world");
 
-        File memory file = File({
-            size: 0,
-            contentType: "text/plain",
-            contentEncoding: "",
-            checksums: checksums
-        });
-        bytes32 fileChecksum = fileStore.writeFile(file);
+        (bytes32 fileChecksum, ) = fileStore.writeFile(
+            "text/plain",
+            "",
+            checksums
+        );
 
         assertEq("hello world", fileStore.readFileData(fileChecksum));
     }
@@ -73,30 +74,42 @@ contract FileStoreTest is Test, IFileStore {
 
         vm.expectEmit(true, true, true, true);
         emit NewChunk(keccak256(data), data.length);
+
         bytes32 checksum = fileStore.writeChunk(data);
 
         bytes32[] memory checksums = new bytes32[](2);
         checksums[0] = checksum;
         checksums[1] = checksum;
 
-        File memory file = File({
-            size: data.length + data.length,
+        File memory expectedFile = File({
+            size: data.length * 2,
             contentType: "text/plain",
             contentEncoding: "",
             checksums: checksums
         });
 
         vm.expectEmit(true, true, true, true);
-        emit NewFile(keccak256(abi.encode(file)), file.size, "text/plain", "");
-        bytes32 fileChecksum = fileStore.writeFile(file);
+        emit NewFile(
+            keccak256(abi.encode(expectedFile)),
+            expectedFile.size,
+            expectedFile.contentType,
+            expectedFile.contentEncoding
+        );
+
+        (bytes32 fileChecksum, ) = fileStore.writeFile(
+            "text/plain",
+            "",
+            checksums
+        );
 
         vm.expectRevert(
             abi.encodeWithSelector(
-                FileStore.ChunkExists.selector,
-                keccak256(abi.encode(file))
+                ChunkStore.ChunkExists.selector,
+                fileChecksum
             )
         );
-        fileStore.writeFile(file);
+
+        fileStore.writeFile("text/plain", "", checksums);
 
         assertEq(
             bytes(vm.readFile("packages/contracts/test/files/48kb-2.txt")),

@@ -12,35 +12,33 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export interface IFileStoreInterface extends utils.Interface {
+export interface IChunkStoreInterface extends utils.Interface {
   functions: {};
 
   events: {
-    "NewFile(bytes32,uint256,string,string)": EventFragment;
+    "NewChunk(bytes32,uint256)": EventFragment;
   };
 
-  getEvent(nameOrSignatureOrTopic: "NewFile"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "NewChunk"): EventFragment;
 }
 
-export interface NewFileEventObject {
+export interface NewChunkEventObject {
   checksum: string;
   size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
 }
-export type NewFileEvent = TypedEvent<
-  [string, BigNumber, string, string],
-  NewFileEventObject
+export type NewChunkEvent = TypedEvent<
+  [string, BigNumber],
+  NewChunkEventObject
 >;
 
-export type NewFileEventFilter = TypedEventFilter<NewFileEvent>;
+export type NewChunkEventFilter = TypedEventFilter<NewChunkEvent>;
 
-export interface IFileStore extends BaseContract {
+export interface IChunkStore extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: IFileStoreInterface;
+  interface: IChunkStoreInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -66,18 +64,14 @@ export interface IFileStore extends BaseContract {
   callStatic: {};
 
   filters: {
-    "NewFile(bytes32,uint256,string,string)"(
+    "NewChunk(bytes32,uint256)"(
       checksum?: PromiseOrValue<BytesLike> | null,
-      size?: null,
-      contentType?: null,
-      contentEncoding?: null
-    ): NewFileEventFilter;
-    NewFile(
+      size?: null
+    ): NewChunkEventFilter;
+    NewChunk(
       checksum?: PromiseOrValue<BytesLike> | null,
-      size?: null,
-      contentType?: null,
-      contentEncoding?: null
-    ): NewFileEventFilter;
+      size?: null
+    ): NewChunkEventFilter;
   };
 
   estimateGas: {};

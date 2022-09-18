@@ -23,10 +23,14 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SSTORE2__factory = exports.Ownable2Step__factory = exports.Ownable__factory = exports.IFileStore__factory = exports.FileStore__factory = exports.IFileDirectory__factory = exports.FileDirectory__factory = exports.Bytecode__factory = exports.factories = void 0;
+exports.SSTORE2__factory = exports.Ownable2Step__factory = exports.Ownable__factory = exports.IFileStore__factory = exports.FileStore__factory = exports.IFileDirectory__factory = exports.FileDirectory__factory = exports.IChunkStore__factory = exports.ChunkStore__factory = exports.Bytecode__factory = exports.factories = void 0;
 exports.factories = __importStar(require("./factories"));
 var Bytecode__factory_1 = require("./factories/Bytecode__factory");
 Object.defineProperty(exports, "Bytecode__factory", { enumerable: true, get: function () { return Bytecode__factory_1.Bytecode__factory; } });
+var ChunkStore__factory_1 = require("./factories/ChunkStore.sol/ChunkStore__factory");
+Object.defineProperty(exports, "ChunkStore__factory", { enumerable: true, get: function () { return ChunkStore__factory_1.ChunkStore__factory; } });
+var IChunkStore__factory_1 = require("./factories/ChunkStore.sol/IChunkStore__factory");
+Object.defineProperty(exports, "IChunkStore__factory", { enumerable: true, get: function () { return IChunkStore__factory_1.IChunkStore__factory; } });
 var FileDirectory__factory_1 = require("./factories/FileDirectory.sol/FileDirectory__factory");
 Object.defineProperty(exports, "FileDirectory__factory", { enumerable: true, get: function () { return FileDirectory__factory_1.FileDirectory__factory; } });
 var IFileDirectory__factory_1 = require("./factories/FileDirectory.sol/IFileDirectory__factory");

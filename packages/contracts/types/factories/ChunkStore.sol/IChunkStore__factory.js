@@ -3,7 +3,7 @@
 /* tslint:disable */
 /* eslint-disable */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IFileStore__factory = void 0;
+exports.IChunkStore__factory = void 0;
 const ethers_1 = require("ethers");
 const _abi = [
     {
@@ -21,24 +21,12 @@ const _abi = [
                 name: "size",
                 type: "uint256",
             },
-            {
-                indexed: false,
-                internalType: "string",
-                name: "contentType",
-                type: "string",
-            },
-            {
-                indexed: false,
-                internalType: "string",
-                name: "contentEncoding",
-                type: "string",
-            },
         ],
-        name: "NewFile",
+        name: "NewChunk",
         type: "event",
     },
 ];
-class IFileStore__factory {
+class IChunkStore__factory {
     static createInterface() {
         return new ethers_1.utils.Interface(_abi);
     }
@@ -46,5 +34,5 @@ class IFileStore__factory {
         return new ethers_1.Contract(address, _abi, signerOrProvider);
     }
 }
-exports.IFileStore__factory = IFileStore__factory;
-IFileStore__factory.abi = _abi;
+exports.IChunkStore__factory = IChunkStore__factory;
+IChunkStore__factory.abi = _abi;

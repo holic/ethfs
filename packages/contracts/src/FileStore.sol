@@ -4,6 +4,9 @@ pragma solidity ^0.8.9;
 import {SSTORE2} from "sstore2/SSTORE2.sol";
 import {Bytecode} from "sstore2/utils/Bytecode.sol";
 import {DynamicBuffer} from "ethier/contracts/utils/DynamicBuffer.sol";
+import {ChunkStore} from "./ChunkStore.sol";
+
+// TODO: indicate when a file is already base64 encoded, html escaped, json escaped?
 
 struct File {
     uint256 size; // automatically calculated on write
@@ -13,7 +16,6 @@ struct File {
 }
 
 interface IFileStore {
-    event NewChunk(bytes32 indexed checksum, uint256 size);
     event NewFile(
         bytes32 indexed checksum,
         uint256 size,
@@ -22,67 +24,44 @@ interface IFileStore {
     );
 }
 
-// TODO: clarify that these are already encoded as data URI for easy inclusion in HTML?
-
-contract FileStore is IFileStore {
-    // data checksum => sstore2 pointer
-    mapping(bytes32 => address) public chunks;
-    bytes32[] public checksums;
-
-    error ChunkTooBig();
-    error ChunkExists(bytes32 checksum);
-    error ChunkNotFound(bytes32 checksum);
+contract FileStore is IFileStore, ChunkStore {
     error EmptyFile();
 
-    function checksumExists(bytes32 checksum) public view returns (bool) {
-        return chunks[checksum] != address(0);
+    function writeFile(
+        string memory contentType,
+        string memory contentEncoding,
+        bytes[] memory chunks
+    ) public returns (bytes32 checksum, File memory file) {
+        return writeFile(contentType, contentEncoding, writeChunks(chunks));
     }
 
-    function chunkSize(bytes32 checksum) public view returns (uint256 size) {
-        if (!checksumExists(checksum)) {
-            revert ChunkNotFound(checksum);
-        }
-        return Bytecode.codeSize(chunks[checksum]) - 1;
-    }
-
-    function writeChunk(bytes memory chunk) public returns (bytes32 checksum) {
-        if (chunk.length > 24575) {
-            revert ChunkTooBig();
-        }
-        checksum = keccak256(chunk);
-        if (chunks[checksum] != address(0)) {
-            revert ChunkExists(checksum);
-        }
-        chunks[checksum] = SSTORE2.write(chunk);
-        checksums.push(checksum);
-        emit NewChunk(checksum, chunk.length);
-        return checksum;
-    }
-
-    function writeFile(File memory file) public returns (bytes32 checksum) {
+    function writeFile(
+        string memory contentType,
+        string memory contentEncoding,
+        bytes32[] memory checksums
+    ) public returns (bytes32 checksum, File memory file) {
         uint256 size = 0;
         // TODO: optimize this
-        for (uint256 i = 0; i < file.checksums.length; i++) {
-            size += chunkSize(file.checksums[i]);
+        for (uint256 i = 0; i < checksums.length; i++) {
+            size += chunkSize(checksums[i]);
         }
         if (size == 0) {
             revert EmptyFile();
         }
-        file.size = size;
+        file = File({
+            size: size,
+            contentType: contentType,
+            contentEncoding: contentEncoding,
+            checksums: checksums
+        });
         checksum = writeChunk(abi.encode(file));
-        emit NewFile(checksum, size, file.contentType, file.contentEncoding);
-        return checksum;
-    }
-
-    function readChunk(bytes32 checksum)
-        public
-        view
-        returns (bytes memory chunk)
-    {
-        if (!checksumExists(checksum)) {
-            revert ChunkNotFound(checksum);
-        }
-        return SSTORE2.read(chunks[checksum]);
+        emit NewFile(
+            checksum,
+            file.size,
+            file.contentType,
+            file.contentEncoding
+        );
+        return (checksum, file);
     }
 
     function readFile(bytes32 checksum) public view returns (File memory file) {
@@ -102,12 +81,6 @@ contract FileStore is IFileStore {
         view
         returns (bytes memory data)
     {
-        uint256 size = file.size;
-        data = DynamicBuffer.allocate(size);
-        for (uint256 i = 0; i < file.checksums.length; i++) {
-            bytes memory chunk = readChunk(file.checksums[i]);
-            DynamicBuffer.appendSafe(data, chunk);
-        }
-        return data;
+        return readBytes(file.size, file.checksums);
     }
 }

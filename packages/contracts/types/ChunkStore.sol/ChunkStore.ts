@@ -27,21 +27,7 @@ import type {
   PromiseOrValue,
 } from "../common";
 
-export type FileStruct = {
-  size: PromiseOrValue<BigNumberish>;
-  contentType: PromiseOrValue<string>;
-  contentEncoding: PromiseOrValue<string>;
-  checksums: PromiseOrValue<BytesLike>[];
-};
-
-export type FileStructOutput = [BigNumber, string, string, string[]] & {
-  size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
-  checksums: string[];
-};
-
-export interface FileStoreInterface extends utils.Interface {
+export interface ChunkStoreInterface extends utils.Interface {
   functions: {
     "_checksums(uint256)": FunctionFragment;
     "_chunks(bytes32)": FunctionFragment;
@@ -50,13 +36,8 @@ export interface FileStoreInterface extends utils.Interface {
     "readBytes(uint256,bytes32[])": FunctionFragment;
     "readChunk(bytes32)": FunctionFragment;
     "readChunks(bytes32[])": FunctionFragment;
-    "readFile(bytes32)": FunctionFragment;
-    "readFileData((uint256,string,string,bytes32[]))": FunctionFragment;
-    "readFileData(bytes32)": FunctionFragment;
     "writeChunk(bytes)": FunctionFragment;
     "writeChunks(bytes[])": FunctionFragment;
-    "writeFile(string,string,bytes32[])": FunctionFragment;
-    "writeFile(string,string,bytes[])": FunctionFragment;
   };
 
   getFunction(
@@ -68,13 +49,8 @@ export interface FileStoreInterface extends utils.Interface {
       | "readBytes"
       | "readChunk"
       | "readChunks"
-      | "readFile"
-      | "readFileData((uint256,string,string,bytes32[]))"
-      | "readFileData(bytes32)"
       | "writeChunk"
       | "writeChunks"
-      | "writeFile(string,string,bytes32[])"
-      | "writeFile(string,string,bytes[])"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -106,40 +82,12 @@ export interface FileStoreInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "readFile",
-    values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "readFileData((uint256,string,string,bytes32[]))",
-    values: [FileStruct]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "readFileData(bytes32)",
-    values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "writeChunk",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
     functionFragment: "writeChunks",
     values: [PromiseOrValue<BytesLike>[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "writeFile(string,string,bytes32[])",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>[]
-    ]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "writeFile(string,string,bytes[])",
-    values: [
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>[]
-    ]
   ): string;
 
   decodeFunctionResult(functionFragment: "_checksums", data: BytesLike): Result;
@@ -152,36 +100,17 @@ export interface FileStoreInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "readBytes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "readChunk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "readChunks", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "readFile", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "readFileData((uint256,string,string,bytes32[]))",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "readFileData(bytes32)",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "writeChunk", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "writeChunks",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "writeFile(string,string,bytes32[])",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "writeFile(string,string,bytes[])",
-    data: BytesLike
-  ): Result;
 
   events: {
     "NewChunk(bytes32,uint256)": EventFragment;
-    "NewFile(bytes32,uint256,string,string)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "NewChunk"): EventFragment;
-  getEvent(nameOrSignatureOrTopic: "NewFile"): EventFragment;
 }
 
 export interface NewChunkEventObject {
@@ -195,25 +124,12 @@ export type NewChunkEvent = TypedEvent<
 
 export type NewChunkEventFilter = TypedEventFilter<NewChunkEvent>;
 
-export interface NewFileEventObject {
-  checksum: string;
-  size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
-}
-export type NewFileEvent = TypedEvent<
-  [string, BigNumber, string, string],
-  NewFileEventObject
->;
-
-export type NewFileEventFilter = TypedEventFilter<NewFileEvent>;
-
-export interface FileStore extends BaseContract {
+export interface ChunkStore extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: FileStoreInterface;
+  interface: ChunkStoreInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -271,41 +187,12 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string[]] & { chunks: string[] }>;
 
-    readFile(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[FileStructOutput] & { file: FileStructOutput }>;
-
-    "readFileData((uint256,string,string,bytes32[]))"(
-      file: FileStruct,
-      overrides?: CallOverrides
-    ): Promise<[string] & { data: string }>;
-
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[string] & { data: string }>;
-
     writeChunk(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
     writeChunks(
-      chunks: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    "writeFile(string,string,bytes32[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
-
-    "writeFile(string,string,bytes[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
       chunks: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -347,41 +234,12 @@ export interface FileStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string[]>;
 
-  readFile(
-    checksum: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<FileStructOutput>;
-
-  "readFileData((uint256,string,string,bytes32[]))"(
-    file: FileStruct,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "readFileData(bytes32)"(
-    checksum: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   writeChunk(
     chunk: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
   writeChunks(
-    chunks: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  "writeFile(string,string,bytes32[])"(
-    contentType: PromiseOrValue<string>,
-    contentEncoding: PromiseOrValue<string>,
-    checksums: PromiseOrValue<BytesLike>[],
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
-
-  "writeFile(string,string,bytes[])"(
-    contentType: PromiseOrValue<string>,
-    contentEncoding: PromiseOrValue<string>,
     chunks: PromiseOrValue<BytesLike>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -423,21 +281,6 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string[]>;
 
-    readFile(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<FileStructOutput>;
-
-    "readFileData((uint256,string,string,bytes32[]))"(
-      file: FileStruct,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     writeChunk(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -447,24 +290,6 @@ export interface FileStore extends BaseContract {
       chunks: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<string[]>;
-
-    "writeFile(string,string,bytes32[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<
-      [string, FileStructOutput] & { checksum: string; file: FileStructOutput }
-    >;
-
-    "writeFile(string,string,bytes[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
-      chunks: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<
-      [string, FileStructOutput] & { checksum: string; file: FileStructOutput }
-    >;
   };
 
   filters: {
@@ -476,19 +301,6 @@ export interface FileStore extends BaseContract {
       checksum?: PromiseOrValue<BytesLike> | null,
       size?: null
     ): NewChunkEventFilter;
-
-    "NewFile(bytes32,uint256,string,string)"(
-      checksum?: PromiseOrValue<BytesLike> | null,
-      size?: null,
-      contentType?: null,
-      contentEncoding?: null
-    ): NewFileEventFilter;
-    NewFile(
-      checksum?: PromiseOrValue<BytesLike> | null,
-      size?: null,
-      contentType?: null,
-      contentEncoding?: null
-    ): NewFileEventFilter;
   };
 
   estimateGas: {
@@ -528,41 +340,12 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    readFile(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "readFileData((uint256,string,string,bytes32[]))"(
-      file: FileStruct,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     writeChunk(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     writeChunks(
-      chunks: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    "writeFile(string,string,bytes32[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
-
-    "writeFile(string,string,bytes[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
       chunks: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -605,41 +388,12 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    readFile(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "readFileData((uint256,string,string,bytes32[]))"(
-      file: FileStruct,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     writeChunk(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     writeChunks(
-      chunks: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "writeFile(string,string,bytes32[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
-
-    "writeFile(string,string,bytes[])"(
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
       chunks: PromiseOrValue<BytesLike>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;

@@ -5,9 +5,9 @@
 import { Contract, Signer, utils } from "ethers";
 import type { Provider } from "@ethersproject/providers";
 import type {
-  IFileStore,
-  IFileStoreInterface,
-} from "../../FileStore.sol/IFileStore";
+  IChunkStore,
+  IChunkStoreInterface,
+} from "../../ChunkStore.sol/IChunkStore";
 
 const _abi = [
   {
@@ -25,33 +25,21 @@ const _abi = [
         name: "size",
         type: "uint256",
       },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "contentType",
-        type: "string",
-      },
-      {
-        indexed: false,
-        internalType: "string",
-        name: "contentEncoding",
-        type: "string",
-      },
     ],
-    name: "NewFile",
+    name: "NewChunk",
     type: "event",
   },
 ];
 
-export class IFileStore__factory {
+export class IChunkStore__factory {
   static readonly abi = _abi;
-  static createInterface(): IFileStoreInterface {
-    return new utils.Interface(_abi) as IFileStoreInterface;
+  static createInterface(): IChunkStoreInterface {
+    return new utils.Interface(_abi) as IChunkStoreInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): IFileStore {
-    return new Contract(address, _abi, signerOrProvider) as IFileStore;
+  ): IChunkStore {
+    return new Contract(address, _abi, signerOrProvider) as IChunkStore;
   }
 }

@@ -54,11 +54,47 @@ contract FileDirectory is IFileDirectory, Ownable2Step {
         return fileStore.readFileData(file);
     }
 
-    function createFile(string memory filename, File memory file) public {
+    function createFile(
+        string memory filename,
+        string memory contentType,
+        string memory contentEncoding,
+        bytes[] memory chunks
+    ) public {
         if (files[filename] != bytes32(0)) {
             revert FilenameExists();
         }
-        bytes32 checksum = fileStore.writeFile(file);
+        return
+            _createFile(
+                filename,
+                contentType,
+                contentEncoding,
+                fileStore.writeChunks(chunks)
+            );
+    }
+
+    function createFile(
+        string memory filename,
+        string memory contentType,
+        string memory contentEncoding,
+        bytes32[] memory checksums
+    ) public {
+        if (files[filename] != bytes32(0)) {
+            revert FilenameExists();
+        }
+        return _createFile(filename, contentType, contentEncoding, checksums);
+    }
+
+    function _createFile(
+        string memory filename,
+        string memory contentType,
+        string memory contentEncoding,
+        bytes32[] memory checksums
+    ) private {
+        (bytes32 checksum, File memory file) = fileStore.writeFile(
+            contentType,
+            contentEncoding,
+            checksums
+        );
         files[filename] = checksum;
         filenames.push(filename);
         emit FileCreated(

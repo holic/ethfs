@@ -13,21 +13,9 @@
         "internalType": "uint256",
         "name": "size",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "contentType",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "contentEncoding",
-        "type": "string"
       }
     ],
-    "name": "NewFile",
+    "name": "NewChunk",
     "type": "event"
   }
 ]
