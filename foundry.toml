@@ -8,6 +8,7 @@
 src = 'packages/contracts/src'
 test = 'packages/contracts/test'
 out = 'packages/contracts/out'
+broadcast = 'packages/contracts/broadcast'
 cache_path = 'packages/contracts/cache'
 libs = ['packages/contracts/lib']
 verbosity = 2
