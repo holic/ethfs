@@ -27,16 +27,17 @@ contract FileDirectory is IFileDirectory, Ownable2Step, FileStore {
         return files[filename] != bytes32(0);
     }
 
-    function readFile(string memory filename)
+    function readNamedFile(string memory filename)
         public
         view
-        returns (File memory file)
+        returns (File memory file, address[] memory pointers)
     {
         bytes32 checksum = files[filename];
         if (checksum == bytes32(0)) {
             revert FileNotFound();
         }
-        return readFile(checksum);
+        file = readFile(checksum);
+        return (file, checksumsToPointers(file.checksums));
     }
 
     function readNamedFileData(string memory filename)
@@ -44,7 +45,7 @@ contract FileDirectory is IFileDirectory, Ownable2Step, FileStore {
         view
         returns (bytes memory data)
     {
-        File memory file = readFile(filename);
+        (File memory file, ) = readNamedFile(filename);
         return readFileData(file);
     }
 

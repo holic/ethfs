@@ -5,6 +5,7 @@ export * as chunkStoreSol from "./ChunkStore.sol";
 export * as fileDirectorySol from "./FileDirectory.sol";
 export * as fileStoreSol from "./FileStore.sol";
 export { Bytecode__factory } from "./Bytecode__factory";
+export { FileReader__factory } from "./FileReader__factory";
 export { Ownable__factory } from "./Ownable__factory";
 export { Ownable2Step__factory } from "./Ownable2Step__factory";
 export { SSTORE2__factory } from "./SSTORE2__factory";

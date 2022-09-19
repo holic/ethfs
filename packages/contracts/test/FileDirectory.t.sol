@@ -2,7 +2,8 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
-import {IFileDirectory, FileDirectory} from "../src/FileDirectory.sol";
+import {IFileDirectory, FileDirectory, File} from "../src/FileDirectory.sol";
+import {FileReader} from "../src/FileReader.sol";
 
 contract FileDirectoryTest is Test, IFileDirectory {
     FileDirectory private directory;
@@ -37,7 +38,10 @@ contract FileDirectoryTest is Test, IFileDirectory {
 
     function testReadBigFile() public {
         uint256 startGas = gasleft();
-        bytes memory storedData = directory.readNamedFileData("big.txt");
+        (File memory file, address[] memory pointers) = directory.readNamedFile(
+            "big.txt"
+        );
+        bytes memory storedData = FileReader.readBytes(file.size, pointers);
         console.log("read gas used:", startGas - gasleft());
 
         assertEq(storedData.length, 98300);

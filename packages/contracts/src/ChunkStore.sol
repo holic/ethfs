@@ -77,6 +77,22 @@ abstract contract ChunkStore is IChunkStore {
         return chunks;
     }
 
+    function checksumsToPointers(bytes32[] memory checksums)
+        public
+        view
+        returns (address[] memory pointers)
+    {
+        pointers = new address[](checksums.length);
+        for (uint256 i = 0; i < checksums.length; i++) {
+            address pointer = _chunks[checksums[i]];
+            if (pointer == address(0)) {
+                revert ChunkNotFound(checksums[i]);
+            }
+            pointers[i] = _chunks[checksums[i]];
+        }
+        return pointers;
+    }
+
     function readBytes(uint256 size, bytes32[] memory checksums)
         public
         view

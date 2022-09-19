@@ -272,6 +272,25 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32[]",
+        "name": "checksums",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "checksumsToPointers",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "pointers",
+        "type": "address[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "checksum",
         "type": "bytes32"
@@ -546,47 +565,6 @@
   {
     "inputs": [
       {
-        "internalType": "string",
-        "name": "filename",
-        "type": "string"
-      }
-    ],
-    "name": "readFile",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "components": [
           {
             "internalType": "uint256",
@@ -639,6 +617,52 @@
         "internalType": "bytes",
         "name": "data",
         "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
+    "name": "readNamedFile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "contentType",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "contentEncoding",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32[]",
+            "name": "checksums",
+            "type": "bytes32[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      },
+      {
+        "internalType": "address[]",
+        "name": "pointers",
+        "type": "address[]"
       }
     ],
     "stateMutability": "view",
