@@ -142,25 +142,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "bytes32[]",
-        name: "checksums",
-        type: "bytes32[]",
-      },
-    ],
-    name: "checksumsToPointers",
-    outputs: [
-      {
-        internalType: "address[]",
-        name: "pointers",
-        type: "address[]",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "bytes32",
         name: "checksum",
         type: "bytes32",

@@ -47,7 +47,6 @@ export interface FileDirectoryInterface extends utils.Interface {
     "_chunks(bytes32)": FunctionFragment;
     "acceptOwnership()": FunctionFragment;
     "checksumExists(bytes32)": FunctionFragment;
-    "checksumsToPointers(bytes32[])": FunctionFragment;
     "chunkSize(bytes32)": FunctionFragment;
     "createFile(string,string,string,bytes[])": FunctionFragment;
     "createFile(string,string,string,bytes32[])": FunctionFragment;
@@ -61,9 +60,9 @@ export interface FileDirectoryInterface extends utils.Interface {
     "readChunk(bytes32)": FunctionFragment;
     "readChunks(bytes32[])": FunctionFragment;
     "readFile(bytes32)": FunctionFragment;
+    "readFile(string)": FunctionFragment;
     "readFileData((uint256,string,string,bytes32[]))": FunctionFragment;
     "readFileData(bytes32)": FunctionFragment;
-    "readNamedFile(string)": FunctionFragment;
     "readNamedFileData(string)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
@@ -79,7 +78,6 @@ export interface FileDirectoryInterface extends utils.Interface {
       | "_chunks"
       | "acceptOwnership"
       | "checksumExists"
-      | "checksumsToPointers"
       | "chunkSize"
       | "createFile(string,string,string,bytes[])"
       | "createFile(string,string,string,bytes32[])"
@@ -92,10 +90,10 @@ export interface FileDirectoryInterface extends utils.Interface {
       | "readBytes"
       | "readChunk"
       | "readChunks"
-      | "readFile"
+      | "readFile(bytes32)"
+      | "readFile(string)"
       | "readFileData((uint256,string,string,bytes32[]))"
       | "readFileData(bytes32)"
-      | "readNamedFile"
       | "readNamedFileData"
       | "renounceOwnership"
       | "transferOwnership"
@@ -120,10 +118,6 @@ export interface FileDirectoryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "checksumExists",
     values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "checksumsToPointers",
-    values: [PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "chunkSize",
@@ -181,8 +175,12 @@ export interface FileDirectoryInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(
-    functionFragment: "readFile",
+    functionFragment: "readFile(bytes32)",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "readFile(string)",
+    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "readFileData((uint256,string,string,bytes32[]))",
@@ -191,10 +189,6 @@ export interface FileDirectoryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "readFileData(bytes32)",
     values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "readNamedFile",
-    values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
     functionFragment: "readNamedFileData",
@@ -243,10 +237,6 @@ export interface FileDirectoryInterface extends utils.Interface {
     functionFragment: "checksumExists",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(
-    functionFragment: "checksumsToPointers",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "chunkSize", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "createFile(string,string,string,bytes[])",
@@ -268,17 +258,20 @@ export interface FileDirectoryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "readBytes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "readChunk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "readChunks", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "readFile", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "readFile(bytes32)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "readFile(string)",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "readFileData((uint256,string,string,bytes32[]))",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
     functionFragment: "readFileData(bytes32)",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "readNamedFile",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -439,11 +432,6 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<[string[]] & { pointers: string[] }>;
-
     chunkSize(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -505,8 +493,13 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string[]] & { chunks: string[] }>;
 
-    readFile(
+    "readFile(bytes32)"(
       checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[FileStructOutput] & { file: FileStructOutput }>;
+
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[FileStructOutput] & { file: FileStructOutput }>;
 
@@ -519,16 +512,6 @@ export interface FileDirectory extends BaseContract {
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[string] & { data: string }>;
-
-    readNamedFile(
-      filename: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [FileStructOutput, string[]] & {
-        file: FileStructOutput;
-        pointers: string[];
-      }
-    >;
 
     readNamedFileData(
       filename: PromiseOrValue<string>,
@@ -587,11 +570,6 @@ export interface FileDirectory extends BaseContract {
     checksum: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<boolean>;
-
-  checksumsToPointers(
-    checksums: PromiseOrValue<BytesLike>[],
-    overrides?: CallOverrides
-  ): Promise<string[]>;
 
   chunkSize(
     checksum: PromiseOrValue<BytesLike>,
@@ -654,8 +632,13 @@ export interface FileDirectory extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string[]>;
 
-  readFile(
+  "readFile(bytes32)"(
     checksum: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<FileStructOutput>;
+
+  "readFile(string)"(
+    filename: PromiseOrValue<string>,
     overrides?: CallOverrides
   ): Promise<FileStructOutput>;
 
@@ -668,16 +651,6 @@ export interface FileDirectory extends BaseContract {
     checksum: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<string>;
-
-  readNamedFile(
-    filename: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<
-    [FileStructOutput, string[]] & {
-      file: FileStructOutput;
-      pointers: string[];
-    }
-  >;
 
   readNamedFileData(
     filename: PromiseOrValue<string>,
@@ -734,11 +707,6 @@ export interface FileDirectory extends BaseContract {
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<string[]>;
 
     chunkSize(
       checksum: PromiseOrValue<BytesLike>,
@@ -801,8 +769,13 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string[]>;
 
-    readFile(
+    "readFile(bytes32)"(
       checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<FileStructOutput>;
+
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<FileStructOutput>;
 
@@ -815,16 +788,6 @@ export interface FileDirectory extends BaseContract {
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
-
-    readNamedFile(
-      filename: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<
-      [FileStructOutput, string[]] & {
-        file: FileStructOutput;
-        pointers: string[];
-      }
-    >;
 
     readNamedFileData(
       filename: PromiseOrValue<string>,
@@ -951,11 +914,6 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     chunkSize(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -1017,8 +975,13 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    readFile(
+    "readFile(bytes32)"(
       checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1029,11 +992,6 @@ export interface FileDirectory extends BaseContract {
 
     "readFileData(bytes32)"(
       checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    readNamedFile(
-      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
@@ -1093,11 +1051,6 @@ export interface FileDirectory extends BaseContract {
 
     checksumExists(
       checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1162,8 +1115,13 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    readFile(
+    "readFile(bytes32)"(
       checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
@@ -1174,11 +1132,6 @@ export interface FileDirectory extends BaseContract {
 
     "readFileData(bytes32)"(
       checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    readNamedFile(
-      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

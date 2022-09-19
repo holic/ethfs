@@ -32,7 +32,6 @@ export interface ChunkStoreInterface extends utils.Interface {
     "_checksums(uint256)": FunctionFragment;
     "_chunks(bytes32)": FunctionFragment;
     "checksumExists(bytes32)": FunctionFragment;
-    "checksumsToPointers(bytes32[])": FunctionFragment;
     "chunkSize(bytes32)": FunctionFragment;
     "readBytes(uint256,bytes32[])": FunctionFragment;
     "readChunk(bytes32)": FunctionFragment;
@@ -46,7 +45,6 @@ export interface ChunkStoreInterface extends utils.Interface {
       | "_checksums"
       | "_chunks"
       | "checksumExists"
-      | "checksumsToPointers"
       | "chunkSize"
       | "readBytes"
       | "readChunk"
@@ -66,10 +64,6 @@ export interface ChunkStoreInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "checksumExists",
     values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "checksumsToPointers",
-    values: [PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "chunkSize",
@@ -100,10 +94,6 @@ export interface ChunkStoreInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "_chunks", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "checksumExists",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "checksumsToPointers",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "chunkSize", data: BytesLike): Result;
@@ -176,11 +166,6 @@ export interface ChunkStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<[string[]] & { pointers: string[] }>;
-
     chunkSize(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -228,11 +213,6 @@ export interface ChunkStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  checksumsToPointers(
-    checksums: PromiseOrValue<BytesLike>[],
-    overrides?: CallOverrides
-  ): Promise<string[]>;
-
   chunkSize(
     checksum: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -279,11 +259,6 @@ export interface ChunkStore extends BaseContract {
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<string[]>;
 
     chunkSize(
       checksum: PromiseOrValue<BytesLike>,
@@ -344,11 +319,6 @@ export interface ChunkStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     chunkSize(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -394,11 +364,6 @@ export interface ChunkStore extends BaseContract {
 
     checksumExists(
       checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    checksumsToPointers(
-      checksums: PromiseOrValue<BytesLike>[],
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
