@@ -18,6 +18,8 @@ abstract contract ChunkStore is IChunkStore {
     error ChunkExists(bytes32 checksum);
     error ChunkNotFound(bytes32 checksum);
 
+    // TODO: add way to populate chunk/checksum from existing SSTORE2 address
+
     function checksumExists(bytes32 checksum) public view returns (bool) {
         return _chunks[checksum] != address(0);
     }
@@ -47,6 +49,7 @@ abstract contract ChunkStore is IChunkStore {
         public
         returns (bytes32[] memory fileChecksums)
     {
+        // TODO: offer alternative that doesn't revert on dupes?
         fileChecksums = new bytes32[](chunks.length);
         for (uint256 i = 0; i < chunks.length; i++) {
             fileChecksums[i] = writeChunk(chunks[i]);
