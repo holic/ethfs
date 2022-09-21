@@ -4,8 +4,8 @@
 export * as chunkStoreSol from "./ChunkStore.sol";
 export * as contentStoreSol from "./ContentStore.sol";
 export * as fileDirectorySol from "./FileDirectory.sol";
-export * as fileStoreSol from "./FileStore.sol";
-export * as attempt2 from "./attempt2";
+export * as approach1 from "./approach1";
+export * as approach2 from "./approach2";
 export { Bytecode__factory } from "./Bytecode__factory";
 export { ContentStoreRegistry__factory } from "./ContentStoreRegistry__factory";
 export { FileReader__factory } from "./FileReader__factory";

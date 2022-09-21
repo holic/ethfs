@@ -2,7 +2,7 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
-import {IFileDirectory, FileDirectory} from "../src/FileDirectory.sol";
+import {IFileDirectory, FileDirectory} from "../src/approach1/FileDirectory.sol";
 
 contract FileDirectoryTest is Test, IFileDirectory {
     FileDirectory private directory;
@@ -35,11 +35,11 @@ contract FileDirectoryTest is Test, IFileDirectory {
         assertEq(string(storedData), "hello world");
     }
 
-    function testReadBigFile() public {
-        uint256 startGas = gasleft();
-        bytes memory storedData = directory.readNamedFileData("big.txt");
-        console.log("read gas used:", startGas - gasleft());
+    // function testReadBigFile() public {
+    //     uint256 startGas = gasleft();
+    //     bytes memory storedData = directory.readNamedFileData("big.txt");
+    //     console.log("read gas used:", startGas - gasleft());
 
-        assertEq(storedData.length, 98300);
-    }
+    //     assertEq(storedData.length, 98300);
+    // }
 }

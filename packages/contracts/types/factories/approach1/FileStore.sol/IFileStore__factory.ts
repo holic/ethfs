@@ -7,7 +7,7 @@ import type { Provider } from "@ethersproject/providers";
 import type {
   IFileStore,
   IFileStoreInterface,
-} from "../../FileStore.sol/IFileStore";
+} from "../../../approach1/FileStore.sol/IFileStore";
 
 const _abi = [
   {

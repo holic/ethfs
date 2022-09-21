@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 import "forge-std/Script.sol";
-import {FileDirectory} from "../src/FileDirectory.sol";
+import {FileDirectory} from "../src/approach1/FileDirectory.sol";
 
 contract Deploy is Script {
     function run() public {

@@ -2,8 +2,8 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
-import {IChunkStore, ChunkStore} from "../src/ChunkStore.sol";
-import {IFileStore, FileStore, File} from "../src/FileStore.sol";
+import {IChunkStore, ChunkStore} from "../src/approach1/ChunkStore.sol";
+import {IFileStore, FileStore, File} from "../src/approach1/FileStore.sol";
 
 contract FileStoreTest is Test, IChunkStore, IFileStore {
     FileStore private fileStore;

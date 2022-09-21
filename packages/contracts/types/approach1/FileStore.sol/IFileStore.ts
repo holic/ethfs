@@ -10,7 +10,7 @@ import type {
   TypedListener,
   OnEvent,
   PromiseOrValue,
-} from "../common";
+} from "../../common";
 
 export interface IFileStoreInterface extends utils.Interface {
   functions: {};

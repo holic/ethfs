@@ -3,12 +3,12 @@ pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
 import "openzeppelin/utils/Strings.sol";
-import {ContentStore} from "../src/attempt2/ContentStore.sol";
-import {ContentStoreRegistry} from "../src/attempt2/ContentStoreRegistry.sol";
-import {FileStore} from "../src/attempt2/FileStore.sol";
-import {FileStoreRegistry} from "../src/attempt2/FileStoreRegistry.sol";
-import {FileReader} from "../src/attempt2/FileReader.sol";
-import {FileWriter} from "../src/attempt2/FileWriter.sol";
+import {ContentStore} from "../src/approach2/ContentStore.sol";
+import {ContentStoreRegistry} from "../src/approach2/ContentStoreRegistry.sol";
+import {FileStore} from "../src/approach2/FileStore.sol";
+import {FileStoreRegistry} from "../src/approach2/FileStoreRegistry.sol";
+import {FileReader} from "../src/approach2/FileReader.sol";
+import {FileWriter} from "../src/approach2/FileWriter.sol";
 
 contract MockProject {
     function tokenURI(uint256 tokenId) public view returns (string memory) {
@@ -24,7 +24,7 @@ contract MockProject {
     }
 }
 
-contract MockProjectTest is Test {
+contract MockProjectApproach2Test is Test {
     MockProject private project;
 
     function setUp() public {
@@ -56,25 +56,6 @@ contract MockProjectTest is Test {
         );
 
         project = new MockProject();
-
-        // ContentAddressableStore contentStore = new ContentAddressableStore();
-
-        // bytes32[] memory checksums = new bytes32[](4);
-        // checksums[0] = contentStore.addContent(
-        //     bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
-        // );
-        // checksums[1] = checksums[0];
-        // checksums[2] = checksums[0];
-        // checksums[3] = checksums[0];
-
-        // (bytes32 checksum, ) = FileWriter.writeFile(
-        //     contentStore,
-        //     "text/plain",
-        //     "",
-        //     checksums
-        // );
-
-        // project = new MockProject(contentStore, checksum);
     }
 
     function testTokenURIGas() public {

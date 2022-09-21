@@ -3,11 +3,11 @@
 /* eslint-disable */
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
-import type { PromiseOrValue } from "../../common";
+import type { PromiseOrValue } from "../../../common";
 import type {
   FileStore,
   FileStoreInterface,
-} from "../../FileStore.sol/FileStore";
+} from "../../../approach1/FileStore.sol/FileStore";
 
 const _abi = [
   {

@@ -25,9 +25,9 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SSTORE2__factory = exports.Ownable2Step__factory = exports.Ownable__factory = exports.FileWriter__factory = exports.FileStoreRegistry__factory = exports.FileReader__factory = exports.IFileDirectory__factory = exports.FileDirectory__factory = exports.ContentStoreRegistry__factory = exports.IContentStore__factory = exports.ContentStore__factory = exports.IChunkStore__factory = exports.ChunkStore__factory = exports.Bytecode__factory = exports.IFileStore__factory = exports.FileStore__factory = exports.factories = void 0;
 exports.factories = __importStar(require("./factories"));
-var FileStore__factory_1 = require("./factories/attempt2/FileStore.sol/FileStore__factory");
+var FileStore__factory_1 = require("./factories/approach1/FileStore.sol/FileStore__factory");
 Object.defineProperty(exports, "FileStore__factory", { enumerable: true, get: function () { return FileStore__factory_1.FileStore__factory; } });
-var IFileStore__factory_1 = require("./factories/attempt2/FileStore.sol/IFileStore__factory");
+var IFileStore__factory_1 = require("./factories/approach1/FileStore.sol/IFileStore__factory");
 Object.defineProperty(exports, "IFileStore__factory", { enumerable: true, get: function () { return IFileStore__factory_1.IFileStore__factory; } });
 var Bytecode__factory_1 = require("./factories/Bytecode__factory");
 Object.defineProperty(exports, "Bytecode__factory", { enumerable: true, get: function () { return Bytecode__factory_1.Bytecode__factory; } });
