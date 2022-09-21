@@ -1,0 +1,135 @@
+[
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "checksum",
+        "type": "bytes32"
+      }
+    ],
+    "name": "FileNotFound",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_size",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_start",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_end",
+        "type": "uint256"
+      }
+    ],
+    "name": "InvalidCodeAtRange",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "checksum",
+        "type": "bytes32"
+      }
+    ],
+    "name": "readFile",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "contentType",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "contentEncoding",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32[]",
+            "name": "checksums",
+            "type": "bytes32[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "checksum",
+        "type": "bytes32"
+      }
+    ],
+    "name": "readFileData",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "internalType": "string",
+            "name": "contentType",
+            "type": "string"
+          },
+          {
+            "internalType": "string",
+            "name": "contentEncoding",
+            "type": "string"
+          },
+          {
+            "internalType": "bytes32[]",
+            "name": "checksums",
+            "type": "bytes32[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      }
+    ],
+    "name": "readFileData",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "data",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]

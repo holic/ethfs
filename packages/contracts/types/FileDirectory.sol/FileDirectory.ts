@@ -54,6 +54,8 @@ export interface FileDirectoryInterface extends utils.Interface {
     "fileExists(string)": FunctionFragment;
     "filenames(uint256)": FunctionFragment;
     "files(string)": FunctionFragment;
+    "getPointer(bytes32)": FunctionFragment;
+    "getPointers(bytes32[])": FunctionFragment;
     "owner()": FunctionFragment;
     "pendingOwner()": FunctionFragment;
     "readBytes(uint256,bytes32[])": FunctionFragment;
@@ -66,8 +68,10 @@ export interface FileDirectoryInterface extends utils.Interface {
     "readNamedFileData(string)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
+    "writeChunk(address)": FunctionFragment;
     "writeChunk(bytes)": FunctionFragment;
     "writeChunks(bytes[])": FunctionFragment;
+    "writeChunks(address[])": FunctionFragment;
     "writeFile(string,string,bytes32[])": FunctionFragment;
     "writeFile(string,string,bytes[])": FunctionFragment;
   };
@@ -85,6 +89,8 @@ export interface FileDirectoryInterface extends utils.Interface {
       | "fileExists"
       | "filenames"
       | "files"
+      | "getPointer"
+      | "getPointers"
       | "owner"
       | "pendingOwner"
       | "readBytes"
@@ -97,8 +103,10 @@ export interface FileDirectoryInterface extends utils.Interface {
       | "readNamedFileData"
       | "renounceOwnership"
       | "transferOwnership"
-      | "writeChunk"
-      | "writeChunks"
+      | "writeChunk(address)"
+      | "writeChunk(bytes)"
+      | "writeChunks(bytes[])"
+      | "writeChunks(address[])"
       | "writeFile(string,string,bytes32[])"
       | "writeFile(string,string,bytes[])"
   ): FunctionFragment;
@@ -157,6 +165,14 @@ export interface FileDirectoryInterface extends utils.Interface {
     functionFragment: "files",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getPointer",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPointers",
+    values: [PromiseOrValue<BytesLike>[]]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "pendingOwner",
@@ -203,12 +219,20 @@ export interface FileDirectoryInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
-    functionFragment: "writeChunk",
+    functionFragment: "writeChunk(address)",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "writeChunk(bytes)",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "writeChunks",
+    functionFragment: "writeChunks(bytes[])",
     values: [PromiseOrValue<BytesLike>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "writeChunks(address[])",
+    values: [PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "writeFile(string,string,bytes32[])",
@@ -250,6 +274,11 @@ export interface FileDirectoryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "fileExists", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "filenames", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "files", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPointer", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getPointers",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "pendingOwner",
@@ -286,9 +315,20 @@ export interface FileDirectoryInterface extends utils.Interface {
     functionFragment: "transferOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "writeChunk", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "writeChunks",
+    functionFragment: "writeChunk(address)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "writeChunk(bytes)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "writeChunks(bytes[])",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "writeChunks(address[])",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -473,6 +513,16 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[string] & { pointer: string }>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<[string[]] & { pointers: string[] }>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     pendingOwner(overrides?: CallOverrides): Promise<[string]>;
@@ -527,13 +577,23 @@ export interface FileDirectory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -612,6 +672,16 @@ export interface FileDirectory extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getPointer(
+    checksum: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getPointers(
+    checksums: PromiseOrValue<BytesLike>[],
+    overrides?: CallOverrides
+  ): Promise<string[]>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   pendingOwner(overrides?: CallOverrides): Promise<string>;
@@ -666,13 +736,23 @@ export interface FileDirectory extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  writeChunk(
+  "writeChunk(address)"(
+    pointer: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  "writeChunk(bytes)"(
     chunk: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  writeChunks(
+  "writeChunks(bytes[])"(
     chunks: PromiseOrValue<BytesLike>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  "writeChunks(address[])"(
+    pointers: PromiseOrValue<string>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -749,6 +829,16 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<string[]>;
+
     owner(overrides?: CallOverrides): Promise<string>;
 
     pendingOwner(overrides?: CallOverrides): Promise<string>;
@@ -801,13 +891,23 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<string[]>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: CallOverrides
     ): Promise<string[]>;
 
@@ -955,6 +1055,16 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     pendingOwner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -1009,13 +1119,23 @@ export interface FileDirectory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -1095,6 +1215,16 @@ export interface FileDirectory extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     pendingOwner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -1149,13 +1279,23 @@ export interface FileDirectory extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

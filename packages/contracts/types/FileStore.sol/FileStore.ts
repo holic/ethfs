@@ -47,14 +47,18 @@ export interface FileStoreInterface extends utils.Interface {
     "_chunks(bytes32)": FunctionFragment;
     "checksumExists(bytes32)": FunctionFragment;
     "chunkSize(bytes32)": FunctionFragment;
+    "getPointer(bytes32)": FunctionFragment;
+    "getPointers(bytes32[])": FunctionFragment;
     "readBytes(uint256,bytes32[])": FunctionFragment;
     "readChunk(bytes32)": FunctionFragment;
     "readChunks(bytes32[])": FunctionFragment;
     "readFile(bytes32)": FunctionFragment;
     "readFileData((uint256,string,string,bytes32[]))": FunctionFragment;
     "readFileData(bytes32)": FunctionFragment;
+    "writeChunk(address)": FunctionFragment;
     "writeChunk(bytes)": FunctionFragment;
     "writeChunks(bytes[])": FunctionFragment;
+    "writeChunks(address[])": FunctionFragment;
     "writeFile(string,string,bytes32[])": FunctionFragment;
     "writeFile(string,string,bytes[])": FunctionFragment;
   };
@@ -65,14 +69,18 @@ export interface FileStoreInterface extends utils.Interface {
       | "_chunks"
       | "checksumExists"
       | "chunkSize"
+      | "getPointer"
+      | "getPointers"
       | "readBytes"
       | "readChunk"
       | "readChunks"
       | "readFile"
       | "readFileData((uint256,string,string,bytes32[]))"
       | "readFileData(bytes32)"
-      | "writeChunk"
-      | "writeChunks"
+      | "writeChunk(address)"
+      | "writeChunk(bytes)"
+      | "writeChunks(bytes[])"
+      | "writeChunks(address[])"
       | "writeFile(string,string,bytes32[])"
       | "writeFile(string,string,bytes[])"
   ): FunctionFragment;
@@ -92,6 +100,14 @@ export interface FileStoreInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "chunkSize",
     values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPointer",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getPointers",
+    values: [PromiseOrValue<BytesLike>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "readBytes",
@@ -118,12 +134,20 @@ export interface FileStoreInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "writeChunk",
+    functionFragment: "writeChunk(address)",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "writeChunk(bytes)",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "writeChunks",
+    functionFragment: "writeChunks(bytes[])",
     values: [PromiseOrValue<BytesLike>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "writeChunks(address[])",
+    values: [PromiseOrValue<string>[]]
   ): string;
   encodeFunctionData(
     functionFragment: "writeFile(string,string,bytes32[])",
@@ -149,6 +173,11 @@ export interface FileStoreInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "chunkSize", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getPointer", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getPointers",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "readBytes", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "readChunk", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "readChunks", data: BytesLike): Result;
@@ -161,9 +190,20 @@ export interface FileStoreInterface extends utils.Interface {
     functionFragment: "readFileData(bytes32)",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "writeChunk", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "writeChunks",
+    functionFragment: "writeChunk(address)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "writeChunk(bytes)",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "writeChunks(bytes[])",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "writeChunks(address[])",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -255,6 +295,16 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[BigNumber] & { size: BigNumber }>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[string] & { pointer: string }>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<[string[]] & { pointers: string[] }>;
+
     readBytes(
       size: PromiseOrValue<BigNumberish>,
       checksums: PromiseOrValue<BytesLike>[],
@@ -286,13 +336,23 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { data: string }>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -331,6 +391,16 @@ export interface FileStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<BigNumber>;
 
+  getPointer(
+    checksum: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  getPointers(
+    checksums: PromiseOrValue<BytesLike>[],
+    overrides?: CallOverrides
+  ): Promise<string[]>;
+
   readBytes(
     size: PromiseOrValue<BigNumberish>,
     checksums: PromiseOrValue<BytesLike>[],
@@ -362,13 +432,23 @@ export interface FileStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  writeChunk(
+  "writeChunk(address)"(
+    pointer: PromiseOrValue<string>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  "writeChunk(bytes)"(
     chunk: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  writeChunks(
+  "writeChunks(bytes[])"(
     chunks: PromiseOrValue<BytesLike>[],
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  "writeChunks(address[])"(
+    pointers: PromiseOrValue<string>[],
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -407,6 +487,16 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<string[]>;
+
     readBytes(
       size: PromiseOrValue<BigNumberish>,
       checksums: PromiseOrValue<BytesLike>[],
@@ -438,13 +528,23 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<string[]>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: CallOverrides
     ): Promise<string[]>;
 
@@ -512,6 +612,16 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     readBytes(
       size: PromiseOrValue<BigNumberish>,
       checksums: PromiseOrValue<BytesLike>[],
@@ -543,13 +653,23 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -589,6 +709,16 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    getPointer(
+      checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getPointers(
+      checksums: PromiseOrValue<BytesLike>[],
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     readBytes(
       size: PromiseOrValue<BigNumberish>,
       checksums: PromiseOrValue<BytesLike>[],
@@ -620,13 +750,23 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    writeChunk(
+    "writeChunk(address)"(
+      pointer: PromiseOrValue<string>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "writeChunk(bytes)"(
       chunk: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    writeChunks(
+    "writeChunks(bytes[])"(
       chunks: PromiseOrValue<BytesLike>[],
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "writeChunks(address[])"(
+      pointers: PromiseOrValue<string>[],
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

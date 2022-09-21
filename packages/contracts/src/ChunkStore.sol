@@ -18,8 +18,6 @@ abstract contract ChunkStore is IChunkStore {
     error ChunkExists(bytes32 checksum);
     error ChunkNotFound(bytes32 checksum);
 
-    // TODO: add way to populate chunk/checksum from existing SSTORE2 address
-
     function checksumExists(bytes32 checksum) public view returns (bool) {
         return _chunks[checksum] != address(0);
     }
@@ -29,6 +27,29 @@ abstract contract ChunkStore is IChunkStore {
             revert ChunkNotFound(checksum);
         }
         return Bytecode.codeSize(_chunks[checksum]) - 1;
+    }
+
+    function writeChunk(address pointer) public returns (bytes32 checksum) {
+        checksum = keccak256(SSTORE2.read(pointer));
+        if (_chunks[checksum] != address(0)) {
+            revert ChunkExists(checksum);
+        }
+        _chunks[checksum] = pointer;
+        _checksums.push(checksum);
+        emit NewChunk(checksum, Bytecode.codeSize(pointer) - 1);
+        return checksum;
+    }
+
+    function writeChunks(address[] memory pointers)
+        public
+        returns (bytes32[] memory checksums)
+    {
+        // TODO: offer alternative that doesn't revert on dupes?
+        checksums = new bytes32[](pointers.length);
+        for (uint256 i = 0; i < pointers.length; i++) {
+            checksums[i] = writeChunk(pointers[i]);
+        }
+        return checksums;
     }
 
     function writeChunk(bytes memory chunk) public returns (bytes32 checksum) {
@@ -47,14 +68,14 @@ abstract contract ChunkStore is IChunkStore {
 
     function writeChunks(bytes[] memory chunks)
         public
-        returns (bytes32[] memory fileChecksums)
+        returns (bytes32[] memory checksums)
     {
         // TODO: offer alternative that doesn't revert on dupes?
-        fileChecksums = new bytes32[](chunks.length);
+        checksums = new bytes32[](chunks.length);
         for (uint256 i = 0; i < chunks.length; i++) {
-            fileChecksums[i] = writeChunk(chunks[i]);
+            checksums[i] = writeChunk(chunks[i]);
         }
-        return fileChecksums;
+        return checksums;
     }
 
     function readChunk(bytes32 checksum)
@@ -91,5 +112,28 @@ abstract contract ChunkStore is IChunkStore {
             DynamicBuffer.appendSafe(data, chunk);
         }
         return data;
+    }
+
+    function getPointer(bytes32 checksum)
+        public
+        view
+        returns (address pointer)
+    {
+        if (!checksumExists(checksum)) {
+            revert ChunkNotFound(checksum);
+        }
+        return _chunks[checksum];
+    }
+
+    function getPointers(bytes32[] memory checksums)
+        public
+        view
+        returns (address[] memory pointers)
+    {
+        pointers = new address[](checksums.length);
+        for (uint256 i = 0; i < checksums.length; i++) {
+            pointers[i] = getPointer(checksums[i]);
+        }
+        return pointers;
     }
 }

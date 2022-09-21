@@ -161,6 +161,44 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "bytes32",
+        name: "checksum",
+        type: "bytes32",
+      },
+    ],
+    name: "getPointer",
+    outputs: [
+      {
+        internalType: "address",
+        name: "pointer",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32[]",
+        name: "checksums",
+        type: "bytes32[]",
+      },
+    ],
+    name: "getPointers",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "pointers",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "uint256",
         name: "size",
         type: "uint256",
@@ -223,6 +261,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "address",
+        name: "pointer",
+        type: "address",
+      },
+    ],
+    name: "writeChunk",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "checksum",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes",
         name: "chunk",
         type: "bytes",
@@ -251,7 +308,26 @@ const _abi = [
     outputs: [
       {
         internalType: "bytes32[]",
-        name: "fileChecksums",
+        name: "checksums",
+        type: "bytes32[]",
+      },
+    ],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "pointers",
+        type: "address[]",
+      },
+    ],
+    name: "writeChunks",
+    outputs: [
+      {
+        internalType: "bytes32[]",
+        name: "checksums",
         type: "bytes32[]",
       },
     ],

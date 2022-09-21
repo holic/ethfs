@@ -1,0 +1,20 @@
+[
+  {
+    "inputs": [],
+    "name": "ChainNotSupported",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "getStore",
+    "outputs": [
+      {
+        "internalType": "contract FileStore",
+        "name": "",
+        "type": "FileStore"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  }
+]
