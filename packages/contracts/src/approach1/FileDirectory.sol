@@ -15,13 +15,19 @@ interface IFileDirectory {
     event FileDeleted(string indexed filename);
 }
 
-contract FileDirectory is IFileDirectory, Ownable2Step, FileStore {
+contract FileDirectory is IFileDirectory, Ownable2Step {
+    FileStore public immutable fileStore;
+
     // filename => File checksum
     mapping(string => bytes32) public files;
     string[] public filenames;
 
     error FileNotFound();
     error FilenameExists();
+
+    constructor(FileStore _fileStore) {
+        fileStore = _fileStore;
+    }
 
     function fileExists(string memory filename) public view returns (bool) {
         return files[filename] != bytes32(0);
@@ -36,7 +42,7 @@ contract FileDirectory is IFileDirectory, Ownable2Step, FileStore {
         if (checksum == bytes32(0)) {
             revert FileNotFound();
         }
-        return readFile(checksum);
+        return fileStore.readFile(checksum);
     }
 
     function readNamedFileData(string memory filename)
@@ -45,7 +51,7 @@ contract FileDirectory is IFileDirectory, Ownable2Step, FileStore {
         returns (bytes memory data)
     {
         File memory file = readFile(filename);
-        return readFileData(file);
+        return fileStore.readFileData(file);
     }
 
     function createFile(
@@ -62,7 +68,7 @@ contract FileDirectory is IFileDirectory, Ownable2Step, FileStore {
                 filename,
                 contentType,
                 contentEncoding,
-                writeChunks(chunks)
+                fileStore.writeChunks(chunks)
             );
     }
 
@@ -84,7 +90,7 @@ contract FileDirectory is IFileDirectory, Ownable2Step, FileStore {
         string memory contentEncoding,
         bytes32[] memory checksums
     ) private {
-        (bytes32 checksum, File memory file) = writeFile(
+        (bytes32 checksum, File memory file) = fileStore.writeFile(
             contentType,
             contentEncoding,
             checksums

@@ -4,6 +4,7 @@ pragma solidity >=0.8.10 <0.9.0;
 import "forge-std/Test.sol";
 import "openzeppelin/utils/Strings.sol";
 import {FileDirectory} from "../src/approach1/FileDirectory.sol";
+import {FileStore} from "../src/approach1/FileStore.sol";
 
 contract MockProject {
     FileDirectory public immutable fileDirectory;
@@ -29,10 +30,11 @@ contract MockProjectApproach1Test is Test {
     MockProject private project;
 
     function setUp() public {
-        FileDirectory fileDirectory = new FileDirectory();
+        FileStore fileStore = new FileStore();
+        FileDirectory fileDirectory = new FileDirectory(fileStore);
 
         bytes32[] memory checksums = new bytes32[](4);
-        checksums[0] = fileDirectory.writeChunk(
+        checksums[0] = fileDirectory.fileStore().writeChunk(
             bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
         );
         checksums[1] = checksums[0];

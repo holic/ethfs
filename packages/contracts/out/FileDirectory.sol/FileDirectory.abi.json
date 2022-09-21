@@ -2,34 +2,13 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "contract FileStore",
+        "name": "_fileStore",
+        "type": "address"
       }
     ],
-    "name": "ChunkExists",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "ChunkNotFound",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "ChunkTooBig",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "EmptyFile",
-    "type": "error"
+    "stateMutability": "nonpayable",
+    "type": "constructor"
   },
   {
     "inputs": [],
@@ -39,32 +18,6 @@
   {
     "inputs": [],
     "name": "FilenameExists",
-    "type": "error"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_size",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_start",
-        "type": "uint256"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_end",
-        "type": "uint256"
-      }
-    ],
-    "name": "InvalidCodeAtRange",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "WriteError",
     "type": "error"
   },
   {
@@ -122,56 +75,6 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "size",
-        "type": "uint256"
-      }
-    ],
-    "name": "NewChunk",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "size",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "contentType",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "contentEncoding",
-        "type": "string"
-      }
-    ],
-    "name": "NewFile",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
         "internalType": "address",
         "name": "previousOwner",
         "type": "address"
@@ -206,86 +109,10 @@
     "type": "event"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "name": "_checksums",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "_chunks",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "acceptOwnership",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "checksumExists",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "chunkSize",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "size",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -377,6 +204,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "fileStore",
+    "outputs": [
+      {
+        "internalType": "contract FileStore",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -415,44 +255,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getPointer",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "pointer",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
-      }
-    ],
-    "name": "getPointers",
-    "outputs": [
-      {
-        "internalType": "address[]",
-        "name": "pointers",
-        "type": "address[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "owner",
     "outputs": [
@@ -473,109 +275,6 @@
         "internalType": "address",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "size",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
-      }
-    ],
-    "name": "readBytes",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "readChunk",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "chunk",
-        "type": "bytes"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
-      }
-    ],
-    "name": "readChunks",
-    "outputs": [
-      {
-        "internalType": "bytes[]",
-        "name": "chunks",
-        "type": "bytes[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "readFile",
-    "outputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
       }
     ],
     "stateMutability": "view",
@@ -617,66 +316,6 @@
         "internalType": "struct File",
         "name": "file",
         "type": "tuple"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
-      }
-    ],
-    "name": "readFileData",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "readFileData",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "data",
-        "type": "bytes"
       }
     ],
     "stateMutability": "view",
@@ -718,194 +357,6 @@
     ],
     "name": "transferOwnership",
     "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "pointer",
-        "type": "address"
-      }
-    ],
-    "name": "writeChunk",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes",
-        "name": "chunk",
-        "type": "bytes"
-      }
-    ],
-    "name": "writeChunk",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes[]",
-        "name": "chunks",
-        "type": "bytes[]"
-      }
-    ],
-    "name": "writeChunks",
-    "outputs": [
-      {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address[]",
-        "name": "pointers",
-        "type": "address[]"
-      }
-    ],
-    "name": "writeChunks",
-    "outputs": [
-      {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "contentType",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "contentEncoding",
-        "type": "string"
-      },
-      {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
-      }
-    ],
-    "name": "writeFile",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "contentType",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "contentEncoding",
-        "type": "string"
-      },
-      {
-        "internalType": "bytes[]",
-        "name": "chunks",
-        "type": "bytes[]"
-      }
-    ],
-    "name": "writeFile",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      },
-      {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
-      }
-    ],
     "stateMutability": "nonpayable",
     "type": "function"
   }
