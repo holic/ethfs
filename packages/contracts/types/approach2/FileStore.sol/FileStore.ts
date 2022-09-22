@@ -45,6 +45,7 @@ export interface FileStoreInterface extends utils.Interface {
     "fileExists(string)": FunctionFragment;
     "filenames(uint256)": FunctionFragment;
     "files(string)": FunctionFragment;
+    "getChecksum(string)": FunctionFragment;
     "owner()": FunctionFragment;
     "pendingOwner()": FunctionFragment;
     "readFile(string)": FunctionFragment;
@@ -61,6 +62,7 @@ export interface FileStoreInterface extends utils.Interface {
       | "fileExists"
       | "filenames"
       | "files"
+      | "getChecksum"
       | "owner"
       | "pendingOwner"
       | "readFile"
@@ -97,6 +99,10 @@ export interface FileStoreInterface extends utils.Interface {
     functionFragment: "files",
     values: [PromiseOrValue<string>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "getChecksum",
+    values: [PromiseOrValue<string>]
+  ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "pendingOwner",
@@ -128,6 +134,10 @@ export interface FileStoreInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "fileExists", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "filenames", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "files", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "getChecksum",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "pendingOwner",
@@ -262,6 +272,11 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string]>;
 
+    getChecksum(
+      filename: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string] & { checksum: string }>;
+
     owner(overrides?: CallOverrides): Promise<[string]>;
 
     pendingOwner(overrides?: CallOverrides): Promise<[string]>;
@@ -317,6 +332,11 @@ export interface FileStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  getChecksum(
+    filename: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   owner(overrides?: CallOverrides): Promise<string>;
 
   pendingOwner(overrides?: CallOverrides): Promise<string>;
@@ -367,6 +387,11 @@ export interface FileStore extends BaseContract {
 
     files(
       arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    getChecksum(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
 
@@ -464,6 +489,11 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    getChecksum(
+      filename: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
     pendingOwner(overrides?: CallOverrides): Promise<BigNumber>;
@@ -517,6 +547,11 @@ export interface FileStore extends BaseContract {
 
     files(
       arg0: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    getChecksum(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

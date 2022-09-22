@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SSTORE2__factory = exports.Ownable2Step__factory = exports.Ownable__factory = exports.FileWriter__factory = exports.FileStoreRegistry__factory = exports.FileReader__factory = exports.IFileDirectory__factory = exports.FileDirectory__factory = exports.ContentStoreRegistry__factory = exports.IContentStore__factory = exports.ContentStore__factory = exports.IChunkStore__factory = exports.ChunkStore__factory = exports.Bytecode__factory = exports.IFileStore__factory = exports.FileStore__factory = exports.factories = void 0;
+exports.SSTORE2__factory = exports.Ownable2Step__factory = exports.Ownable__factory = exports.FileWriter__factory = exports.FileStoreRegistry__factory = exports.FileReader__factory = exports.FileManager__factory = exports.IFileDirectory__factory = exports.FileDirectory__factory = exports.ContentStoreRegistry__factory = exports.IContentStore__factory = exports.ContentStore__factory = exports.IChunkStore__factory = exports.ChunkStore__factory = exports.Bytecode__factory = exports.IFileStore__factory = exports.FileStore__factory = exports.factories = void 0;
 exports.factories = __importStar(require("./factories"));
 var FileStore__factory_1 = require("./factories/approach1/FileStore.sol/FileStore__factory");
 Object.defineProperty(exports, "FileStore__factory", { enumerable: true, get: function () { return FileStore__factory_1.FileStore__factory; } });
@@ -45,6 +45,8 @@ var FileDirectory__factory_1 = require("./factories/FileDirectory.sol/FileDirect
 Object.defineProperty(exports, "FileDirectory__factory", { enumerable: true, get: function () { return FileDirectory__factory_1.FileDirectory__factory; } });
 var IFileDirectory__factory_1 = require("./factories/FileDirectory.sol/IFileDirectory__factory");
 Object.defineProperty(exports, "IFileDirectory__factory", { enumerable: true, get: function () { return IFileDirectory__factory_1.IFileDirectory__factory; } });
+var FileManager__factory_1 = require("./factories/FileManager__factory");
+Object.defineProperty(exports, "FileManager__factory", { enumerable: true, get: function () { return FileManager__factory_1.FileManager__factory; } });
 var FileReader__factory_1 = require("./factories/FileReader__factory");
 Object.defineProperty(exports, "FileReader__factory", { enumerable: true, get: function () { return FileReader__factory_1.FileReader__factory; } });
 var FileStoreRegistry__factory_1 = require("./factories/FileStoreRegistry__factory");

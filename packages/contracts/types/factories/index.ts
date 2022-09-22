@@ -8,6 +8,7 @@ export * as approach1 from "./approach1";
 export * as approach2 from "./approach2";
 export { Bytecode__factory } from "./Bytecode__factory";
 export { ContentStoreRegistry__factory } from "./ContentStoreRegistry__factory";
+export { FileManager__factory } from "./FileManager__factory";
 export { FileReader__factory } from "./FileReader__factory";
 export { FileStoreRegistry__factory } from "./FileStoreRegistry__factory";
 export { FileWriter__factory } from "./FileWriter__factory";

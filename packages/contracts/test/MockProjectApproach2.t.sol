@@ -9,6 +9,7 @@ import {FileStore} from "../src/approach2/FileStore.sol";
 import {FileStoreRegistry} from "../src/approach2/FileStoreRegistry.sol";
 import {FileReader} from "../src/approach2/FileReader.sol";
 import {FileWriter} from "../src/approach2/FileWriter.sol";
+import {FileManager} from "../src/approach2/FileManager.sol";
 
 contract MockProject {
     function tokenURI(uint256 tokenId) public view returns (string memory) {
@@ -18,7 +19,7 @@ contract MockProject {
                 "%7B%22name%22:%22Token #",
                 Strings.toString(tokenId),
                 "%22,%22animation_url%22:%22",
-                string(FileStoreRegistry.getStore().readFileData("big.txt")),
+                string(FileManager.readFileData("big.txt")),
                 "%22%7D"
             );
     }
@@ -61,5 +62,6 @@ contract MockProjectApproach2Test is Test {
         uint256 startGas = gasleft();
         project.tokenURI(1);
         console.log("tokenURI gas used:", startGas - gasleft());
+        assertEq(98380, bytes(project.tokenURI(1)).length);
     }
 }

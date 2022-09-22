@@ -6,8 +6,6 @@ import {File} from "./File.sol";
 import {FileWriter} from "./FileWriter.sol";
 import {FileReader} from "./FileReader.sol";
 
-// TODO: test gas moving file reading to library
-
 interface IFileStore {
     event FileCreated(
         string indexed filename,
@@ -28,6 +26,18 @@ contract FileStore is IFileStore, Ownable2Step {
 
     function fileExists(string memory filename) public view returns (bool) {
         return files[filename] != bytes32(0);
+    }
+
+    function getChecksum(string memory filename)
+        public
+        view
+        returns (bytes32 checksum)
+    {
+        checksum = files[filename];
+        if (checksum == bytes32(0)) {
+            revert FileNotFound();
+        }
+        return checksum;
     }
 
     function readFile(string memory filename)

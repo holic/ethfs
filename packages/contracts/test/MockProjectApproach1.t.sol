@@ -50,5 +50,6 @@ contract MockProjectApproach1Test is Test {
         uint256 startGas = gasleft();
         project.tokenURI(1);
         console.log("tokenURI gas used:", startGas - gasleft());
+        assertEq(98380, bytes(project.tokenURI(1)).length);
     }
 }
