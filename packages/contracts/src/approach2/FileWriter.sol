@@ -10,18 +10,12 @@ import {File} from "./File.sol";
 library FileWriter {
     error EmptyFile();
 
-    event NewFile(
-        bytes32 indexed checksum,
-        uint256 size,
-        string contentType,
-        string contentEncoding
-    );
+    event NewFile(bytes32 indexed checksum, uint256 size, bytes metadata);
 
-    function writeFile(
-        string memory contentType,
-        string memory contentEncoding,
-        bytes32[] memory checksums
-    ) public returns (bytes32 checksum, File memory file) {
+    function writeFile(bytes32[] memory checksums, bytes memory metadata)
+        public
+        returns (bytes32 checksum, File memory file)
+    {
         ContentStore contentStore = ContentStoreRegistry.getStore();
         uint256 size = 0;
         // TODO: optimize this
@@ -31,19 +25,9 @@ library FileWriter {
         if (size == 0) {
             revert EmptyFile();
         }
-        file = File({
-            size: size,
-            contentType: contentType,
-            contentEncoding: contentEncoding,
-            checksums: checksums
-        });
+        file = File({size: size, checksums: checksums});
         checksum = contentStore.addContent(abi.encode(file));
-        emit NewFile(
-            checksum,
-            file.size,
-            file.contentType,
-            file.contentEncoding
-        );
+        emit NewFile(checksum, file.size, metadata);
         return (checksum, file);
     }
 }

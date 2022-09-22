@@ -29,22 +29,18 @@ import type {
 
 export type FileStruct = {
   size: PromiseOrValue<BigNumberish>;
-  contentType: PromiseOrValue<string>;
-  contentEncoding: PromiseOrValue<string>;
   checksums: PromiseOrValue<BytesLike>[];
 };
 
-export type FileStructOutput = [BigNumber, string, string, string[]] & {
+export type FileStructOutput = [BigNumber, string[]] & {
   size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
   checksums: string[];
 };
 
 export interface FileStoreInterface extends utils.Interface {
   functions: {
     "acceptOwnership()": FunctionFragment;
-    "createFile(string,string,string,bytes32[])": FunctionFragment;
+    "createFile(string,bytes32[],bytes)": FunctionFragment;
     "deleteFile(string)": FunctionFragment;
     "fileExists(string)": FunctionFragment;
     "filenames(uint256)": FunctionFragment;
@@ -81,9 +77,8 @@ export interface FileStoreInterface extends utils.Interface {
     functionFragment: "createFile",
     values: [
       PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<string>,
-      PromiseOrValue<BytesLike>[]
+      PromiseOrValue<BytesLike>[],
+      PromiseOrValue<BytesLike>
     ]
   ): string;
   encodeFunctionData(
@@ -153,7 +148,7 @@ export interface FileStoreInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "FileCreated(string,bytes32,uint256,string,string)": EventFragment;
+    "FileCreated(string,bytes32,uint256,bytes)": EventFragment;
     "FileDeleted(string)": EventFragment;
     "OwnershipTransferStarted(address,address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
@@ -169,11 +164,10 @@ export interface FileCreatedEventObject {
   filename: string;
   checksum: string;
   size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
+  metadata: string;
 }
 export type FileCreatedEvent = TypedEvent<
-  [string, string, BigNumber, string, string],
+  [string, string, BigNumber, string],
   FileCreatedEventObject
 >;
 
@@ -243,9 +237,8 @@ export interface FileStore extends BaseContract {
 
     createFile(
       filename: PromiseOrValue<string>,
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
+      metadata: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -299,9 +292,8 @@ export interface FileStore extends BaseContract {
 
   createFile(
     filename: PromiseOrValue<string>,
-    contentType: PromiseOrValue<string>,
-    contentEncoding: PromiseOrValue<string>,
     checksums: PromiseOrValue<BytesLike>[],
+    metadata: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -353,9 +345,8 @@ export interface FileStore extends BaseContract {
 
     createFile(
       filename: PromiseOrValue<string>,
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
+      metadata: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -402,19 +393,17 @@ export interface FileStore extends BaseContract {
   };
 
   filters: {
-    "FileCreated(string,bytes32,uint256,string,string)"(
+    "FileCreated(string,bytes32,uint256,bytes)"(
       filename?: PromiseOrValue<string> | null,
       checksum?: PromiseOrValue<BytesLike> | null,
       size?: null,
-      contentType?: null,
-      contentEncoding?: null
+      metadata?: null
     ): FileCreatedEventFilter;
     FileCreated(
       filename?: PromiseOrValue<string> | null,
       checksum?: PromiseOrValue<BytesLike> | null,
       size?: null,
-      contentType?: null,
-      contentEncoding?: null
+      metadata?: null
     ): FileCreatedEventFilter;
 
     "FileDeleted(string)"(
@@ -450,9 +439,8 @@ export interface FileStore extends BaseContract {
 
     createFile(
       filename: PromiseOrValue<string>,
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
+      metadata: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -507,9 +495,8 @@ export interface FileStore extends BaseContract {
 
     createFile(
       filename: PromiseOrValue<string>,
-      contentType: PromiseOrValue<string>,
-      contentEncoding: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
+      metadata: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

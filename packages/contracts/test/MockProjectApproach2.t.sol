@@ -50,9 +50,8 @@ contract MockProjectApproach2Test is Test {
 
         FileStoreRegistry.getStore().createFile(
             "big.txt",
-            "text/plain",
-            "",
-            checksums
+            checksums,
+            new bytes(0)
         );
 
         project = new MockProject();

@@ -6,13 +6,14 @@ import {File} from "./File.sol";
 import {FileWriter} from "./FileWriter.sol";
 import {FileReader} from "./FileReader.sol";
 
+// TODO: test gas moving file reading to library
+
 interface IFileStore {
     event FileCreated(
         string indexed filename,
         bytes32 indexed checksum,
         uint256 size,
-        string contentType,
-        string contentEncoding
+        bytes metadata
     );
     event FileDeleted(string indexed filename);
 }
@@ -52,36 +53,27 @@ contract FileStore is IFileStore, Ownable2Step {
 
     function createFile(
         string memory filename,
-        string memory contentType,
-        string memory contentEncoding,
-        bytes32[] memory checksums
+        bytes32[] memory checksums,
+        bytes memory metadata
     ) public {
         if (files[filename] != bytes32(0)) {
             revert FilenameExists();
         }
-        return _createFile(filename, contentType, contentEncoding, checksums);
+        return _createFile(filename, checksums, metadata);
     }
 
     function _createFile(
         string memory filename,
-        string memory contentType,
-        string memory contentEncoding,
-        bytes32[] memory checksums
+        bytes32[] memory checksums,
+        bytes memory metadata
     ) private {
         (bytes32 checksum, File memory file) = FileWriter.writeFile(
-            contentType,
-            contentEncoding,
-            checksums
+            checksums,
+            metadata
         );
         files[filename] = checksum;
         filenames.push(filename);
-        emit FileCreated(
-            filename,
-            checksum,
-            file.size,
-            file.contentType,
-            file.contentEncoding
-        );
+        emit FileCreated(filename, checksum, file.size, metadata);
     }
 
     function deleteFile(string memory filename) public onlyOwner {

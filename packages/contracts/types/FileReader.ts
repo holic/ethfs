@@ -23,15 +23,11 @@ import type {
 
 export type FileStruct = {
   size: PromiseOrValue<BigNumberish>;
-  contentType: PromiseOrValue<string>;
-  contentEncoding: PromiseOrValue<string>;
   checksums: PromiseOrValue<BytesLike>[];
 };
 
-export type FileStructOutput = [BigNumber, string, string, string[]] & {
+export type FileStructOutput = [BigNumber, string[]] & {
   size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
   checksums: string[];
 };
 
@@ -39,14 +35,14 @@ export interface FileReaderInterface extends utils.Interface {
   functions: {
     "readFile(bytes32)": FunctionFragment;
     "readFileData(bytes32)": FunctionFragment;
-    "readFileData((uint256,string,string,bytes32[]))": FunctionFragment;
+    "readFileData((uint256,bytes32[]))": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
       | "readFile"
       | "readFileData(bytes32)"
-      | "readFileData((uint256,string,string,bytes32[]))"
+      | "readFileData((uint256,bytes32[]))"
   ): FunctionFragment;
 
   encodeFunctionData(
@@ -58,7 +54,7 @@ export interface FileReaderInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "readFileData((uint256,string,string,bytes32[]))",
+    functionFragment: "readFileData((uint256,bytes32[]))",
     values: [FileStruct]
   ): string;
 
@@ -68,7 +64,7 @@ export interface FileReaderInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "readFileData((uint256,string,string,bytes32[]))",
+    functionFragment: "readFileData((uint256,bytes32[]))",
     data: BytesLike
   ): Result;
 
@@ -112,7 +108,7 @@ export interface FileReader extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[string] & { data: string }>;
 
-    "readFileData((uint256,string,string,bytes32[]))"(
+    "readFileData((uint256,bytes32[]))"(
       file: FileStruct,
       overrides?: CallOverrides
     ): Promise<[string] & { data: string }>;
@@ -128,7 +124,7 @@ export interface FileReader extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
-  "readFileData((uint256,string,string,bytes32[]))"(
+  "readFileData((uint256,bytes32[]))"(
     file: FileStruct,
     overrides?: CallOverrides
   ): Promise<string>;
@@ -144,7 +140,7 @@ export interface FileReader extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    "readFileData((uint256,string,string,bytes32[]))"(
+    "readFileData((uint256,bytes32[]))"(
       file: FileStruct,
       overrides?: CallOverrides
     ): Promise<string>;
@@ -163,7 +159,7 @@ export interface FileReader extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "readFileData((uint256,string,string,bytes32[]))"(
+    "readFileData((uint256,bytes32[]))"(
       file: FileStruct,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -180,7 +176,7 @@ export interface FileReader extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "readFileData((uint256,string,string,bytes32[]))"(
+    "readFileData((uint256,bytes32[]))"(
       file: FileStruct,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

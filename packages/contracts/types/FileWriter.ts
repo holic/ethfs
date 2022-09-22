@@ -16,7 +16,7 @@ export interface FileWriterInterface extends utils.Interface {
   functions: {};
 
   events: {
-    "NewFile(bytes32,uint256,string,string)": EventFragment;
+    "NewFile(bytes32,uint256,bytes)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "NewFile"): EventFragment;
@@ -25,11 +25,10 @@ export interface FileWriterInterface extends utils.Interface {
 export interface NewFileEventObject {
   checksum: string;
   size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
+  metadata: string;
 }
 export type NewFileEvent = TypedEvent<
-  [string, BigNumber, string, string],
+  [string, BigNumber, string],
   NewFileEventObject
 >;
 
@@ -66,17 +65,15 @@ export interface FileWriter extends BaseContract {
   callStatic: {};
 
   filters: {
-    "NewFile(bytes32,uint256,string,string)"(
+    "NewFile(bytes32,uint256,bytes)"(
       checksum?: PromiseOrValue<BytesLike> | null,
       size?: null,
-      contentType?: null,
-      contentEncoding?: null
+      metadata?: null
     ): NewFileEventFilter;
     NewFile(
       checksum?: PromiseOrValue<BytesLike> | null,
       size?: null,
-      contentType?: null,
-      contentEncoding?: null
+      metadata?: null
     ): NewFileEventFilter;
   };
 

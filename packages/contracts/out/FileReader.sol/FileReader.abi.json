@@ -49,16 +49,6 @@
             "type": "uint256"
           },
           {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
-          },
-          {
             "internalType": "bytes32[]",
             "name": "checksums",
             "type": "bytes32[]"
@@ -99,16 +89,6 @@
             "internalType": "uint256",
             "name": "size",
             "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
           },
           {
             "internalType": "bytes32[]",

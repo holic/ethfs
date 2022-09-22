@@ -29,15 +29,9 @@ const _abi = [
             },
             {
                 indexed: false,
-                internalType: "string",
-                name: "contentType",
-                type: "string",
-            },
-            {
-                indexed: false,
-                internalType: "string",
-                name: "contentEncoding",
-                type: "string",
+                internalType: "bytes",
+                name: "metadata",
+                type: "bytes",
             },
         ],
         name: "FileCreated",

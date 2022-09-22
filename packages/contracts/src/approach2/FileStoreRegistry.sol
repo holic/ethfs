@@ -2,6 +2,9 @@
 pragma solidity ^0.8.9;
 
 import {FileStore} from "./FileStore.sol";
+import {FileReader} from "./FileReader.sol";
+
+// TODO: make IFileStore an interface to avoid importing all deps
 
 library FileStoreRegistry {
     error ChainNotSupported();

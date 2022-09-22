@@ -16,7 +16,7 @@ export interface IFileStoreInterface extends utils.Interface {
   functions: {};
 
   events: {
-    "FileCreated(string,bytes32,uint256,string,string)": EventFragment;
+    "FileCreated(string,bytes32,uint256,bytes)": EventFragment;
     "FileDeleted(string)": EventFragment;
   };
 
@@ -28,11 +28,10 @@ export interface FileCreatedEventObject {
   filename: string;
   checksum: string;
   size: BigNumber;
-  contentType: string;
-  contentEncoding: string;
+  metadata: string;
 }
 export type FileCreatedEvent = TypedEvent<
-  [string, string, BigNumber, string, string],
+  [string, string, BigNumber, string],
   FileCreatedEventObject
 >;
 
@@ -76,19 +75,17 @@ export interface IFileStore extends BaseContract {
   callStatic: {};
 
   filters: {
-    "FileCreated(string,bytes32,uint256,string,string)"(
+    "FileCreated(string,bytes32,uint256,bytes)"(
       filename?: PromiseOrValue<string> | null,
       checksum?: PromiseOrValue<BytesLike> | null,
       size?: null,
-      contentType?: null,
-      contentEncoding?: null
+      metadata?: null
     ): FileCreatedEventFilter;
     FileCreated(
       filename?: PromiseOrValue<string> | null,
       checksum?: PromiseOrValue<BytesLike> | null,
       size?: null,
-      contentType?: null,
-      contentEncoding?: null
+      metadata?: null
     ): FileCreatedEventFilter;
 
     "FileDeleted(string)"(

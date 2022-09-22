@@ -5,6 +5,7 @@ import {SSTORE2} from "sstore2/SSTORE2.sol";
 import {Bytecode} from "sstore2/utils/Bytecode.sol";
 
 // TODO: decide if getters (contentLength, getPointer) should revert or return 0
+// TODO: try SSTORE2Map for gas, but may not let us prepopulate the map
 
 interface IContentStore {
     event NewChecksum(bytes32 indexed checksum, uint256 contentSize);

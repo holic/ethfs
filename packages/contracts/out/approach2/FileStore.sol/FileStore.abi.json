@@ -32,15 +32,9 @@
       },
       {
         "indexed": false,
-        "internalType": "string",
-        "name": "contentType",
-        "type": "string"
-      },
-      {
-        "indexed": false,
-        "internalType": "string",
-        "name": "contentEncoding",
-        "type": "string"
+        "internalType": "bytes",
+        "name": "metadata",
+        "type": "bytes"
       }
     ],
     "name": "FileCreated",
@@ -112,19 +106,14 @@
         "type": "string"
       },
       {
-        "internalType": "string",
-        "name": "contentType",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "contentEncoding",
-        "type": "string"
-      },
-      {
         "internalType": "bytes32[]",
         "name": "checksums",
         "type": "bytes32[]"
+      },
+      {
+        "internalType": "bytes",
+        "name": "metadata",
+        "type": "bytes"
       }
     ],
     "name": "createFile",
@@ -244,16 +233,6 @@
             "internalType": "uint256",
             "name": "size",
             "type": "uint256"
-          },
-          {
-            "internalType": "string",
-            "name": "contentType",
-            "type": "string"
-          },
-          {
-            "internalType": "string",
-            "name": "contentEncoding",
-            "type": "string"
           },
           {
             "internalType": "bytes32[]",
