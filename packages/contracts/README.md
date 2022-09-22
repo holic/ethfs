@@ -3,7 +3,10 @@
 - try SSTORE2Map for gas, but may not let us prepopulate the map
 - check read gas if we store Files with (checksum, pointer)[] instead of checksum[] to avoid read time store look ups
 - use interfaces to reduce downstream imports
-- try deploying file reader/wrapper as a contract with all the info inside it that is needed to read out files
+
+- ~~try deploying file reader/wrapper as a contract with all the info inside it that is needed to read out files~~
+  not much cheaper file reads (~10k gas) and much more expensive writes (~200k gas)
+  ultimately, the cheapest gas-wise is to inline all the buffer appending and never pass large bytes through function calls
 
 - ~~decide if getters (contentLength, getPointer) should revert or return 0~~
   revert, since mapping getters are already available
