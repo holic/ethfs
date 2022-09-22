@@ -254,9 +254,21 @@
             "type": "uint256"
           },
           {
-            "internalType": "bytes32[]",
-            "name": "checksums",
-            "type": "bytes32[]"
+            "components": [
+              {
+                "internalType": "bytes32",
+                "name": "checksum",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "address",
+                "name": "pointer",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct Content[]",
+            "name": "contents",
+            "type": "tuple[]"
           }
         ],
         "internalType": "struct File",

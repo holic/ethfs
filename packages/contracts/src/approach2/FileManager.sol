@@ -56,10 +56,10 @@ library FileManager {
         );
         File memory file = abi.decode(SSTORE2.read(pointer), (File));
         data = DynamicBuffer.allocate(file.size);
-        for (uint256 i = 0; i < file.checksums.length; i++) {
+        for (uint256 i = 0; i < file.contents.length; i++) {
             DynamicBuffer.appendSafe(
                 data,
-                SSTORE2.read(contentStore().getPointer(file.checksums[i]))
+                SSTORE2.read(file.contents[i].pointer)
             );
         }
         return data;

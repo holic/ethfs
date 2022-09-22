@@ -45,19 +45,20 @@ contract ContentStore is IContentStore {
 
     function addContent(bytes memory content)
         public
-        returns (bytes32 checksum)
+        returns (bytes32 checksum, address pointer)
     {
         if (content.length > 24575) {
             revert ContentTooBig();
         }
         checksum = keccak256(content);
         if (_pointers[checksum] != address(0)) {
-            return checksum;
+            return (checksum, _pointers[checksum]);
         }
-        _pointers[checksum] = SSTORE2.write(content);
+        pointer = SSTORE2.write(content);
+        _pointers[checksum] = pointer;
         _checksums.push(checksum);
         emit NewChecksum(checksum, content.length);
-        return checksum;
+        return (checksum, pointer);
     }
 
     function getPointer(bytes32 checksum)

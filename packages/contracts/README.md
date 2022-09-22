@@ -1,5 +1,6 @@
 # TODO
 
+- catch revert from abi.decode and revert with a better error
 - try SSTORE2Map for gas, but may not let us prepopulate the map
 - check read gas if we store Files with (checksum, pointer)[] instead of checksum[] to avoid read time store look ups
 - use interfaces to reduce downstream imports
