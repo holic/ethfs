@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.9;
 
-import {SSTORE2} from "sstore2/SSTORE2.sol";
-import {Bytecode} from "sstore2/utils/Bytecode.sol";
+import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
 
 contract ContentStore is IContentStore {
@@ -22,17 +21,18 @@ contract ContentStore is IContentStore {
         if (!checksumExists(checksum)) {
             revert ChecksumNotFound(checksum);
         }
-        return Bytecode.codeSize(_pointers[checksum]) - 1;
+        return SSTORE2.read(_pointers[checksum]).length;
     }
 
     function addPointer(address pointer) public returns (bytes32 checksum) {
-        checksum = keccak256(SSTORE2.read(pointer));
+        bytes memory content = SSTORE2.read(pointer);
+        checksum = keccak256(content);
         if (_pointers[checksum] != address(0)) {
             return checksum;
         }
         _pointers[checksum] = pointer;
         _checksums.push(checksum);
-        emit NewChecksum(checksum, Bytecode.codeSize(pointer) - 1);
+        emit NewChecksum(checksum, content.length);
         return checksum;
     }
 
@@ -40,6 +40,7 @@ contract ContentStore is IContentStore {
         public
         returns (bytes32 checksum, address pointer)
     {
+        // TODO: get rid of this check before deploy
         if (content.length > 24575) {
             revert ContentTooBig();
         }

@@ -2,7 +2,7 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
-import "openzeppelin/utils/Strings.sol";
+import {LibString} from "solady/utils/LibString.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {FileReader} from "../src/FileReader.sol";
@@ -15,7 +15,7 @@ contract MockProject {
             string.concat(
                 "data:application/json,",
                 "%7B%22name%22:%22Token #",
-                Strings.toString(tokenId),
+                LibString.toString(tokenId),
                 "%22,%22animation_url%22:%22",
                 string(FileReader.readFile("big.txt")),
                 "%22%7D"
@@ -25,28 +25,24 @@ contract MockProject {
 
 contract MockProjectTest is Test {
     MockProject private project;
+    bytes32 private bigFileChecksum;
 
     function setUp() public {
-        uint256 chainId;
-        assembly {
-            chainId := chainid()
-        }
-        console.log("chain id", chainId);
-
         bytes memory contentStoreCode = address(new ContentStore()).code;
         vm.etch(address(DataStores.contentStore()), contentStoreCode);
 
         bytes memory fileStoreCode = address(new FileStore()).code;
         vm.etch(address(DataStores.fileStore()), fileStoreCode);
 
-        bytes32[] memory checksums = new bytes32[](4);
-        (bytes32 checksum, ) = DataStores.contentStore().addContent(
+        (bigFileChecksum, ) = DataStores.contentStore().addContent(
             bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
         );
-        checksums[0] = checksum;
-        checksums[1] = checksum;
-        checksums[2] = checksum;
-        checksums[3] = checksum;
+
+        bytes32[] memory checksums = new bytes32[](4);
+        checksums[0] = bigFileChecksum;
+        checksums[1] = bigFileChecksum;
+        checksums[2] = bigFileChecksum;
+        checksums[3] = bigFileChecksum;
 
         uint256 startGas;
 
@@ -62,5 +58,15 @@ contract MockProjectTest is Test {
         project.tokenURI(1);
         console.log("tokenURI gas used:", startGas - gasleft());
         assertEq(98380, bytes(project.tokenURI(1)).length);
+    }
+
+    function testContentLength() public {
+        uint256 startGas = gasleft();
+        DataStores.contentStore().contentLength(bigFileChecksum);
+        console.log("contentLength gas used:", startGas - gasleft());
+        assertEq(
+            24575,
+            DataStores.contentStore().contentLength(bigFileChecksum)
+        );
     }
 }

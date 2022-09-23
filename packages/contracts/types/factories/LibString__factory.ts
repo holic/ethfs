@@ -4,28 +4,12 @@
 import { Signer, utils, Contract, ContractFactory, Overrides } from "ethers";
 import type { Provider, TransactionRequest } from "@ethersproject/providers";
 import type { PromiseOrValue } from "../common";
-import type { Bytecode, BytecodeInterface } from "../Bytecode";
+import type { LibString, LibStringInterface } from "../LibString";
 
 const _abi = [
   {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "_size",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_start",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "_end",
-        type: "uint256",
-      },
-    ],
-    name: "InvalidCodeAtRange",
+    inputs: [],
+    name: "HexLengthInsufficient",
     type: "error",
   },
 ];
@@ -33,16 +17,16 @@ const _abi = [
 const _bytecode =
   "0x602d6037600b82828239805160001a607314602a57634e487b7160e01b600052600060045260246000fd5b30600052607381538281f3fe73000000000000000000000000000000000000000030146080604052600080fdfea164736f6c634300080d000a";
 
-type BytecodeConstructorParams =
+type LibStringConstructorParams =
   | [signer?: Signer]
   | ConstructorParameters<typeof ContractFactory>;
 
 const isSuperArgs = (
-  xs: BytecodeConstructorParams
+  xs: LibStringConstructorParams
 ): xs is ConstructorParameters<typeof ContractFactory> => xs.length > 1;
 
-export class Bytecode__factory extends ContractFactory {
-  constructor(...args: BytecodeConstructorParams) {
+export class LibString__factory extends ContractFactory {
+  constructor(...args: LibStringConstructorParams) {
     if (isSuperArgs(args)) {
       super(...args);
     } else {
@@ -52,30 +36,30 @@ export class Bytecode__factory extends ContractFactory {
 
   override deploy(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<Bytecode> {
-    return super.deploy(overrides || {}) as Promise<Bytecode>;
+  ): Promise<LibString> {
+    return super.deploy(overrides || {}) as Promise<LibString>;
   }
   override getDeployTransaction(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): TransactionRequest {
     return super.getDeployTransaction(overrides || {});
   }
-  override attach(address: string): Bytecode {
-    return super.attach(address) as Bytecode;
+  override attach(address: string): LibString {
+    return super.attach(address) as LibString;
   }
-  override connect(signer: Signer): Bytecode__factory {
-    return super.connect(signer) as Bytecode__factory;
+  override connect(signer: Signer): LibString__factory {
+    return super.connect(signer) as LibString__factory;
   }
 
   static readonly bytecode = _bytecode;
   static readonly abi = _abi;
-  static createInterface(): BytecodeInterface {
-    return new utils.Interface(_abi) as BytecodeInterface;
+  static createInterface(): LibStringInterface {
+    return new utils.Interface(_abi) as LibStringInterface;
   }
   static connect(
     address: string,
     signerOrProvider: Signer | Provider
-  ): Bytecode {
-    return new Contract(address, _abi, signerOrProvider) as Bytecode;
+  ): LibString {
+    return new Contract(address, _abi, signerOrProvider) as LibString;
   }
 }

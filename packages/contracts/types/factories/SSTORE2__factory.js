@@ -8,7 +8,17 @@ const ethers_1 = require("ethers");
 const _abi = [
     {
         inputs: [],
-        name: "WriteError",
+        name: "DeploymentFailed",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "InvalidPointer",
+        type: "error",
+    },
+    {
+        inputs: [],
+        name: "ReadOutOfBounds",
         type: "error",
     },
 ];

@@ -12,18 +12,18 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export interface BytecodeInterface extends utils.Interface {
+export interface LibStringInterface extends utils.Interface {
   functions: {};
 
   events: {};
 }
 
-export interface Bytecode extends BaseContract {
+export interface LibString extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: BytecodeInterface;
+  interface: LibStringInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,

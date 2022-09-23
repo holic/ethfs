@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.9;
 
-import {SSTORE2} from "sstore2/SSTORE2.sol";
+import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {DynamicBuffer} from "ethier/contracts/utils/DynamicBuffer.sol";
 import {File} from "./File.sol";
 import {DataStores} from "./DataStores.sol";

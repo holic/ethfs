@@ -9,7 +9,17 @@ import type { SSTORE2, SSTORE2Interface } from "../SSTORE2";
 const _abi = [
   {
     inputs: [],
-    name: "WriteError",
+    name: "DeploymentFailed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InvalidPointer",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "ReadOutOfBounds",
     type: "error",
   },
 ];
