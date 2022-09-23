@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.13;
 
 import {IContentStore} from "./IContentStore.sol";
 import {IFileStore} from "./IFileStore.sol";

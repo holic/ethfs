@@ -48,6 +48,25 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "checksum",
+        "type": "bytes32"
+      }
+    ],
+    "name": "_pointers",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes",
         "name": "content",
         "type": "bytes"

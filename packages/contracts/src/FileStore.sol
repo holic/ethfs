@@ -1,16 +1,23 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.13;
 
+import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
 import {File} from "./File.sol";
 import {FileWriter} from "./FileWriter.sol";
-import {FileReader} from "./FileReader.sol";
+import {IContentStore} from "./IContentStore.sol";
 
 contract FileStore is IFileStore, Ownable2Step {
+    IContentStore public immutable contentStore;
+
     // filename => File checksum
     mapping(string => bytes32) public files;
     string[] public filenames;
+
+    constructor(IContentStore _contentStore) {
+        contentStore = _contentStore;
+    }
 
     function fileExists(string memory filename) public view returns (bool) {
         return files[filename] != bytes32(0);
@@ -23,7 +30,7 @@ contract FileStore is IFileStore, Ownable2Step {
     {
         checksum = files[filename];
         if (checksum == bytes32(0)) {
-            revert FileNotFound();
+            revert FileNotFound(filename);
         }
         return checksum;
     }
@@ -35,9 +42,19 @@ contract FileStore is IFileStore, Ownable2Step {
     {
         bytes32 checksum = files[filename];
         if (checksum == bytes32(0)) {
-            revert FileNotFound();
+            revert FileNotFound(filename);
         }
-        return FileReader.getFile(checksum);
+        address pointer = contentStore._pointers(checksum);
+        if (pointer == address(0)) {
+            revert FileNotFound(filename);
+        }
+        return abi.decode(SSTORE2.read(pointer), (File));
+    }
+
+    function createFile(string memory filename, bytes32[] memory checksums)
+        public
+    {
+        return createFile(filename, checksums, new bytes(0));
     }
 
     function createFile(
@@ -46,7 +63,7 @@ contract FileStore is IFileStore, Ownable2Step {
         bytes memory metadata
     ) public {
         if (files[filename] != bytes32(0)) {
-            revert FilenameExists();
+            revert FilenameExists(filename);
         }
         return _createFile(filename, checksums, metadata);
     }

@@ -1,11 +1,34 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "contract IContentStore",
+        "name": "_contentStore",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
     "name": "FileNotFound",
     "type": "error"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
     "name": "FilenameExists",
     "type": "error"
   },
@@ -94,6 +117,37 @@
   {
     "inputs": [],
     "name": "acceptOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "contentStore",
+    "outputs": [
+      {
+        "internalType": "contract IContentStore",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "checksums",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "createFile",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

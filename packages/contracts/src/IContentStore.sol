@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.13;
 
 interface IContentStore {
     event NewChecksum(bytes32 indexed checksum, uint256 contentSize);
@@ -7,6 +7,11 @@ interface IContentStore {
     error ContentTooBig();
     error ChecksumExists(bytes32 checksum);
     error ChecksumNotFound(bytes32 checksum);
+
+    function _pointers(bytes32 checksum)
+        external
+        view
+        returns (address pointer);
 
     function checksumExists(bytes32 checksum) external view returns (bool);
 

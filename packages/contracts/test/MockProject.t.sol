@@ -4,6 +4,7 @@ pragma solidity >=0.8.10 <0.9.0;
 import "forge-std/Test.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {ContentStore} from "../src/ContentStore.sol";
+import {File} from "../src/File.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {FileReader} from "../src/FileReader.sol";
 import {FileWriter} from "../src/FileWriter.sol";
@@ -11,13 +12,14 @@ import {DataStores} from "../src/DataStores.sol";
 
 contract MockProject {
     function tokenURI(uint256 tokenId) public view returns (string memory) {
+        File memory file = DataStores.fileStore().getFile("big.txt");
         return
             string.concat(
                 "data:application/json,",
                 "%7B%22name%22:%22Token #",
                 LibString.toString(tokenId),
                 "%22,%22animation_url%22:%22",
-                string(FileReader.readFile("big.txt")),
+                string(file.read()),
                 "%22%7D"
             );
     }
@@ -31,7 +33,9 @@ contract MockProjectTest is Test {
         bytes memory contentStoreCode = address(new ContentStore()).code;
         vm.etch(address(DataStores.contentStore()), contentStoreCode);
 
-        bytes memory fileStoreCode = address(new FileStore()).code;
+        bytes memory fileStoreCode = address(
+            new FileStore(DataStores.contentStore())
+        ).code;
         vm.etch(address(DataStores.fileStore()), fileStoreCode);
 
         (bigFileChecksum, ) = DataStores.contentStore().addContent(
@@ -47,7 +51,7 @@ contract MockProjectTest is Test {
         uint256 startGas;
 
         startGas = gasleft();
-        DataStores.fileStore().createFile("big.txt", checksums, new bytes(0));
+        DataStores.fileStore().createFile("big.txt", checksums);
         console.log("FileStore.createFile gas", startGas - gasleft());
 
         project = new MockProject();

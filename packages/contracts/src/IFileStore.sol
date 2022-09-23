@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.13;
 
 import {File} from "./File.sol";
 
@@ -12,8 +12,8 @@ interface IFileStore {
     );
     event FileDeleted(string indexed filename);
 
-    error FileNotFound();
-    error FilenameExists();
+    error FileNotFound(string filename);
+    error FilenameExists(string filename);
 
     function fileExists(string memory filename) external view returns (bool);
 
@@ -26,6 +26,9 @@ interface IFileStore {
         external
         view
         returns (File memory file);
+
+    function createFile(string memory filename, bytes32[] memory checksums)
+        external;
 
     function createFile(
         string memory filename,

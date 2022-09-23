@@ -1,11 +1,23 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
     "name": "FileNotFound",
     "type": "error"
   },
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
     "name": "FilenameExists",
     "type": "error"
   },
@@ -52,6 +64,24 @@
     ],
     "name": "FileDeleted",
     "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "checksums",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "createFile",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
   },
   {
     "inputs": [
