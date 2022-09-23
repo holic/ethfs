@@ -3,11 +3,11 @@ pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
 import "openzeppelin/utils/Strings.sol";
-import {ContentStore} from "../src/approach2/ContentStore.sol";
-import {FileStore} from "../src/approach2/FileStore.sol";
-import {FileReader} from "../src/approach2/FileReader.sol";
-import {FileWriter} from "../src/approach2/FileWriter.sol";
-import {DataStores} from "../src/approach2/DataStores.sol";
+import {ContentStore} from "../src/ContentStore.sol";
+import {FileStore} from "../src/FileStore.sol";
+import {FileReader} from "../src/FileReader.sol";
+import {FileWriter} from "../src/FileWriter.sol";
+import {DataStores} from "../src/DataStores.sol";
 
 contract MockProject {
     function tokenURI(uint256 tokenId) public view returns (string memory) {
@@ -23,7 +23,7 @@ contract MockProject {
     }
 }
 
-contract MockProjectApproach2Test is Test {
+contract MockProjectTest is Test {
     MockProject private project;
 
     function setUp() public {
