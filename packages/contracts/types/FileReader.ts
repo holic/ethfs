@@ -21,50 +21,60 @@ import type {
   PromiseOrValue,
 } from "./common";
 
-export type FileStruct = {
-  size: PromiseOrValue<BigNumberish>;
-  checksums: PromiseOrValue<BytesLike>[];
+export type ContentStruct = {
+  checksum: PromiseOrValue<BytesLike>;
+  pointer: PromiseOrValue<string>;
 };
 
-export type FileStructOutput = [BigNumber, string[]] & {
+export type ContentStructOutput = [string, string] & {
+  checksum: string;
+  pointer: string;
+};
+
+export type FileStruct = {
+  size: PromiseOrValue<BigNumberish>;
+  contents: ContentStruct[];
+};
+
+export type FileStructOutput = [BigNumber, ContentStructOutput[]] & {
   size: BigNumber;
-  checksums: string[];
+  contents: ContentStructOutput[];
 };
 
 export interface FileReaderInterface extends utils.Interface {
   functions: {
-    "readFile(bytes32)": FunctionFragment;
-    "readFileData(bytes32)": FunctionFragment;
-    "readFileData((uint256,bytes32[]))": FunctionFragment;
+    "getFile(bytes32)": FunctionFragment;
+    "readFile((uint256,(bytes32,address)[]))": FunctionFragment;
+    "readFile(string)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "readFile"
-      | "readFileData(bytes32)"
-      | "readFileData((uint256,bytes32[]))"
+      | "getFile"
+      | "readFile((uint256,(bytes32,address)[]))"
+      | "readFile(string)"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "readFile",
+    functionFragment: "getFile",
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
-    functionFragment: "readFileData(bytes32)",
-    values: [PromiseOrValue<BytesLike>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "readFileData((uint256,bytes32[]))",
+    functionFragment: "readFile((uint256,(bytes32,address)[]))",
     values: [FileStruct]
   ): string;
+  encodeFunctionData(
+    functionFragment: "readFile(string)",
+    values: [PromiseOrValue<string>]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "readFile", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "getFile", data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "readFileData(bytes32)",
+    functionFragment: "readFile((uint256,(bytes32,address)[]))",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
-    functionFragment: "readFileData((uint256,bytes32[]))",
+    functionFragment: "readFile(string)",
     data: BytesLike
   ): Result;
 
@@ -98,50 +108,50 @@ export interface FileReader extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    readFile(
+    getFile(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[FileStructOutput] & { file: FileStructOutput }>;
 
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
+    "readFile((uint256,(bytes32,address)[]))"(
+      file: FileStruct,
       overrides?: CallOverrides
     ): Promise<[string] & { data: string }>;
 
-    "readFileData((uint256,bytes32[]))"(
-      file: FileStruct,
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<[string] & { data: string }>;
   };
 
-  readFile(
+  getFile(
     checksum: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
   ): Promise<FileStructOutput>;
 
-  "readFileData(bytes32)"(
-    checksum: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  "readFileData((uint256,bytes32[]))"(
+  "readFile((uint256,(bytes32,address)[]))"(
     file: FileStruct,
     overrides?: CallOverrides
   ): Promise<string>;
 
+  "readFile(string)"(
+    filename: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   callStatic: {
-    readFile(
+    getFile(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<FileStructOutput>;
 
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
+    "readFile((uint256,(bytes32,address)[]))"(
+      file: FileStruct,
       overrides?: CallOverrides
     ): Promise<string>;
 
-    "readFileData((uint256,bytes32[]))"(
-      file: FileStruct,
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<string>;
   };
@@ -149,35 +159,35 @@ export interface FileReader extends BaseContract {
   filters: {};
 
   estimateGas: {
-    readFile(
+    getFile(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    "readFileData((uint256,bytes32[]))"(
+    "readFile((uint256,(bytes32,address)[]))"(
       file: FileStruct,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    readFile(
+    getFile(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    "readFileData(bytes32)"(
-      checksum: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    "readFileData((uint256,bytes32[]))"(
+    "readFile((uint256,(bytes32,address)[]))"(
       file: FileStruct,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    "readFile(string)"(
+      filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

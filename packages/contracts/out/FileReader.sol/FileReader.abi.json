@@ -39,7 +39,7 @@
         "type": "bytes32"
       }
     ],
-    "name": "readFile",
+    "name": "getFile",
     "outputs": [
       {
         "components": [
@@ -77,12 +77,36 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "components": [
+              {
+                "internalType": "bytes32",
+                "name": "checksum",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "address",
+                "name": "pointer",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct Content[]",
+            "name": "contents",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
       }
     ],
-    "name": "readFileData",
+    "name": "readFile",
     "outputs": [
       {
         "internalType": "bytes",
@@ -96,36 +120,12 @@
   {
     "inputs": [
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "size",
-            "type": "uint256"
-          },
-          {
-            "components": [
-              {
-                "internalType": "bytes32",
-                "name": "checksum",
-                "type": "bytes32"
-              },
-              {
-                "internalType": "address",
-                "name": "pointer",
-                "type": "address"
-              }
-            ],
-            "internalType": "struct Content[]",
-            "name": "contents",
-            "type": "tuple[]"
-          }
-        ],
-        "internalType": "struct File",
-        "name": "file",
-        "type": "tuple"
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
       }
     ],
-    "name": "readFileData",
+    "name": "readFile",
     "outputs": [
       {
         "internalType": "bytes",

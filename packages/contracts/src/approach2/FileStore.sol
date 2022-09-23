@@ -1,28 +1,16 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.9;
 
+import {IFileStore} from "./IFileStore.sol";
 import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
 import {File} from "./File.sol";
 import {FileWriter} from "./FileWriter.sol";
 import {FileReader} from "./FileReader.sol";
 
-interface IFileStore {
-    event FileCreated(
-        string indexed filename,
-        bytes32 indexed checksum,
-        uint256 size,
-        bytes metadata
-    );
-    event FileDeleted(string indexed filename);
-}
-
 contract FileStore is IFileStore, Ownable2Step {
     // filename => File checksum
     mapping(string => bytes32) public files;
     string[] public filenames;
-
-    error FileNotFound();
-    error FilenameExists();
 
     function fileExists(string memory filename) public view returns (bool) {
         return files[filename] != bytes32(0);
@@ -40,7 +28,7 @@ contract FileStore is IFileStore, Ownable2Step {
         return checksum;
     }
 
-    function readFile(string memory filename)
+    function getFile(string memory filename)
         public
         view
         returns (File memory file)
@@ -49,16 +37,7 @@ contract FileStore is IFileStore, Ownable2Step {
         if (checksum == bytes32(0)) {
             revert FileNotFound();
         }
-        return FileReader.readFile(checksum);
-    }
-
-    function readFileData(string memory filename)
-        public
-        view
-        returns (bytes memory data)
-    {
-        File memory file = readFile(filename);
-        return FileReader.readFileData(file);
+        return FileReader.getFile(checksum);
     }
 
     function createFile(

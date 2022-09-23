@@ -3,19 +3,12 @@ pragma solidity ^0.8.9;
 
 import {SSTORE2} from "sstore2/SSTORE2.sol";
 import {Bytecode} from "sstore2/utils/Bytecode.sol";
-
-interface IContentStore {
-    event NewChecksum(bytes32 indexed checksum, uint256 contentSize);
-}
+import {IContentStore} from "./IContentStore.sol";
 
 contract ContentStore is IContentStore {
     // content checksum => sstore2 pointer
     mapping(bytes32 => address) public _pointers;
     bytes32[] public _checksums;
-
-    error ContentTooBig();
-    error ChecksumExists(bytes32 checksum);
-    error ChecksumNotFound(bytes32 checksum);
 
     function checksumExists(bytes32 checksum) public view returns (bool) {
         return _pointers[checksum] != address(0);

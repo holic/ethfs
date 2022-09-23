@@ -1,9 +1,11 @@
 # TODO
 
 - catch revert from abi.decode and revert with a better error
-- try SSTORE2Map for gas, but may not let us prepopulate the map
-- check read gas if we store Files with (checksum, pointer)[] instead of checksum[] to avoid read time store look ups
-- use interfaces to reduce downstream imports
+- ~~check read gas if we store Files with (checksum, pointer)[] instead of checksum[] to avoid read time store look ups~~
+- ~~use interfaces to reduce downstream imports~~
+
+- ~~try SSTORE2Map for gas, but may not let us prepopulate the map~~
+  ~10k gas cheaper read/write when used on file wrappers, prob not worth it in chunk store
 
 - ~~try deploying file reader/wrapper as a contract with all the info inside it that is needed to read out files~~
   not much cheaper file reads (~10k gas) and much more expensive writes (~200k gas)

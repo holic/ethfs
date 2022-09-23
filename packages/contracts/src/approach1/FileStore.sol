@@ -15,17 +15,15 @@ struct File {
     bytes32[] checksums;
 }
 
-interface IFileStore {
+contract FileStore is ChunkStore {
+    error EmptyFile();
+
     event NewFile(
         bytes32 indexed checksum,
         uint256 size,
         string contentType,
         string contentEncoding
     );
-}
-
-contract FileStore is IFileStore, ChunkStore {
-    error EmptyFile();
 
     function writeFile(
         string memory contentType,
