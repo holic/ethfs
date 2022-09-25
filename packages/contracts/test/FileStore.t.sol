@@ -39,6 +39,22 @@ contract ContentStoreTest is Test {
         console.log("FileStore.createFile gas", startGas - gasleft());
     }
 
+    function testGetChecksum() public {
+        bytes32 checksum = fileStore.getChecksum("big.txt");
+        assertEq(
+            checksum,
+            0x14c8282b35a841d7df042bc64f5a40da1368ecf57f97a50d878c8dfa4ba912a5
+        );
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IFileStore.FileNotFound.selector,
+                "non-existent.txt"
+            )
+        );
+        fileStore.getFile("non-existent.txt");
+    }
+
     function testGetFile() public {
         vm.expectRevert(
             abi.encodeWithSelector(
@@ -50,8 +66,8 @@ contract ContentStoreTest is Test {
 
         File memory file = fileStore.getFile("big.txt");
 
-        assertEq(98300, file.size);
-        assertEq(98300, bytes(file.read()).length);
+        assertEq(file.size, 98300);
+        assertEq(bytes(file.read()).length, 98300);
     }
 
     function testCreateFile() public {
@@ -68,9 +84,9 @@ contract ContentStoreTest is Test {
 
         File memory file = fileStore.createFile("24kb.txt", checksums);
 
-        assertEq(24575, file.size);
-        assertEq(24575, bytes(file.read()).length);
-        assertEq(contents, file.read());
+        assertEq(file.size, 24575);
+        assertEq(bytes(file.read()).length, 24575);
+        assertEq(file.read(), contents);
 
         vm.expectRevert(
             abi.encodeWithSelector(
@@ -93,8 +109,7 @@ contract ContentStoreTest is Test {
     }
 
     function testDeleteFile() public {
-        assertEq(
-            true,
+        assertTrue(
             fileStore.fileExists("big.txt"),
             "expected file big.txt to exist"
         );
@@ -103,8 +118,7 @@ contract ContentStoreTest is Test {
         emit FileDeleted("big.txt");
 
         fileStore.deleteFile("big.txt");
-        assertEq(
-            false,
+        assertFalse(
             fileStore.fileExists("big.txt"),
             "expected file big.txt to no longer exist"
         );

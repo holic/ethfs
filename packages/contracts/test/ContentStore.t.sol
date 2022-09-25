@@ -30,11 +30,11 @@ contract ContentStoreTest is Test {
         emit NewChecksum(checksum, content.length);
 
         (bytes32 checksumResult, ) = contentStore.addContent(content);
-        assertEq(checksum, checksumResult);
+        assertEq(checksumResult, checksum);
 
         // Adding the same content is a no-op
         (checksumResult, ) = contentStore.addContent(content);
-        assertEq(checksum, checksumResult);
+        assertEq(checksumResult, checksum);
 
         assertTrue(
             contentStore.checksumExists(checksum),
@@ -45,13 +45,13 @@ contract ContentStoreTest is Test {
             contentStore.getPointer(checksum)
         );
 
-        assertEq(content, storedContent, "expected content to match");
+        assertEq(storedContent, content, "expected content to match");
         assertEq(
-            checksum,
             keccak256(storedContent),
+            checksum,
             "expected checksums to match"
         );
-        assertEq(content.length, contentStore.contentLength(checksum));
+        assertEq(contentStore.contentLength(checksum), content.length);
     }
 
     function testAddPointer() public {
@@ -70,13 +70,13 @@ contract ContentStoreTest is Test {
         emit NewChecksum(checksum, content.length);
 
         bytes32 checksumResult = contentStore.addPointer(pointer);
-        assertEq(checksum, checksumResult);
+        assertEq(checksumResult, checksum);
 
         // Adding the same pointer is a no-op
         checksumResult = contentStore.addPointer(pointer);
-        assertEq(checksum, checksumResult);
+        assertEq(checksumResult, checksum);
 
-        assertEq(content.length, contentStore.contentLength(checksum));
+        assertEq(contentStore.contentLength(checksum), content.length);
     }
 
     function testGetPointer() public {
