@@ -79,6 +79,19 @@ const _abi = [
     type: "event",
   },
   {
+    inputs: [],
+    name: "contentStore",
+    outputs: [
+      {
+        internalType: "contract IContentStore",
+        name: "",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [
       {
         internalType: "string",

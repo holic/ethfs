@@ -49,6 +49,7 @@ export type FileStructOutput = [BigNumber, ContentStructOutput[]] & {
 
 export interface IFileStoreInterface extends utils.Interface {
   functions: {
+    "contentStore()": FunctionFragment;
     "createFile(string,bytes32[])": FunctionFragment;
     "createFile(string,bytes32[],bytes)": FunctionFragment;
     "deleteFile(string)": FunctionFragment;
@@ -60,6 +61,7 @@ export interface IFileStoreInterface extends utils.Interface {
 
   getFunction(
     nameOrSignatureOrTopic:
+      | "contentStore"
       | "createFile(string,bytes32[])"
       | "createFile(string,bytes32[],bytes)"
       | "deleteFile"
@@ -69,6 +71,10 @@ export interface IFileStoreInterface extends utils.Interface {
       | "getFile"
   ): FunctionFragment;
 
+  encodeFunctionData(
+    functionFragment: "contentStore",
+    values?: undefined
+  ): string;
   encodeFunctionData(
     functionFragment: "createFile(string,bytes32[])",
     values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>[]]
@@ -102,6 +108,10 @@ export interface IFileStoreInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
 
+  decodeFunctionResult(
+    functionFragment: "contentStore",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(
     functionFragment: "createFile(string,bytes32[])",
     data: BytesLike
@@ -175,6 +185,8 @@ export interface IFileStore extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
+    contentStore(overrides?: CallOverrides): Promise<[string]>;
+
     "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
@@ -213,6 +225,8 @@ export interface IFileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[FileStructOutput] & { file: FileStructOutput }>;
   };
+
+  contentStore(overrides?: CallOverrides): Promise<string>;
 
   "createFile(string,bytes32[])"(
     filename: PromiseOrValue<string>,
@@ -253,6 +267,8 @@ export interface IFileStore extends BaseContract {
   ): Promise<FileStructOutput>;
 
   callStatic: {
+    contentStore(overrides?: CallOverrides): Promise<string>;
+
     "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
@@ -315,6 +331,8 @@ export interface IFileStore extends BaseContract {
   };
 
   estimateGas: {
+    contentStore(overrides?: CallOverrides): Promise<BigNumber>;
+
     "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
@@ -355,6 +373,8 @@ export interface IFileStore extends BaseContract {
   };
 
   populateTransaction: {
+    contentStore(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
     "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],

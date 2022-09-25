@@ -2,6 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {File} from "./File.sol";
+import {IContentStore} from "./IContentStore.sol";
 
 interface IFileStore {
     event FileCreated(
@@ -15,6 +16,8 @@ interface IFileStore {
     error FileNotFound(string filename);
     error FilenameExists(string filename);
     error EmptyFile();
+
+    function contentStore() external view returns (IContentStore);
 
     function files(string memory filename)
         external

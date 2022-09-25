@@ -7,6 +7,8 @@ import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
 import {File, Content} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
 
+// TODO: decide if we should fallback to content store or expose content store methods
+
 contract FileStore is IFileStore, Ownable2Step {
     IContentStore public immutable contentStore;
 

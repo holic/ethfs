@@ -39,7 +39,7 @@ contract MockProjectTest is Test {
         contentStore = new ContentStore();
         fileStore = new FileStore(contentStore);
 
-        (bytes32 checksum, ) = contentStore.addContent(
+        (bytes32 checksum, ) = fileStore.contentStore().addContent(
             bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
         );
 
