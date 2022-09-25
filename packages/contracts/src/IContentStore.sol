@@ -9,8 +9,6 @@ interface IContentStore {
 
     function pointers(bytes32 checksum) external view returns (address pointer);
 
-    function checksums(uint256 index) external view returns (bytes32 checksum);
-
     function checksumExists(bytes32 checksum) external view returns (bool);
 
     function contentLength(bytes32 checksum)

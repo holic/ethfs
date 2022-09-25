@@ -214,25 +214,6 @@ const _abi = [
   {
     inputs: [
       {
-        internalType: "uint256",
-        name: "index",
-        type: "uint256",
-      },
-    ],
-    name: "filenames",
-    outputs: [
-      {
-        internalType: "string",
-        name: "filename",
-        type: "string",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
         internalType: "string",
         name: "filename",
         type: "string",

@@ -7,7 +7,6 @@ import {IContentStore} from "./IContentStore.sol";
 contract ContentStore is IContentStore {
     // content checksum => sstore2 pointer
     mapping(bytes32 => address) public pointers;
-    bytes32[] public checksums;
 
     function checksumExists(bytes32 checksum) public view returns (bool) {
         return pointers[checksum] != address(0);
@@ -31,7 +30,6 @@ contract ContentStore is IContentStore {
             return checksum;
         }
         pointers[checksum] = pointer;
-        checksums.push(checksum);
         emit NewChecksum(checksum, content.length);
         return checksum;
     }
@@ -46,7 +44,6 @@ contract ContentStore is IContentStore {
         }
         pointer = SSTORE2.write(content);
         pointers[checksum] = pointer;
-        checksums.push(checksum);
         emit NewChecksum(checksum, content.length);
         return (checksum, pointer);
     }

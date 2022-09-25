@@ -4,6 +4,7 @@ pragma solidity >=0.8.10 <0.9.0;
 import "forge-std/Test.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {ContentStore} from "../src/ContentStore.sol";
+import {IContentStore} from "../src/IContentStore.sol";
 import {File} from "../src/File.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
@@ -30,30 +31,25 @@ contract MockProject {
 }
 
 contract MockProjectTest is Test {
-    ContentStore private contentStore;
-    FileStore private fileStore;
-    MockProject private project;
-    bytes32 private bigFileChecksum;
+    IContentStore public contentStore;
+    IFileStore public fileStore;
+    MockProject public project;
 
     function setUp() public {
         contentStore = new ContentStore();
         fileStore = new FileStore(contentStore);
 
-        (bigFileChecksum, ) = contentStore.addContent(
+        (bytes32 checksum, ) = contentStore.addContent(
             bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
         );
 
         bytes32[] memory checksums = new bytes32[](4);
-        checksums[0] = bigFileChecksum;
-        checksums[1] = bigFileChecksum;
-        checksums[2] = bigFileChecksum;
-        checksums[3] = bigFileChecksum;
+        checksums[0] = checksum;
+        checksums[1] = checksum;
+        checksums[2] = checksum;
+        checksums[3] = checksum;
 
-        uint256 startGas;
-
-        startGas = gasleft();
         fileStore.createFile("big.txt", checksums);
-        console.log("FileStore.createFile gas", startGas - gasleft());
 
         project = new MockProject(fileStore);
     }
@@ -63,12 +59,5 @@ contract MockProjectTest is Test {
         project.tokenURI(1);
         console.log("tokenURI gas used:", startGas - gasleft());
         assertEq(98380, bytes(project.tokenURI(1)).length);
-    }
-
-    function testContentLength() public {
-        uint256 startGas = gasleft();
-        contentStore.contentLength(bigFileChecksum);
-        console.log("contentLength gas used:", startGas - gasleft());
-        assertEq(24575, contentStore.contentLength(bigFileChecksum));
     }
 }

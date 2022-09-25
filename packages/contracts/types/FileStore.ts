@@ -55,7 +55,6 @@ export interface FileStoreInterface extends utils.Interface {
     "createFile(string,bytes32[],bytes)": FunctionFragment;
     "deleteFile(string)": FunctionFragment;
     "fileExists(string)": FunctionFragment;
-    "filenames(uint256)": FunctionFragment;
     "files(string)": FunctionFragment;
     "getChecksum(string)": FunctionFragment;
     "getFile(string)": FunctionFragment;
@@ -73,7 +72,6 @@ export interface FileStoreInterface extends utils.Interface {
       | "createFile(string,bytes32[],bytes)"
       | "deleteFile"
       | "fileExists"
-      | "filenames"
       | "files"
       | "getChecksum"
       | "getFile"
@@ -110,10 +108,6 @@ export interface FileStoreInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "fileExists",
     values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "filenames",
-    values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
     functionFragment: "files",
@@ -159,7 +153,6 @@ export interface FileStoreInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "deleteFile", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "fileExists", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "filenames", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "files", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getChecksum",
@@ -293,11 +286,6 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
-    filenames(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     files(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -356,11 +344,6 @@ export interface FileStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
-  filenames(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
   files(
     arg0: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -416,11 +399,6 @@ export interface FileStore extends BaseContract {
       filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
-
-    filenames(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
 
     files(
       arg0: PromiseOrValue<string>,
@@ -519,11 +497,6 @@ export interface FileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    filenames(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     files(
       arg0: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -580,11 +553,6 @@ export interface FileStore extends BaseContract {
 
     fileExists(
       filename: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    filenames(
-      arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 

@@ -21,11 +21,6 @@ interface IFileStore {
         view
         returns (bytes32 checksum);
 
-    function filenames(uint256 index)
-        external
-        view
-        returns (string memory filename);
-
     function fileExists(string memory filename) external view returns (bool);
 
     function getChecksum(string memory filename)

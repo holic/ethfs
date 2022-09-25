@@ -12,7 +12,6 @@ contract FileStore is IFileStore, Ownable2Step {
 
     // filename => File checksum
     mapping(string => bytes32) public files;
-    string[] public filenames;
 
     constructor(IContentStore _contentStore) {
         contentStore = _contentStore;
@@ -89,7 +88,6 @@ contract FileStore is IFileStore, Ownable2Step {
         file = File({size: size, contents: contents});
         (bytes32 checksum, ) = contentStore.addContent(abi.encode(file));
         files[filename] = checksum;
-        filenames.push(filename);
         emit FileCreated(filename, checksum, file.size, extraData);
     }
 
