@@ -13,6 +13,9 @@ interface IContentStore {
         view
         returns (address pointer);
 
+    // TODO: expose getters
+    // TODO: rename storage vars without underscore
+
     function checksumExists(bytes32 checksum) external view returns (bool);
 
     function contentLength(bytes32 checksum)

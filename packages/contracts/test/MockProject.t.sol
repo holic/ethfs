@@ -6,39 +6,40 @@ import {LibString} from "solady/utils/LibString.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {File} from "../src/File.sol";
 import {FileStore} from "../src/FileStore.sol";
-import {FileReader} from "../src/FileReader.sol";
-import {FileWriter} from "../src/FileWriter.sol";
-import {DataStores} from "../src/DataStores.sol";
+import {IFileStore} from "../src/IFileStore.sol";
 
 contract MockProject {
+    IFileStore public immutable fileStore;
+
+    constructor(IFileStore _fileStore) {
+        fileStore = _fileStore;
+    }
+
     function tokenURI(uint256 tokenId) public view returns (string memory) {
-        File memory file = DataStores.fileStore().getFile("big.txt");
+        File memory file = fileStore.getFile("big.txt");
         return
             string.concat(
                 "data:application/json,",
                 "%7B%22name%22:%22Token #",
                 LibString.toString(tokenId),
                 "%22,%22animation_url%22:%22",
-                string(file.read()),
+                file.read(),
                 "%22%7D"
             );
     }
 }
 
 contract MockProjectTest is Test {
+    ContentStore private contentStore;
+    FileStore private fileStore;
     MockProject private project;
     bytes32 private bigFileChecksum;
 
     function setUp() public {
-        bytes memory contentStoreCode = address(new ContentStore()).code;
-        vm.etch(address(DataStores.contentStore()), contentStoreCode);
+        contentStore = new ContentStore();
+        fileStore = new FileStore(contentStore);
 
-        bytes memory fileStoreCode = address(
-            new FileStore(DataStores.contentStore())
-        ).code;
-        vm.etch(address(DataStores.fileStore()), fileStoreCode);
-
-        (bigFileChecksum, ) = DataStores.contentStore().addContent(
+        (bigFileChecksum, ) = contentStore.addContent(
             bytes(vm.readFile("packages/contracts/test/files/24kb-1.txt"))
         );
 
@@ -51,10 +52,10 @@ contract MockProjectTest is Test {
         uint256 startGas;
 
         startGas = gasleft();
-        DataStores.fileStore().createFile("big.txt", checksums);
+        fileStore.createFile("big.txt", checksums);
         console.log("FileStore.createFile gas", startGas - gasleft());
 
-        project = new MockProject();
+        project = new MockProject(fileStore);
     }
 
     function testTokenURIGas() public {
@@ -66,11 +67,8 @@ contract MockProjectTest is Test {
 
     function testContentLength() public {
         uint256 startGas = gasleft();
-        DataStores.contentStore().contentLength(bigFileChecksum);
+        contentStore.contentLength(bigFileChecksum);
         console.log("contentLength gas used:", startGas - gasleft());
-        assertEq(
-            24575,
-            DataStores.contentStore().contentLength(bigFileChecksum)
-        );
+        assertEq(24575, contentStore.contentLength(bigFileChecksum));
     }
 }

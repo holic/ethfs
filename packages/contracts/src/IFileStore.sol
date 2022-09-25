@@ -14,6 +14,9 @@ interface IFileStore {
 
     error FileNotFound(string filename);
     error FilenameExists(string filename);
+    error EmptyFile();
+
+    // TODO: expose storage getters
 
     function fileExists(string memory filename) external view returns (bool);
 
@@ -28,13 +31,14 @@ interface IFileStore {
         returns (File memory file);
 
     function createFile(string memory filename, bytes32[] memory checksums)
-        external;
+        external
+        returns (File memory file);
 
     function createFile(
         string memory filename,
         bytes32[] memory checksums,
         bytes memory metadata
-    ) external;
+    ) external returns (File memory file);
 
     function deleteFile(string memory filename) external;
 }

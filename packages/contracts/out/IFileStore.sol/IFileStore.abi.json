@@ -1,5 +1,10 @@
 [
   {
+    "inputs": [],
+    "name": "EmptyFile",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
         "internalType": "string",
@@ -79,7 +84,37 @@
       }
     ],
     "name": "createFile",
-    "outputs": [],
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "components": [
+              {
+                "internalType": "bytes32",
+                "name": "checksum",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "address",
+                "name": "pointer",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct Content[]",
+            "name": "contents",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -102,7 +137,37 @@
       }
     ],
     "name": "createFile",
-    "outputs": [],
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "uint256",
+            "name": "size",
+            "type": "uint256"
+          },
+          {
+            "components": [
+              {
+                "internalType": "bytes32",
+                "name": "checksum",
+                "type": "bytes32"
+              },
+              {
+                "internalType": "address",
+                "name": "pointer",
+                "type": "address"
+              }
+            ],
+            "internalType": "struct Content[]",
+            "name": "contents",
+            "type": "tuple[]"
+          }
+        ],
+        "internalType": "struct File",
+        "name": "file",
+        "type": "tuple"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
