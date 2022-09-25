@@ -2,10 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export { ContentStore__factory } from "./ContentStore__factory";
-export { DataStores__factory } from "./DataStores__factory";
-export { FileReader__factory } from "./FileReader__factory";
 export { FileStore__factory } from "./FileStore__factory";
-export { FileWriter__factory } from "./FileWriter__factory";
 export { IContentStore__factory } from "./IContentStore__factory";
 export { IFileStore__factory } from "./IFileStore__factory";
 export { LibString__factory } from "./LibString__factory";

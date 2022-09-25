@@ -49,24 +49,34 @@ export type FileStructOutput = [BigNumber, ContentStructOutput[]] & {
 
 export interface IFileStoreInterface extends utils.Interface {
   functions: {
+    "createFile(string,bytes32[])": FunctionFragment;
     "createFile(string,bytes32[],bytes)": FunctionFragment;
     "deleteFile(string)": FunctionFragment;
     "fileExists(string)": FunctionFragment;
+    "filenames(uint256)": FunctionFragment;
+    "files(string)": FunctionFragment;
     "getChecksum(string)": FunctionFragment;
     "getFile(string)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "createFile"
+      | "createFile(string,bytes32[])"
+      | "createFile(string,bytes32[],bytes)"
       | "deleteFile"
       | "fileExists"
+      | "filenames"
+      | "files"
       | "getChecksum"
       | "getFile"
   ): FunctionFragment;
 
   encodeFunctionData(
-    functionFragment: "createFile",
+    functionFragment: "createFile(string,bytes32[])",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFile(string,bytes32[],bytes)",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BytesLike>[],
@@ -82,6 +92,14 @@ export interface IFileStoreInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
   encodeFunctionData(
+    functionFragment: "filenames",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "files",
+    values: [PromiseOrValue<string>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getChecksum",
     values: [PromiseOrValue<string>]
   ): string;
@@ -90,9 +108,18 @@ export interface IFileStoreInterface extends utils.Interface {
     values: [PromiseOrValue<string>]
   ): string;
 
-  decodeFunctionResult(functionFragment: "createFile", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "createFile(string,bytes32[])",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createFile(string,bytes32[],bytes)",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "deleteFile", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "fileExists", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "filenames", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "files", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "getChecksum",
     data: BytesLike
@@ -155,10 +182,16 @@ export interface IFileStore extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    createFile(
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -172,6 +205,16 @@ export interface IFileStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    filenames(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string] & { filename: string }>;
+
+    files(
+      filename: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<[string] & { checksum: string }>;
+
     getChecksum(
       filename: PromiseOrValue<string>,
       overrides?: CallOverrides
@@ -183,10 +226,16 @@ export interface IFileStore extends BaseContract {
     ): Promise<[FileStructOutput] & { file: FileStructOutput }>;
   };
 
-  createFile(
+  "createFile(string,bytes32[])"(
     filename: PromiseOrValue<string>,
     checksums: PromiseOrValue<BytesLike>[],
-    metadata: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  "createFile(string,bytes32[],bytes)"(
+    filename: PromiseOrValue<string>,
+    checksums: PromiseOrValue<BytesLike>[],
+    extraData: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -200,6 +249,16 @@ export interface IFileStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  filenames(
+    index: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
+  files(
+    filename: PromiseOrValue<string>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   getChecksum(
     filename: PromiseOrValue<string>,
     overrides?: CallOverrides
@@ -211,12 +270,18 @@ export interface IFileStore extends BaseContract {
   ): Promise<FileStructOutput>;
 
   callStatic: {
-    createFile(
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<FileStructOutput>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<FileStructOutput>;
 
     deleteFile(
       filename: PromiseOrValue<string>,
@@ -227,6 +292,16 @@ export interface IFileStore extends BaseContract {
       filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<boolean>;
+
+    filenames(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    files(
+      filename: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<string>;
 
     getChecksum(
       filename: PromiseOrValue<string>,
@@ -262,10 +337,16 @@ export interface IFileStore extends BaseContract {
   };
 
   estimateGas: {
-    createFile(
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -275,6 +356,16 @@ export interface IFileStore extends BaseContract {
     ): Promise<BigNumber>;
 
     fileExists(
+      filename: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    filenames(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    files(
       filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
@@ -291,10 +382,16 @@ export interface IFileStore extends BaseContract {
   };
 
   populateTransaction: {
-    createFile(
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -304,6 +401,16 @@ export interface IFileStore extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     fileExists(
+      filename: PromiseOrValue<string>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    filenames(
+      index: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    files(
       filename: PromiseOrValue<string>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;

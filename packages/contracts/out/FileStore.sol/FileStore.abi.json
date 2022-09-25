@@ -201,7 +201,7 @@
       },
       {
         "internalType": "bytes",
-        "name": "metadata",
+        "name": "extraData",
         "type": "bytes"
       }
     ],

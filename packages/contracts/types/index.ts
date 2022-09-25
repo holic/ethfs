@@ -2,10 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { ContentStore } from "./ContentStore";
-export type { DataStores } from "./DataStores";
-export type { FileReader } from "./FileReader";
 export type { FileStore } from "./FileStore";
-export type { FileWriter } from "./FileWriter";
 export type { IContentStore } from "./IContentStore";
 export type { IFileStore } from "./IFileStore";
 export type { LibString } from "./LibString";
@@ -14,10 +11,7 @@ export type { Ownable2Step } from "./Ownable2Step";
 export type { SSTORE2 } from "./SSTORE2";
 export * as factories from "./factories";
 export { ContentStore__factory } from "./factories/ContentStore__factory";
-export { DataStores__factory } from "./factories/DataStores__factory";
-export { FileReader__factory } from "./factories/FileReader__factory";
 export { FileStore__factory } from "./factories/FileStore__factory";
-export { FileWriter__factory } from "./factories/FileWriter__factory";
 export { IContentStore__factory } from "./factories/IContentStore__factory";
 export { IFileStore__factory } from "./factories/IFileStore__factory";
 export { LibString__factory } from "./factories/LibString__factory";

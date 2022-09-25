@@ -6,11 +6,11 @@ import {IContentStore} from "./IContentStore.sol";
 
 contract ContentStore is IContentStore {
     // content checksum => sstore2 pointer
-    mapping(bytes32 => address) public _pointers;
-    bytes32[] public _checksums;
+    mapping(bytes32 => address) public pointers;
+    bytes32[] public checksums;
 
     function checksumExists(bytes32 checksum) public view returns (bool) {
-        return _pointers[checksum] != address(0);
+        return pointers[checksum] != address(0);
     }
 
     function contentLength(bytes32 checksum)
@@ -21,17 +21,17 @@ contract ContentStore is IContentStore {
         if (!checksumExists(checksum)) {
             revert ChecksumNotFound(checksum);
         }
-        return SSTORE2.read(_pointers[checksum]).length;
+        return SSTORE2.read(pointers[checksum]).length;
     }
 
     function addPointer(address pointer) public returns (bytes32 checksum) {
         bytes memory content = SSTORE2.read(pointer);
         checksum = keccak256(content);
-        if (_pointers[checksum] != address(0)) {
+        if (pointers[checksum] != address(0)) {
             return checksum;
         }
-        _pointers[checksum] = pointer;
-        _checksums.push(checksum);
+        pointers[checksum] = pointer;
+        checksums.push(checksum);
         emit NewChecksum(checksum, content.length);
         return checksum;
     }
@@ -40,17 +40,13 @@ contract ContentStore is IContentStore {
         public
         returns (bytes32 checksum, address pointer)
     {
-        // TODO: get rid of this check before deploy
-        if (content.length > 24575) {
-            revert ContentTooBig();
-        }
         checksum = keccak256(content);
-        if (_pointers[checksum] != address(0)) {
-            return (checksum, _pointers[checksum]);
+        if (pointers[checksum] != address(0)) {
+            return (checksum, pointers[checksum]);
         }
         pointer = SSTORE2.write(content);
-        _pointers[checksum] = pointer;
-        _checksums.push(checksum);
+        pointers[checksum] = pointer;
+        checksums.push(checksum);
         emit NewChecksum(checksum, content.length);
         return (checksum, pointer);
     }
@@ -63,6 +59,6 @@ contract ContentStore is IContentStore {
         if (!checksumExists(checksum)) {
             revert ChecksumNotFound(checksum);
         }
-        return _pointers[checksum];
+        return pointers[checksum];
     }
 }

@@ -50,6 +50,8 @@ export type FileStructOutput = [BigNumber, ContentStructOutput[]] & {
 export interface FileStoreInterface extends utils.Interface {
   functions: {
     "acceptOwnership()": FunctionFragment;
+    "contentStore()": FunctionFragment;
+    "createFile(string,bytes32[])": FunctionFragment;
     "createFile(string,bytes32[],bytes)": FunctionFragment;
     "deleteFile(string)": FunctionFragment;
     "fileExists(string)": FunctionFragment;
@@ -66,7 +68,9 @@ export interface FileStoreInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "acceptOwnership"
-      | "createFile"
+      | "contentStore"
+      | "createFile(string,bytes32[])"
+      | "createFile(string,bytes32[],bytes)"
       | "deleteFile"
       | "fileExists"
       | "filenames"
@@ -84,7 +88,15 @@ export interface FileStoreInterface extends utils.Interface {
     values?: undefined
   ): string;
   encodeFunctionData(
-    functionFragment: "createFile",
+    functionFragment: "contentStore",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFile(string,bytes32[])",
+    values: [PromiseOrValue<string>, PromiseOrValue<BytesLike>[]]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "createFile(string,bytes32[],bytes)",
     values: [
       PromiseOrValue<string>,
       PromiseOrValue<BytesLike>[],
@@ -133,7 +145,18 @@ export interface FileStoreInterface extends utils.Interface {
     functionFragment: "acceptOwnership",
     data: BytesLike
   ): Result;
-  decodeFunctionResult(functionFragment: "createFile", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "contentStore",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createFile(string,bytes32[])",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "createFile(string,bytes32[],bytes)",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "deleteFile", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "fileExists", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "filenames", data: BytesLike): Result;
@@ -245,10 +268,18 @@ export interface FileStore extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
-    createFile(
+    contentStore(overrides?: CallOverrides): Promise<[string]>;
+
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -300,10 +331,18 @@ export interface FileStore extends BaseContract {
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
-  createFile(
+  contentStore(overrides?: CallOverrides): Promise<string>;
+
+  "createFile(string,bytes32[])"(
     filename: PromiseOrValue<string>,
     checksums: PromiseOrValue<BytesLike>[],
-    metadata: PromiseOrValue<BytesLike>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
+
+  "createFile(string,bytes32[],bytes)"(
+    filename: PromiseOrValue<string>,
+    checksums: PromiseOrValue<BytesLike>[],
+    extraData: PromiseOrValue<BytesLike>,
     overrides?: Overrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -353,12 +392,20 @@ export interface FileStore extends BaseContract {
   callStatic: {
     acceptOwnership(overrides?: CallOverrides): Promise<void>;
 
-    createFile(
+    contentStore(overrides?: CallOverrides): Promise<string>;
+
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
-    ): Promise<void>;
+    ): Promise<FileStructOutput>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<FileStructOutput>;
 
     deleteFile(
       filename: PromiseOrValue<string>,
@@ -447,10 +494,18 @@ export interface FileStore extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
-    createFile(
+    contentStore(overrides?: CallOverrides): Promise<BigNumber>;
+
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<BigNumber>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -503,10 +558,18 @@ export interface FileStore extends BaseContract {
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
-    createFile(
+    contentStore(overrides?: CallOverrides): Promise<PopulatedTransaction>;
+
+    "createFile(string,bytes32[])"(
       filename: PromiseOrValue<string>,
       checksums: PromiseOrValue<BytesLike>[],
-      metadata: PromiseOrValue<BytesLike>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<PopulatedTransaction>;
+
+    "createFile(string,bytes32[],bytes)"(
+      filename: PromiseOrValue<string>,
+      checksums: PromiseOrValue<BytesLike>[],
+      extraData: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

@@ -30,11 +30,6 @@ const _abi = [
     type: "error",
   },
   {
-    inputs: [],
-    name: "ContentTooBig",
-    type: "error",
-  },
-  {
     anonymous: false,
     inputs: [
       {
@@ -118,6 +113,25 @@ const _abi = [
   {
     inputs: [
       {
+        internalType: "uint256",
+        name: "index",
+        type: "uint256",
+      },
+    ],
+    name: "checksums",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "checksum",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
         internalType: "bytes32",
         name: "checksum",
         type: "bytes32",
@@ -143,6 +157,25 @@ const _abi = [
       },
     ],
     name: "getPointer",
+    outputs: [
+      {
+        internalType: "address",
+        name: "pointer",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "checksum",
+        type: "bytes32",
+      },
+    ],
+    name: "pointers",
     outputs: [
       {
         internalType: "address",

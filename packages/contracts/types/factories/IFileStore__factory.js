@@ -8,11 +8,28 @@ const ethers_1 = require("ethers");
 const _abi = [
     {
         inputs: [],
+        name: "EmptyFile",
+        type: "error",
+    },
+    {
+        inputs: [
+            {
+                internalType: "string",
+                name: "filename",
+                type: "string",
+            },
+        ],
         name: "FileNotFound",
         type: "error",
     },
     {
-        inputs: [],
+        inputs: [
+            {
+                internalType: "string",
+                name: "filename",
+                type: "string",
+            },
+        ],
         name: "FilenameExists",
         type: "error",
     },
@@ -72,14 +89,92 @@ const _abi = [
                 name: "checksums",
                 type: "bytes32[]",
             },
+        ],
+        name: "createFile",
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "uint256",
+                        name: "size",
+                        type: "uint256",
+                    },
+                    {
+                        components: [
+                            {
+                                internalType: "bytes32",
+                                name: "checksum",
+                                type: "bytes32",
+                            },
+                            {
+                                internalType: "address",
+                                name: "pointer",
+                                type: "address",
+                            },
+                        ],
+                        internalType: "struct Content[]",
+                        name: "contents",
+                        type: "tuple[]",
+                    },
+                ],
+                internalType: "struct File",
+                name: "file",
+                type: "tuple",
+            },
+        ],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "string",
+                name: "filename",
+                type: "string",
+            },
+            {
+                internalType: "bytes32[]",
+                name: "checksums",
+                type: "bytes32[]",
+            },
             {
                 internalType: "bytes",
-                name: "metadata",
+                name: "extraData",
                 type: "bytes",
             },
         ],
         name: "createFile",
-        outputs: [],
+        outputs: [
+            {
+                components: [
+                    {
+                        internalType: "uint256",
+                        name: "size",
+                        type: "uint256",
+                    },
+                    {
+                        components: [
+                            {
+                                internalType: "bytes32",
+                                name: "checksum",
+                                type: "bytes32",
+                            },
+                            {
+                                internalType: "address",
+                                name: "pointer",
+                                type: "address",
+                            },
+                        ],
+                        internalType: "struct Content[]",
+                        name: "contents",
+                        type: "tuple[]",
+                    },
+                ],
+                internalType: "struct File",
+                name: "file",
+                type: "tuple",
+            },
+        ],
         stateMutability: "nonpayable",
         type: "function",
     },
@@ -110,6 +205,44 @@ const _abi = [
                 internalType: "bool",
                 name: "",
                 type: "bool",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "index",
+                type: "uint256",
+            },
+        ],
+        name: "filenames",
+        outputs: [
+            {
+                internalType: "string",
+                name: "filename",
+                type: "string",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "string",
+                name: "filename",
+                type: "string",
+            },
+        ],
+        name: "files",
+        outputs: [
+            {
+                internalType: "bytes32",
+                name: "checksum",
+                type: "bytes32",
             },
         ],
         stateMutability: "view",

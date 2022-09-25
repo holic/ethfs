@@ -43,7 +43,7 @@ contract FileStore is IFileStore, Ownable2Step {
         if (checksum == bytes32(0)) {
             revert FileNotFound(filename);
         }
-        address pointer = contentStore._pointers(checksum);
+        address pointer = contentStore.pointers(checksum);
         if (pointer == address(0)) {
             revert FileNotFound(filename);
         }
@@ -60,18 +60,18 @@ contract FileStore is IFileStore, Ownable2Step {
     function createFile(
         string memory filename,
         bytes32[] memory checksums,
-        bytes memory metadata
+        bytes memory extraData
     ) public returns (File memory file) {
         if (files[filename] != bytes32(0)) {
             revert FilenameExists(filename);
         }
-        return _createFile(filename, checksums, metadata);
+        return _createFile(filename, checksums, extraData);
     }
 
     function _createFile(
         string memory filename,
         bytes32[] memory checksums,
-        bytes memory metadata
+        bytes memory extraData
     ) private returns (File memory file) {
         Content[] memory contents = new Content[](checksums.length);
         uint256 size = 0;
@@ -90,7 +90,7 @@ contract FileStore is IFileStore, Ownable2Step {
         (bytes32 checksum, ) = contentStore.addContent(abi.encode(file));
         files[filename] = checksum;
         filenames.push(filename);
-        emit FileCreated(filename, checksum, file.size, metadata);
+        emit FileCreated(filename, checksum, file.size, extraData);
     }
 
     function deleteFile(string memory filename) public onlyOwner {

@@ -4,17 +4,12 @@ pragma solidity ^0.8.13;
 interface IContentStore {
     event NewChecksum(bytes32 indexed checksum, uint256 contentSize);
 
-    error ContentTooBig();
     error ChecksumExists(bytes32 checksum);
     error ChecksumNotFound(bytes32 checksum);
 
-    function _pointers(bytes32 checksum)
-        external
-        view
-        returns (address pointer);
+    function pointers(bytes32 checksum) external view returns (address pointer);
 
-    // TODO: expose getters
-    // TODO: rename storage vars without underscore
+    function checksums(uint256 index) external view returns (bytes32 checksum);
 
     function checksumExists(bytes32 checksum) external view returns (bool);
 

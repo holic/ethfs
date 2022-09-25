@@ -29,34 +29,26 @@ import type {
 
 export interface ContentStoreInterface extends utils.Interface {
   functions: {
-    "_checksums(uint256)": FunctionFragment;
-    "_pointers(bytes32)": FunctionFragment;
     "addContent(bytes)": FunctionFragment;
     "addPointer(address)": FunctionFragment;
     "checksumExists(bytes32)": FunctionFragment;
+    "checksums(uint256)": FunctionFragment;
     "contentLength(bytes32)": FunctionFragment;
     "getPointer(bytes32)": FunctionFragment;
+    "pointers(bytes32)": FunctionFragment;
   };
 
   getFunction(
     nameOrSignatureOrTopic:
-      | "_checksums"
-      | "_pointers"
       | "addContent"
       | "addPointer"
       | "checksumExists"
+      | "checksums"
       | "contentLength"
       | "getPointer"
+      | "pointers"
   ): FunctionFragment;
 
-  encodeFunctionData(
-    functionFragment: "_checksums",
-    values: [PromiseOrValue<BigNumberish>]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "_pointers",
-    values: [PromiseOrValue<BytesLike>]
-  ): string;
   encodeFunctionData(
     functionFragment: "addContent",
     values: [PromiseOrValue<BytesLike>]
@@ -70,6 +62,10 @@ export interface ContentStoreInterface extends utils.Interface {
     values: [PromiseOrValue<BytesLike>]
   ): string;
   encodeFunctionData(
+    functionFragment: "checksums",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
     functionFragment: "contentLength",
     values: [PromiseOrValue<BytesLike>]
   ): string;
@@ -77,20 +73,24 @@ export interface ContentStoreInterface extends utils.Interface {
     functionFragment: "getPointer",
     values: [PromiseOrValue<BytesLike>]
   ): string;
+  encodeFunctionData(
+    functionFragment: "pointers",
+    values: [PromiseOrValue<BytesLike>]
+  ): string;
 
-  decodeFunctionResult(functionFragment: "_checksums", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "_pointers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addContent", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "addPointer", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "checksumExists",
     data: BytesLike
   ): Result;
+  decodeFunctionResult(functionFragment: "checksums", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "contentLength",
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "getPointer", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "pointers", data: BytesLike): Result;
 
   events: {
     "NewChecksum(bytes32,uint256)": EventFragment;
@@ -137,16 +137,6 @@ export interface ContentStore extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    _checksums(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
-    _pointers(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
-
     addContent(
       content: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -162,6 +152,11 @@ export interface ContentStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<[boolean]>;
 
+    checksums(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
+
     contentLength(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -171,17 +166,12 @@ export interface ContentStore extends BaseContract {
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<[string] & { pointer: string }>;
+
+    pointers(
+      arg0: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<[string]>;
   };
-
-  _checksums(
-    arg0: PromiseOrValue<BigNumberish>,
-    overrides?: CallOverrides
-  ): Promise<string>;
-
-  _pointers(
-    arg0: PromiseOrValue<BytesLike>,
-    overrides?: CallOverrides
-  ): Promise<string>;
 
   addContent(
     content: PromiseOrValue<BytesLike>,
@@ -198,6 +188,11 @@ export interface ContentStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<boolean>;
 
+  checksums(
+    arg0: PromiseOrValue<BigNumberish>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   contentLength(
     checksum: PromiseOrValue<BytesLike>,
     overrides?: CallOverrides
@@ -208,17 +203,12 @@ export interface ContentStore extends BaseContract {
     overrides?: CallOverrides
   ): Promise<string>;
 
+  pointers(
+    arg0: PromiseOrValue<BytesLike>,
+    overrides?: CallOverrides
+  ): Promise<string>;
+
   callStatic: {
-    _checksums(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
-    _pointers(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<string>;
-
     addContent(
       content: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -234,6 +224,11 @@ export interface ContentStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<boolean>;
 
+    checksums(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
     contentLength(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -241,6 +236,11 @@ export interface ContentStore extends BaseContract {
 
     getPointer(
       checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<string>;
+
+    pointers(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<string>;
   };
@@ -257,16 +257,6 @@ export interface ContentStore extends BaseContract {
   };
 
   estimateGas: {
-    _checksums(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
-    _pointers(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     addContent(
       content: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -282,6 +272,11 @@ export interface ContentStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
+    checksums(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
     contentLength(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -289,21 +284,16 @@ export interface ContentStore extends BaseContract {
 
     getPointer(
       checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    pointers(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    _checksums(
-      arg0: PromiseOrValue<BigNumberish>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
-    _pointers(
-      arg0: PromiseOrValue<BytesLike>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
-
     addContent(
       content: PromiseOrValue<BytesLike>,
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -319,6 +309,11 @@ export interface ContentStore extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
+    checksums(
+      arg0: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
     contentLength(
       checksum: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
@@ -326,6 +321,11 @@ export interface ContentStore extends BaseContract {
 
     getPointer(
       checksum: PromiseOrValue<BytesLike>,
+      overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    pointers(
+      arg0: PromiseOrValue<BytesLike>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

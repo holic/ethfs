@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.13;
 
-import {SSTORE2} from "solady/utils/SSTORE2.sol";
-
 struct Content {
     bytes32 checksum;
     address pointer;
