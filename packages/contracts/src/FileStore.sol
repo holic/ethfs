@@ -77,12 +77,14 @@ contract FileStore is IFileStore, Ownable2Step {
         Content[] memory contents = new Content[](checksums.length);
         uint256 size = 0;
         // TODO: optimize this
-        for (uint256 i = 0; i < checksums.length; i++) {
-            size += contentStore.contentLength(checksums[i]);
-            contents[i] = Content({
-                checksum: checksums[i],
-                pointer: contentStore.getPointer(checksums[i])
-            });
+        unchecked {
+            for (uint256 i = 0; i < checksums.length; ++i) {
+                size += contentStore.contentLength(checksums[i]);
+                contents[i] = Content({
+                    checksum: checksums[i],
+                    pointer: contentStore.getPointer(checksums[i])
+                });
+            }
         }
         if (size == 0) {
             revert EmptyFile();
