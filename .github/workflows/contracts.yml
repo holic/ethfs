@@ -32,7 +32,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-
       - name: Setup pnpm
-        uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
+        uses: pnpm/action-setup@v2.2.2
         with:
           version: 7
       - name: Setup node
@@ -73,7 +73,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-
       - name: Setup pnpm
-        uses: pnpm/action-setup@646cdf48217256a3d0b80361c5a50727664284f2
+        uses: pnpm/action-setup@v2.2.2
         with:
           version: 7
       - name: Setup node
