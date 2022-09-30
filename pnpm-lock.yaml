@@ -96,6 +96,7 @@ importers:
       prettier-plugin-solidity: ^1.0.0-beta.19
       solhint: ^3.3.7
       solhint-plugin-prettier: ^0.0.5
+      ts-node: ^10.9.1
       typechain: ^8.0.0
       typescript: ^4.5.5
     devDependencies:
@@ -108,6 +109,7 @@ importers:
       prettier-plugin-solidity: 1.0.0-beta.19
       solhint: 3.3.7
       solhint-plugin-prettier: 0.0.5_xomengis57hgd3ed2qqiexjvwu
+      ts-node: 10.9.1_akg4brjoakw6gv3yu5c2ohhpza
       typechain: 8.1.0_typescript@4.7.3
       typescript: 4.7.3
 
