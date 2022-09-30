@@ -12,16 +12,15 @@ struct File {
 }
 
 function read(File memory file) view returns (string memory contents) {
-
-    Content[] memory sContents = file.contents;
+    Content[] memory chunks = file.contents;
 
     // Adapted from https://gist.github.com/xtremetom/20411eb126aaf35f98c8a8ffa00123cd
     assembly {
-        let len := mload(sContents)
+        let len := mload(chunks)
         let totalSize := 0x20
         contents := mload(0x40)
         let size
-        let sContent
+        let chunk
         let pointer
 
         // loop through all pointer addresses
@@ -32,8 +31,8 @@ function read(File memory file) view returns (string memory contents) {
         // - update total size
 
         for { let i := 0 } lt(i, len) { i := add(i, 1) } {
-            sContent := mload(add(sContents, add(0x20, mul(i, 0x20))))
-            pointer := mload(add(sContent, 0x20))
+            chunk := mload(add(chunks, add(0x20, mul(i, 0x20))))
+            pointer := mload(add(chunk, 0x20))
 
             size := sub(extcodesize(pointer), 1)
             extcodecopy(pointer, add(contents, totalSize), 1, size)
