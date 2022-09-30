@@ -17,7 +17,7 @@ contract ContentStoreTest is Test {
 
     function testAddContent() public {
         bytes memory content = bytes(
-            vm.readFile("packages/contracts/test/files/24kb-1.txt")
+            vm.readFile("packages/contracts/test/files/sstore2-max.txt")
         );
         bytes32 checksum = keccak256(content);
 
@@ -56,7 +56,7 @@ contract ContentStoreTest is Test {
 
     function testAddPointer() public {
         bytes memory content = bytes(
-            vm.readFile("packages/contracts/test/files/24kb-1.txt")
+            vm.readFile("packages/contracts/test/files/sstore2-max.txt")
         );
         bytes32 checksum = keccak256(content);
         address pointer = SSTORE2.write(content);
