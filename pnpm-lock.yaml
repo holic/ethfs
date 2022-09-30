@@ -91,10 +91,13 @@ importers:
       '@ethersproject/bytes': ^5.0.0
       '@ethersproject/providers': ^5.0.0
       '@typechain/ethers-v5': ^10.0.0
+      '@types/node': 17.0.0
+      dotenv-cli: ^6.0.0
       ethers: ^5.5.2
       prettier-plugin-solidity: ^1.0.0-beta.19
       solhint: ^3.3.7
       solhint-plugin-prettier: ^0.0.5
+      ts-node: ^10.9.1
       typechain: ^8.0.0
       typescript: ^4.5.5
     devDependencies:
@@ -102,10 +105,13 @@ importers:
       '@ethersproject/bytes': 5.5.0
       '@ethersproject/providers': 5.5.2
       '@typechain/ethers-v5': 10.1.0_zdcqgsj655eauyq4wzlhfvtx4e
+      '@types/node': 17.0.0
+      dotenv-cli: 6.0.0
       ethers: 5.5.3
       prettier-plugin-solidity: 1.0.0-beta.19
       solhint: 3.3.7
       solhint-plugin-prettier: 0.0.5_xomengis57hgd3ed2qqiexjvwu
+      ts-node: 10.9.1_akg4brjoakw6gv3yu5c2ohhpza
       typechain: 8.1.0_typescript@4.7.3
       typescript: 4.7.3
 
@@ -4453,8 +4459,28 @@ packages:
       tslib: 2.4.0
     dev: true
 
+  /dotenv-cli/6.0.0:
+    resolution: {integrity: sha512-qXlCOi3UMDhCWFKe0yq5sg3X+pJAz+RQDiFN38AMSbUrnY3uZshSfDJUAge951OS7J9gwLZGfsBlWRSOYz/TRg==}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+      dotenv: 16.0.3
+      dotenv-expand: 8.0.3
+      minimist: 1.2.6
+    dev: true
+
+  /dotenv-expand/8.0.3:
+    resolution: {integrity: sha512-SErOMvge0ZUyWd5B0NXMQlDkN+8r+HhVUsxgOO7IoPDOdDRD2JjExpN6y3KnFR66jsJMwSn1pqIivhU5rcJiNg==}
+    engines: {node: '>=12'}
+    dev: true
+
   /dotenv/16.0.2:
     resolution: {integrity: sha512-JvpYKUmzQhYoIFgK2MOnF3bciIZoItIIoryihy0rIA+H4Jy0FmgyKYAHCTN98P5ybGSJcIFbh6QKeJdtZd1qhA==}
+    engines: {node: '>=12'}
+    dev: true
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
     engines: {node: '>=12'}
     dev: true
 
@@ -9741,7 +9767,7 @@ packages:
     dev: false
 
   /wcwidth/1.0.1:
-    resolution: {integrity: sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=}
+    resolution: {integrity: sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg==}
     dependencies:
       defaults: 1.0.3
 
@@ -10170,7 +10196,7 @@ packages:
     dev: false
 
   github.com/hugomrdias/concat-stream/057bc7b5d6d8df26c8cf00a3f151b6721a0a8034:
-    resolution: {tarball: https://codeload.github.com/hugomrdias/concat-stream/tar.gz/057bc7b5d6d8df26c8cf00a3f151b6721a0a8034}
+    resolution: {commit: 057bc7b5d6d8df26c8cf00a3f151b6721a0a8034, repo: git+ssh://git@github.com/hugomrdias/concat-stream.git, type: git}
     name: concat-stream
     version: 2.0.0
     engines: {node: '>=6.0.0'}

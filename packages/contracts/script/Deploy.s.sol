@@ -9,8 +9,6 @@ contract Deploy is Script {
     function run() public {
         vm.startBroadcast();
 
-        // TODO: check if we've already deployed and reuse if possible
-
         ContentStore contentStore = new ContentStore();
         FileStore fileStore = new FileStore(contentStore);
 

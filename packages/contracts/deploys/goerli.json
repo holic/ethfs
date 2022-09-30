@@ -1,0 +1,16 @@
+{
+  "ContentStore": {
+    "deployedTo": "0x035f836092baf109FE25Efc15E3F7562D17F231B",
+    "deployer": "0x35c1CEAe856eC6a190fF5040cFC0bD258395e170",
+    "transactionHash": "0xab330c513777085f2d6c3047993e1e46356927416a4b0f25dd625a81e12dedc7",
+    "blockNumber": "0x754d31",
+    "blockHash": "0x443a70e183bacd274b6d21b3945ae5ad4ac278e4e5bbf7adc92bdb20ed45f8dd"
+  },
+  "FileStore": {
+    "deployedTo": "0x1A30d6B41245dC5Cf9b49ef9780B5532F9fB53E9",
+    "deployer": "0x35c1CEAe856eC6a190fF5040cFC0bD258395e170",
+    "transactionHash": "0x93767950a940eda8d40ee58a89d3bfbf91c851c3b5ace5e3cfa1f2ddba772524",
+    "blockNumber": "0x754d31",
+    "blockHash": "0x443a70e183bacd274b6d21b3945ae5ad4ac278e4e5bbf7adc92bdb20ed45f8dd"
+  }
+}
