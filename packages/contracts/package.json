@@ -6,29 +6,25 @@
     "pnpm": "7"
   },
   "scripts": {
-    "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
-    "lint": "solhint --config ../../.solhint.json \"src/**/*.sol\"",
-    "lint:fix": "pnpm lint --fix",
+    "test": "forge test --no-match-contract Forked",
+    "test:fork": "source .env && forge test --fork-url $RPC_URL --match-contract Forked",
     "clean": "rm -rf types",
     "build": "pnpm clean && pnpm compile && pnpm types",
     "compile": "forge build --force --skip tests scripts",
     "types": "typechain --target ethers-v5 \"out/**/*.sol/!(*.abi).json\" --out-dir types && tsc",
-    "test": "forge test --no-match-contract Forked",
-    "test:fork": "source .env && forge test --fork-url $RPC_URL --match-contract Forked",
-    "deploy:goerli": "dotenv -e .env.goerli -e .env ts-node deploy.ts"
+    "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
+    "lint": "solhint --config ../../.solhint.json \"src/**/*.sol\"",
+    "lint:fix": "pnpm lint --fix"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.0.0",
     "@ethersproject/bytes": "^5.0.0",
     "@ethersproject/providers": "^5.0.0",
     "@typechain/ethers-v5": "^10.0.0",
-    "@types/node": "17.0.0",
-    "dotenv-cli": "^6.0.0",
     "ethers": "^5.5.2",
     "prettier-plugin-solidity": "^1.0.0-beta.19",
     "solhint": "^3.3.7",
     "solhint-plugin-prettier": "^0.0.5",
-    "ts-node": "^10.9.1",
     "typechain": "^8.0.0",
     "typescript": "^4.5.5"
   }

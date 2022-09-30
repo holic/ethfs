@@ -3,16 +3,10 @@
   "compilerOptions": {
     "lib": ["esnext"],
     "target": "es6",
-    "module": "es6",
+    "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true
   },
-  "ts-node": {
-    "compilerOptions": {
-      "module": "commonjs"
-    }
-  }
 }
