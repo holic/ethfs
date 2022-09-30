@@ -23,7 +23,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.SSTORE2__factory = exports.Ownable2Step__factory = exports.Ownable__factory = exports.LibString__factory = exports.IFileStore__factory = exports.IContentStore__factory = exports.FileStore__factory = exports.ContentStore__factory = exports.factories = void 0;
+exports.SSTORE2__factory = exports.Ownable2Step__factory = exports.Ownable__factory = exports.IFileStore__factory = exports.IContentStore__factory = exports.FileStore__factory = exports.ContentStore__factory = exports.factories = void 0;
 exports.factories = __importStar(require("./factories"));
 var ContentStore__factory_1 = require("./factories/ContentStore__factory");
 Object.defineProperty(exports, "ContentStore__factory", { enumerable: true, get: function () { return ContentStore__factory_1.ContentStore__factory; } });
@@ -33,8 +33,6 @@ var IContentStore__factory_1 = require("./factories/IContentStore__factory");
 Object.defineProperty(exports, "IContentStore__factory", { enumerable: true, get: function () { return IContentStore__factory_1.IContentStore__factory; } });
 var IFileStore__factory_1 = require("./factories/IFileStore__factory");
 Object.defineProperty(exports, "IFileStore__factory", { enumerable: true, get: function () { return IFileStore__factory_1.IFileStore__factory; } });
-var LibString__factory_1 = require("./factories/LibString__factory");
-Object.defineProperty(exports, "LibString__factory", { enumerable: true, get: function () { return LibString__factory_1.LibString__factory; } });
 var Ownable__factory_1 = require("./factories/Ownable__factory");
 Object.defineProperty(exports, "Ownable__factory", { enumerable: true, get: function () { return Ownable__factory_1.Ownable__factory; } });
 var Ownable2Step__factory_1 = require("./factories/Ownable2Step__factory");

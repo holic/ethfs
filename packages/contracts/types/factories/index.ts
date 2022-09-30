@@ -5,7 +5,6 @@ export { ContentStore__factory } from "./ContentStore__factory";
 export { FileStore__factory } from "./FileStore__factory";
 export { IContentStore__factory } from "./IContentStore__factory";
 export { IFileStore__factory } from "./IFileStore__factory";
-export { LibString__factory } from "./LibString__factory";
 export { Ownable__factory } from "./Ownable__factory";
 export { Ownable2Step__factory } from "./Ownable2Step__factory";
 export { SSTORE2__factory } from "./SSTORE2__factory";
