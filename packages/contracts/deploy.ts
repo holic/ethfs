@@ -1,4 +1,5 @@
 import { spawnSync } from "child_process";
+import { ethers } from "ethers";
 import fs from "fs";
 
 const env = (key: string) => {
@@ -84,7 +85,7 @@ transactions.forEach((tx: any, i: number) => {
     deployedTo: receipt.contractAddress,
     deployer: receipt.from,
     transactionHash: receipt.transactionHash,
-    blockNumber: receipt.blockNumber,
+    blockNumber: ethers.BigNumber.from(receipt.blockNumber).toString(),
     blockHash: receipt.blockHash,
   };
 });
