@@ -10,11 +10,6 @@ const env = (key: string) => {
   return value;
 };
 
-const rpcUrl = env("RPC_URL");
-const chainId = env("CHAIN_ID");
-const deployScript = "Deploy.s.sol";
-const broadcastLogs = `./broadcast/${deployScript}/${chainId}/run-latest.json`;
-
 const getChainName = () => {
   const { signal, status, error, stdout } = spawnSync("cast", [
     "chain",
@@ -34,7 +29,13 @@ const getChainName = () => {
   return stdout.toString("utf-8").trim();
 };
 
-if (!fs.existsSync(broadcastLogs)) {
+const rpcUrl = env("RPC_URL");
+const chainId = env("CHAIN_ID");
+const deployScript = "Deploy.s.sol";
+const broadcastLogs = `./broadcast/${deployScript}/${chainId}/run-latest.json`;
+const deployOutput = `${__dirname}/deploys/${getChainName()}.json`;
+
+if (!fs.existsSync(deployOutput)) {
   const { signal, status, error } = spawnSync(
     "forge",
     [
@@ -90,7 +91,4 @@ transactions.forEach((tx: any, i: number) => {
   };
 });
 
-fs.writeFileSync(
-  `${__dirname}/deploys/${getChainName()}.json`,
-  JSON.stringify(result, null, 2)
-);
+fs.writeFileSync(deployOutput, JSON.stringify(result, null, 2));
