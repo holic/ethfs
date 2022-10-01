@@ -78,7 +78,11 @@ export const FileUpload = () => {
                 />
               ) : null}
             </div>
-            <div className="col-span-3">{file.name}</div>
+            <div className="col-span-3">
+              {file.name}
+              <br />
+              {file.metadata.type} {file.size} bytes
+            </div>
             <div className="col-span-3">
               {file.contents.length + 1} transactions
             </div>

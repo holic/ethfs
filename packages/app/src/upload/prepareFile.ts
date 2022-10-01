@@ -3,10 +3,11 @@
 export type PreparedFile = {
   name: string;
   contents: string[];
+  size: number;
   metadata: {
     type: string;
-    compression?: "gzip";
     encoding: "base64";
+    compression?: "gzip";
   };
 };
 
@@ -27,6 +28,7 @@ const readFile = (file: File): Promise<ArrayBuffer> => {
 export const prepareFile = async (file: File): Promise<PreparedFile> => {
   const preparedFile: PreparedFile = {
     name: file.name,
+    size: file.size,
     contents: [],
     metadata: { type: file.type, encoding: "base64" },
   };
