@@ -1,24 +1,26 @@
-import ExampleNFTGoerli from "@web3-scaffold/contracts/deploys/goerli/ExampleNFT.json";
-import { ExampleNFT__factory } from "@web3-scaffold/contracts/types";
+import goerliDeploys from "@web3-scaffold/contracts/deploys/goerli.json";
+import {
+  ContentStore__factory,
+  FileStore__factory,
+} from "@web3-scaffold/contracts/types";
 import { useContractRead } from "wagmi";
 
 import { provider, targetChainId } from "./EthereumProviders";
 
-// I would have used `ExampleNFT__factory.connect` to create this, but we may
-// not have a provider ready to go. Any interactions with this contract should
-// use `exampleNFTContract.connect(providerOrSigner)` first.
+// TODO: migrate to abitype once it's in wagmi
+//       https://github.com/wagmi-dev/wagmi/pull/941
 
-// export const exampleNFTContract = new Contract(
-//   ExampleNFTGoerli.deployedTo,
-//   ExampleNFT__factory.abi
-// ) as ExampleNFT;
-
-export const exampleNFTContract = ExampleNFT__factory.connect(
-  ExampleNFTGoerli.deployedTo,
+export const fileStore = FileStore__factory.connect(
+  goerliDeploys.FileStore.deployedTo,
   provider({ chainId: targetChainId })
 );
 
-export const useExampleNFTContractRead = (
+export const contentStore = ContentStore__factory.connect(
+  goerliDeploys.ContentStore.deployedTo,
+  provider({ chainId: targetChainId })
+);
+
+export const useFileStoreRead = (
   readConfig: Omit<
     Parameters<typeof useContractRead>[0],
     "addressOrName" | "contractInterface"
@@ -26,6 +28,18 @@ export const useExampleNFTContractRead = (
 ) =>
   useContractRead({
     ...readConfig,
-    addressOrName: ExampleNFTGoerli.deployedTo,
-    contractInterface: ExampleNFT__factory.abi,
+    addressOrName: goerliDeploys.FileStore.deployedTo,
+    contractInterface: FileStore__factory.abi,
+  });
+
+export const useContentStoreRead = (
+  readConfig: Omit<
+    Parameters<typeof useContractRead>[0],
+    "addressOrName" | "contractInterface"
+  >
+) =>
+  useContractRead({
+    ...readConfig,
+    addressOrName: goerliDeploys.ContentStore.deployedTo,
+    contractInterface: ContentStore__factory.abi,
   });
