@@ -3,6 +3,7 @@
 /* eslint-disable */
 export { ContentStore__factory } from "./ContentStore__factory";
 export { FileStore__factory } from "./FileStore__factory";
+export { FileStoreFrontend__factory } from "./FileStoreFrontend__factory";
 export { IContentStore__factory } from "./IContentStore__factory";
 export { IFileStore__factory } from "./IFileStore__factory";
 export { Ownable__factory } from "./Ownable__factory";

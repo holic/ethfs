@@ -1,5 +1,10 @@
-type Token @entity {
+type File @entity {
   id: ID!
-  owner: Bytes!
-  tokenURI: String!
+  name: String!
+  size: Int!
+  contents: String!
+  # Metadata from our frontend, not guaranteed to be present
+  type: String
+  encoding: String
+  compression: String
 }

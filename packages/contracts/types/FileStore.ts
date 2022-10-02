@@ -174,8 +174,8 @@ export interface FileStoreInterface extends utils.Interface {
   ): Result;
 
   events: {
-    "FileCreated(string,bytes32,uint256,bytes)": EventFragment;
-    "FileDeleted(string)": EventFragment;
+    "FileCreated(string,bytes32,string,uint256,bytes)": EventFragment;
+    "FileDeleted(string,bytes32,string)": EventFragment;
     "OwnershipTransferStarted(address,address)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
   };
@@ -187,22 +187,28 @@ export interface FileStoreInterface extends utils.Interface {
 }
 
 export interface FileCreatedEventObject {
-  filename: string;
+  indexedFilename: string;
   checksum: string;
+  filename: string;
   size: BigNumber;
   metadata: string;
 }
 export type FileCreatedEvent = TypedEvent<
-  [string, string, BigNumber, string],
+  [string, string, string, BigNumber, string],
   FileCreatedEventObject
 >;
 
 export type FileCreatedEventFilter = TypedEventFilter<FileCreatedEvent>;
 
 export interface FileDeletedEventObject {
+  indexedFilename: string;
+  checksum: string;
   filename: string;
 }
-export type FileDeletedEvent = TypedEvent<[string], FileDeletedEventObject>;
+export type FileDeletedEvent = TypedEvent<
+  [string, string, string],
+  FileDeletedEventObject
+>;
 
 export type FileDeletedEventFilter = TypedEventFilter<FileDeletedEvent>;
 
@@ -428,24 +434,30 @@ export interface FileStore extends BaseContract {
   };
 
   filters: {
-    "FileCreated(string,bytes32,uint256,bytes)"(
-      filename?: PromiseOrValue<string> | null,
+    "FileCreated(string,bytes32,string,uint256,bytes)"(
+      indexedFilename?: PromiseOrValue<string> | null,
       checksum?: PromiseOrValue<BytesLike> | null,
+      filename?: null,
       size?: null,
       metadata?: null
     ): FileCreatedEventFilter;
     FileCreated(
-      filename?: PromiseOrValue<string> | null,
+      indexedFilename?: PromiseOrValue<string> | null,
       checksum?: PromiseOrValue<BytesLike> | null,
+      filename?: null,
       size?: null,
       metadata?: null
     ): FileCreatedEventFilter;
 
-    "FileDeleted(string)"(
-      filename?: PromiseOrValue<string> | null
+    "FileDeleted(string,bytes32,string)"(
+      indexedFilename?: PromiseOrValue<string> | null,
+      checksum?: PromiseOrValue<BytesLike> | null,
+      filename?: null
     ): FileDeletedEventFilter;
     FileDeleted(
-      filename?: PromiseOrValue<string> | null
+      indexedFilename?: PromiseOrValue<string> | null,
+      checksum?: PromiseOrValue<BytesLike> | null,
+      filename?: null
     ): FileDeletedEventFilter;
 
     "OwnershipTransferStarted(address,address)"(

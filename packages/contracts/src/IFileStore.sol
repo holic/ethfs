@@ -6,12 +6,17 @@ import {IContentStore} from "./IContentStore.sol";
 
 interface IFileStore {
     event FileCreated(
-        string indexed filename,
+        string indexed indexedFilename,
         bytes32 indexed checksum,
+        string filename,
         uint256 size,
         bytes metadata
     );
-    event FileDeleted(string indexed filename);
+    event FileDeleted(
+        string indexed indexedFilename,
+        bytes32 indexed checksum,
+        string filename
+    );
 
     error FileNotFound(string filename);
     error FilenameExists(string filename);

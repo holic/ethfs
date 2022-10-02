@@ -2,6 +2,7 @@ import * as factories_1 from "./factories";
 export { factories_1 as factories };
 export { ContentStore__factory } from "./factories/ContentStore__factory";
 export { FileStore__factory } from "./factories/FileStore__factory";
+export { FileStoreFrontend__factory } from "./factories/FileStoreFrontend__factory";
 export { IContentStore__factory } from "./factories/IContentStore__factory";
 export { IFileStore__factory } from "./factories/IFileStore__factory";
 export { Ownable__factory } from "./factories/Ownable__factory";

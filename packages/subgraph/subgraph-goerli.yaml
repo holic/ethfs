@@ -3,22 +3,28 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: ExampleNFT
+    name: FileStore
     network: goerli
     source:
-      abi: ExampleNFT
-      address: "0xe584409f2ba1ade9895485d90587fd46baa3c0d8"
-      startBlock: 7034594
+      abi: FileStore
+      address: "0x5E348d0975A920E9611F8140f84458998A53af94"
+      startBlock: 7696727
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
-        - NFT
+        - File
       abis:
-        - name: ExampleNFT
-          file: ../contracts/out/ExampleNFT.sol/ExampleNFT.abi.json
+        - name: ContentStore
+          file: ../contracts/out/ContentStore.sol/ContentStore.abi.json
+        - name: FileStore
+          file: ../contracts/out/FileStore.sol/FileStore.abi.json
+        - name: FileStoreFrontend
+          file: ../contracts/out/FileStoreFrontend.sol/FileStoreFrontend.abi.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleTransfer
+        - event: FileCreated(indexed string,indexed bytes32,string,uint256,bytes)
+          handler: createFile
+        - event: FileDeleted(indexed string,indexed bytes32,string)
+          handler: deleteFile
       file: ./src/mapping.ts

@@ -40,7 +40,7 @@ const _abi = [
       {
         indexed: true,
         internalType: "string",
-        name: "filename",
+        name: "indexedFilename",
         type: "string",
       },
       {
@@ -48,6 +48,12 @@ const _abi = [
         internalType: "bytes32",
         name: "checksum",
         type: "bytes32",
+      },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "filename",
+        type: "string",
       },
       {
         indexed: false,
@@ -70,6 +76,18 @@ const _abi = [
     inputs: [
       {
         indexed: true,
+        internalType: "string",
+        name: "indexedFilename",
+        type: "string",
+      },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "checksum",
+        type: "bytes32",
+      },
+      {
+        indexed: false,
         internalType: "string",
         name: "filename",
         type: "string",

@@ -23,7 +23,6 @@ export const uploadFile = async (
     await Promise.all(
       file.contents.map(async (content, i) => {
         const checksumExists = await contentStore.checksumExists(checksums[i]);
-        console.log("checksum exists?", checksums[i], checksumExists);
         if (checksumExists) {
           return;
         }
@@ -69,14 +68,7 @@ export const uploadFile = async (
     ["createFile(string,bytes32[],bytes)"](
       file.name,
       checksums,
-      ethers.utils.defaultAbiCoder.encode(
-        ["string", "string", "string"],
-        [
-          file.metadata.type,
-          file.metadata.encoding,
-          file.metadata.compression ?? "",
-        ]
-      )
+      ethers.utils.toUtf8Bytes(JSON.stringify(file.metadata))
     );
   console.log("create file tx", createFileTx);
 

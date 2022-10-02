@@ -7,8 +7,6 @@ import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
 import {File, Content} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
 
-// TODO: decide if we should fallback to content store or expose content store methods
-
 contract FileStore is IFileStore, Ownable2Step {
     IContentStore public immutable contentStore;
 
@@ -90,11 +88,15 @@ contract FileStore is IFileStore, Ownable2Step {
         file = File({size: size, contents: contents});
         (bytes32 checksum, ) = contentStore.addContent(abi.encode(file));
         files[filename] = checksum;
-        emit FileCreated(filename, checksum, file.size, extraData);
+        emit FileCreated(filename, checksum, filename, file.size, extraData);
     }
 
     function deleteFile(string memory filename) public onlyOwner {
+        bytes32 checksum = files[filename];
+        if (checksum == bytes32(0)) {
+            revert FileNotFound(filename);
+        }
         delete files[filename];
-        emit FileDeleted(filename);
+        emit FileDeleted(filename, checksum, filename);
     }
 }

@@ -3,6 +3,7 @@
 /* eslint-disable */
 export type { ContentStore } from "./ContentStore";
 export type { FileStore } from "./FileStore";
+export type { FileStoreFrontend } from "./FileStoreFrontend";
 export type { IContentStore } from "./IContentStore";
 export type { IFileStore } from "./IFileStore";
 export type { Ownable } from "./Ownable";
@@ -11,6 +12,7 @@ export type { SSTORE2 } from "./SSTORE2";
 export * as factories from "./factories";
 export { ContentStore__factory } from "./factories/ContentStore__factory";
 export { FileStore__factory } from "./factories/FileStore__factory";
+export { FileStoreFrontend__factory } from "./factories/FileStoreFrontend__factory";
 export { IContentStore__factory } from "./factories/IContentStore__factory";
 export { IFileStore__factory } from "./factories/IFileStore__factory";
 export { Ownable__factory } from "./factories/Ownable__factory";

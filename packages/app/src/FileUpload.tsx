@@ -83,7 +83,12 @@ export const FileUpload = () => {
             <div className="col-span-3">
               {file.name}
               <br />
-              {file.metadata.type} {file.size} bytes
+              {file.metadata.type}
+              <br />
+              {file.size} bytes
+              <br />
+              {file.contents.reduce((a, b) => a + b.length, 0)} bytes after
+              encoding
             </div>
             <div className="col-span-3">
               {file.contents.length + 1} transactions
