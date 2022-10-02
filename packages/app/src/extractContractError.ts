@@ -19,7 +19,7 @@ const contractErrors = Object.entries(contractInterfaces).flatMap(
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const extractContractError = (error: any): string => {
-  console.dir(error);
+  // console.dir(error);
 
   // Attempt to extract Solidity error
   const errorData = error.error?.data?.originalError?.data;
@@ -30,7 +30,7 @@ export const extractContractError = (error: any): string => {
     );
     if (contractError) {
       // const args = contractInterface.decodeErrorResult(contractError.fragment, errorData)
-      return contractError.name;
+      return `Contract call reverted: ${contractError.name}`;
     }
   }
 
@@ -45,7 +45,7 @@ export const extractContractError = (error: any): string => {
       );
       if (contractError) {
         // const args = contractInterface.decodeErrorResult(contractError.fragment, errorData)
-        return contractError.name;
+        return `Contract call reverted: ${contractError.name}`;
       }
     }
   } catch (error) {

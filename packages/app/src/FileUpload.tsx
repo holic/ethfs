@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { useSigner } from "wagmi";
 
 import { Button } from "./Button";
+import { extractContractError } from "./extractContractError";
 import { DocumentArrowUpIcon } from "./icons/DocumentArrowUpIcon";
 import { DocumentIcon } from "./icons/DocumentIcon";
 import { PreparedFile, prepareFile } from "./upload/prepareFile";
@@ -91,7 +93,32 @@ export const FileUpload = () => {
                 disabled={!signer}
                 onClick={() => {
                   if (!signer) return;
-                  uploadFile(signer, file);
+                  const toastId = toast.loading("Starting…");
+                  uploadFile(signer, file, (message) => {
+                    console.log("got progress", message);
+                    toast.update(toastId, { render: message });
+                  }).then(
+                    () => {
+                      // TODO: show etherscan link?
+                      toast.update(toastId, {
+                        isLoading: false,
+                        type: "success",
+                        render: `File created!`,
+                        autoClose: 5000,
+                        closeButton: true,
+                      });
+                    },
+                    (error) => {
+                      const contractError = extractContractError(error);
+                      toast.update(toastId, {
+                        isLoading: false,
+                        type: "error",
+                        render: contractError,
+                        autoClose: 5000,
+                        closeButton: true,
+                      });
+                    }
+                  );
                 }}
               >
                 Upload
