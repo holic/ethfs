@@ -1,4 +1,4 @@
-schema: https://api.thegraph.com/subgraphs/name/holic/example-nft
+schema: https://api.thegraph.com/subgraphs/name/holic/ocfs-goerli
 documents: "src/**/*.{ts,tsx,graphql}"
 generates:
   ./codegen/subgraph.ts:

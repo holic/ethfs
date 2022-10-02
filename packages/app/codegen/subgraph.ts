@@ -28,6 +28,148 @@ export type Block_Height = {
   readonly number_gte?: InputMaybe<Scalars['Int']>;
 };
 
+export type File = {
+  readonly __typename?: 'File';
+  readonly compression?: Maybe<Scalars['String']>;
+  readonly contents: Scalars['String'];
+  readonly encoding?: Maybe<Scalars['String']>;
+  readonly id: Scalars['ID'];
+  readonly name: Scalars['String'];
+  readonly size: Scalars['Int'];
+  readonly type?: Maybe<Scalars['String']>;
+};
+
+export type File_Filter = {
+  /** Filter for the block changed event. */
+  readonly _change_block?: InputMaybe<BlockChangedFilter>;
+  readonly compression?: InputMaybe<Scalars['String']>;
+  readonly compression_contains?: InputMaybe<Scalars['String']>;
+  readonly compression_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly compression_ends_with?: InputMaybe<Scalars['String']>;
+  readonly compression_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly compression_gt?: InputMaybe<Scalars['String']>;
+  readonly compression_gte?: InputMaybe<Scalars['String']>;
+  readonly compression_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly compression_lt?: InputMaybe<Scalars['String']>;
+  readonly compression_lte?: InputMaybe<Scalars['String']>;
+  readonly compression_not?: InputMaybe<Scalars['String']>;
+  readonly compression_not_contains?: InputMaybe<Scalars['String']>;
+  readonly compression_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly compression_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly compression_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly compression_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly compression_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly compression_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly compression_starts_with?: InputMaybe<Scalars['String']>;
+  readonly compression_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents?: InputMaybe<Scalars['String']>;
+  readonly contents_contains?: InputMaybe<Scalars['String']>;
+  readonly contents_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_ends_with?: InputMaybe<Scalars['String']>;
+  readonly contents_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_gt?: InputMaybe<Scalars['String']>;
+  readonly contents_gte?: InputMaybe<Scalars['String']>;
+  readonly contents_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly contents_lt?: InputMaybe<Scalars['String']>;
+  readonly contents_lte?: InputMaybe<Scalars['String']>;
+  readonly contents_not?: InputMaybe<Scalars['String']>;
+  readonly contents_not_contains?: InputMaybe<Scalars['String']>;
+  readonly contents_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly contents_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly contents_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly contents_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_starts_with?: InputMaybe<Scalars['String']>;
+  readonly contents_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly encoding?: InputMaybe<Scalars['String']>;
+  readonly encoding_contains?: InputMaybe<Scalars['String']>;
+  readonly encoding_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly encoding_ends_with?: InputMaybe<Scalars['String']>;
+  readonly encoding_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly encoding_gt?: InputMaybe<Scalars['String']>;
+  readonly encoding_gte?: InputMaybe<Scalars['String']>;
+  readonly encoding_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly encoding_lt?: InputMaybe<Scalars['String']>;
+  readonly encoding_lte?: InputMaybe<Scalars['String']>;
+  readonly encoding_not?: InputMaybe<Scalars['String']>;
+  readonly encoding_not_contains?: InputMaybe<Scalars['String']>;
+  readonly encoding_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly encoding_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly encoding_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly encoding_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly encoding_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly encoding_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly encoding_starts_with?: InputMaybe<Scalars['String']>;
+  readonly encoding_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly id?: InputMaybe<Scalars['ID']>;
+  readonly id_gt?: InputMaybe<Scalars['ID']>;
+  readonly id_gte?: InputMaybe<Scalars['ID']>;
+  readonly id_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly id_lt?: InputMaybe<Scalars['ID']>;
+  readonly id_lte?: InputMaybe<Scalars['ID']>;
+  readonly id_not?: InputMaybe<Scalars['ID']>;
+  readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly name?: InputMaybe<Scalars['String']>;
+  readonly name_contains?: InputMaybe<Scalars['String']>;
+  readonly name_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_ends_with?: InputMaybe<Scalars['String']>;
+  readonly name_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_gt?: InputMaybe<Scalars['String']>;
+  readonly name_gte?: InputMaybe<Scalars['String']>;
+  readonly name_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly name_lt?: InputMaybe<Scalars['String']>;
+  readonly name_lte?: InputMaybe<Scalars['String']>;
+  readonly name_not?: InputMaybe<Scalars['String']>;
+  readonly name_not_contains?: InputMaybe<Scalars['String']>;
+  readonly name_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly name_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly name_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly name_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly name_starts_with?: InputMaybe<Scalars['String']>;
+  readonly name_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly size?: InputMaybe<Scalars['Int']>;
+  readonly size_gt?: InputMaybe<Scalars['Int']>;
+  readonly size_gte?: InputMaybe<Scalars['Int']>;
+  readonly size_in?: InputMaybe<ReadonlyArray<Scalars['Int']>>;
+  readonly size_lt?: InputMaybe<Scalars['Int']>;
+  readonly size_lte?: InputMaybe<Scalars['Int']>;
+  readonly size_not?: InputMaybe<Scalars['Int']>;
+  readonly size_not_in?: InputMaybe<ReadonlyArray<Scalars['Int']>>;
+  readonly type?: InputMaybe<Scalars['String']>;
+  readonly type_contains?: InputMaybe<Scalars['String']>;
+  readonly type_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly type_ends_with?: InputMaybe<Scalars['String']>;
+  readonly type_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly type_gt?: InputMaybe<Scalars['String']>;
+  readonly type_gte?: InputMaybe<Scalars['String']>;
+  readonly type_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly type_lt?: InputMaybe<Scalars['String']>;
+  readonly type_lte?: InputMaybe<Scalars['String']>;
+  readonly type_not?: InputMaybe<Scalars['String']>;
+  readonly type_not_contains?: InputMaybe<Scalars['String']>;
+  readonly type_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly type_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly type_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly type_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly type_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly type_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly type_starts_with?: InputMaybe<Scalars['String']>;
+  readonly type_starts_with_nocase?: InputMaybe<Scalars['String']>;
+};
+
+export enum File_OrderBy {
+  Compression = 'compression',
+  Contents = 'contents',
+  Encoding = 'encoding',
+  Id = 'id',
+  Name = 'name',
+  Size = 'size',
+  Type = 'type'
+}
+
 /** Defines the order direction, either ascending or descending */
 export enum OrderDirection {
   Asc = 'asc',
@@ -38,8 +180,8 @@ export type Query = {
   readonly __typename?: 'Query';
   /** Access to subgraph metadata */
   readonly _meta?: Maybe<_Meta_>;
-  readonly token?: Maybe<Token>;
-  readonly tokens: ReadonlyArray<Token>;
+  readonly file?: Maybe<File>;
+  readonly files: ReadonlyArray<File>;
 };
 
 
@@ -48,29 +190,29 @@ export type Query_MetaArgs = {
 };
 
 
-export type QueryTokenArgs = {
+export type QueryFileArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type QueryTokensArgs = {
+export type QueryFilesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Token_OrderBy>;
+  orderBy?: InputMaybe<File_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<Token_Filter>;
+  where?: InputMaybe<File_Filter>;
 };
 
 export type Subscription = {
   readonly __typename?: 'Subscription';
   /** Access to subgraph metadata */
   readonly _meta?: Maybe<_Meta_>;
-  readonly token?: Maybe<Token>;
-  readonly tokens: ReadonlyArray<Token>;
+  readonly file?: Maybe<File>;
+  readonly files: ReadonlyArray<File>;
 };
 
 
@@ -79,74 +221,22 @@ export type Subscription_MetaArgs = {
 };
 
 
-export type SubscriptionTokenArgs = {
+export type SubscriptionFileArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
 
-export type SubscriptionTokensArgs = {
+export type SubscriptionFilesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Token_OrderBy>;
+  orderBy?: InputMaybe<File_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<Token_Filter>;
+  where?: InputMaybe<File_Filter>;
 };
-
-export type Token = {
-  readonly __typename?: 'Token';
-  readonly id: Scalars['ID'];
-  readonly owner: Scalars['Bytes'];
-  readonly tokenURI: Scalars['String'];
-};
-
-export type Token_Filter = {
-  /** Filter for the block changed event. */
-  readonly _change_block?: InputMaybe<BlockChangedFilter>;
-  readonly id?: InputMaybe<Scalars['ID']>;
-  readonly id_gt?: InputMaybe<Scalars['ID']>;
-  readonly id_gte?: InputMaybe<Scalars['ID']>;
-  readonly id_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
-  readonly id_lt?: InputMaybe<Scalars['ID']>;
-  readonly id_lte?: InputMaybe<Scalars['ID']>;
-  readonly id_not?: InputMaybe<Scalars['ID']>;
-  readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
-  readonly owner?: InputMaybe<Scalars['Bytes']>;
-  readonly owner_contains?: InputMaybe<Scalars['Bytes']>;
-  readonly owner_in?: InputMaybe<ReadonlyArray<Scalars['Bytes']>>;
-  readonly owner_not?: InputMaybe<Scalars['Bytes']>;
-  readonly owner_not_contains?: InputMaybe<Scalars['Bytes']>;
-  readonly owner_not_in?: InputMaybe<ReadonlyArray<Scalars['Bytes']>>;
-  readonly tokenURI?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_contains?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_contains_nocase?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_ends_with?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_gt?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_gte?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
-  readonly tokenURI_lt?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_lte?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_not?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_not_contains?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_not_contains_nocase?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_not_ends_with?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
-  readonly tokenURI_not_starts_with?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_starts_with?: InputMaybe<Scalars['String']>;
-  readonly tokenURI_starts_with_nocase?: InputMaybe<Scalars['String']>;
-};
-
-export enum Token_OrderBy {
-  Id = 'id',
-  Owner = 'owner',
-  TokenUri = 'tokenURI'
-}
 
 export type _Block_ = {
   readonly __typename?: '_Block_';
@@ -182,23 +272,26 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
-export type InventoryQueryVariables = Exact<{
-  owner: Scalars['Bytes'];
-}>;
+export type FileExplorerQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type InventoryQuery = { readonly __typename?: 'Query', readonly tokens: ReadonlyArray<{ readonly __typename?: 'Token', readonly id: string, readonly tokenURI: string }> };
+export type FileExplorerQuery = { readonly __typename?: 'Query', readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly id: string, readonly name: string, readonly size: number, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null, readonly contents: string }> };
 
 
-export const InventoryDocument = gql`
-    query Inventory($owner: Bytes!) {
-  tokens(where: {owner: $owner}, first: 100) {
+export const FileExplorerDocument = gql`
+    query FileExplorer {
+  files(first: 100) {
     id
-    tokenURI
+    name
+    size
+    type
+    encoding
+    compression
+    contents
   }
 }
     `;
 
-export function useInventoryQuery(options: Omit<Urql.UseQueryArgs<InventoryQueryVariables>, 'query'>) {
-  return Urql.useQuery<InventoryQuery, InventoryQueryVariables>({ query: InventoryDocument, ...options });
+export function useFileExplorerQuery(options?: Omit<Urql.UseQueryArgs<FileExplorerQueryVariables>, 'query'>) {
+  return Urql.useQuery<FileExplorerQuery, FileExplorerQueryVariables>({ query: FileExplorerDocument, ...options });
 };

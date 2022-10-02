@@ -12,7 +12,7 @@ import {
 import { EthereumProviders } from "../EthereumProviders";
 
 export const graphClient = createGraphClient({
-  url: "https://api.thegraph.com/subgraphs/name/holic/example-nft",
+  url: "https://api.thegraph.com/subgraphs/name/holic/ocfs-goerli",
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
