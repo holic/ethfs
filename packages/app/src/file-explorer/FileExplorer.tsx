@@ -47,7 +47,7 @@ export const FileExplorer = () => {
                 className="bg-transparent outline-none ring-2 ring-transparent focus:ring-stone-400 text-base leading-none font-normal py-1 pl-1 pr-7 -m-1"
                 onChange={(event) => setSearchQuery(event.target.value)}
               />
-              <div className="absolute right-0 inset-y-0 pointer-events-none">
+              <div className="absolute right-0 inset-y-0 pointer-events-none flex items-center">
                 <SearchIcon />
               </div>
             </div>
