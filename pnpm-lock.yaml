@@ -36,6 +36,7 @@ importers:
       '@graphql-codegen/typescript-operations': ^2.5.3
       '@graphql-codegen/typescript-urql': ^3.7.0
       '@rainbow-me/rainbowkit': 0.5.2
+      '@types/luxon': ^3.0.1
       '@types/node': 17.0.0
       '@types/react': 17.0.37
       '@wagmi/core': ^0.5.7
@@ -47,6 +48,7 @@ importers:
       ethers: 5.7.0
       fflate: ^0.7.3
       graphql: ^16.6.0
+      luxon: ^3.0.4
       next: 12.3.0
       postcss: ^8.4.5
       react: 17.0.2
@@ -69,6 +71,7 @@ importers:
       ethers: 5.7.0
       fflate: 0.7.3
       graphql: 16.6.0
+      luxon: 3.0.4
       next: 12.3.0_sfoxds7t5ydpegc3knd667wn6m
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
@@ -82,6 +85,7 @@ importers:
       '@graphql-codegen/typescript': 2.7.3_graphql@16.6.0
       '@graphql-codegen/typescript-operations': 2.5.3_graphql@16.6.0
       '@graphql-codegen/typescript-urql': 3.7.0_graphql@16.6.0
+      '@types/luxon': 3.0.1
       '@types/node': 17.0.0
       '@types/react': 17.0.37
       autoprefixer: 10.4.2_postcss@8.4.5
@@ -2446,6 +2450,10 @@ packages:
   /@types/lodash/4.14.182:
     resolution: {integrity: sha512-/THyiqyQAP9AfARo4pF+aCGcyiQ94tX/Is2I7HofNRqoYLgN1PBoOWu2/zTA5zMxzP5EFutMtWtGAFRKUe961Q==}
     dev: false
+
+  /@types/luxon/3.0.1:
+    resolution: {integrity: sha512-/LAvk1cMOJt0ghzMFrZEvByUhsiEfeeT2IF53Le+Ki3A538yEL9pRZ7a6MuCxdrYK+YNqNIDmrKU/r2nnw04zQ==}
+    dev: true
 
   /@types/node/10.17.60:
     resolution: {integrity: sha512-F0KIgDJfy2nA3zMLmWGKxcH2ZVEtCZXHHdOQs2gSaQ27+lNeEfGxzkIw90aXswATX7AZ33tahPbzy6KAfUreVw==}
@@ -7204,6 +7212,11 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+
+  /luxon/3.0.4:
+    resolution: {integrity: sha512-aV48rGUwP/Vydn8HT+5cdr26YYQiUZ42NM6ToMoaGKwYfWbfLeRkEu1wXWMHBZT6+KyLfcbbtVcoQFCbbPjKlw==}
+    engines: {node: '>=12'}
+    dev: false
 
   /mafmt/6.0.10:
     resolution: {integrity: sha512-FjHDnew6dW9lUu3eYwP0FvvJl9uvNbqfoJM+c1WJcSyutNEIlyu6v3f/rlPnD1cnmue38IjuHlhBdIh3btAiyw==}

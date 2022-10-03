@@ -3,6 +3,7 @@ type File @entity {
   name: String!
   size: Int!
   contents: String!
+  createdAt: Int!
   # Metadata from our frontend, not guaranteed to be present
   type: String
   encoding: String

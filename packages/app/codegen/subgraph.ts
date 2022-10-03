@@ -32,6 +32,7 @@ export type File = {
   readonly __typename?: 'File';
   readonly compression?: Maybe<Scalars['String']>;
   readonly contents: Scalars['String'];
+  readonly createdAt: Scalars['Int'];
   readonly encoding?: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
   readonly name: Scalars['String'];
@@ -82,6 +83,14 @@ export type File_Filter = {
   readonly contents_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly contents_starts_with?: InputMaybe<Scalars['String']>;
   readonly contents_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly createdAt?: InputMaybe<Scalars['Int']>;
+  readonly createdAt_gt?: InputMaybe<Scalars['Int']>;
+  readonly createdAt_gte?: InputMaybe<Scalars['Int']>;
+  readonly createdAt_in?: InputMaybe<ReadonlyArray<Scalars['Int']>>;
+  readonly createdAt_lt?: InputMaybe<Scalars['Int']>;
+  readonly createdAt_lte?: InputMaybe<Scalars['Int']>;
+  readonly createdAt_not?: InputMaybe<Scalars['Int']>;
+  readonly createdAt_not_in?: InputMaybe<ReadonlyArray<Scalars['Int']>>;
   readonly encoding?: InputMaybe<Scalars['String']>;
   readonly encoding_contains?: InputMaybe<Scalars['String']>;
   readonly encoding_contains_nocase?: InputMaybe<Scalars['String']>;
@@ -163,6 +172,7 @@ export type File_Filter = {
 export enum File_OrderBy {
   Compression = 'compression',
   Contents = 'contents',
+  CreatedAt = 'createdAt',
   Encoding = 'encoding',
   Id = 'id',
   Name = 'name',
@@ -272,22 +282,24 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
-export type FileExplorerQueryVariables = Exact<{ [key: string]: never; }>;
+export type FileExplorerQueryVariables = Exact<{
+  searchQuery?: InputMaybe<Scalars['String']>;
+}>;
 
 
-export type FileExplorerQuery = { readonly __typename?: 'Query', readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly id: string, readonly name: string, readonly size: number, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null, readonly contents: string }> };
+export type FileExplorerQuery = { readonly __typename?: 'Query', readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly id: string, readonly name: string, readonly size: number, readonly createdAt: number, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null }> };
 
 
 export const FileExplorerDocument = gql`
-    query FileExplorer {
-  files(first: 100) {
+    query FileExplorer($searchQuery: String) {
+  files(first: 100, where: {name_contains_nocase: $searchQuery}) {
     id
     name
     size
+    createdAt
     type
     encoding
     compression
-    contents
   }
 }
     `;

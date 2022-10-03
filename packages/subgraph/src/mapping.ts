@@ -17,6 +17,7 @@ export function createFile(event: FileCreated): void {
     event.address,
     event.params.filename.toString()
   );
+  file.createdAt = event.block.timestamp.toI32();
 
   const parsedMetadata = json.try_fromBytes(event.params.metadata);
   if (parsedMetadata.isOk) {
