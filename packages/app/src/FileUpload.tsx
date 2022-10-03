@@ -4,10 +4,10 @@ import { useSigner } from "wagmi";
 
 import { Button } from "./Button";
 import { extractContractError } from "./extractContractError";
+import { PreparedFile, prepareFile } from "./file-upload/prepareFile";
+import { uploadFile } from "./file-upload/uploadFile";
 import { DocumentArrowUpIcon } from "./icons/DocumentArrowUpIcon";
 import { DocumentIcon } from "./icons/DocumentIcon";
-import { PreparedFile, prepareFile } from "./upload/prepareFile";
-import { uploadFile } from "./upload/uploadFile";
 
 export const FileUpload = () => {
   const { data: signer } = useSigner();

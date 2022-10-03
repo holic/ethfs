@@ -1,8 +1,8 @@
 import { ethers } from "ethers";
 import { suspend } from "suspend-react";
 
-import { estimateFileUploadGas } from "./upload/estimateFileUploadGas";
-import { PreparedFile } from "./upload/prepareFile";
+import { estimateFileUploadGas } from "./file-upload/estimateFileUploadGas";
+import { PreparedFile } from "./file-upload/prepareFile";
 
 type Props = {
   file: PreparedFile;

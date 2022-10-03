@@ -1,7 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 
-import { FileExplorer } from "../FileExplorer";
+import { FileExplorer } from "../file-explorer/FileExplorer";
 
 const HomePage: NextPage = () => {
   return (
