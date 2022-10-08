@@ -19,7 +19,7 @@ import {
   FileSize,
   FileType,
 } from "./FileList";
-import { FileThumbnail } from "./FileThumbnail";
+import { FileViewer } from "./FileViewer";
 
 gql`
   query FileExplorer($searchQuery: String) {
@@ -93,7 +93,10 @@ export const FileExplorer = () => {
             files.data.files.map((file) => (
               <FileListRow
                 key={file.id}
-                className="text-stone-500 hover:bg-lime-200 cursor-pointer"
+                className={classNames(
+                  "text-stone-500 hover:bg-lime-200 cursor-pointer",
+                  file.id === currentFile?.id ? "bg-stone-100" : null
+                )}
                 onClick={() => setCurrentFile(file)}
               >
                 <FileName className="flex gap-2">
@@ -116,7 +119,7 @@ export const FileExplorer = () => {
             ))
           ) : (
             <>
-              <FileListRow className="text-stone-500 hover:bg-lime-200 cursor-pointer">
+              <FileListRow className="text-stone-500">
                 <FileName className="flex gap-2">
                   <span className="text-stone-400">
                     <DocumentIcon />
@@ -135,7 +138,7 @@ export const FileExplorer = () => {
                   <PendingPlaceholder>42 days ago</PendingPlaceholder>
                 </FileCreated>
               </FileListRow>
-              <FileListRow className="text-stone-500 hover:bg-lime-200 cursor-pointer">
+              <FileListRow className="text-stone-500">
                 <FileName className="flex gap-2">
                   <span className="text-stone-400">
                     <DocumentIcon />
@@ -159,35 +162,11 @@ export const FileExplorer = () => {
         </div>
       </UIWindow>
       {currentFile ? (
-        <UIWindow
-          key={currentFile.id}
-          titleBar={
-            <>
-              File Preview
-              <span
-                className="cursor-pointer font-normal text-2xl leading-none p-1 -my-2"
-                onClick={() => setCurrentFile(null)}
-              >
-                &times;
-              </span>
-            </>
-          }
-          statusBar={<>{(currentFile.size / 1024).toFixed(0)} KB</>}
-          initialX={600}
-          initialY={80}
-          initialWidth={700}
-          initialHeight={500}
-        >
-          <div className="flex-grow flex flex-col gap-4 items-center justify-center bg-stone-200">
-            {/* <span className="text-8xl text-stone-400">
-              <DocumentIcon />
-            </span> */}
-            <div className="w-64 h-64 shadow-hard bg-white">
-              <FileThumbnail id={currentFile.id} />
-            </div>
-            {currentFile.name}
-          </div>
-        </UIWindow>
+        <FileViewer
+          id={currentFile.id}
+          name={currentFile.name}
+          onClose={() => setCurrentFile(null)}
+        />
       ) : null}
     </>
   );

@@ -289,14 +289,24 @@ export type FileExplorerQueryVariables = Exact<{
 
 export type FileExplorerQuery = { readonly __typename?: 'Query', readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly id: string, readonly name: string, readonly size: number, readonly createdAt: number, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null }> };
 
-export type FileThumbnailQueryVariables = Exact<{
+export type FileThumbnailFragment = { readonly __typename?: 'File', readonly name: string, readonly contents: string, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null };
+
+export type FileViewerQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type FileThumbnailQuery = { readonly __typename?: 'Query', readonly file?: { readonly __typename?: 'File', readonly id: string, readonly name: string, readonly contents: string, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null } | null };
+export type FileViewerQuery = { readonly __typename?: 'Query', readonly file?: { readonly __typename?: 'File', readonly id: string, readonly name: string, readonly type?: string | null, readonly size: number, readonly createdAt: number, readonly encoding?: string | null, readonly compression?: string | null, readonly contents: string } | null };
 
-
+export const FileThumbnailFragmentDoc = gql`
+    fragment FileThumbnail on File {
+  name
+  contents
+  type
+  encoding
+  compression
+}
+    `;
 export const FileExplorerDocument = gql`
     query FileExplorer($searchQuery: String) {
   files(first: 100, where: {name_contains_nocase: $searchQuery}) {
@@ -314,19 +324,21 @@ export const FileExplorerDocument = gql`
 export function useFileExplorerQuery(options?: Omit<Urql.UseQueryArgs<FileExplorerQueryVariables>, 'query'>) {
   return Urql.useQuery<FileExplorerQuery, FileExplorerQueryVariables>({ query: FileExplorerDocument, ...options });
 };
-export const FileThumbnailDocument = gql`
-    query FileThumbnail($id: ID!) {
+export const FileViewerDocument = gql`
+    query FileViewer($id: ID!) {
   file(id: $id) {
     id
     name
-    contents
     type
+    size
+    createdAt
     encoding
     compression
+    ...FileThumbnail
   }
 }
-    `;
+    ${FileThumbnailFragmentDoc}`;
 
-export function useFileThumbnailQuery(options: Omit<Urql.UseQueryArgs<FileThumbnailQueryVariables>, 'query'>) {
-  return Urql.useQuery<FileThumbnailQuery, FileThumbnailQueryVariables>({ query: FileThumbnailDocument, ...options });
+export function useFileViewerQuery(options: Omit<Urql.UseQueryArgs<FileViewerQueryVariables>, 'query'>) {
+  return Urql.useQuery<FileViewerQuery, FileViewerQueryVariables>({ query: FileViewerDocument, ...options });
 };

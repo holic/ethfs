@@ -40,7 +40,9 @@ export const UIWindow = ({
       </div>
 
       <div className="flex-grow flex flex-col bg-white text-black">
-        <div className="flex-grow flex flex-col">{children}</div>
+        <div className="flex-grow flex flex-col relative">
+          <div className="absolute inset-0 overflow-auto">{children}</div>
+        </div>
         <div className="flex justify-between items-center border-t-2 border-stone-400 bg-stone-200 text-stone-500 text-base leading-none px-3 py-1">
           {statusBar}
         </div>
