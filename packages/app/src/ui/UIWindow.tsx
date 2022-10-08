@@ -17,9 +17,9 @@ export const UIWindow = ({
   titleBar,
   statusBar,
   children,
-  initialX = 300,
-  initialY = 120,
-  initialWidth = 800,
+  initialX = 0,
+  initialY = 0,
+  initialWidth = 600,
   initialHeight = 400,
 }: Props) => {
   const { ref, x, y } = useDraggable<HTMLDivElement>({

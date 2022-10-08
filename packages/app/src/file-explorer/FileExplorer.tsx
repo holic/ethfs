@@ -1,9 +1,12 @@
 import classNames from "classnames";
 import { DateTime } from "luxon";
-import React from "react";
+import React, { useState } from "react";
 import { gql } from "urql";
 
-import { useFileExplorerQuery } from "../../codegen/subgraph";
+import {
+  FileExplorerQuery,
+  useFileExplorerQuery,
+} from "../../codegen/subgraph";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { SearchIcon } from "../icons/SearchIcon";
 import { PendingPlaceholder } from "../PendingPlaceholder";
@@ -31,12 +34,15 @@ gql`
   }
 `;
 
+type File = FileExplorerQuery["files"][number];
+
 export const FileExplorer = () => {
-  const [searchQuery, setSearchQuery] = React.useState("");
+  const [searchQuery, setSearchQuery] = useState("");
   const [files] = useFileExplorerQuery({ variables: { searchQuery } });
+  const [currentFile, setCurrentFile] = useState<File | null>(null);
 
   return (
-    <div className="mx-auto mt-24 min-w-[48rem] min-h-[24rem] flex flex-col">
+    <>
       <UIWindow
         titleBar={
           <>
@@ -63,6 +69,10 @@ export const FileExplorer = () => {
             <div>Goerli</div>
           </>
         }
+        initialX={280}
+        initialY={120}
+        initialWidth={800}
+        initialHeight={400}
       >
         <FileListRow className="text-stone-500 text-base leading-none border-b-2 border-stone-400">
           <FileName>Name</FileName>
@@ -83,6 +93,7 @@ export const FileExplorer = () => {
               <FileListRow
                 key={file.id}
                 className="text-stone-500 hover:bg-lime-200 cursor-pointer"
+                onClick={() => setCurrentFile(file)}
               >
                 <FileName className="flex gap-2">
                   <span className="text-stone-400">
@@ -146,6 +157,33 @@ export const FileExplorer = () => {
           )}
         </div>
       </UIWindow>
-    </div>
+      {currentFile ? (
+        <UIWindow
+          titleBar={
+            <>
+              File Preview
+              <span
+                className="cursor-pointer font-normal text-2xl leading-none p-1 -my-2"
+                onClick={() => setCurrentFile(null)}
+              >
+                &times;
+              </span>
+            </>
+          }
+          statusBar={<>{(currentFile.size / 1024).toFixed(0)} KB</>}
+          initialX={600}
+          initialY={80}
+          initialWidth={700}
+          initialHeight={500}
+        >
+          <div className="flex-grow flex flex-col gap-4 items-center justify-center">
+            <span className="text-8xl text-stone-400">
+              <DocumentIcon />
+            </span>
+            {currentFile.name}
+          </div>
+        </UIWindow>
+      ) : null}
+    </>
   );
 };
