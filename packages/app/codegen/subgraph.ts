@@ -289,6 +289,13 @@ export type FileExplorerQueryVariables = Exact<{
 
 export type FileExplorerQuery = { readonly __typename?: 'Query', readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly id: string, readonly name: string, readonly size: number, readonly createdAt: number, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null }> };
 
+export type FileThumbnailQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+
+export type FileThumbnailQuery = { readonly __typename?: 'Query', readonly file?: { readonly __typename?: 'File', readonly id: string, readonly name: string, readonly contents: string, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null } | null };
+
 
 export const FileExplorerDocument = gql`
     query FileExplorer($searchQuery: String) {
@@ -306,4 +313,20 @@ export const FileExplorerDocument = gql`
 
 export function useFileExplorerQuery(options?: Omit<Urql.UseQueryArgs<FileExplorerQueryVariables>, 'query'>) {
   return Urql.useQuery<FileExplorerQuery, FileExplorerQueryVariables>({ query: FileExplorerDocument, ...options });
+};
+export const FileThumbnailDocument = gql`
+    query FileThumbnail($id: ID!) {
+  file(id: $id) {
+    id
+    name
+    contents
+    type
+    encoding
+    compression
+  }
+}
+    `;
+
+export function useFileThumbnailQuery(options: Omit<Urql.UseQueryArgs<FileThumbnailQueryVariables>, 'query'>) {
+  return Urql.useQuery<FileThumbnailQuery, FileThumbnailQueryVariables>({ query: FileThumbnailDocument, ...options });
 };

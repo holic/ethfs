@@ -19,6 +19,7 @@ import {
   FileSize,
   FileType,
 } from "./FileList";
+import { FileThumbnail } from "./FileThumbnail";
 
 gql`
   query FileExplorer($searchQuery: String) {
@@ -159,6 +160,7 @@ export const FileExplorer = () => {
       </UIWindow>
       {currentFile ? (
         <UIWindow
+          key={currentFile.id}
           titleBar={
             <>
               File Preview
@@ -176,10 +178,13 @@ export const FileExplorer = () => {
           initialWidth={700}
           initialHeight={500}
         >
-          <div className="flex-grow flex flex-col gap-4 items-center justify-center">
-            <span className="text-8xl text-stone-400">
+          <div className="flex-grow flex flex-col gap-4 items-center justify-center bg-stone-200">
+            {/* <span className="text-8xl text-stone-400">
               <DocumentIcon />
-            </span>
+            </span> */}
+            <div className="w-64 h-64 shadow-hard bg-white">
+              <FileThumbnail id={currentFile.id} />
+            </div>
             {currentFile.name}
           </div>
         </UIWindow>
