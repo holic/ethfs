@@ -1,8 +1,10 @@
 import React from "react";
 
 import { useDraggable } from "./useDraggable";
+import { useWindowOrder } from "./useWindowOrder";
 
 type Props = {
+  id: string;
   titleBar: React.ReactNode;
   statusBar: React.ReactNode;
   children: React.ReactNode;
@@ -14,6 +16,7 @@ type Props = {
 
 // UIWindow instead of Window to avoid clashing with the built-in Window type
 export const UIWindow = ({
+  id,
   titleBar,
   statusBar,
   children,
@@ -26,11 +29,19 @@ export const UIWindow = ({
     x: initialX,
     y: initialY,
   });
+  const windowOrder = useWindowOrder(id);
   return (
     <div
       ref={ref}
       className="absolute flex flex-col gap-1 p-1 bg-stone-600 text-white shadow-hard"
-      style={{ left: x, top: y, width: initialWidth, height: initialHeight }}
+      style={{
+        left: x,
+        top: y,
+        width: initialWidth,
+        height: initialHeight,
+        zIndex: windowOrder.zIndex,
+      }}
+      onClick={windowOrder.focus}
     >
       <div
         className="p-3 flex justify-between items-center font-bold text-xl leading-none select-none cursor-move"

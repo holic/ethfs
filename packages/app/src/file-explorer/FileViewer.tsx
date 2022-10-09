@@ -125,6 +125,7 @@ string.concat(
 export const FileViewer = (props: Props) => {
   return (
     <UIWindow
+      id="FileViewer"
       titleBar={
         <>
           File Viewer

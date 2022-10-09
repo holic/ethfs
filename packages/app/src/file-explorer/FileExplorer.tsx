@@ -12,6 +12,7 @@ import { SearchIcon } from "../icons/SearchIcon";
 import { PendingPlaceholder } from "../PendingPlaceholder";
 import { pluralize } from "../pluralize";
 import { UIWindow } from "../ui/UIWindow";
+import { useStore as useWindowOrderStore } from "../ui/useWindowOrder";
 import {
   FileCreated,
   FileListRow,
@@ -41,10 +42,12 @@ export const FileExplorer = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [files] = useFileExplorerQuery({ variables: { searchQuery } });
   const [currentFile, setCurrentFile] = useState<File | null>(null);
+  const focusWindow = useWindowOrderStore((state) => state.focusWindow);
 
   return (
     <>
       <UIWindow
+        id="FileExplorer"
         titleBar={
           <>
             File Explorer
@@ -70,8 +73,8 @@ export const FileExplorer = () => {
             <div>Goerli</div>
           </>
         }
-        initialX={280}
-        initialY={120}
+        initialX={380}
+        initialY={100}
         initialWidth={800}
         initialHeight={400}
       >
@@ -94,10 +97,13 @@ export const FileExplorer = () => {
               <FileListRow
                 key={file.id}
                 className={classNames(
-                  "text-stone-500 hover:bg-lime-200 cursor-pointer",
+                  "text-stone-500 hover:bg-lime-200 cursor-pointer select-none",
                   file.id === currentFile?.id ? "bg-stone-100" : null
                 )}
-                onClick={() => setCurrentFile(file)}
+                onDoubleClick={() => {
+                  setCurrentFile(file);
+                  focusWindow("FileViewer");
+                }}
               >
                 <FileName className="flex gap-2">
                   <span className="text-stone-400">

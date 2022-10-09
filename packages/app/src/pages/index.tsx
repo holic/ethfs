@@ -2,6 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 
 import { FileExplorer } from "../file-explorer/FileExplorer";
+import { FileUploader } from "../file-explorer/FileUploader";
 import { GithubIcon } from "../icons/GithubIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 
@@ -45,6 +46,7 @@ const HomePage: NextPage = () => {
         <div className="self-end p-2">
           <ConnectButton />
         </div>
+        <FileUploader />
         <FileExplorer />
       </div>
     </div>
