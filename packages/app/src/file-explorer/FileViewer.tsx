@@ -72,7 +72,7 @@ const FileViewerContents = ({ id }: Props) => {
           <div className="col-span-3 text-stone-500">Usage</div>
           <div className="col-span-9">
             {file.type?.startsWith("image/") ? (
-              <div className="bg-amber-100 text-amber-900 p-4 font-mono leading-normal whitespace-pre">
+              <div className="bg-teal-100 text-teal-900 p-4 font-mono leading-normal whitespace-pre">
                 {`
 IFileStore fileStore = IFileStore(…);
 
@@ -85,7 +85,36 @@ string.concat(
 );
               `.trim()}
               </div>
-            ) : null}
+            ) : file.type?.includes("javascript") ? (
+              <div className="bg-teal-100 text-teal-900 p-4 font-mono leading-normal whitespace-pre">
+                {`
+IFileStore fileStore = IFileStore(…);
+
+string.concat(
+  "<script src=\\"data:${file.type}${
+                  file.encoding === "base64" ? ";base64" : ""
+                },",
+  fileStore.getFile("${file.name}").read(),
+  "\\"></script>"
+);
+              `.trim()}
+              </div>
+            ) : (
+              <>
+                <a
+                  href={`https://github.com/holic/ethfs/issues/new?title=${encodeURIComponent(
+                    `Add usage example for ${file.type}`
+                  )}&body=${encodeURIComponent(
+                    `File name: ${file.name}\nFile type: ${file.type}\n\n`
+                  )}`}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="text-teal-600 hover:underline hover:underline-offset-2"
+                >
+                  Let us know &rarr;
+                </a>
+              </>
+            )}
           </div>
         </div>
       </div>
