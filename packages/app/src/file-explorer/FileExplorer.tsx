@@ -81,7 +81,9 @@ export const FileExplorer = () => {
         <FileListRow className="text-stone-500 text-base leading-none border-b-2 border-stone-400">
           <FileName>Name</FileName>
           <FileType>Type</FileType>
-          <FileSize>Size*</FileSize>
+          <FileSize title="File size after encoding, compression, etc.">
+            Size*
+          </FileSize>
           <FileCreated>Created</FileCreated>
         </FileListRow>
         <div

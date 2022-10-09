@@ -4,6 +4,7 @@ export type PreparedFile = {
   name: string;
   contents: string[];
   size: number;
+  originalSize: number;
   metadata: {
     type: string;
     encoding: "base64";
@@ -28,7 +29,8 @@ const readFile = (file: File): Promise<ArrayBuffer> => {
 export const prepareFile = async (file: File): Promise<PreparedFile> => {
   const preparedFile: PreparedFile = {
     name: file.name,
-    size: file.size,
+    originalSize: file.size,
+    size: 0,
     contents: [],
     metadata: { type: file.type, encoding: "base64" },
   };
@@ -42,6 +44,7 @@ export const prepareFile = async (file: File): Promise<PreparedFile> => {
   // const data = preparedFile.metadata.compression ? compressed : contents;
   // const encoded = Buffer.from(data).toString("base64");
   const encoded = Buffer.from(contents).toString("base64");
+  preparedFile.size = encoded.length;
   for (let i = 0; i < encoded.length; i += maxContentSize) {
     preparedFile.contents.push(encoded.slice(i, i + maxContentSize));
   }
