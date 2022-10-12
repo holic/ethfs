@@ -1,6 +1,10 @@
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { getDefaultWallets, RainbowKitProvider } from "@rainbow-me/rainbowkit";
+import {
+  getDefaultWallets,
+  lightTheme,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
 import {
   chain,
   configureChains,
@@ -43,6 +47,15 @@ export const wagmiClient = createClient({
 
 export const EthereumProviders: React.FC = ({ children }) => (
   <WagmiConfig client={wagmiClient}>
-    <RainbowKitProvider chains={chains}>{children}</RainbowKitProvider>
+    <RainbowKitProvider
+      chains={chains}
+      theme={lightTheme({
+        borderRadius: "none",
+        accentColor: "#57534e",
+        fontStack: "system",
+      })}
+    >
+      {children}
+    </RainbowKitProvider>
   </WagmiConfig>
 );
