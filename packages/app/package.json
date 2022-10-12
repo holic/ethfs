@@ -1,5 +1,5 @@
 {
-  "name": "@web3-scaffold/app",
+  "name": "@ethfs/app",
   "private": true,
   "engines": {
     "node": "16",
@@ -19,7 +19,7 @@
     "@ethersproject/providers": "5.7.0",
     "@rainbow-me/rainbowkit": "0.5.2",
     "@wagmi/core": "^0.5.7",
-    "@web3-scaffold/contracts": "workspace:*",
+    "@ethfs/contracts": "workspace:*",
     "classnames": "^2.3.1",
     "ethers": "5.7.0",
     "fflate": "^0.7.3",

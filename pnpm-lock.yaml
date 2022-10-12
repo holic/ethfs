@@ -31,6 +31,7 @@ importers:
       '@ethersproject/address': 5.7.0
       '@ethersproject/contracts': 5.7.0
       '@ethersproject/providers': 5.7.0
+      '@ethfs/contracts': workspace:*
       '@graphql-codegen/cli': ^2.12.0
       '@graphql-codegen/typescript': ^2.7.3
       '@graphql-codegen/typescript-operations': ^2.5.3
@@ -40,7 +41,6 @@ importers:
       '@types/node': 17.0.0
       '@types/react': 17.0.37
       '@wagmi/core': ^0.5.7
-      '@web3-scaffold/contracts': workspace:*
       autoprefixer: ^10.4.0
       classnames: ^2.3.1
       eslint-config-next: ^12.1.6
@@ -64,9 +64,9 @@ importers:
       '@ethersproject/address': 5.7.0
       '@ethersproject/contracts': 5.7.0
       '@ethersproject/providers': 5.7.0
+      '@ethfs/contracts': link:../contracts
       '@rainbow-me/rainbowkit': 0.5.2_jzhbanmsmeox46lo7yui4bxtde
       '@wagmi/core': 0.5.7_ethers@5.7.0+react@17.0.2
-      '@web3-scaffold/contracts': link:../contracts
       classnames: 2.3.1
       ethers: 5.7.0
       fflate: 0.7.3
@@ -3358,7 +3358,7 @@ packages:
   /axios/0.21.4_debug@4.3.1:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.15.1_debug@4.3.1
+      follow-redirects: 1.15.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -5645,18 +5645,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
-
-  /follow-redirects/1.15.1_debug@4.3.1:
-    resolution: {integrity: sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==}
-    engines: {node: '>=4.0'}
-    peerDependencies:
-      debug: '*'
-    peerDependenciesMeta:
-      debug:
-        optional: true
-    dependencies:
-      debug: 4.3.1
     dev: false
 
   /for-each/0.3.3:
@@ -8252,6 +8240,7 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: false
+    bundledDependencies: []
 
   /prop-types/15.8.1:
     resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}

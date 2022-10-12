@@ -1,8 +1,8 @@
-import goerliDeploys from "@web3-scaffold/contracts/deploys/goerli.json";
+import goerliDeploys from "@ethfs/contracts/deploys/goerli.json";
 import {
   ContentStore__factory,
   FileStore__factory,
-} from "@web3-scaffold/contracts/types";
+} from "@ethfs/contracts/types";
 import { useContractRead } from "wagmi";
 
 import { provider, targetChainId } from "./EthereumProviders";

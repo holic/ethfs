@@ -1,7 +1,7 @@
 import {
   ContentStore__factory,
   FileStore__factory,
-} from "@web3-scaffold/contracts/types";
+} from "@ethfs/contracts/types";
 
 const contractInterfaces = {
   FileStore: FileStore__factory.createInterface(),
