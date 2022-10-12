@@ -1,3 +1,5 @@
+import React from "react";
+
 type Props = {
   children: string;
 };
@@ -5,10 +7,10 @@ type Props = {
 export const PendingPlaceholder = ({ children }: Props) => (
   <span className="animate-pulse">
     {children.split(/\s+/).map((word, i) => (
-      <>
+      <React.Fragment key={`${i}-${word}`}>
         {i > 0 ? " " : null}
-        <span key={`${i}-${word}`} title={word} className="Skeleton-word" />
-      </>
+        <span title={word} className="Skeleton-word" />
+      </React.Fragment>
     ))}
     <style jsx>{`
       .Skeleton-word {

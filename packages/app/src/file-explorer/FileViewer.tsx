@@ -98,6 +98,7 @@ string.concat(
               </div>
             ) : (
               <>
+                This file may have been uploaded separately from this UI.{" "}
                 <a
                   href={`https://github.com/holic/ethfs/issues/new?title=${encodeURIComponent(
                     `Add usage example for ${file.type}`
@@ -134,7 +135,6 @@ export const FileViewer = (props: Props) => {
           </span>
         </>
       }
-      // statusBar={<>{(currentFile.size / 1024).toFixed(0)} KB</>}
       statusBar={props.name}
       initialX={600}
       initialY={80}

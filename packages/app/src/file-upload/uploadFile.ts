@@ -1,14 +1,23 @@
-import { ContractTransaction, ethers, Signer } from "ethers";
+import { Provider, Signer } from "@wagmi/core";
+import { ContractTransaction, ethers } from "ethers";
+import { Connector } from "wagmi";
 
 import { contentStore, fileStore } from "../contracts";
+import { targetChainId } from "../EthereumProviders";
 import { pluralize } from "../pluralize";
+import { switchChain } from "../switchChain";
 import { PreparedFile } from "./prepareFile";
 
 export const uploadFile = async (
-  signer: Signer,
+  connector: Connector<Provider, void, Signer>,
   file: PreparedFile,
   onProgress: (message: string) => void
 ) => {
+  onProgress("Switching networks…");
+  await switchChain(connector, targetChainId);
+
+  const signer = await connector.getSigner({ chainId: targetChainId });
+
   onProgress("Checking filename…");
   if (await fileStore.fileExists(file.name)) {
     throw new Error("Filename already exists");
