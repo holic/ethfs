@@ -3,7 +3,6 @@ import type { NextPage } from "next";
 
 import { FileExplorer } from "../file-explorer/FileExplorer";
 import { FileUploader } from "../file-upload/FileUploader";
-import { FileUpload } from "../FileUpload";
 import { GithubIcon } from "../icons/GithubIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 
