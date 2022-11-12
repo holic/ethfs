@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "ponder dev",
+    "start": "ponder start"
+  },
+  "dependencies": {
+    "@ponder/ponder": "latest",
+    "@ponder/graphql": "latest"
+  },
+  "devDependencies": {
+    "ethers": "^5.6.9"
+  },
+  "engines": {
+    "node": "16",
+    "pnpm": "7"
+  }
+}
