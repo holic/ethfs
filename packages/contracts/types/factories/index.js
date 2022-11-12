@@ -2,10 +2,17 @@
 /* tslint:disable */
 /* eslint-disable */
 export { ContentStore__factory } from "./ContentStore__factory";
+export { ERC165__factory } from "./ERC165__factory";
+export { ERC721__factory } from "./ERC721__factory";
 export { FileStore__factory } from "./FileStore__factory";
 export { FileStoreFrontend__factory } from "./FileStoreFrontend__factory";
 export { IContentStore__factory } from "./IContentStore__factory";
+export { IERC165__factory } from "./IERC165__factory";
+export { IERC721__factory } from "./IERC721__factory";
+export { IERC721Metadata__factory } from "./IERC721Metadata__factory";
+export { IERC721Receiver__factory } from "./IERC721Receiver__factory";
 export { IFileStore__factory } from "./IFileStore__factory";
 export { Ownable__factory } from "./Ownable__factory";
 export { Ownable2Step__factory } from "./Ownable2Step__factory";
+export { RoseExample__factory } from "./RoseExample__factory";
 export { SSTORE2__factory } from "./SSTORE2__factory";
