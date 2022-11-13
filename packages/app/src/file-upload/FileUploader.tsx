@@ -98,44 +98,75 @@ export const FileUploader = () => {
                 &times; Clear file
               </button>
             </div>
+            <form
+              className="flex flex-col items-center gap-6"
+              onSubmit={(event) => {
+                event.preventDefault();
+                if (!connector) {
+                  openConnectModal?.();
+                  return;
+                }
 
-            <Button
-              disabled={!connector && !openConnectModal}
-              onClick={
-                connector
-                  ? () => {
-                      const toastId = toast.loading("Starting…");
-                      uploadFile(connector, file, (message) => {
-                        console.log("got progress", message);
-                        toast.update(toastId, { render: message });
-                      }).then(
-                        () => {
-                          // TODO: show etherscan link?
-                          toast.update(toastId, {
-                            isLoading: false,
-                            type: "success",
-                            render: `File created!`,
-                            autoClose: 5000,
-                            closeButton: true,
-                          });
-                        },
-                        (error) => {
-                          const contractError = extractContractError(error);
-                          toast.update(toastId, {
-                            isLoading: false,
-                            type: "error",
-                            render: contractError,
-                            autoClose: 5000,
-                            closeButton: true,
-                          });
-                        }
-                      );
-                    }
-                  : openConnectModal
-              }
+                if (!event.currentTarget.checkValidity()) {
+                  toast.error(
+                    "You must complete all prompts before uploading."
+                  );
+                  return;
+                }
+
+                const toastId = toast.loading("Starting…");
+                uploadFile(connector, file, (message) => {
+                  console.log("got progress", message);
+                  toast.update(toastId, { render: message });
+                }).then(
+                  () => {
+                    // TODO: show etherscan link?
+                    toast.update(toastId, {
+                      isLoading: false,
+                      type: "success",
+                      render: `File created!`,
+                      autoClose: 5000,
+                      closeButton: true,
+                    });
+                  },
+                  (error) => {
+                    const contractError = extractContractError(error);
+                    toast.update(toastId, {
+                      isLoading: false,
+                      type: "error",
+                      render: contractError,
+                      autoClose: 5000,
+                      closeButton: true,
+                    });
+                  }
+                );
+              }}
             >
-              {connector ? "Upload" : "Connect wallet"}
-            </Button>
+              <div className="flex flex-col items-start max-w-[28rem] text-stone-500 text-lg gap-3">
+                <label className="flex items-baseline gap-3">
+                  <input type="checkbox" name="i-can-redistribute" required />
+                  <span>
+                    I am permitted to redistribute this file for any use or
+                    purpose, commercial or non-commercial.
+                  </span>
+                </label>
+                <label className="flex items-baseline gap-3">
+                  <input
+                    type="checkbox"
+                    name="blockchain-is-forever"
+                    required
+                  />
+                  <span>
+                    I understand that uploading this file to the Ethereum
+                    blockchain will make it publicly available indefinitely and
+                    it cannot be deleted.
+                  </span>
+                </label>
+              </div>
+              <Button type="submit" disabled={!connector && !openConnectModal}>
+                {connector ? "Upload" : "Connect wallet"}
+              </Button>
+            </form>
           </div>
         </>
       )}
