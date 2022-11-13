@@ -1,0 +1,23 @@
+{
+  "ContentStore": {
+    "deployedTo": "0xC6806fd75745bB5F5B32ADa19963898155f9DB91",
+    "deployer": "0x645fE88B33080b5B954aB45D6f44B0BE0B66297d",
+    "transactionHash": "0xcd80c0109cf3c51bfba9e4eb0a46c5500635eafd8e93fb64ea5fa070183d6f04",
+    "blockNumber": "15963553",
+    "blockHash": "0xdc48982f82290add9fa5778bf6e590e6ff28b796487c178f5fff1f7401f6418a"
+  },
+  "FileStore": {
+    "deployedTo": "0x9746fD0A77829E12F8A9DBe70D7a322412325B91",
+    "deployer": "0x645fE88B33080b5B954aB45D6f44B0BE0B66297d",
+    "transactionHash": "0x96d2d92c7d3e87c6cdbdcafa2836e6b936426d0828ed2b569baac440fbc48cbf",
+    "blockNumber": "15963553",
+    "blockHash": "0xdc48982f82290add9fa5778bf6e590e6ff28b796487c178f5fff1f7401f6418a"
+  },
+  "FileStoreFrontend": {
+    "deployedTo": "0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b",
+    "deployer": "0x645fE88B33080b5B954aB45D6f44B0BE0B66297d",
+    "transactionHash": "0x3173f6f38cc8a34af5e3f93fec110b6d2df7ac8ebffef225785b2f39e488a6db",
+    "blockNumber": "15963553",
+    "blockHash": "0xdc48982f82290add9fa5778bf6e590e6ff28b796487c178f5fff1f7401f6418a"
+  }
+}

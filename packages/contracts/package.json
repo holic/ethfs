@@ -15,7 +15,8 @@
     "types": "typechain --target ethers-v5 \"out/**/*.sol/!(*.abi).json\" --out-dir types && tsc",
     "test": "forge test --no-match-contract Forked",
     "test:fork": "source .env && forge test --fork-url $RPC_URL --match-contract Forked",
-    "deploy:goerli": "dotenv -e .env.goerli -e .env ts-node deploy.ts"
+    "deploy:goerli": "dotenv -e .env.goerli -e .env ts-node deploy.ts",
+    "deploy:mainnet": "dotenv -e .env.mainnet -e .env ts-node deploy.ts"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.0.0",

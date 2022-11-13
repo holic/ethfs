@@ -9,17 +9,21 @@ import {
   Provider as GraphProvider,
 } from "urql";
 
-import { EthereumProviders } from "../EthereumProviders";
+import { EthereumProviders, targetChainId } from "../EthereumProviders";
 
 export const graphClient = createGraphClient({
-  url: "https://api.thegraph.com/subgraphs/name/holic/ocfs-goerli",
+  url:
+    // TODO: move to env?
+    targetChainId === 1
+      ? "https://api.thegraph.com/subgraphs/name/holic/ethfs"
+      : "https://api.thegraph.com/subgraphs/name/holic/ethfs-goerli",
 });
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
-        <title>EthFS</title>
+        <title>EthFS: Ethereum File System</title>
         <link rel="shortcut icon" type="image/svg+xml" href="/ethfs.svg" />
       </Head>
       <GraphProvider value={graphClient}>

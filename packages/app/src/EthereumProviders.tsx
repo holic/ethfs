@@ -21,9 +21,10 @@ export const targetChainId =
 
 // filter down to just mainnet + optional target testnet chain so that rainbowkit can tell
 // the user to switch network if they're on an alternative one
-const targetChains = defaultChains.filter(
-  (chain) => chain.id === 1 || chain.id === targetChainId
-);
+const targetChains = [
+  ...defaultChains.filter((chain) => chain.id === targetChainId),
+  chain.mainnet,
+];
 
 export const { chains, provider, webSocketProvider } = configureChains(
   targetChains,
@@ -34,7 +35,7 @@ export const { chains, provider, webSocketProvider } = configureChains(
 );
 
 const { connectors } = getDefaultWallets({
-  appName: "Example NFT",
+  appName: "EthFS",
   chains,
 });
 

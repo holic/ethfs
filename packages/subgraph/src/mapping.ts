@@ -1,13 +1,27 @@
-import { Address, json, store } from "@graphprotocol/graph-ts";
+import { Address, dataSource, json, store } from "@graphprotocol/graph-ts";
 
 import { FileCreated, FileDeleted } from "../generated/FileStore/FileStore";
 import { FileStoreFrontend } from "../generated/FileStore/FileStoreFrontend";
 import { File } from "../generated/schema";
 
+// Note that this uses == below instead of ===
+// See https://github.com/AssemblyScript/assemblyscript/issues/621#issuecomment-496990742
+//
+// TODO: move these addresses to some sort of config?
+//
+const getFileStoreFrontendAddress = (network: string): string => {
+  if (network == "mainnet") {
+    return "0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b";
+  }
+  if (network == "goerli") {
+    return "0xC8f76cb751B9e983bcF1Cf4824dD1A9441c6F190";
+  }
+  throw new Error(`Unsupported network (${network}) for FileStoreFrontend`);
+};
+
 export function createFile(event: FileCreated): void {
   const fileStoreFrontend = FileStoreFrontend.bind(
-    // TODO: somehow make this configurable/per-network
-    Address.fromString("0xC8f76cb751B9e983bcF1Cf4824dD1A9441c6F190")
+    Address.fromString(getFileStoreFrontendAddress(dataSource.network()))
   );
 
   const file = new File(event.params.filename.toString());

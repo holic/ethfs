@@ -8,7 +8,8 @@
   "scripts": {
     "codegen": "graph codegen subgraph*.yaml",
     "build": "pnpm codegen && graph build subgraph*.yaml",
-    "deploy:goerli": "graph deploy --node https://api.thegraph.com/deploy/ holic/ocfs-goerli subgraph-goerli.yaml",
+    "deploy:goerli": "graph deploy --node https://api.thegraph.com/deploy/ holic/ethfs-goerli subgraph-goerli.yaml",
+    "deploy:mainnet": "graph deploy --node https://api.thegraph.com/deploy/ holic/ethfs subgraph-mainnet.yaml",
     "prettier": "prettier --write src",
     "lint": "eslint src"
   },
