@@ -14,8 +14,14 @@ import { UIWindow } from "../ui/UIWindow";
 import { useWindowOrder } from "../ui/useWindowOrder";
 import { estimateFileUploadGas } from "./estimateFileUploadGas";
 import { FileUploadTarget } from "./FileUploadTarget";
-import { PreparedFile } from "./prepareFile";
+import {
+  compressPreparedFile,
+  decompressPreparedFile,
+  PreparedFile,
+} from "./prepareFile";
 import { uploadFile } from "./uploadFile";
+
+const gunzipScriptsSize = 6088;
 
 export const FileUploader = () => {
   const { connector } = useAccount();
@@ -85,18 +91,36 @@ export const FileUploader = () => {
                 encoding: file.metadata.encoding,
               }}
             />
+            {file.name}
           </div>
-          <div className="flex flex-col p-3 pb-8 gap-8">
+          <div className="flex flex-col p-3 pb-8 gap-8 text-stone-500">
             <div className="flex items-start justify-between">
               <div className="flex gap-2">
                 <span className="text-stone-400">
                   <DocumentIcon />
                 </span>
                 <div className="flex flex-col gap-4">
-                  <span className="text-black">{file.name}</span>
+                  <div className="flex gap-8">
+                    <span className="text-black">{file.name}</span>
+
+                    {file.metadata.type.startsWith("text/") &&
+                    file.original.size > gunzipScriptsSize ? (
+                      <label className="flex items-center gap-1 text-sm text-">
+                        <input
+                          type="checkbox"
+                          onChange={(event) => {
+                            event.currentTarget.checked
+                              ? setFile(compressPreparedFile(file))
+                              : setFile(decompressPreparedFile(file));
+                          }}
+                        />
+                        <span>Compress</span>
+                      </label>
+                    ) : null}
+                  </div>
                   <ul className="list-['•'] ml-2 flex flex-col gap-2 text-base leading-none text-stone-500">
                     <li className="pl-1">
-                      {(file.originalSize / 1024).toFixed(0)} KB &rarr;{" "}
+                      {(file.original.size / 1024).toFixed(0)} KB &rarr;{" "}
                       {(file.size / 1024).toFixed(0)} KB base64-encoded
                     </li>
                     <li className="pl-1">
@@ -114,12 +138,18 @@ export const FileUploader = () => {
                         <>estimated ~{estimatedFee} ETH in total gas fees</>
                       )}
                     </li>
+                    {file.metadata.compression ? (
+                      <li className="pl-1">
+                        compressed files require an extra dependency to
+                        decompress in browser (code provided in the file viewer)
+                      </li>
+                    ) : null}
                   </ul>
                 </div>
               </div>
               <button
                 type="button"
-                className="text-stone-400 hover:text-orange-500 text-base leading-none"
+                className="flex-none text-stone-400 hover:text-orange-500 text-base leading-none"
                 onClick={() => setFile(null)}
               >
                 &times; Clear file

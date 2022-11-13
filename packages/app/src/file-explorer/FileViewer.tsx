@@ -2,6 +2,7 @@ import { DateTime } from "luxon";
 import { gql } from "urql";
 
 import { useFileViewerQuery } from "../../codegen/subgraph";
+import { fileStore } from "../contracts";
 import { PendingIcon } from "../icons/PendingIcon";
 import { UIWindow } from "../ui/UIWindow";
 import { FileThumbnail, FileThumbnailFragment } from "./FileThumbnail";
@@ -67,7 +68,7 @@ const FileViewerContents = ({ id }: Props) => {
             {DateTime.fromSeconds(file.createdAt).toRFC2822()}
           </div>
           <div className="col-span-3 text-stone-500">Usage</div>
-          <div className="col-span-9">
+          <div className="col-span-9 flex flex-col gap-4">
             {file.type?.startsWith("image/") ? (
               <div className="bg-teal-100 text-teal-900 p-4 font-mono leading-normal whitespace-pre">
                 {`
@@ -83,19 +84,39 @@ string.concat(
               `.trim()}
               </div>
             ) : file.type?.includes("javascript") ? (
-              <div className="bg-teal-100 text-teal-900 p-4 font-mono leading-normal whitespace-pre">
-                {`
-IFileStore fileStore = IFileStore(…);
+              <>
+                <div className="bg-teal-100 text-teal-900 p-4 font-mono leading-normal whitespace-pre overflow-auto">
+                  {`
+IFileStore fileStore = IFileStore(${fileStore.address});
 
 string.concat(
-  "<script src=\\"data:${file.type}${
-                  file.encoding === "base64" ? ";base64" : ""
-                },",
+  "<script ${
+    file.compression === "gzip" ? 'type=\\"text/javascript+gzip\\" ' : ""
+  }src=\\"data:${file.type}${file.encoding === "base64" ? ";base64" : ""},",
   fileStore.getFile("${file.name}").read(),
   "\\"></script>"
 );
               `.trim()}
-              </div>
+                </div>
+                {file.compression === "gzip" ? (
+                  <>
+                    <p>
+                      For compressed files, you&apos;ll also need to include the
+                      decompression library between the script tag above and
+                      where it&apos;s used.
+                    </p>
+                    <div className="bg-teal-100 text-teal-900 p-4 font-mono leading-normal whitespace-pre overflow-auto">
+                      {`
+string.concat(
+  "<script src=\\"data:text/javascript;base64,",
+  fileStore.getFile("gunzipScripts.js").read(),
+  "\\"></script>"
+);
+`.trim()}
+                    </div>
+                  </>
+                ) : null}
+              </>
             ) : (
               <>
                 This file may have been uploaded separately from this UI.{" "}
