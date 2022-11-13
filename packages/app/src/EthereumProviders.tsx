@@ -28,7 +28,7 @@ const targetChains = defaultChains.filter(
 export const { chains, provider, webSocketProvider } = configureChains(
   targetChains,
   [
-    // alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY }),
+    alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY }),
     publicProvider(),
   ]
 );

@@ -1,0 +1,13 @@
+<script>
+  window.addEventListener("click", async () => {
+    const text = await navigator.clipboard.readText();
+    console.log(
+      `data:application/json,${encodeURIComponent(
+        JSON.stringify({
+          name: "Example Rose",
+          animation_url: `data:text/html,${encodeURIComponent(text)}`
+        })
+      )}`
+    );
+  });
+</script>
