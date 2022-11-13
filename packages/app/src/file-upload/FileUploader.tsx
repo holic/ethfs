@@ -1,7 +1,8 @@
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { formatEther } from "ethers/lib/utils";
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { useAccount, useConnect, useSigner } from "wagmi";
+import { useAccount, useFeeData, useQuery } from "wagmi";
 
 import { Button } from "../Button";
 import { extractContractError } from "../extractContractError";
@@ -11,6 +12,7 @@ import { DocumentIcon } from "../icons/DocumentIcon";
 import { pluralize } from "../pluralize";
 import { UIWindow } from "../ui/UIWindow";
 import { useWindowOrder } from "../ui/useWindowOrder";
+import { estimateFileUploadGas } from "./estimateFileUploadGas";
 import { FileUploadTarget } from "./FileUploadTarget";
 import { PreparedFile } from "./prepareFile";
 import { uploadFile } from "./uploadFile";
@@ -22,6 +24,25 @@ export const FileUploader = () => {
   const [file, setFile] = useState<PreparedFile | null>(null);
   const windowId = "FileUploader";
   const windowOrder = useWindowOrder(windowId);
+
+  const { data: feeData } = useFeeData();
+  const { data: gasEstimate } = useQuery(
+    [file?.name],
+    async () => {
+      if (!file) throw new Error("No file to estimate gas for");
+      return estimateFileUploadGas(file);
+    },
+    {
+      enabled: !!file,
+    }
+  );
+
+  const estimatedFee =
+    feeData?.maxFeePerGas && gasEstimate
+      ? Math.round(
+          parseFloat(formatEther(gasEstimate.mul(feeData.maxFeePerGas))) * 1000
+        ) / 1000
+      : null;
 
   return (
     <UIWindow
@@ -73,21 +94,27 @@ export const FileUploader = () => {
                 </span>
                 <div className="flex flex-col gap-4">
                   <span className="text-black">{file.name}</span>
-                  <div className="flex flex-col gap-2 text-base leading-none text-stone-500">
-                    <span>
-                      &bull; {(file.originalSize / 1024).toFixed(0)} KB &rarr;{" "}
+                  <ul className="list-['•'] ml-2 flex flex-col gap-2 text-base leading-none text-stone-500">
+                    <li className="pl-1">
+                      {(file.originalSize / 1024).toFixed(0)} KB &rarr;{" "}
                       {(file.size / 1024).toFixed(0)} KB base64-encoded
-                    </span>
-                    <span>
-                      &bull;{" "}
+                    </li>
+                    <li className="pl-1">
                       {pluralize(
                         file.contents.length + 1,
                         "transaction",
                         "transactions"
                       )}{" "}
                       (one per 24 KB chunk, one for file metadata)
-                    </span>
-                  </div>
+                    </li>
+                    <li className="pl-1">
+                      {!estimatedFee ? (
+                        <>estimating gas&hellip;</>
+                      ) : (
+                        <>estimated ~{estimatedFee} ETH in total gas fees</>
+                      )}
+                    </li>
+                  </ul>
                 </div>
               </div>
               <button
