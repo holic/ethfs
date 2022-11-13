@@ -8,7 +8,7 @@ import { TwitterIcon } from "../icons/TwitterIcon";
 
 const HomePage: NextPage = () => {
   return (
-    <div className="min-h-screen bg-lime-200 text-lg leading-none relative">
+    <div className="w-screen min-h-screen bg-lime-200 text-lg leading-none relative overflow-hidden">
       <div className="absolute inset-0 text-[12rem] font-black text-lime-400 pointer-events-none select-none">
         Ethereum
         <br />
