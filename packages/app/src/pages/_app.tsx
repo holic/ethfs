@@ -20,6 +20,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
     <>
       <Head>
         <title>EthFS</title>
+        <link rel="shortcut icon" type="image/svg+xml" href="/ethfs.svg" />
       </Head>
       <GraphProvider value={graphClient}>
         <EthereumProviders>
