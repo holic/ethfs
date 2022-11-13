@@ -8,17 +8,22 @@ import {IFileStore} from "../src/IFileStore.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {File} from "../src/File.sol";
 
-contract ContentStoreTest is Test {
+contract FileStoreTest is Test {
     IContentStore public contentStore;
     IFileStore public fileStore;
 
     event FileCreated(
-        string indexed filename,
+        string indexed indexedFilename,
         bytes32 indexed checksum,
+        string filename,
         uint256 size,
         bytes metadata
     );
-    event FileDeleted(string indexed filename);
+    event FileDeleted(
+        string indexed indexedFilename,
+        bytes32 indexed checksum,
+        string filename
+    );
 
     function setUp() public {
         contentStore = new ContentStore();
@@ -82,7 +87,13 @@ contract ContentStoreTest is Test {
         checksums[0] = checksum;
 
         vm.expectEmit(true, false, true, true);
-        emit FileCreated("24kb.txt", bytes32(0), 24575, new bytes(0));
+        emit FileCreated(
+            "24kb.txt",
+            bytes32(0),
+            "24kb.txt",
+            24575,
+            new bytes(0)
+        );
 
         File memory file = fileStore.createFile("24kb.txt", checksums);
 
@@ -107,7 +118,13 @@ contract ContentStoreTest is Test {
         checksums[0] = checksum;
 
         vm.expectEmit(true, false, true, true);
-        emit FileCreated("hello.txt", bytes32(0), 11, bytes("hello world"));
+        emit FileCreated(
+            "hello.txt",
+            bytes32(0),
+            "hello.txt",
+            11,
+            bytes("hello world")
+        );
 
         fileStore.createFile("hello.txt", checksums, bytes("hello world"));
     }
@@ -118,8 +135,12 @@ contract ContentStoreTest is Test {
             "expected file big.txt to exist"
         );
 
-        vm.expectEmit(true, false, false, false);
-        emit FileDeleted("big.txt");
+        vm.expectEmit(true, true, true, true);
+        emit FileDeleted(
+            "big.txt",
+            0x14c8282b35a841d7df042bc64f5a40da1368ecf57f97a50d878c8dfa4ba912a5,
+            "big.txt"
+        );
 
         fileStore.deleteFile("big.txt");
         assertFalse(
