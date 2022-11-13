@@ -5,6 +5,15 @@ type Props = {
   className?: string;
   children: React.ReactNode;
   onFiles: (files: PreparedFile[]) => void;
+  onFilesOver?: () => void;
+};
+
+const toFiles = (dataTransfer: DataTransfer) => {
+  return dataTransfer.items
+    ? Array.from(dataTransfer.items)
+        .map((item) => (item.kind === "file" ? item.getAsFile() : null))
+        .filter((file): file is File => file != null)
+    : Array.from(dataTransfer.files);
 };
 
 export const FileUploadTarget = ({
@@ -12,6 +21,7 @@ export const FileUploadTarget = ({
   className,
   children,
   onFiles,
+  onFilesOver,
 }: Props) => (
   <label
     htmlFor={id}
@@ -19,18 +29,18 @@ export const FileUploadTarget = ({
     onDrop={async (event) => {
       event.preventDefault();
 
-      const files = event.dataTransfer.items
-        ? Array.from(event.dataTransfer.items)
-            .map((item) => (item.kind === "file" ? item.getAsFile() : null))
-            .filter((file): file is File => file != null)
-        : Array.from(event.dataTransfer.files);
+      const files = toFiles(event.dataTransfer);
+      if (!files.length) return;
 
       const preparedFiles = await Promise.all(files.map(prepareFile));
-
       onFiles(preparedFiles);
     }}
     onDragOver={(event) => {
       event.preventDefault();
+
+      if (onFilesOver && event.dataTransfer.types.includes("Files")) {
+        onFilesOver();
+      }
     }}
   >
     {children}

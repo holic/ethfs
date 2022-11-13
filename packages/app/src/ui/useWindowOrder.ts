@@ -9,6 +9,9 @@ type Store = {
 export const useStore = createStore<Store>((set, get) => ({
   windowOrder: [],
   focusWindow: (id) => {
+    const { windowOrder } = get();
+    const lastWindow = windowOrder[windowOrder.length - 1];
+    if (lastWindow === id) return;
     set((state) => ({
       windowOrder: [...state.windowOrder.filter((x) => x !== id), id],
     }));

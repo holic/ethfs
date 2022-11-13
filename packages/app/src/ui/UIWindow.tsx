@@ -41,7 +41,7 @@ export const UIWindow = ({
         height: initialHeight,
         zIndex: windowOrder.zIndex,
       }}
-      onClick={windowOrder.focus}
+      onPointerDown={windowOrder.focus}
     >
       <div
         className="p-3 flex justify-between items-center font-bold text-xl leading-none select-none cursor-move"

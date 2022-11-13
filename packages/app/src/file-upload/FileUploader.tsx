@@ -10,6 +10,7 @@ import { DocumentArrowUpIcon } from "../icons/DocumentArrowUpIcon";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { pluralize } from "../pluralize";
 import { UIWindow } from "../ui/UIWindow";
+import { useWindowOrder } from "../ui/useWindowOrder";
 import { FileUploadTarget } from "./FileUploadTarget";
 import { PreparedFile } from "./prepareFile";
 import { uploadFile } from "./uploadFile";
@@ -17,12 +18,14 @@ import { uploadFile } from "./uploadFile";
 export const FileUploader = () => {
   const { connector } = useAccount();
   const { openConnectModal } = useConnectModal();
-  // TODO: handle multiple files
+  // TODO: handle multiple files?
   const [file, setFile] = useState<PreparedFile | null>(null);
+  const windowId = "FileUploader";
+  const windowOrder = useWindowOrder(windowId);
 
   return (
     <UIWindow
-      id="FileUploader"
+      id={windowId}
       titleBar={<>File Uploader</>}
       statusBar={<>0 files</>}
       initialX={180}
@@ -37,6 +40,7 @@ export const FileUploader = () => {
           onFiles={(preparedFiles) => {
             setFile(preparedFiles[0]);
           }}
+          onFilesOver={windowOrder.focus}
         >
           <div className="flex flex-col justify-center items-center gap-2">
             <div className="text-5xl opacity-70 transition group-hover:-translate-y-2 group-hover:text-lime-600 group-hover:scale-125">
