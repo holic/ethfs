@@ -17,3 +17,11 @@ A `File` struct wraps a set of content checksums that, when concatenated in orde
 The `FileStore` contract acts as a minimum viable registry, a global namespace of human-readable filenames for more ergonomic use within consumer contracts and the frontend's file browser.
 
 > For specific use cases (e.g. different naming schemes, permissioning, etc.), you may decide to create your own file store abstraction. That's great! The `ContentStore` is designed to be unopinionated (strictly content-addressable), so that building on top of it can benefit everyone.
+
+## Reference
+
+| Contract          | Ethereum Mainnet Address                                                                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------- |
+| ContentStore      | [0xC6806fd75745bB5F5B32ADa19963898155f9DB91](https://etherscan.io/address/0xC6806fd75745bB5F5B32ADa19963898155f9DB91) |
+| FileStore         | [0x9746fD0A77829E12F8A9DBe70D7a322412325B91](https://etherscan.io/address/0x9746fD0A77829E12F8A9DBe70D7a322412325B91) |
+| FileStoreFrontend | [0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b](https://etherscan.io/address/0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b) |
