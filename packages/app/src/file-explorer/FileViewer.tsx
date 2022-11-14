@@ -1,4 +1,5 @@
 import { DateTime } from "luxon";
+import React from "react";
 import { gql } from "urql";
 
 import { useFileViewerQuery } from "../../codegen/subgraph";
@@ -17,6 +18,7 @@ gql`
       createdAt
       encoding
       compression
+      license
       ...FileThumbnail
     }
     ${FileThumbnailFragment}
@@ -67,6 +69,19 @@ const FileViewerContents = ({ id }: Props) => {
           >
             {DateTime.fromSeconds(file.createdAt).toRFC2822()}
           </div>
+          {file.license ? (
+            <>
+              <div className="col-span-3 text-stone-500">License</div>
+              <div className="col-span-9">
+                <textarea
+                  className="block w-full h-24 p-4 bg-stone-100 text-stone-500 text-sm leading-none whitespace-pre"
+                  readOnly
+                >
+                  {file.license}
+                </textarea>
+              </div>
+            </>
+          ) : null}
           <div className="col-span-3 text-stone-500">Usage</div>
           <div className="col-span-9 flex flex-col gap-4">
             {file.type?.startsWith("image/") ? (

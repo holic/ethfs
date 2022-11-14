@@ -35,6 +35,7 @@ export type File = {
   readonly createdAt: Scalars['Int'];
   readonly encoding?: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
+  readonly license?: Maybe<Scalars['String']>;
   readonly name: Scalars['String'];
   readonly size: Scalars['Int'];
   readonly type?: Maybe<Scalars['String']>;
@@ -119,6 +120,26 @@ export type File_Filter = {
   readonly id_lte?: InputMaybe<Scalars['ID']>;
   readonly id_not?: InputMaybe<Scalars['ID']>;
   readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly license?: InputMaybe<Scalars['String']>;
+  readonly license_contains?: InputMaybe<Scalars['String']>;
+  readonly license_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly license_ends_with?: InputMaybe<Scalars['String']>;
+  readonly license_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly license_gt?: InputMaybe<Scalars['String']>;
+  readonly license_gte?: InputMaybe<Scalars['String']>;
+  readonly license_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly license_lt?: InputMaybe<Scalars['String']>;
+  readonly license_lte?: InputMaybe<Scalars['String']>;
+  readonly license_not?: InputMaybe<Scalars['String']>;
+  readonly license_not_contains?: InputMaybe<Scalars['String']>;
+  readonly license_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly license_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly license_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly license_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly license_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly license_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly license_starts_with?: InputMaybe<Scalars['String']>;
+  readonly license_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly name?: InputMaybe<Scalars['String']>;
   readonly name_contains?: InputMaybe<Scalars['String']>;
   readonly name_contains_nocase?: InputMaybe<Scalars['String']>;
@@ -175,6 +196,7 @@ export enum File_OrderBy {
   CreatedAt = 'createdAt',
   Encoding = 'encoding',
   Id = 'id',
+  License = 'license',
   Name = 'name',
   Size = 'size',
   Type = 'type'
@@ -296,7 +318,7 @@ export type FileViewerQueryVariables = Exact<{
 }>;
 
 
-export type FileViewerQuery = { readonly __typename?: 'Query', readonly file?: { readonly __typename?: 'File', readonly id: string, readonly name: string, readonly type?: string | null, readonly size: number, readonly createdAt: number, readonly encoding?: string | null, readonly compression?: string | null, readonly contents: string } | null };
+export type FileViewerQuery = { readonly __typename?: 'Query', readonly file?: { readonly __typename?: 'File', readonly id: string, readonly name: string, readonly type?: string | null, readonly size: number, readonly createdAt: number, readonly encoding?: string | null, readonly compression?: string | null, readonly license?: string | null, readonly contents: string } | null };
 
 export const FileThumbnailFragmentDoc = gql`
     fragment FileThumbnail on File {
@@ -334,6 +356,7 @@ export const FileViewerDocument = gql`
     createdAt
     encoding
     compression
+    license
     ...FileThumbnail
   }
 }

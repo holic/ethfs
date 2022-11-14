@@ -171,11 +171,24 @@ export const FileUploader = () => {
                   return;
                 }
 
+                const formData = new FormData(event.currentTarget);
+                const license = formData.get("license") as string | null;
+
                 const toastId = toast.loading("Starting…");
-                uploadFile(connector, file, (message) => {
-                  console.log("got progress", message);
-                  toast.update(toastId, { render: message });
-                }).then(
+                uploadFile(
+                  connector,
+                  {
+                    ...file,
+                    metadata: {
+                      ...file.metadata,
+                      license: license || undefined,
+                    },
+                  },
+                  (message) => {
+                    console.log("got progress", message);
+                    toast.update(toastId, { render: message });
+                  }
+                ).then(
                   () => {
                     // TODO: show etherscan link?
                     toast.update(toastId, {
@@ -200,11 +213,20 @@ export const FileUploader = () => {
               }}
             >
               <div className="flex flex-col items-start max-w-[28rem] text-stone-500 text-lg gap-3">
+                <label className="w-full">
+                  <p>License, if applicable:</p>
+                  <textarea
+                    className="block w-full h-20 p-4 bg-stone-100 text-stone-500 placeholder-stone-500/40 text-sm leading-none whitespace-pre"
+                    name="license"
+                    placeholder="Please copy+paste the full license here"
+                  ></textarea>
+                </label>
                 <label className="flex items-baseline gap-3">
                   <input type="checkbox" name="i-can-redistribute" required />
                   <span>
                     I am permitted to redistribute this file for any use or
-                    purpose, commercial or non-commercial.
+                    purpose, commercial or non-commercial. If the file has an
+                    associated license, I have included it above.
                   </span>
                 </label>
                 <label className="flex items-baseline gap-3">

@@ -8,6 +8,7 @@ export type PreparedFile = {
     type: string;
     encoding: "base64";
     compression?: "gzip";
+    license?: string;
   };
   original: {
     name: string;

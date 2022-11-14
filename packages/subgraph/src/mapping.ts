@@ -42,6 +42,8 @@ export function createFile(event: FileCreated): void {
     file.encoding = fileEncoding ? fileEncoding.toString() : null;
     const fileCompression = metadata.get("compression");
     file.compression = fileCompression ? fileCompression.toString() : null;
+    const fileLicense = metadata.get("license");
+    file.license = fileLicense ? fileLicense.toString() : null;
   }
 
   file.save();

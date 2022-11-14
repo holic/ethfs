@@ -8,4 +8,5 @@ type File @entity {
   type: String
   encoding: String
   compression: String
+  license: String
 }

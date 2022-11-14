@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { DateTime } from "luxon";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { gql } from "urql";
 
 import {
