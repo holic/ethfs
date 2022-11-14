@@ -124,7 +124,7 @@ string.concat(
                       {`
 string.concat(
   "<script src=\\"data:text/javascript;base64,",
-  fileStore.getFile("gunzipScripts.js").read(),
+  fileStore.getFile("gunzipScripts-0.0.1.js").read(),
   "\\"></script>"
 );
 `.trim()}
