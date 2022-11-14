@@ -7,6 +7,7 @@ import {
   FileExplorerQuery,
   useFileExplorerQuery,
 } from "../../codegen/subgraph";
+import { targetChain, targetChainId } from "../EthereumProviders";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { SearchIcon } from "../icons/SearchIcon";
 import { PendingPlaceholder } from "../PendingPlaceholder";
@@ -70,7 +71,7 @@ export const FileExplorer = () => {
                 ? pluralize(files.data.files.length, "file", "files")
                 : null}
             </div>
-            <div>Goerli</div>
+            <div>{targetChain.name}</div>
           </>
         }
         initialX={380}

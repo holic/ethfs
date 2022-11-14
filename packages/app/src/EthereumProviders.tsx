@@ -6,10 +6,10 @@ import {
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
 import {
+  allChains,
   chain,
   configureChains,
   createClient,
-  defaultChains,
   WagmiConfig,
 } from "wagmi";
 import { alchemyProvider } from "wagmi/providers/alchemy";
@@ -19,12 +19,17 @@ import { publicProvider } from "wagmi/providers/public";
 export const targetChainId =
   parseInt(process.env.NEXT_PUBLIC_CHAIN_ID || "0") || 5;
 
+export const targetChain = (() => {
+  const c = allChains.find((c) => c.id === targetChainId);
+  if (!c) {
+    throw new Error(`No chain config found for chain ID ${targetChainId}`);
+  }
+  return c;
+})();
+
 // filter down to just mainnet + optional target testnet chain so that rainbowkit can tell
 // the user to switch network if they're on an alternative one
-const targetChains = [
-  ...defaultChains.filter((chain) => chain.id === targetChainId),
-  chain.mainnet,
-];
+const targetChains = [targetChain, chain.mainnet];
 
 export const { chains, provider, webSocketProvider } = configureChains(
   targetChains,

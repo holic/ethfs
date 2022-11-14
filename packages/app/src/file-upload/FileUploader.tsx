@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { useAccount, useFeeData, useQuery } from "wagmi";
 
 import { Button } from "../Button";
+import { targetChain } from "../EthereumProviders";
 import { extractContractError } from "../extractContractError";
 import { FileThumbnail } from "../file-explorer/FileThumbnail";
 import { DocumentArrowUpIcon } from "../icons/DocumentArrowUpIcon";
@@ -54,7 +55,12 @@ export const FileUploader = () => {
     <UIWindow
       id={windowId}
       titleBar={<>File Uploader</>}
-      statusBar={<>0 files</>}
+      statusBar={
+        <>
+          <div>{pluralize(file ? 1 : 0, "file", "files")} selected</div>
+          <div>{targetChain.name}</div>
+        </>
+      }
       initialX={180}
       initialY={240}
       initialWidth={700}

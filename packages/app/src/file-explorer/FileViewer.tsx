@@ -4,6 +4,7 @@ import { gql } from "urql";
 
 import { useFileViewerQuery } from "../../codegen/subgraph";
 import { fileStore } from "../contracts";
+import { targetChain } from "../EthereumProviders";
 import { PendingIcon } from "../icons/PendingIcon";
 import { UIWindow } from "../ui/UIWindow";
 import { FileThumbnail, FileThumbnailFragment } from "./FileThumbnail";
@@ -171,7 +172,12 @@ export const FileViewer = (props: Props) => {
           </span>
         </>
       }
-      statusBar={props.name}
+      statusBar={
+        <>
+          <div>{props.name}</div>
+          <div>{targetChain.name}</div>
+        </>
+      }
       initialX={600}
       initialY={80}
       initialWidth={700}
