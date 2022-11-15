@@ -19,6 +19,14 @@ type Props = {
 };
 
 export const FileThumbnail = ({ file }: Props) => {
+  if (file.contents == null) {
+    return (
+      <div className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard flex items-center justify-center text-stone-500 italic">
+        Could not read file.
+      </div>
+    );
+  }
+
   if (file.type?.startsWith("image/")) {
     return (
       <img

@@ -27,11 +27,15 @@ export function createFile(event: FileCreated): void {
   const file = new File(event.params.filename.toString());
   file.name = event.params.filename.toString();
   file.size = event.params.size.toU32();
-  file.contents = fileStoreFrontend.readFile(
+  file.createdAt = event.block.timestamp.toI32();
+
+  const contents = fileStoreFrontend.try_readFile(
     event.address,
     event.params.filename.toString()
   );
-  file.createdAt = event.block.timestamp.toI32();
+  if (!contents.reverted) {
+    file.contents = contents.value;
+  }
 
   const parsedMetadata = json.try_fromBytes(event.params.metadata);
   if (parsedMetadata.isOk) {

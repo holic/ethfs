@@ -31,7 +31,7 @@ export type Block_Height = {
 export type File = {
   readonly __typename?: 'File';
   readonly compression?: Maybe<Scalars['String']>;
-  readonly contents: Scalars['String'];
+  readonly contents?: Maybe<Scalars['String']>;
   readonly createdAt: Scalars['Int'];
   readonly encoding?: Maybe<Scalars['String']>;
   readonly id: Scalars['ID'];
@@ -311,14 +311,14 @@ export type FileExplorerQueryVariables = Exact<{
 
 export type FileExplorerQuery = { readonly __typename?: 'Query', readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly id: string, readonly name: string, readonly size: number, readonly createdAt: number, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null }> };
 
-export type FileThumbnailFragment = { readonly __typename?: 'File', readonly name: string, readonly contents: string, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null };
+export type FileThumbnailFragment = { readonly __typename?: 'File', readonly name: string, readonly contents?: string | null, readonly type?: string | null, readonly encoding?: string | null, readonly compression?: string | null };
 
 export type FileViewerQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
 
 
-export type FileViewerQuery = { readonly __typename?: 'Query', readonly file?: { readonly __typename?: 'File', readonly id: string, readonly name: string, readonly type?: string | null, readonly size: number, readonly createdAt: number, readonly encoding?: string | null, readonly compression?: string | null, readonly license?: string | null, readonly contents: string } | null };
+export type FileViewerQuery = { readonly __typename?: 'Query', readonly file?: { readonly __typename?: 'File', readonly id: string, readonly name: string, readonly type?: string | null, readonly size: number, readonly createdAt: number, readonly encoding?: string | null, readonly compression?: string | null, readonly license?: string | null, readonly contents?: string | null } | null };
 
 export const FileThumbnailFragmentDoc = gql`
     fragment FileThumbnail on File {
