@@ -42,9 +42,9 @@ export const FileThumbnail = ({ file }: Props) => {
   return (
     <iframe
       className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard"
-      src={`data:text/plain${file.encoding === "base64" ? ";base64" : ""},${
-        file.contents
-      }`}
+      src={`data:text/plain;charset=utf-8${
+        file.encoding === "base64" ? ";base64" : ""
+      },${file.contents}`}
     />
   );
 };
