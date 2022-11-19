@@ -88,7 +88,7 @@ const FileViewerContents = ({ id }: Props) => {
             {file.type?.startsWith("image/") ? (
               <div className="bg-teal-100 text-teal-900 p-4 font-mono leading-normal whitespace-pre">
                 {`
-IFileStore fileStore = IFileStore(…);
+IFileStore fileStore = IFileStore(${fileStore.address});
 
 string.concat(
   "<img src=\\"data:${file.type}${
