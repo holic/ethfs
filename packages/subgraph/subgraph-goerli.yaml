@@ -3,6 +3,7 @@ schema:
   file: ./schema.graphql
 features:
   - nonFatalErrors
+
 dataSources:
   - kind: ethereum
     name: FileStore
@@ -12,6 +13,7 @@ dataSources:
       address: "0x5E348d0975A920E9611F8140f84458998A53af94"
       startBlock: 7696727
     mapping:
+      file: ./src/FileStore.ts
       kind: ethereum/events
       apiVersion: 0.0.6
       language: wasm/assemblyscript
@@ -29,4 +31,26 @@ dataSources:
           handler: createFile
         - event: FileDeleted(indexed string,indexed bytes32,string)
           handler: deleteFile
-      file: ./src/mapping.ts
+
+  - kind: ethereum
+    name: ContentStore
+    network: goerli
+    source:
+      abi: ContentStore
+      address: "0x7c1730B7bE9424D0b983B84aEb254e3a2a105d91"
+      startBlock: 7696727
+    mapping:
+      file: ./src/ContentStore.ts
+      kind: ethereum/events
+      apiVersion: 0.0.6
+      language: wasm/assemblyscript
+      entities:
+        - Chunk
+      abis:
+        - name: ContentStore
+          file: ../contracts/out/ContentStore.sol/ContentStore.abi.json
+        - name: FileStoreFrontend
+          file: ../contracts/out/FileStoreFrontend.sol/FileStoreFrontend.abi.json
+      eventHandlers:
+        - event: NewChecksum(indexed bytes32,uint256)
+          handler: newChecksum

@@ -10,3 +10,9 @@ type File @entity {
   compression: String
   license: String
 }
+
+type Chunk @entity {
+  id: ID!
+  checksum: String!
+  contents: String!
+}
