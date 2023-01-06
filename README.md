@@ -20,8 +20,18 @@ The `FileStore` contract acts as a minimum viable registry, a global namespace o
 
 ## Reference
 
-| Contract          | Ethereum Mainnet Address                                                                                              |
+### Ethereum Mainnet contracts
+
+|                   |                                                                                                                       |
 | ----------------- | --------------------------------------------------------------------------------------------------------------------- |
 | ContentStore      | [0xC6806fd75745bB5F5B32ADa19963898155f9DB91](https://etherscan.io/address/0xC6806fd75745bB5F5B32ADa19963898155f9DB91) |
 | FileStore         | [0x9746fD0A77829E12F8A9DBe70D7a322412325B91](https://etherscan.io/address/0x9746fD0A77829E12F8A9DBe70D7a322412325B91) |
 | FileStoreFrontend | [0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b](https://etherscan.io/address/0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b) |
+
+### Ethereum Goerli contracts
+
+|                   |                                                                                                                              |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| ContentStore      | [0x7c1730B7bE9424D0b983B84aEb254e3a2a105d91](https://goerli.etherscan.io/address/0x7c1730B7bE9424D0b983B84aEb254e3a2a105d91) |
+| FileStore         | [0x5E348d0975A920E9611F8140f84458998A53af94](https://goerli.etherscan.io/address/0x5E348d0975A920E9611F8140f84458998A53af94) |
+| FileStoreFrontend | [0xC8f76cb751B9e983bcF1Cf4824dD1A9441c6F190](https://goerli.etherscan.io/address/0xC8f76cb751B9e983bcF1Cf4824dD1A9441c6F190) |
