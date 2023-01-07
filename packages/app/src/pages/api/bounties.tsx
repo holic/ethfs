@@ -27,33 +27,40 @@ const files = {
 
 const prepareFiles = () => {
   Object.entries(files).forEach(([, file]) => {
-    const contents = fs.readFileSync(file);
-    fs.writeFileSync(`${file}.gz`, zlib.gzipSync(contents));
+    const originalContents = fs.readFileSync(file);
+    const compressed = zlib.gzipSync(originalContents);
+    fs.writeFileSync(`${file}.gz`, compressed);
+    const encoded = fs.readFileSync(`${files.p5js}.gz`).toString("base64");
+    const contents: string[] = [];
+    for (let i = 0; i < encoded.length; i += maxContentSize) {
+      contents.push(encoded.slice(i, i + maxContentSize));
+    }
+    fs.writeFileSync(
+      `${file}.json`,
+      JSON.stringify(
+        {
+          name: path.basename(files.p5js),
+          size: encoded.length,
+          contents,
+          checksums: contents.map((content) =>
+            ethers.utils.keccak256(ethers.utils.toUtf8Bytes(content))
+          ),
+          metadata: {
+            type: "application/javascript",
+            encoding: "base64",
+            compression: "gzip",
+            license: fs.readFileSync(`${files.p5js}.license`).toString(),
+          },
+        },
+        null,
+        2
+      )
+    );
   });
 };
 
 const handler = (req: NextApiRequest, res: NextApiResponse<BountyFile[]>) => {
-  const encoded = fs.readFileSync(`${files.p5js}.gz`).toString("base64");
-  const contents: string[] = [];
-  for (let i = 0; i < encoded.length; i += maxContentSize) {
-    contents.push(encoded.slice(i, i + maxContentSize));
-  }
-  res.json([
-    {
-      name: path.basename(files.p5js),
-      size: encoded.length,
-      contents,
-      checksums: contents.map((content) =>
-        ethers.utils.keccak256(ethers.utils.toUtf8Bytes(content))
-      ),
-      metadata: {
-        type: "application/javascript",
-        encoding: "base64",
-        compression: "gzip",
-        license: fs.readFileSync(`${files.p5js}.license`).toString(),
-      },
-    },
-  ]);
+  res.json([JSON.parse(fs.readFileSync(`${files.p5js}.json`).toString())]);
 };
 
 export default handler;
