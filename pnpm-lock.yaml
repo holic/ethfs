@@ -53,7 +53,7 @@ importers:
       postcss: ^8.4.5
       react: 17.0.2
       react-dom: 17.0.2
-      react-toastify: ^9.0.4
+      react-toastify: ^9.1.1
       suspend-react: ^0.0.8
       tailwindcss: ^3.2.4
       typescript: ^4.5.5
@@ -75,7 +75,7 @@ importers:
       next: 12.3.0_sfoxds7t5ydpegc3knd667wn6m
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
-      react-toastify: 9.0.4_sfoxds7t5ydpegc3knd667wn6m
+      react-toastify: 9.1.1_sfoxds7t5ydpegc3knd667wn6m
       suspend-react: 0.0.8_react@17.0.2
       urql: 2.2.3_grwzyu2sekdmgxxknj4oi2chlm
       wagmi: 0.6.6_nh5cb3stmy2powi2ww5c5uwpra
@@ -8693,13 +8693,13 @@ packages:
       tslib: 2.4.0
     dev: false
 
-  /react-toastify/9.0.4_sfoxds7t5ydpegc3knd667wn6m:
-    resolution: {integrity: sha512-MYmJ1V5F6DEU+TFxBb+pGGsveFPt4tjr4yK+TopXkU3sXPD9F2tFhX+G2HBLZpqObT2O6Z9jbXSg3JpaxuWtWw==}
+  /react-toastify/9.1.1_sfoxds7t5ydpegc3knd667wn6m:
+    resolution: {integrity: sha512-pkFCla1z3ve045qvjEmn2xOJOy4ZciwRXm1oMPULVkELi5aJdHCN/FHnuqXq8IwGDLB7PPk2/J6uP9D8ejuiRw==}
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
-      clsx: 1.1.1
+      clsx: 1.2.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
     dev: false
