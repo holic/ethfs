@@ -5,6 +5,7 @@ import { gql } from "urql";
 import { useAccount } from "wagmi";
 
 import { useBountiesQuery } from "../../codegen/subgraph";
+import { extractContractError } from "../extractContractError";
 import { PendingIcon } from "../icons/PendingIcon";
 import { BountyFile } from "../pages/api/bounties";
 import { usePromise } from "../usePromise";
@@ -113,10 +114,11 @@ const Bounties = () => {
                               });
                             },
                             (error) => {
+                              const contractError = extractContractError(error);
                               toast.update(toastId, {
                                 isLoading: false,
                                 type: "error",
-                                render: String(error.message),
+                                render: contractError,
                                 autoClose: 5000,
                                 closeButton: true,
                               });
