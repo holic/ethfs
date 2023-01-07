@@ -28,6 +28,72 @@ export type Block_Height = {
   readonly number_gte?: InputMaybe<Scalars['Int']>;
 };
 
+export type Chunk = {
+  readonly __typename?: 'Chunk';
+  readonly checksum: Scalars['String'];
+  readonly contents: Scalars['String'];
+  readonly id: Scalars['ID'];
+};
+
+export type Chunk_Filter = {
+  /** Filter for the block changed event. */
+  readonly _change_block?: InputMaybe<BlockChangedFilter>;
+  readonly checksum?: InputMaybe<Scalars['String']>;
+  readonly checksum_contains?: InputMaybe<Scalars['String']>;
+  readonly checksum_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly checksum_ends_with?: InputMaybe<Scalars['String']>;
+  readonly checksum_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly checksum_gt?: InputMaybe<Scalars['String']>;
+  readonly checksum_gte?: InputMaybe<Scalars['String']>;
+  readonly checksum_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly checksum_lt?: InputMaybe<Scalars['String']>;
+  readonly checksum_lte?: InputMaybe<Scalars['String']>;
+  readonly checksum_not?: InputMaybe<Scalars['String']>;
+  readonly checksum_not_contains?: InputMaybe<Scalars['String']>;
+  readonly checksum_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly checksum_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly checksum_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly checksum_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly checksum_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly checksum_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly checksum_starts_with?: InputMaybe<Scalars['String']>;
+  readonly checksum_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents?: InputMaybe<Scalars['String']>;
+  readonly contents_contains?: InputMaybe<Scalars['String']>;
+  readonly contents_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_ends_with?: InputMaybe<Scalars['String']>;
+  readonly contents_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_gt?: InputMaybe<Scalars['String']>;
+  readonly contents_gte?: InputMaybe<Scalars['String']>;
+  readonly contents_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly contents_lt?: InputMaybe<Scalars['String']>;
+  readonly contents_lte?: InputMaybe<Scalars['String']>;
+  readonly contents_not?: InputMaybe<Scalars['String']>;
+  readonly contents_not_contains?: InputMaybe<Scalars['String']>;
+  readonly contents_not_contains_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_not_ends_with?: InputMaybe<Scalars['String']>;
+  readonly contents_not_ends_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_not_in?: InputMaybe<ReadonlyArray<Scalars['String']>>;
+  readonly contents_not_starts_with?: InputMaybe<Scalars['String']>;
+  readonly contents_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly contents_starts_with?: InputMaybe<Scalars['String']>;
+  readonly contents_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly id?: InputMaybe<Scalars['ID']>;
+  readonly id_gt?: InputMaybe<Scalars['ID']>;
+  readonly id_gte?: InputMaybe<Scalars['ID']>;
+  readonly id_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly id_lt?: InputMaybe<Scalars['ID']>;
+  readonly id_lte?: InputMaybe<Scalars['ID']>;
+  readonly id_not?: InputMaybe<Scalars['ID']>;
+  readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+};
+
+export enum Chunk_OrderBy {
+  Checksum = 'checksum',
+  Contents = 'contents',
+  Id = 'id'
+}
+
 export type File = {
   readonly __typename?: 'File';
   readonly compression?: Maybe<Scalars['String']>;
@@ -212,6 +278,8 @@ export type Query = {
   readonly __typename?: 'Query';
   /** Access to subgraph metadata */
   readonly _meta?: Maybe<_Meta_>;
+  readonly chunk?: Maybe<Chunk>;
+  readonly chunks: ReadonlyArray<Chunk>;
   readonly file?: Maybe<File>;
   readonly files: ReadonlyArray<File>;
 };
@@ -219,6 +287,24 @@ export type Query = {
 
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
+};
+
+
+export type QueryChunkArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type QueryChunksArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Chunk_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Chunk_Filter>;
 };
 
 
@@ -243,6 +329,8 @@ export type Subscription = {
   readonly __typename?: 'Subscription';
   /** Access to subgraph metadata */
   readonly _meta?: Maybe<_Meta_>;
+  readonly chunk?: Maybe<Chunk>;
+  readonly chunks: ReadonlyArray<Chunk>;
   readonly file?: Maybe<File>;
   readonly files: ReadonlyArray<File>;
 };
@@ -250,6 +338,24 @@ export type Subscription = {
 
 export type Subscription_MetaArgs = {
   block?: InputMaybe<Block_Height>;
+};
+
+
+export type SubscriptionChunkArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+
+export type SubscriptionChunksArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Chunk_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Chunk_Filter>;
 };
 
 
@@ -304,6 +410,13 @@ export enum _SubgraphErrorPolicy_ {
   Deny = 'deny'
 }
 
+export type BountiesQueryVariables = Exact<{
+  checksums: ReadonlyArray<Scalars['String']> | Scalars['String'];
+}>;
+
+
+export type BountiesQuery = { readonly __typename?: 'Query', readonly chunks: ReadonlyArray<{ readonly __typename?: 'Chunk', readonly checksum: string }> };
+
 export type FileExplorerQueryVariables = Exact<{
   searchQuery?: InputMaybe<Scalars['String']>;
 }>;
@@ -329,6 +442,17 @@ export const FileThumbnailFragmentDoc = gql`
   compression
 }
     `;
+export const BountiesDocument = gql`
+    query Bounties($checksums: [String!]!) {
+  chunks(where: {checksum_in: $checksums}) {
+    checksum
+  }
+}
+    `;
+
+export function useBountiesQuery(options: Omit<Urql.UseQueryArgs<BountiesQueryVariables>, 'query'>) {
+  return Urql.useQuery<BountiesQuery, BountiesQueryVariables>({ query: BountiesDocument, ...options });
+};
 export const FileExplorerDocument = gql`
     query FileExplorer($searchQuery: String) {
   files(first: 100, where: {name_contains_nocase: $searchQuery}) {

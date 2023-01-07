@@ -31,7 +31,7 @@ const readFile = (file: File): Promise<ArrayBuffer> => {
   });
 };
 
-const chunkContents = (buffer: ArrayBuffer) => {
+export const chunkContents = (buffer: ArrayBuffer) => {
   const encoded = Buffer.from(buffer).toString("base64");
   const size = encoded.length;
   const contents: string[] = [];
