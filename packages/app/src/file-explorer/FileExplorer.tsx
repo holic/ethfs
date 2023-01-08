@@ -41,9 +41,18 @@ type File = FileExplorerQuery["files"][number];
 
 export const FileExplorer = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [files] = useFileExplorerQuery({ variables: { searchQuery } });
+  const [files, executeQuery] = useFileExplorerQuery({
+    variables: { searchQuery },
+  });
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const focusWindow = useWindowOrderStore((state) => state.focusWindow);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      executeQuery({ requestPolicy: "cache-and-network" });
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [executeQuery]);
 
   return (
     <>
