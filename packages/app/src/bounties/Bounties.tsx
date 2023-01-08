@@ -90,7 +90,7 @@ const Bounties = () => {
         return (
           <div key={file.name} className="flex flex-col gap-1">
             <div className="text-lime-600 font-black">{file.name}</div>
-            <div className="grid grid-cols-4 gap-1">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-1">
               {file.checksums.map((checksum, i) => {
                 const content = file.contents[i];
 
