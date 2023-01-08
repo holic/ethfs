@@ -17,9 +17,9 @@ export const ChunkGasEstimate = () => {
   if (estimatedFee == null) return null;
 
   return (
-    <>
+    <p>
       At current gas prices, uploading a chunk will cost ~{estimatedFee} ETH in
       gas.
-    </>
+    </p>
   );
 };

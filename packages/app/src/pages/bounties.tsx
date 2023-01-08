@@ -31,9 +31,7 @@ const BountiesPage: NextPage = () => {
               pitch in and unlock new kinds of fully on-chain projects by
               uploading a chunk of one of the files below.
             </p>
-            <p>
-              <ChunkGasEstimate />
-            </p>
+            <ChunkGasEstimate />
           </div>
 
           {isMounted ? <Bounties /> : <PendingIcon />}
