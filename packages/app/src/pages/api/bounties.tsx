@@ -46,7 +46,7 @@ const prepareFiles = () => {
             ethers.utils.keccak256(ethers.utils.toUtf8Bytes(content))
           ),
           metadata: {
-            type: "application/javascript",
+            type: "text/javascript",
             encoding: "base64",
             compression: "gzip",
             license: fs.readFileSync(`${files.p5js}.license`).toString(),
