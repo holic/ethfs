@@ -7,7 +7,7 @@ import { useAccount } from "wagmi";
 import { useBountiesQuery } from "../../codegen/subgraph";
 import { extractContractError } from "../extractContractError";
 import { PendingIcon } from "../icons/PendingIcon";
-import { BountyFile } from "../pages/api/bounties";
+import { BountiesResponse } from "../pages/api/bounties";
 import { usePromise } from "../usePromise";
 import { createFile } from "./createFile";
 import { uploadContent } from "./uploadContent";
@@ -32,7 +32,7 @@ const Bounties = () => {
     useMemo(
       () =>
         fetch("/api/bounties").then(
-          (res) => res.json() as Promise<BountyFile[]>
+          (res) => res.json() as Promise<BountiesResponse>
         ),
       []
     )
@@ -43,8 +43,8 @@ const Bounties = () => {
     () =>
       bounties.type === "fulfilled"
         ? [
-            bounties.value.flatMap((file) => file.checksums),
-            bounties.value.map((file) => file.name),
+            Object.values(bounties.value).flatMap((file) => file.checksums),
+            Object.values(bounties.value).map((file) => file.name),
           ]
         : [[], []],
     [bounties]
@@ -81,7 +81,7 @@ const Bounties = () => {
 
   return (
     <div>
-      {bounties.value.map((file) => {
+      {Object.entries(bounties.value).map(([name, file]) => {
         const hasCreatedFile = filenames.includes(file.name);
         const isReadyToCreateFile = file.checksums.every((checksum) =>
           checksums.includes(checksum)
@@ -89,7 +89,7 @@ const Bounties = () => {
 
         return (
           <div key={file.name} className="flex flex-col gap-1">
-            <div className="text-lime-600 font-black">{file.name}</div>
+            <div className="text-lime-600 font-black">{name}</div>
             <div className="grid grid-cols-4 gap-1">
               {file.checksums.map((checksum, i) => {
                 const content = file.contents[i];
