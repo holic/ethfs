@@ -459,7 +459,12 @@ export function useBountiesQuery(options: Omit<Urql.UseQueryArgs<BountiesQueryVa
 };
 export const FileExplorerDocument = gql`
     query FileExplorer($searchQuery: String) {
-  files(first: 100, where: {name_contains_nocase: $searchQuery}) {
+  files(
+    first: 100
+    where: {name_contains_nocase: $searchQuery}
+    orderBy: createdAt
+    orderDirection: desc
+  ) {
     id
     name
     size

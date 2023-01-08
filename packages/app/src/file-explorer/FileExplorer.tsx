@@ -25,7 +25,12 @@ import { FileViewer } from "./FileViewer";
 
 gql`
   query FileExplorer($searchQuery: String) {
-    files(first: 100, where: { name_contains_nocase: $searchQuery }) {
+    files(
+      first: 100
+      where: { name_contains_nocase: $searchQuery }
+      orderBy: createdAt
+      orderDirection: desc
+    ) {
       id
       name
       size
@@ -131,7 +136,9 @@ export const FileExplorer = () => {
                   className="tabular-nums"
                   title={DateTime.fromSeconds(file.createdAt).toISO()}
                 >
-                  {DateTime.fromSeconds(file.createdAt).toRelativeCalendar()}
+                  {DateTime.fromSeconds(file.createdAt).toRelativeCalendar({
+                    unit: "days",
+                  })}
                 </FileCreated>
               </FileListRow>
             ))
