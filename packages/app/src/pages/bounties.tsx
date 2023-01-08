@@ -1,6 +1,7 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
 import Head from "next/head";
+import Link from "next/link";
 
 import Bounties from "../bounties/Bounties";
 import { PendingIcon } from "../icons/PendingIcon";
@@ -20,7 +21,7 @@ const BountiesPage: NextPage = () => {
         <div className="max-w-screen-md mx-auto flex flex-col gap-12 p-12">
           <div className="flex flex-col gap-2">
             <h1 className="text-5xl text-lime-500 font-black">
-              EthFS Bounties
+              <Link href="/">EthFS</Link> Bounties
             </h1>
             <p>
               <strong>The on-chain community needs your help!</strong> We want

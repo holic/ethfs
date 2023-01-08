@@ -1,8 +1,11 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import type { NextPage } from "next";
+import Link from "next/link";
 
 import { FileExplorer } from "../file-explorer/FileExplorer";
 import { FileUploader } from "../file-upload/FileUploader";
+import { DocumentArrowUpIcon } from "../icons/DocumentArrowUpIcon";
+import { DocumentIcon } from "../icons/DocumentIcon";
 import { GithubIcon } from "../icons/GithubIcon";
 import { TwitterIcon } from "../icons/TwitterIcon";
 
@@ -17,12 +20,20 @@ const HomePage: NextPage = () => {
         System
       </div>
       <div className="absolute inset-0 flex flex-col items-end justify-end">
-        <div className="flex flex-col p-8 gap-8 text-lime-500">
+        <div className="flex flex-col p-8 gap-8">
+          <Link href="/bounties" passHref>
+            <a className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current">
+              <span className="text-6xl">
+                <DocumentArrowUpIcon />
+              </span>
+              File Bounties
+            </a>
+          </Link>
           <a
             href="https://twitter.com/frolic"
             target="_blank"
             rel="noopener noreferer noreferrer"
-            className="flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
           >
             <span className="text-6xl">
               <TwitterIcon />
@@ -33,7 +44,7 @@ const HomePage: NextPage = () => {
             href="https://github.com/holic/ethfs"
             target="_blank"
             rel="noopener noreferer noreferrer"
-            className="flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
           >
             <span className="text-6xl">
               <GithubIcon />
