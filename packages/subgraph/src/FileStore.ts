@@ -42,6 +42,11 @@ export function createFile(event: FileCreated): void {
     const metadata = parsedMetadata.value.toObject();
     const fileType = metadata.get("type");
     file.type = fileType ? fileType.toString() : null;
+    // Note that this uses == below instead of ===
+    // See https://github.com/AssemblyScript/assemblyscript/issues/621#issuecomment-496990742
+    if (file.type == "application/javascript") {
+      file.type = "text/javascript";
+    }
     const fileEncoding = metadata.get("encoding");
     file.encoding = fileEncoding ? fileEncoding.toString() : null;
     const fileCompression = metadata.get("compression");
