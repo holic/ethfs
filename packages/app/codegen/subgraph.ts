@@ -412,10 +412,11 @@ export enum _SubgraphErrorPolicy_ {
 
 export type BountiesQueryVariables = Exact<{
   checksums: ReadonlyArray<Scalars['String']> | Scalars['String'];
+  filenames: ReadonlyArray<Scalars['String']> | Scalars['String'];
 }>;
 
 
-export type BountiesQuery = { readonly __typename?: 'Query', readonly chunks: ReadonlyArray<{ readonly __typename?: 'Chunk', readonly checksum: string }> };
+export type BountiesQuery = { readonly __typename?: 'Query', readonly chunks: ReadonlyArray<{ readonly __typename?: 'Chunk', readonly checksum: string }>, readonly files: ReadonlyArray<{ readonly __typename?: 'File', readonly name: string }> };
 
 export type FileExplorerQueryVariables = Exact<{
   searchQuery?: InputMaybe<Scalars['String']>;
@@ -443,9 +444,12 @@ export const FileThumbnailFragmentDoc = gql`
 }
     `;
 export const BountiesDocument = gql`
-    query Bounties($checksums: [String!]!) {
+    query Bounties($checksums: [String!]!, $filenames: [String!]!) {
   chunks(where: {checksum_in: $checksums}) {
     checksum
+  }
+  files(where: {name_in: $filenames}) {
+    name
   }
 }
     `;

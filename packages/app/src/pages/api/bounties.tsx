@@ -17,7 +17,7 @@ export type BountyFile = {
     type: string;
     encoding: "base64";
     compression?: "gzip";
-    license?: string;
+    license: string;
   };
 };
 
