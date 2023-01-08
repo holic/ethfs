@@ -39,7 +39,7 @@ const prepareFiles = () => {
       `${file}.json`,
       JSON.stringify(
         {
-          name: path.basename(files.p5js),
+          name: `${path.basename(files.p5js)}.gz`,
           size: encoded.length,
           contents,
           checksums: contents.map((content) =>
@@ -58,6 +58,8 @@ const prepareFiles = () => {
     );
   });
 };
+
+// prepareFiles();
 
 const handler = (req: NextApiRequest, res: NextApiResponse<BountyFile[]>) => {
   res.json([JSON.parse(fs.readFileSync(`${files.p5js}.json`).toString())]);
