@@ -4,6 +4,7 @@ import Head from "next/head";
 import Link from "next/link";
 
 import Bounties from "../bounties/Bounties";
+import { ChunkGasEstimate } from "../bounties/ChunkGasEstimate";
 import { PendingIcon } from "../icons/PendingIcon";
 import { useIsMounted } from "../useIsMounted";
 
@@ -30,7 +31,11 @@ const BountiesPage: NextPage = () => {
               pitch in and unlock new kinds of fully on-chain projects by
               uploading a chunk of one of the files below.
             </p>
+            <p>
+              <ChunkGasEstimate />
+            </p>
           </div>
+
           {isMounted ? <Bounties /> : <PendingIcon />}
         </div>
       </div>
