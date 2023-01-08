@@ -19,8 +19,8 @@ const BountiesPage: NextPage = () => {
         <div className="self-end p-2">
           <ConnectButton />
         </div>
-        <div className="max-w-screen-md mx-auto flex flex-col gap-12 p-12">
-          <div className="flex flex-col gap-2">
+        <div className="max-w-screen-md mx-auto flex flex-col gap-16 p-12">
+          <div className="flex flex-col gap-4">
             <h1 className="text-5xl text-lime-500 font-black">
               <Link href="/">EthFS</Link> Bounties
             </h1>
