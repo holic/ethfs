@@ -204,6 +204,8 @@ export const FileUploader = () => {
                       autoClose: 5000,
                       closeButton: true,
                     });
+                    event.currentTarget.reset();
+                    setFile(null);
                   },
                   (error) => {
                     const contractError = extractContractError(error);
