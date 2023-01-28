@@ -80,7 +80,7 @@ const Bounties = () => {
   }
 
   return (
-    <div>
+    <>
       {bounties.value.map((file) => {
         const hasCreatedFile = filenames.includes(file.name);
         const isReadyToCreateFile = file.checksums.every((checksum) =>
@@ -199,7 +199,7 @@ const Bounties = () => {
           </div>
         );
       })}
-    </div>
+    </>
   );
 };
 
