@@ -18,15 +18,14 @@ contract MockProject {
 
     function tokenURI(uint256 tokenId) public view returns (string memory) {
         File memory file = fileStore.getFile("big.txt");
-        return
-            string.concat(
-                "data:application/json,",
-                "%7B%22name%22:%22Token #",
-                LibString.toString(tokenId),
-                "%22,%22animation_url%22:%22",
-                file.read(),
-                "%22%7D"
-            );
+        return string.concat(
+            "data:application/json,",
+            "%7B%22name%22:%22Token #",
+            LibString.toString(tokenId),
+            "%22,%22animation_url%22:%22",
+            file.read(),
+            "%22%7D"
+        );
     }
 }
 
@@ -39,9 +38,8 @@ contract MockProjectTest is Test {
         contentStore = new ContentStore();
         fileStore = new FileStore(contentStore);
 
-        (bytes32 checksum, ) = fileStore.contentStore().addContent(
-            bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt"))
-        );
+        (bytes32 checksum,) =
+            fileStore.contentStore().addContent(bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt")));
 
         bytes32[] memory checksums = new bytes32[](4);
         checksums[0] = checksum;

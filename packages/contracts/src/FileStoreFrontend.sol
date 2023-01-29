@@ -9,19 +9,11 @@ import {IContentStore} from "./IContentStore.sol";
 // otherwise be too gas heavy for another contract.
 
 contract FileStoreFrontend {
-    function readFile(IFileStore fileStore, string memory filename)
-        public
-        view
-        returns (string memory contents)
-    {
+    function readFile(IFileStore fileStore, string memory filename) public view returns (string memory contents) {
         return fileStore.getFile(filename).read();
     }
 
-    function getContent(IContentStore contentStore, bytes32 checksum)
-        public
-        view
-        returns (bytes memory content)
-    {
+    function getContent(IContentStore contentStore, bytes32 checksum) public view returns (bytes memory content) {
         return SSTORE2.read(contentStore.getPointer(checksum));
     }
 }

@@ -46,6 +46,4 @@ function read(File memory file) view returns (string memory contents) {
     }
 }
 
-using {
-    read
-} for File global;
+using {read} for File global;
