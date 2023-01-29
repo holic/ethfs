@@ -77,9 +77,8 @@ const FileViewerContents = ({ id }: Props) => {
                 <textarea
                   className="block w-full h-24 p-4 bg-stone-100 text-stone-500 text-sm leading-none whitespace-pre"
                   readOnly
-                >
-                  {file.license}
-                </textarea>
+                  defaultValue={file.license}
+                />
               </div>
             </>
           ) : null}
@@ -187,3 +186,5 @@ export const FileViewer = (props: Props) => {
     </UIWindow>
   );
 };
+
+export const MemoizedFileViewer = React.memo(FileViewer);

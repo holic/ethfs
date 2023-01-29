@@ -227,7 +227,7 @@ export const FileUploader = () => {
                     className="block w-full h-20 p-4 bg-stone-100 text-stone-500 placeholder-stone-500/40 text-sm leading-none whitespace-pre"
                     name="license"
                     placeholder="Please copy+paste the full license here"
-                  ></textarea>
+                  />
                 </label>
                 <label className="flex items-baseline gap-3">
                   <input type="checkbox" name="i-can-redistribute" required />

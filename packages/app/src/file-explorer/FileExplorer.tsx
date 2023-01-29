@@ -1,6 +1,6 @@
 import classNames from "classnames";
 import { DateTime } from "luxon";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { gql } from "urql";
 
 import {
@@ -21,7 +21,7 @@ import {
   FileSize,
   FileType,
 } from "./FileList";
-import { FileViewer } from "./FileViewer";
+import { FileViewer, MemoizedFileViewer } from "./FileViewer";
 
 gql`
   query FileExplorer($searchQuery: String) {
@@ -58,6 +58,8 @@ export const FileExplorer = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, [executeQuery]);
+
+  const resetCurrentFile = useCallback(() => setCurrentFile(null), []);
 
   return (
     <>
@@ -187,10 +189,10 @@ export const FileExplorer = () => {
         </div>
       </UIWindow>
       {currentFile ? (
-        <FileViewer
+        <MemoizedFileViewer
           id={currentFile.id}
           name={currentFile.name}
-          onClose={() => setCurrentFile(null)}
+          onClose={resetCurrentFile}
         />
       ) : null}
     </>
