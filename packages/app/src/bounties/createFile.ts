@@ -5,7 +5,7 @@ import { Connector } from "wagmi";
 import { contentStore, fileStore } from "../contracts";
 import { targetChainId } from "../EthereumProviders";
 import { PreparedFile } from "../file-upload/prepareFile";
-import { BountyFile } from "../pages/api/bounties";
+import { BountyFile } from "../pages/api/prepare-bounties";
 import { pluralize } from "../pluralize";
 import { switchChain } from "../switchChain";
 

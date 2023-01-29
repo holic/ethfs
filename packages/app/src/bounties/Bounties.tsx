@@ -5,9 +5,10 @@ import { gql } from "urql";
 import { useAccount } from "wagmi";
 
 import { useBountiesQuery } from "../../codegen/subgraph";
+import { bounties } from "../bounties";
 import { extractContractError } from "../extractContractError";
 import { PendingIcon } from "../icons/PendingIcon";
-import { BountyFile } from "../pages/api/bounties";
+import { BountyFile } from "../pages/api/prepare-bounties";
 import { usePromise } from "../usePromise";
 import { createFile } from "./createFile";
 import { uploadContent } from "./uploadContent";
@@ -28,26 +29,29 @@ const Bounties = () => {
   const { connector } = useAccount();
   const { openConnectModal } = useConnectModal();
 
-  const bounties = usePromise(
+  const bountiesFetch = usePromise(
     useMemo(
       () =>
-        fetch("/api/bounties").then(
-          (res) => res.json() as Promise<BountyFile[]>
+        Promise.all(
+          Object.values(bounties).map((filename) =>
+            fetch(`/bounties/${filename}.json`).then(
+              (res) => res.json() as Promise<BountyFile>
+            )
+          )
         ),
       []
     )
   );
-  console.log("bounties", bounties);
 
   const [desiredChecksums, desiredFilenames] = useMemo(
     () =>
-      bounties.type === "fulfilled"
+      bountiesFetch.type === "fulfilled"
         ? [
-            bounties.value.flatMap((file) => file.checksums),
-            bounties.value.map((file) => file.name),
+            bountiesFetch.value.flatMap((file) => file.checksums),
+            bountiesFetch.value.map((file) => file.name),
           ]
         : [[], []],
-    [bounties]
+    [bountiesFetch]
   );
   console.log("desiredChecksums", desiredChecksums);
   console.log("desiredFilenames", desiredFilenames);
@@ -67,11 +71,11 @@ const Bounties = () => {
     return () => clearInterval(timer);
   }, [executeQuery]);
 
-  if (bounties.type === "pending" || bountiesQuery.fetching) {
+  if (bountiesFetch.type === "pending" || bountiesQuery.fetching) {
     return <PendingIcon />;
   }
-  if (bounties.type === "rejected") {
-    console.error("fetch bounties error", bounties.error);
+  if (bountiesFetch.type === "rejected") {
+    console.error("fetch bounties error", bountiesFetch.error);
     return <div>Error fetching bounties</div>;
   }
   if (bountiesQuery.error) {
@@ -81,7 +85,7 @@ const Bounties = () => {
 
   return (
     <>
-      {bounties.value.map((file) => {
+      {bountiesFetch.value.map((file) => {
         const hasCreatedFile = filenames.includes(file.name);
         const isReadyToCreateFile = file.checksums.every((checksum) =>
           checksums.includes(checksum)

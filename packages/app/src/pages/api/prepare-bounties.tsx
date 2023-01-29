@@ -4,6 +4,8 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import zlib from "node:zlib";
 import path from "path";
 
+import { bounties } from "../../bounties";
+
 // https://eips.ethereum.org/EIPS/eip-170
 // 0x6000 minus 1 byte for SSTORE2 prefix
 export const maxContentSize = parseInt("6000", 16) - 1;
@@ -21,13 +23,9 @@ export type BountyFile = {
   };
 };
 
-const files = {
-  threejs: path.join(process.cwd(), "bounties/three-v0.147.0.min.js"),
-  p5js: path.join(process.cwd(), "bounties/p5-v1.5.0.min.js"),
-};
-
 const prepareFiles = () => {
-  Object.entries(files).forEach(([, file]) => {
+  Object.entries(bounties).forEach(([, filename]) => {
+    const file = path.join(process.cwd(), filename);
     const originalContents = fs.readFileSync(file);
     const compressed = zlib.gzipSync(originalContents);
     fs.writeFileSync(`${file}.gz`, compressed);
@@ -60,14 +58,14 @@ const prepareFiles = () => {
   });
 };
 
-// prepareFiles();
+const handler = (req: NextApiRequest, res: NextApiResponse) => {
+  if (process.env.NODE_ENV !== "development") {
+    res.status(404).end();
+    return;
+  }
 
-const handler = (req: NextApiRequest, res: NextApiResponse<BountyFile[]>) => {
-  res.json(
-    Object.values(files).map((file) =>
-      JSON.parse(fs.readFileSync(`${file}.json`).toString())
-    )
-  );
+  prepareFiles();
+  res.send("done");
 };
 
 export default handler;

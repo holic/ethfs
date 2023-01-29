@@ -1,10 +1,5 @@
 {
   "github": {
     "silent": true
-  },
-  "functions": {
-    "packages/app/src/pages/api/bounties.tsx": {
-      "includeFiles": "bounties/*.json"
-    }
   }
 }
