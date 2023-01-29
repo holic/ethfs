@@ -7,15 +7,26 @@ interface IContentStore {
     error ChecksumExists(bytes32 checksum);
     error ChecksumNotFound(bytes32 checksum);
 
-    function pointers(bytes32 checksum) external view returns (address pointer);
+    function pointers(bytes32 checksum)
+        external
+        view
+        returns (address pointer);
 
     function checksumExists(bytes32 checksum) external view returns (bool);
 
-    function contentLength(bytes32 checksum) external view returns (uint256 size);
+    function contentLength(bytes32 checksum)
+        external
+        view
+        returns (uint256 size);
 
     function addPointer(address pointer) external returns (bytes32 checksum);
 
-    function addContent(bytes memory content) external returns (bytes32 checksum, address pointer);
+    function addContent(bytes memory content)
+        external
+        returns (bytes32 checksum, address pointer);
 
-    function getPointer(bytes32 checksum) external view returns (address pointer);
+    function getPointer(bytes32 checksum)
+        external
+        view
+        returns (address pointer);
 }

@@ -21,7 +21,11 @@ contract FileStore is IFileStore, Ownable2Step {
         return files[filename] != bytes32(0);
     }
 
-    function getChecksum(string memory filename) public view returns (bytes32 checksum) {
+    function getChecksum(string memory filename)
+        public
+        view
+        returns (bytes32 checksum)
+    {
         checksum = files[filename];
         if (checksum == bytes32(0)) {
             revert FileNotFound(filename);
@@ -29,7 +33,11 @@ contract FileStore is IFileStore, Ownable2Step {
         return checksum;
     }
 
-    function getFile(string memory filename) public view returns (File memory file) {
+    function getFile(string memory filename)
+        public
+        view
+        returns (File memory file)
+    {
         bytes32 checksum = files[filename];
         if (checksum == bytes32(0)) {
             revert FileNotFound(filename);
@@ -41,30 +49,38 @@ contract FileStore is IFileStore, Ownable2Step {
         return abi.decode(SSTORE2.read(pointer), (File));
     }
 
-    function createFile(string memory filename, bytes32[] memory checksums) public returns (File memory file) {
-        return createFile(filename, checksums, new bytes(0));
-    }
-
-    function createFile(string memory filename, bytes32[] memory checksums, bytes memory extraData)
+    function createFile(string memory filename, bytes32[] memory checksums)
         public
         returns (File memory file)
     {
+        return createFile(filename, checksums, new bytes(0));
+    }
+
+    function createFile(
+        string memory filename,
+        bytes32[] memory checksums,
+        bytes memory extraData
+    ) public returns (File memory file) {
         if (files[filename] != bytes32(0)) {
             revert FilenameExists(filename);
         }
         return _createFile(filename, checksums, extraData);
     }
 
-    function _createFile(string memory filename, bytes32[] memory checksums, bytes memory extraData)
-        private
-        returns (File memory file)
-    {
+    function _createFile(
+        string memory filename,
+        bytes32[] memory checksums,
+        bytes memory extraData
+    ) private returns (File memory file) {
         Content[] memory contents = new Content[](checksums.length);
         uint256 size = 0;
         // TODO: optimize this
         for (uint256 i = 0; i < checksums.length; ++i) {
             size += contentStore.contentLength(checksums[i]);
-            contents[i] = Content({checksum: checksums[i], pointer: contentStore.getPointer(checksums[i])});
+            contents[i] = Content({
+                checksum: checksums[i],
+                pointer: contentStore.getPointer(checksums[i])
+            });
         }
         if (size == 0) {
             revert EmptyFile();

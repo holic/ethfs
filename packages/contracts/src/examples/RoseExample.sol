@@ -18,7 +18,11 @@ contract RoseExample is ERC721 {
         _mint(msg.sender, 4);
     }
 
-    function toString(uint256 value) internal pure returns (string memory str) {
+    function toString(uint256 value)
+        internal
+        pure
+        returns (string memory str)
+    {
         /// @solidity memory-safe-assembly
         assembly {
             // The maximum value of a uint256 contains 78 digits (1 byte per digit), but we allocate 160 bytes
@@ -67,7 +71,13 @@ contract RoseExample is ERC721 {
         }
     }
 
-    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        virtual
+        override
+        returns (string memory)
+    {
         return string.concat(
             "data:application/json,%7B%22name%22%3A%22Example%20Rose%22%2C%22animation_url%22%3A%22data%3Atext%2Fhtml%2C%253Cscript%250A%2520%2520type%253D%2522text%252Fjavascript%252Bgzip%2522%250A%2520%2520src%253D%2522data%253Atext%252Fjavascript%253Bbase64%252C",
             fileStore.getFile("three.min.js.gz").read(),

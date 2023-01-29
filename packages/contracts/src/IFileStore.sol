@@ -6,9 +6,17 @@ import {IContentStore} from "./IContentStore.sol";
 
 interface IFileStore {
     event FileCreated(
-        string indexed indexedFilename, bytes32 indexed checksum, string filename, uint256 size, bytes metadata
+        string indexed indexedFilename,
+        bytes32 indexed checksum,
+        string filename,
+        uint256 size,
+        bytes metadata
     );
-    event FileDeleted(string indexed indexedFilename, bytes32 indexed checksum, string filename);
+    event FileDeleted(
+        string indexed indexedFilename,
+        bytes32 indexed checksum,
+        string filename
+    );
 
     error FileNotFound(string filename);
     error FilenameExists(string filename);
@@ -16,19 +24,32 @@ interface IFileStore {
 
     function contentStore() external view returns (IContentStore);
 
-    function files(string memory filename) external view returns (bytes32 checksum);
+    function files(string memory filename)
+        external
+        view
+        returns (bytes32 checksum);
 
     function fileExists(string memory filename) external view returns (bool);
 
-    function getChecksum(string memory filename) external view returns (bytes32 checksum);
+    function getChecksum(string memory filename)
+        external
+        view
+        returns (bytes32 checksum);
 
-    function getFile(string memory filename) external view returns (File memory file);
+    function getFile(string memory filename)
+        external
+        view
+        returns (File memory file);
 
-    function createFile(string memory filename, bytes32[] memory checksums) external returns (File memory file);
-
-    function createFile(string memory filename, bytes32[] memory checksums, bytes memory extraData)
+    function createFile(string memory filename, bytes32[] memory checksums)
         external
         returns (File memory file);
+
+    function createFile(
+        string memory filename,
+        bytes32[] memory checksums,
+        bytes memory extraData
+    ) external returns (File memory file);
 
     function deleteFile(string memory filename) external;
 }

@@ -38,8 +38,9 @@ contract MockProjectTest is Test {
         contentStore = new ContentStore();
         fileStore = new FileStore(contentStore);
 
-        (bytes32 checksum,) =
-            fileStore.contentStore().addContent(bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt")));
+        (bytes32 checksum,) = fileStore.contentStore().addContent(
+            bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt"))
+        );
 
         bytes32[] memory checksums = new bytes32[](4);
         checksums[0] = checksum;

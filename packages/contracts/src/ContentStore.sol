@@ -12,7 +12,11 @@ contract ContentStore is IContentStore {
         return pointers[checksum] != address(0);
     }
 
-    function contentLength(bytes32 checksum) public view returns (uint256 size) {
+    function contentLength(bytes32 checksum)
+        public
+        view
+        returns (uint256 size)
+    {
         if (!checksumExists(checksum)) {
             revert ChecksumNotFound(checksum);
         }
@@ -30,7 +34,10 @@ contract ContentStore is IContentStore {
         return checksum;
     }
 
-    function addContent(bytes memory content) public returns (bytes32 checksum, address pointer) {
+    function addContent(bytes memory content)
+        public
+        returns (bytes32 checksum, address pointer)
+    {
         checksum = keccak256(content);
         if (pointers[checksum] != address(0)) {
             return (checksum, pointers[checksum]);
@@ -41,7 +48,11 @@ contract ContentStore is IContentStore {
         return (checksum, pointer);
     }
 
-    function getPointer(bytes32 checksum) public view returns (address pointer) {
+    function getPointer(bytes32 checksum)
+        public
+        view
+        returns (address pointer)
+    {
         if (!checksumExists(checksum)) {
             revert ChecksumNotFound(checksum);
         }
