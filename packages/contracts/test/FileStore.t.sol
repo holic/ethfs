@@ -37,7 +37,7 @@ contract FileStoreTest is Test {
 
     function testGetChecksum() public {
         bytes32 checksum = fileStore.getChecksum("big.txt");
-        assertEq(checksum, 0x14c8282b35a841d7df042bc64f5a40da1368ecf57f97a50d878c8dfa4ba912a5);
+        assertEq(checksum, 0x1298631b72c292d6f7746effbfdf53a1b7c3e822337cd3d7e20987f4b2f98ccd);
 
         vm.expectRevert(abi.encodeWithSelector(IFileStore.FileNotFound.selector, "non-existent.txt"));
         fileStore.getFile("non-existent.txt");
@@ -88,7 +88,7 @@ contract FileStoreTest is Test {
         assertTrue(fileStore.fileExists("big.txt"), "expected file big.txt to exist");
 
         vm.expectEmit(true, true, true, true);
-        emit FileDeleted("big.txt", 0x14c8282b35a841d7df042bc64f5a40da1368ecf57f97a50d878c8dfa4ba912a5, "big.txt");
+        emit FileDeleted("big.txt", 0x1298631b72c292d6f7746effbfdf53a1b7c3e822337cd3d7e20987f4b2f98ccd, "big.txt");
 
         fileStore.deleteFile("big.txt");
         assertFalse(fileStore.fileExists("big.txt"), "expected file big.txt to no longer exist");
