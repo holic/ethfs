@@ -8,9 +8,9 @@ const maxChunk = precomputedGasEstimates[precomputedGasEstimates.length - 1];
 export const ChunkGasEstimate = () => {
   const { data: feeData } = useFeeData();
 
-  const estimatedFee = feeData?.maxFeePerGas
+  const estimatedFee = feeData?.gasPrice
     ? Math.round(
-        parseFloat(formatEther(feeData.maxFeePerGas.mul(maxChunk.gas))) * 1000
+        parseFloat(formatEther(feeData.gasPrice.mul(maxChunk.gas))) * 1000
       ) / 1000
     : null;
 
