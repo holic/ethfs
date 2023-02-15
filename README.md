@@ -18,6 +18,16 @@ The `FileStore` contract acts as a minimum viable registry, a global namespace o
 
 > For specific use cases (e.g. different naming schemes, permissioning, etc.), you may decide to create your own file store abstraction. That's great! The `ContentStore` is designed to be unopinionated (strictly content-addressable), so that building on top of it can benefit everyone.
 
+## Installation (Foundry)
+
+1. `forge install holic/ethfs`
+
+2. Go into your `foundry.toml` and add `"@holic/ethfs/"` to your `remappings` array
+
+3. Go into your `.sol` file and add `import "@holic/ethfs/contracts/src/FileStore.sol";`
+
+4. Have fun!
+
 ## Reference
 
 ### Ethereum Mainnet contracts
