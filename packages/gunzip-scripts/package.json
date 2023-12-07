@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.1",
   "engines": {
-    "node": "16",
-    "pnpm": "7"
+    "node": "18",
+    "pnpm": "8"
   },
   "scripts": {
     "build": "esbuild src/gunzipScripts.ts --outfile=dist/gunzipScripts-$npm_package_version.js --bundle --minify"

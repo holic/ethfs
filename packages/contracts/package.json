@@ -2,8 +2,8 @@
   "name": "@ethfs/contracts",
   "private": true,
   "engines": {
-    "node": "16",
-    "pnpm": "7"
+    "node": "18",
+    "pnpm": "8"
   },
   "scripts": {
     "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
