@@ -7,7 +7,7 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 
 contract ContentStoreTest is Test {
-    event NewContent(address indexed pointer, uint16 contentSize);
+    event NewContent(address indexed pointer, uint32 contentSize);
 
     IContentStore public contentStore;
 
@@ -29,7 +29,7 @@ contract ContentStoreTest is Test {
         );
 
         vm.expectEmit(true, true, true, true);
-        emit NewContent(pointer, uint16(content.length));
+        emit NewContent(pointer, uint32(content.length));
         address newPointer = contentStore.addContent(content);
         assertEq(newPointer, pointer);
 

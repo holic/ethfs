@@ -24,7 +24,7 @@
       {
         "name": "slices",
         "type": "tuple[]",
-        "internalType": "struct ContentSlice[]",
+        "internalType": "struct BytecodeSlice[]",
         "components": [
           {
             "name": "pointer",
@@ -32,16 +32,21 @@
             "internalType": "address"
           },
           {
-            "name": "start",
-            "type": "uint16",
-            "internalType": "uint16"
+            "name": "size",
+            "type": "uint32",
+            "internalType": "uint32"
           },
           {
-            "name": "end",
-            "type": "uint16",
-            "internalType": "uint16"
+            "name": "offset",
+            "type": "uint32",
+            "internalType": "uint32"
           }
         ]
+      },
+      {
+        "name": "metadata",
+        "type": "bytes",
+        "internalType": "bytes"
       }
     ],
     "outputs": [
@@ -63,7 +68,7 @@
           {
             "name": "slices",
             "type": "tuple[]",
-            "internalType": "struct ContentSlice[]",
+            "internalType": "struct BytecodeSlice[]",
             "components": [
               {
                 "name": "pointer",
@@ -71,14 +76,14 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "size",
+                "type": "uint32",
+                "internalType": "uint32"
               },
               {
-                "name": "end",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "offset",
+                "type": "uint32",
+                "internalType": "uint32"
               }
             ]
           }
@@ -121,7 +126,7 @@
           {
             "name": "slices",
             "type": "tuple[]",
-            "internalType": "struct ContentSlice[]",
+            "internalType": "struct BytecodeSlice[]",
             "components": [
               {
                 "name": "pointer",
@@ -129,14 +134,14 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "size",
+                "type": "uint32",
+                "internalType": "uint32"
               },
               {
-                "name": "end",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "offset",
+                "type": "uint32",
+                "internalType": "uint32"
               }
             ]
           }
@@ -157,7 +162,7 @@
       {
         "name": "slices",
         "type": "tuple[]",
-        "internalType": "struct ContentSlice[]",
+        "internalType": "struct BytecodeSlice[]",
         "components": [
           {
             "name": "pointer",
@@ -165,21 +170,16 @@
             "internalType": "address"
           },
           {
-            "name": "start",
-            "type": "uint16",
-            "internalType": "uint16"
+            "name": "size",
+            "type": "uint32",
+            "internalType": "uint32"
           },
           {
-            "name": "end",
-            "type": "uint16",
-            "internalType": "uint16"
+            "name": "offset",
+            "type": "uint32",
+            "internalType": "uint32"
           }
         ]
-      },
-      {
-        "name": "metadata",
-        "type": "bytes",
-        "internalType": "bytes"
       }
     ],
     "outputs": [
@@ -201,7 +201,7 @@
           {
             "name": "slices",
             "type": "tuple[]",
-            "internalType": "struct ContentSlice[]",
+            "internalType": "struct BytecodeSlice[]",
             "components": [
               {
                 "name": "pointer",
@@ -209,14 +209,14 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "size",
+                "type": "uint32",
+                "internalType": "uint32"
               },
               {
-                "name": "end",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "offset",
+                "type": "uint32",
+                "internalType": "uint32"
               }
             ]
           }
@@ -264,7 +264,7 @@
           {
             "name": "slices",
             "type": "tuple[]",
-            "internalType": "struct ContentSlice[]",
+            "internalType": "struct BytecodeSlice[]",
             "components": [
               {
                 "name": "pointer",
@@ -272,14 +272,14 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "size",
+                "type": "uint32",
+                "internalType": "uint32"
               },
               {
-                "name": "end",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "offset",
+                "type": "uint32",
+                "internalType": "uint32"
               }
             ]
           }
@@ -363,7 +363,7 @@
           {
             "name": "slices",
             "type": "tuple[]",
-            "internalType": "struct ContentSlice[]",
+            "internalType": "struct BytecodeSlice[]",
             "components": [
               {
                 "name": "pointer",
@@ -371,14 +371,14 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "size",
+                "type": "uint32",
+                "internalType": "uint32"
               },
               {
-                "name": "end",
-                "type": "uint16",
-                "internalType": "uint16"
+                "name": "offset",
+                "type": "uint32",
+                "internalType": "uint32"
               }
             ]
           }

@@ -6,10 +6,8 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 
 struct BytecodeSlice {
     address pointer;
-    // bytecode can only be 24kb, which is <65k (max value of uint16)
-    // TODO: since we have the space, expand this to uint32 in case bytecode size is increased?
-    uint16 size;
-    uint16 offset;
+    uint32 size;
+    uint32 offset;
 }
 
 struct File {

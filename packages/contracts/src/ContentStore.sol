@@ -17,12 +17,12 @@ contract ContentStore is IContentStore {
         return getCodeSize(pointer) > 0;
     }
 
-    function contentLength(address pointer) public view returns (uint16 size) {
+    function contentLength(address pointer) public view returns (uint32 size) {
         size = getCodeSize(pointer);
         if (size == 0) {
             revert ContentNotFound(pointer);
         }
-        return size - uint16(SSTORE2.DATA_OFFSET);
+        return size - uint32(SSTORE2.DATA_OFFSET);
     }
 
     function pointerForContent(
@@ -68,7 +68,7 @@ contract ContentStore is IContentStore {
         return SSTORE2.read(pointer);
     }
 
-    function getCodeSize(address target) internal view returns (uint16 size) {
+    function getCodeSize(address target) internal view returns (uint32 size) {
         assembly {
             size := extcodesize(target)
         }
