@@ -1,0 +1,20 @@
+[
+  {
+    "file": "test/FileStore.t.sol",
+    "test": "testBigFile",
+    "name": "create big file",
+    "gasUsed": 190230
+  },
+  {
+    "file": "test/FileStore.t.sol",
+    "test": "testBigFile",
+    "name": "read big file",
+    "gasUsed": 349271
+  },
+  {
+    "file": "test/FileStore.t.sol",
+    "test": "testCreateFile",
+    "name": "create 24kb file",
+    "gasUsed": 120511
+  }
+]
