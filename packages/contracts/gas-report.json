@@ -9,7 +9,7 @@
     "file": "test/FileStore.t.sol",
     "test": "testBigFile",
     "name": "read big file",
-    "gasUsed": 349895
+    "gasUsed": 53328
   },
   {
     "file": "test/FileStore.t.sol",
@@ -21,7 +21,7 @@
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "read file",
-    "gasUsed": 6198
+    "gasUsed": 5379
   },
   {
     "file": "test/FileStore.t.sol",
@@ -39,6 +39,6 @@
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
-    "gasUsed": 10579
+    "gasUsed": 8137
   }
 ]
