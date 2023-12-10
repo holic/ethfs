@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.21;
 
 import {File} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
@@ -7,14 +7,14 @@ import {IContentStore} from "./IContentStore.sol";
 interface IFileStore {
     event FileCreated(
         string indexed indexedFilename,
-        bytes32 indexed checksum,
+        address indexed pointer,
         string filename,
         uint256 size,
         bytes metadata
     );
     event FileDeleted(
         string indexed indexedFilename,
-        bytes32 indexed checksum,
+        address indexed pointer,
         string filename
     );
 
@@ -24,32 +24,30 @@ interface IFileStore {
 
     function contentStore() external view returns (IContentStore);
 
-    function files(string memory filename)
-        external
-        view
-        returns (bytes32 checksum);
+    function files(
+        string memory filename
+    ) external view returns (address pointer);
 
     function fileExists(string memory filename) external view returns (bool);
 
-    function getChecksum(string memory filename)
-        external
-        view
-        returns (bytes32 checksum);
+    function getPointer(
+        string memory filename
+    ) external view returns (address pointer);
 
-    function getFile(string memory filename)
-        external
-        view
-        returns (File memory file);
-
-    function createFile(string memory filename, bytes32[] memory checksums)
-        external
-        returns (File memory file);
+    function getFile(
+        string memory filename
+    ) external view returns (File memory file);
 
     function createFile(
         string memory filename,
-        bytes32[] memory checksums,
-        bytes memory extraData
-    ) external returns (File memory file);
+        address[] memory pointers
+    ) external returns (address pointer, File memory file);
+
+    function createFile(
+        string memory filename,
+        address[] memory pointers,
+        bytes memory metadata
+    ) external returns (address pointer, File memory file);
 
     function deleteFile(string memory filename) external;
 }

@@ -1,61 +1,76 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.21;
 
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
+import {revertWithBytes} from "./revertWithBytes.sol";
 
 contract ContentStore is IContentStore {
-    // content checksum => sstore2 pointer
-    mapping(bytes32 => address) public pointers;
+    address internal immutable deployer;
+    bytes32 internal constant salt = bytes32(0);
 
-    function checksumExists(bytes32 checksum) public view returns (bool) {
-        return pointers[checksum] != address(0);
+    constructor(address _deployer) {
+        deployer = _deployer;
     }
 
-    function contentLength(bytes32 checksum)
-        public
-        view
-        returns (uint256 size)
-    {
-        if (!checksumExists(checksum)) {
-            revert ChecksumNotFound(checksum);
-        }
-        return SSTORE2.read(pointers[checksum]).length;
+    function pointerExists(address pointer) public view returns (bool) {
+        return getCodeSize(pointer) > 0;
     }
 
-    function addPointer(address pointer) public returns (bytes32 checksum) {
-        bytes memory content = SSTORE2.read(pointer);
-        checksum = keccak256(content);
-        if (pointers[checksum] != address(0)) {
-            return checksum;
+    function contentLength(address pointer) public view returns (uint16 size) {
+        size = getCodeSize(pointer);
+        if (size == 0) {
+            revert ContentNotFound(pointer);
         }
-        pointers[checksum] = pointer;
-        emit NewChecksum(checksum, content.length);
-        return checksum;
+        return size - uint16(SSTORE2.DATA_OFFSET);
     }
 
-    function addContent(bytes memory content)
-        public
-        returns (bytes32 checksum, address pointer)
-    {
-        checksum = keccak256(content);
-        if (pointers[checksum] != address(0)) {
-            return (checksum, pointers[checksum]);
-        }
-        pointer = SSTORE2.write(content);
-        pointers[checksum] = pointer;
-        emit NewChecksum(checksum, content.length);
-        return (checksum, pointer);
+    function pointerForContent(
+        bytes memory content
+    ) public view returns (address) {
+        return SSTORE2.predictDeterministicAddress(content, salt, deployer);
     }
 
-    function getPointer(bytes32 checksum)
-        public
-        view
-        returns (address pointer)
-    {
-        if (!checksumExists(checksum)) {
-            revert ChecksumNotFound(checksum);
+    function addContent(bytes memory content) public returns (address pointer) {
+        address expectedPointer = pointerForContent(content);
+        if (pointerExists(expectedPointer)) {
+            revert ContentAlreadyExists(expectedPointer);
         }
-        return pointers[checksum];
+
+        bytes memory creationCode = abi.encodePacked(
+            // Pulled from SSTORE2 source
+            bytes11(0x61000080600a3d393df300) |
+                // Overlay content size (plus data offset) into second and third bytes
+                bytes11(bytes3(uint24(content.length + SSTORE2.DATA_OFFSET))),
+            content
+        );
+
+        (bool success, bytes memory data) = deployer.call(
+            abi.encodePacked(salt, creationCode)
+        );
+        if (!success) revertWithBytes(data);
+
+        pointer = address(uint160(bytes20(data)));
+        if (pointer != expectedPointer) {
+            revert UnexpectedPointer(expectedPointer, pointer);
+        }
+
+        emit NewContent(pointer, uint16(content.length));
+    }
+
+    function getContent(
+        address pointer
+    ) public view returns (bytes memory content) {
+        if (!pointerExists(pointer)) {
+            revert ContentNotFound(pointer);
+        }
+
+        return SSTORE2.read(pointer);
+    }
+
+    function getCodeSize(address target) internal view returns (uint16 size) {
+        assembly {
+            size := extcodesize(target)
+        }
     }
 }

@@ -38,6 +38,28 @@
     "type": "error"
   },
   {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "owner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnableInvalidOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "account",
+        "type": "address"
+      }
+    ],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
     "anonymous": false,
     "inputs": [
       {
@@ -48,9 +70,9 @@
       },
       {
         "indexed": true,
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
       },
       {
         "indexed": false,
@@ -85,9 +107,9 @@
       },
       {
         "indexed": true,
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
       },
       {
         "indexed": false,
@@ -165,13 +187,18 @@
         "type": "string"
       },
       {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
+        "internalType": "address[]",
+        "name": "pointers",
+        "type": "address[]"
       }
     ],
     "name": "createFile",
     "outputs": [
+      {
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
+      },
       {
         "components": [
           {
@@ -182,18 +209,23 @@
           {
             "components": [
               {
-                "internalType": "bytes32",
-                "name": "checksum",
-                "type": "bytes32"
-              },
-              {
                 "internalType": "address",
                 "name": "pointer",
                 "type": "address"
+              },
+              {
+                "internalType": "uint16",
+                "name": "start",
+                "type": "uint16"
+              },
+              {
+                "internalType": "uint16",
+                "name": "end",
+                "type": "uint16"
               }
             ],
-            "internalType": "struct Content[]",
-            "name": "contents",
+            "internalType": "struct ContentSlice[]",
+            "name": "slices",
             "type": "tuple[]"
           }
         ],
@@ -213,18 +245,23 @@
         "type": "string"
       },
       {
-        "internalType": "bytes32[]",
-        "name": "checksums",
-        "type": "bytes32[]"
+        "internalType": "address[]",
+        "name": "pointers",
+        "type": "address[]"
       },
       {
         "internalType": "bytes",
-        "name": "extraData",
+        "name": "metadata",
         "type": "bytes"
       }
     ],
     "name": "createFile",
     "outputs": [
+      {
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
+      },
       {
         "components": [
           {
@@ -235,18 +272,23 @@
           {
             "components": [
               {
-                "internalType": "bytes32",
-                "name": "checksum",
-                "type": "bytes32"
-              },
-              {
                 "internalType": "address",
                 "name": "pointer",
                 "type": "address"
+              },
+              {
+                "internalType": "uint16",
+                "name": "start",
+                "type": "uint16"
+              },
+              {
+                "internalType": "uint16",
+                "name": "end",
+                "type": "uint16"
               }
             ],
-            "internalType": "struct Content[]",
-            "name": "contents",
+            "internalType": "struct ContentSlice[]",
+            "name": "slices",
             "type": "tuple[]"
           }
         ],
@@ -301,28 +343,9 @@
     "name": "files",
     "outputs": [
       {
-        "internalType": "bytes32",
+        "internalType": "address",
         "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "string",
-        "name": "filename",
-        "type": "string"
-      }
-    ],
-    "name": "getChecksum",
-    "outputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -348,24 +371,48 @@
           {
             "components": [
               {
-                "internalType": "bytes32",
-                "name": "checksum",
-                "type": "bytes32"
-              },
-              {
                 "internalType": "address",
                 "name": "pointer",
                 "type": "address"
+              },
+              {
+                "internalType": "uint16",
+                "name": "start",
+                "type": "uint16"
+              },
+              {
+                "internalType": "uint16",
+                "name": "end",
+                "type": "uint16"
               }
             ],
-            "internalType": "struct Content[]",
-            "name": "contents",
+            "internalType": "struct ContentSlice[]",
+            "name": "slices",
             "type": "tuple[]"
           }
         ],
         "internalType": "struct File",
         "name": "file",
         "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "string",
+        "name": "filename",
+        "type": "string"
+      }
+    ],
+    "name": "getPointer",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
       }
     ],
     "stateMutability": "view",

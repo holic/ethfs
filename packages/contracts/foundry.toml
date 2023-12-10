@@ -1,0 +1,5 @@
+[profile.default]
+solc = '0.8.21'
+verbosity = 2
+extra_output_files = ['abi', 'evm.bytecode']
+fs_permissions = [{ access = "read", path = "./"}]

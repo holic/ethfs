@@ -10,7 +10,10 @@ contract Deploy is Script {
     function run() public {
         vm.startBroadcast();
 
-        ContentStore contentStore = new ContentStore();
+        // TODO: set up deployer instead of using CREATE2_FACTORY
+        ContentStore contentStore = new ContentStore(
+            0x4e59b44847b379578588920cA78FbF26c0B4956C
+        );
         new FileStore(contentStore);
         new FileStoreFrontend();
 

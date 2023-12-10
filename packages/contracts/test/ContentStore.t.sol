@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity >=0.8.10 <0.9.0;
+pragma solidity ^0.8.21;
 
 import "forge-std/Test.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
@@ -7,89 +7,87 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 
 contract ContentStoreTest is Test {
+    event NewContent(address indexed pointer, uint16 contentSize);
+
     IContentStore public contentStore;
 
-    event NewChecksum(bytes32 indexed checksum, uint256 contentSize);
-
     function setUp() public {
-        contentStore = new ContentStore();
+        // TODO: set up deployer instead of using CREATE2_FACTORY
+        contentStore = new ContentStore(
+            0x4e59b44847b379578588920cA78FbF26c0B4956C
+        );
     }
 
     function testAddContent() public {
-        bytes memory content =
-            bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt"));
-        bytes32 checksum = keccak256(content);
+        bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
+        address pointer = contentStore.pointerForContent(content);
 
+        assertEq(pointer, address(0x837618a80DB6d3590bfB6cadC239bc09e793C12D));
         assertFalse(
-            contentStore.checksumExists(checksum),
+            contentStore.pointerExists(pointer),
             "expected checksum to not exist"
         );
 
         vm.expectEmit(true, true, true, true);
-        emit NewChecksum(checksum, content.length);
+        emit NewContent(pointer, uint16(content.length));
+        address newPointer = contentStore.addContent(content);
+        assertEq(newPointer, pointer);
 
-        (bytes32 checksumResult,) = contentStore.addContent(content);
-        assertEq(checksumResult, checksum);
-
-        // Adding the same content is a no-op
-        (checksumResult,) = contentStore.addContent(content);
-        assertEq(checksumResult, checksum);
-
-        assertTrue(
-            contentStore.checksumExists(checksum), "expected checksum to exist"
-        );
-
-        bytes memory storedContent =
-            SSTORE2.read(contentStore.getPointer(checksum));
-
-        assertEq(storedContent, content, "expected content to match");
-        assertEq(
-            keccak256(storedContent), checksum, "expected checksums to match"
-        );
-        assertEq(contentStore.contentLength(checksum), content.length);
-    }
-
-    function testAddPointer() public {
-        bytes memory content =
-            bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt"));
-        bytes32 checksum = keccak256(content);
-        address pointer = SSTORE2.write(content);
-
-        assertFalse(
-            contentStore.checksumExists(checksum),
-            "expected checksum to not exist"
-        );
-
-        vm.expectEmit(true, true, true, true);
-        emit NewChecksum(checksum, content.length);
-
-        bytes32 checksumResult = contentStore.addPointer(pointer);
-        assertEq(checksumResult, checksum);
-
-        // Adding the same pointer is a no-op
-        checksumResult = contentStore.addPointer(pointer);
-        assertEq(checksumResult, checksum);
-
-        assertEq(contentStore.contentLength(checksum), content.length);
-    }
-
-    function testGetPointer() public {
+        // Adding the same content should revert
         vm.expectRevert(
             abi.encodeWithSelector(
-                IContentStore.ChecksumNotFound.selector,
-                keccak256("non-existent")
+                IContentStore.ContentAlreadyExists.selector,
+                pointer
             )
         );
-        contentStore.getPointer(keccak256("non-existent"));
+        contentStore.addContent(content);
+
+        assertTrue(
+            contentStore.pointerExists(pointer),
+            "expected pointer to exist"
+        );
+
+        bytes memory storedContent = SSTORE2.read(pointer);
+
+        assertEq(storedContent, content, "expected content to match");
+        assertEq(contentStore.contentLength(pointer), content.length);
     }
 
     function testContentLength() public {
         vm.expectRevert(
             abi.encodeWithSelector(
-                IContentStore.ChecksumNotFound.selector,
-                keccak256("non-existent")
+                IContentStore.ContentNotFound.selector,
+                address(0)
             )
         );
-        contentStore.contentLength(keccak256("non-existent"));
+        contentStore.contentLength(address(0));
+    }
+
+    function testGetContent() public {
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IContentStore.ContentNotFound.selector,
+                address(0)
+            )
+        );
+        contentStore.getContent(address(0));
+    }
+
+    function testDeterministicPointer() public {
+        bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
+        address pointer = contentStore.addContent(content);
+
+        // TODO: set up deployer instead of using CREATE2_FACTORY
+        ContentStore secondContentStore = new ContentStore(
+            0x4e59b44847b379578588920cA78FbF26c0B4956C
+        );
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IContentStore.ContentAlreadyExists.selector,
+                pointer
+            )
+        );
+        secondContentStore.addContent(content);
     }
 }

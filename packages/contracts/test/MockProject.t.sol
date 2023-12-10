@@ -18,14 +18,15 @@ contract MockProject {
 
     function tokenURI(uint256 tokenId) public view returns (string memory) {
         File memory file = fileStore.getFile("big.txt");
-        return string.concat(
-            "data:application/json,",
-            "%7B%22name%22:%22Token #",
-            LibString.toString(tokenId),
-            "%22,%22animation_url%22:%22",
-            file.read(),
-            "%22%7D"
-        );
+        return
+            string.concat(
+                "data:application/json,",
+                "%7B%22name%22:%22Token #",
+                LibString.toString(tokenId),
+                "%22,%22animation_url%22:%22",
+                file.read(),
+                "%22%7D"
+            );
     }
 }
 
@@ -35,20 +36,23 @@ contract MockProjectTest is Test {
     MockProject public project;
 
     function setUp() public {
-        contentStore = new ContentStore();
+        // TODO: set up deployer instead of using CREATE2_FACTORY
+        contentStore = new ContentStore(
+            0x4e59b44847b379578588920cA78FbF26c0B4956C
+        );
         fileStore = new FileStore(contentStore);
 
-        (bytes32 checksum,) = fileStore.contentStore().addContent(
-            bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt"))
+        address pointer = fileStore.contentStore().addContent(
+            bytes(vm.readFile("test/files/sstore2-max.txt"))
         );
 
-        bytes32[] memory checksums = new bytes32[](4);
-        checksums[0] = checksum;
-        checksums[1] = checksum;
-        checksums[2] = checksum;
-        checksums[3] = checksum;
+        address[] memory pointers = new address[](4);
+        pointers[0] = pointer;
+        pointers[1] = pointer;
+        pointers[2] = pointer;
+        pointers[3] = pointer;
 
-        fileStore.createFile("big.txt", checksums);
+        fileStore.createFile("big.txt", pointers);
 
         project = new MockProject(fileStore);
     }

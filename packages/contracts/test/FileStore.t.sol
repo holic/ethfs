@@ -12,57 +12,48 @@ contract FileStoreTest is Test {
     IContentStore public contentStore;
     IFileStore public fileStore;
 
+    // TODO: import/reference from IFileStore instead of duplicating
     event FileCreated(
         string indexed indexedFilename,
-        bytes32 indexed checksum,
+        address indexed pointer,
         string filename,
         uint256 size,
         bytes metadata
     );
     event FileDeleted(
         string indexed indexedFilename,
-        bytes32 indexed checksum,
+        address indexed pointer,
         string filename
     );
 
     function setUp() public {
-        contentStore = new ContentStore();
+        // TODO: set up deployer instead of using CREATE2_FACTORY
+        contentStore = new ContentStore(
+            0x4e59b44847b379578588920cA78FbF26c0B4956C
+        );
         fileStore = new FileStore(contentStore);
 
-        (bytes32 checksum,) = fileStore.contentStore().addContent(
-            bytes(vm.readFile("packages/contracts/test/files/sstore2-max.txt"))
+        address pointer = fileStore.contentStore().addContent(
+            bytes(vm.readFile("test/files/sstore2-max.txt"))
         );
 
-        bytes32[] memory checksums = new bytes32[](4);
-        checksums[0] = checksum;
-        checksums[1] = checksum;
-        checksums[2] = checksum;
-        checksums[3] = checksum;
+        address[] memory pointers = new address[](4);
+        pointers[0] = pointer;
+        pointers[1] = pointer;
+        pointers[2] = pointer;
+        pointers[3] = pointer;
 
         uint256 startGas = gasleft();
-        fileStore.createFile("big.txt", checksums);
+        (address bigFilePointer, ) = fileStore.createFile("big.txt", pointers);
         console.log("FileStore.createFile gas", startGas - gasleft());
-    }
-
-    function testGetChecksum() public {
-        bytes32 checksum = fileStore.getChecksum("big.txt");
-        assertEq(
-            checksum,
-            0x1298631b72c292d6f7746effbfdf53a1b7c3e822337cd3d7e20987f4b2f98ccd
-        );
-
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                IFileStore.FileNotFound.selector, "non-existent.txt"
-            )
-        );
-        fileStore.getFile("non-existent.txt");
+        console.log("created big.txt file", bigFilePointer);
     }
 
     function testGetFile() public {
         vm.expectRevert(
             abi.encodeWithSelector(
-                IFileStore.FileNotFound.selector, "non-existent.txt"
+                IFileStore.FileNotFound.selector,
+                "non-existent.txt"
             )
         );
         fileStore.getFile("non-existent.txt");
@@ -74,20 +65,24 @@ contract FileStoreTest is Test {
     }
 
     function testCreateFile() public {
-        string memory contents =
-            vm.readFile("packages/contracts/test/files/sstore2-max.txt");
-        (bytes32 checksum,) =
-            fileStore.contentStore().addContent(bytes(contents));
+        string memory contents = vm.readFile("test/files/sstore2-max.txt");
+        address pointer = fileStore.contentStore().pointerForContent(
+            bytes(contents)
+        );
 
-        bytes32[] memory checksums = new bytes32[](1);
-        checksums[0] = checksum;
+        address[] memory pointers = new address[](1);
+        pointers[0] = pointer;
 
         vm.expectEmit(true, false, true, true);
         emit FileCreated(
-            "24kb.txt", bytes32(0), "24kb.txt", 24575, new bytes(0)
-            );
+            "24kb.txt",
+            address(0),
+            "24kb.txt",
+            24575,
+            new bytes(0)
+        );
 
-        File memory file = fileStore.createFile("24kb.txt", checksums);
+        (, File memory file) = fileStore.createFile("24kb.txt", pointers);
 
         assertEq(file.size, 24575);
         assertEq(bytes(file.read()).length, 24575);
@@ -95,37 +90,44 @@ contract FileStoreTest is Test {
 
         vm.expectRevert(
             abi.encodeWithSelector(
-                IFileStore.FilenameExists.selector, "24kb.txt"
+                IFileStore.FilenameExists.selector,
+                "24kb.txt"
             )
         );
-        fileStore.createFile("24kb.txt", checksums);
+        fileStore.createFile("24kb.txt", pointers);
     }
 
     function testCreateFileWithExtraData() public {
-        (bytes32 checksum,) =
-            fileStore.contentStore().addContent(bytes("hello world"));
-        bytes32[] memory checksums = new bytes32[](1);
-        checksums[0] = checksum;
+        address pointer = fileStore.contentStore().addContent(
+            bytes("hello world")
+        );
+        address[] memory pointers = new address[](1);
+        pointers[0] = pointer;
 
         vm.expectEmit(true, false, true, true);
         emit FileCreated(
-            "hello.txt", bytes32(0), "hello.txt", 11, bytes("hello world")
-            );
+            "hello.txt",
+            address(0),
+            "hello.txt",
+            11,
+            bytes("hello world")
+        );
 
-        fileStore.createFile("hello.txt", checksums, bytes("hello world"));
+        fileStore.createFile("hello.txt", pointers, bytes("hello world"));
     }
 
     function testDeleteFile() public {
         assertTrue(
-            fileStore.fileExists("big.txt"), "expected file big.txt to exist"
+            fileStore.fileExists("big.txt"),
+            "expected file big.txt to exist"
         );
 
         vm.expectEmit(true, true, true, true);
         emit FileDeleted(
             "big.txt",
-            0x1298631b72c292d6f7746effbfdf53a1b7c3e822337cd3d7e20987f4b2f98ccd,
+            address(0x77D0d321c8bdD4C3D4cC7692252aCa06a292902B),
             "big.txt"
-            );
+        );
 
         fileStore.deleteFile("big.txt");
         assertFalse(

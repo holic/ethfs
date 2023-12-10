@@ -2,23 +2,71 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "_deployer",
+        "type": "address"
       }
     ],
-    "name": "ChecksumExists",
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  {
+    "inputs": [],
+    "name": "AddContentFailed",
     "type": "error"
   },
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
       }
     ],
-    "name": "ChecksumNotFound",
+    "name": "ContentAlreadyExists",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
+      }
+    ],
+    "name": "ContentNotFound",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint16",
+        "name": "contentSize",
+        "type": "uint16"
+      },
+      {
+        "internalType": "uint16",
+        "name": "maxSize",
+        "type": "uint16"
+      }
+    ],
+    "name": "ContentTooLarge",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "expectedPointer",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "actualPointer",
+        "type": "address"
+      }
+    ],
+    "name": "UnexpectedPointer",
     "type": "error"
   },
   {
@@ -26,18 +74,18 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "uint256",
+        "internalType": "uint16",
         "name": "contentSize",
-        "type": "uint256"
+        "type": "uint16"
       }
     ],
-    "name": "NewChecksum",
+    "name": "NewContent",
     "type": "event"
   },
   {
@@ -51,11 +99,6 @@
     "name": "addContent",
     "outputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      },
-      {
         "internalType": "address",
         "name": "pointer",
         "type": "address"
@@ -72,26 +115,45 @@
         "type": "address"
       }
     ],
-    "name": "addPointer",
+    "name": "contentLength",
     "outputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "uint16",
+        "name": "size",
+        "type": "uint16"
       }
     ],
-    "stateMutability": "nonpayable",
+    "stateMutability": "view",
     "type": "function"
   },
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
       }
     ],
-    "name": "checksumExists",
+    "name": "getContent",
+    "outputs": [
+      {
+        "internalType": "bytes",
+        "name": "content",
+        "type": "bytes"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "pointer",
+        "type": "address"
+      }
+    ],
+    "name": "pointerExists",
     "outputs": [
       {
         "internalType": "bool",
@@ -105,50 +167,12 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
+        "internalType": "bytes",
+        "name": "content",
+        "type": "bytes"
       }
     ],
-    "name": "contentLength",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "size",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getPointer",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "pointer",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bytes32",
-        "name": "",
-        "type": "bytes32"
-      }
-    ],
-    "name": "pointers",
+    "name": "pointerForContent",
     "outputs": [
       {
         "internalType": "address",

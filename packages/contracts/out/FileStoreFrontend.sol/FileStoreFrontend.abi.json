@@ -2,30 +2,6 @@
   {
     "inputs": [
       {
-        "internalType": "contract IContentStore",
-        "name": "contentStore",
-        "type": "address"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "checksum",
-        "type": "bytes32"
-      }
-    ],
-    "name": "getContent",
-    "outputs": [
-      {
-        "internalType": "bytes",
-        "name": "content",
-        "type": "bytes"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
         "internalType": "contract IFileStore",
         "name": "fileStore",
         "type": "address"

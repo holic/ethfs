@@ -1,32 +1,28 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.21;
 
 interface IContentStore {
-    event NewChecksum(bytes32 indexed checksum, uint256 contentSize);
+    event NewContent(address indexed pointer, uint16 contentSize);
 
-    error ChecksumExists(bytes32 checksum);
-    error ChecksumNotFound(bytes32 checksum);
+    error ContentTooLarge(uint16 contentSize, uint16 maxSize);
+    error ContentAlreadyExists(address pointer);
+    error ContentNotFound(address pointer);
+    error AddContentFailed();
+    error UnexpectedPointer(address expectedPointer, address actualPointer);
 
-    function pointers(bytes32 checksum)
-        external
-        view
-        returns (address pointer);
+    function pointerExists(address pointer) external view returns (bool);
 
-    function checksumExists(bytes32 checksum) external view returns (bool);
+    function contentLength(address pointer) external view returns (uint16 size);
 
-    function contentLength(bytes32 checksum)
-        external
-        view
-        returns (uint256 size);
+    function pointerForContent(
+        bytes memory content
+    ) external view returns (address);
 
-    function addPointer(address pointer) external returns (bytes32 checksum);
+    function addContent(
+        bytes memory content
+    ) external returns (address pointer);
 
-    function addContent(bytes memory content)
-        external
-        returns (bytes32 checksum, address pointer);
-
-    function getPointer(bytes32 checksum)
-        external
-        view
-        returns (address pointer);
+    function getContent(
+        address pointer
+    ) external returns (bytes memory content);
 }
