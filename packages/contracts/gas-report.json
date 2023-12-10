@@ -13,6 +13,18 @@
   },
   {
     "file": "test/FileStore.t.sol",
+    "test": "testBytecode",
+    "name": "create file",
+    "gasUsed": 128462
+  },
+  {
+    "file": "test/FileStore.t.sol",
+    "test": "testBytecode",
+    "name": "read file",
+    "gasUsed": 6042
+  },
+  {
+    "file": "test/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
     "gasUsed": 120448
@@ -21,7 +33,7 @@
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 163056
+    "gasUsed": 163098
   },
   {
     "file": "test/FileStore.t.sol",

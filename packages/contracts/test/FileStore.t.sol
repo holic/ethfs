@@ -172,4 +172,24 @@ contract FileStoreTest is Test, GasReporter {
 
         assertEq(contents, "HELLO WORLD.");
     }
+
+    function testBytecode() public {
+        ContentSlice[] memory slices = new ContentSlice[](1);
+        slices[0] = ContentSlice({
+            pointer: address(contentStore),
+            start: 0,
+            end: 10
+        });
+
+        startGasReport("create file");
+        fileStore.createFile("file.txt", slices);
+        endGasReport();
+
+        startGasReport("read file");
+        string memory contents = fileStore.getFile("file.txt").read();
+        endGasReport();
+
+        // TODO: adjust this once we change to supporting any bytecode (not just SSTORE2 with offset)
+        assertEq(bytes(contents), hex"80604052348015610010");
+    }
 }
