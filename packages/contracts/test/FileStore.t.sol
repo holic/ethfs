@@ -7,7 +7,7 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
 import {FileStore} from "../src/FileStore.sol";
-import {File} from "../src/File.sol";
+import {File, ContentSlice} from "../src/File.sol";
 
 contract FileStoreTest is Test, GasReporter {
     IContentStore public contentStore;
@@ -84,6 +84,7 @@ contract FileStoreTest is Test, GasReporter {
         );
 
         fileStore.createFile("hello.txt", pointers, bytes("hello world"));
+        assertEq(fileStore.getFile("hello.txt").read(), "hello world");
     }
 
     function testDeleteFile() public {
@@ -143,5 +144,32 @@ contract FileStoreTest is Test, GasReporter {
 
         assertEq(file.size, 98300);
         assertEq(bytes(file.read()).length, 98300);
+    }
+
+    function testSlices() public {
+        address helloPointer = fileStore.contentStore().addContent(
+            bytes(
+                "The meaning of HELLO is an expression or gesture of greeting - used interjectionally in greeting, in answering the telephone, or to express surprise."
+            )
+        );
+        address worldPointer = fileStore.contentStore().addContent(
+            bytes(
+                "The meaning of WORLD is the earthly state of human existence."
+            )
+        );
+        ContentSlice[] memory slices = new ContentSlice[](3);
+        slices[0] = ContentSlice({pointer: helloPointer, start: 15, end: 20});
+        slices[1] = ContentSlice({pointer: worldPointer, start: 14, end: 20});
+        slices[2] = ContentSlice({pointer: worldPointer, start: 60, end: 61});
+
+        startGasReport("create file");
+        fileStore.createFile("hello.txt", slices);
+        endGasReport();
+
+        startGasReport("read file");
+        string memory contents = fileStore.getFile("hello.txt").read();
+        endGasReport();
+
+        assertEq(contents, "HELLO WORLD.");
     }
 }
