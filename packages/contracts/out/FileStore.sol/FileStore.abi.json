@@ -50,12 +50,12 @@
             "internalType": "address"
           },
           {
-            "name": "start",
+            "name": "size",
             "type": "uint16",
             "internalType": "uint16"
           },
           {
-            "name": "end",
+            "name": "offset",
             "type": "uint16",
             "internalType": "uint16"
           }
@@ -89,12 +89,12 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
+                "name": "size",
                 "type": "uint16",
                 "internalType": "uint16"
               },
               {
-                "name": "end",
+                "name": "offset",
                 "type": "uint16",
                 "internalType": "uint16"
               }
@@ -147,12 +147,12 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
+                "name": "size",
                 "type": "uint16",
                 "internalType": "uint16"
               },
               {
-                "name": "end",
+                "name": "offset",
                 "type": "uint16",
                 "internalType": "uint16"
               }
@@ -183,12 +183,12 @@
             "internalType": "address"
           },
           {
-            "name": "start",
+            "name": "size",
             "type": "uint16",
             "internalType": "uint16"
           },
           {
-            "name": "end",
+            "name": "offset",
             "type": "uint16",
             "internalType": "uint16"
           }
@@ -227,12 +227,12 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
+                "name": "size",
                 "type": "uint16",
                 "internalType": "uint16"
               },
               {
-                "name": "end",
+                "name": "offset",
                 "type": "uint16",
                 "internalType": "uint16"
               }
@@ -290,12 +290,12 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
+                "name": "size",
                 "type": "uint16",
                 "internalType": "uint16"
               },
               {
-                "name": "end",
+                "name": "offset",
                 "type": "uint16",
                 "internalType": "uint16"
               }
@@ -389,12 +389,12 @@
                 "internalType": "address"
               },
               {
-                "name": "start",
+                "name": "size",
                 "type": "uint16",
                 "internalType": "uint16"
               },
               {
-                "name": "end",
+                "name": "offset",
                 "type": "uint16",
                 "internalType": "uint16"
               }

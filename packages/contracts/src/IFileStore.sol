@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.21;
 
-import {File, ContentSlice} from "./File.sol";
+import {File, BytecodeSlice} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
 
 interface IFileStore {
@@ -40,12 +40,12 @@ interface IFileStore {
 
     function createFile(
         string memory filename,
-        ContentSlice[] memory slices
+        BytecodeSlice[] memory slices
     ) external returns (address pointer, File memory file);
 
     function createFile(
         string memory filename,
-        ContentSlice[] memory slices,
+        BytecodeSlice[] memory slices,
         bytes memory metadata
     ) external returns (address pointer, File memory file);
 

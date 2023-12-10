@@ -5,7 +5,7 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
 import {Ownable} from "openzeppelin/access/Ownable.sol";
-import {File, ContentSlice} from "./File.sol";
+import {File, BytecodeSlice} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
 
 contract FileStore is IFileStore, Ownable2Step {
@@ -44,14 +44,14 @@ contract FileStore is IFileStore, Ownable2Step {
 
     function createFile(
         string memory filename,
-        ContentSlice[] memory slices
+        BytecodeSlice[] memory slices
     ) public returns (address pointer, File memory file) {
         return createFile(filename, slices, new bytes(0));
     }
 
     function createFile(
         string memory filename,
-        ContentSlice[] memory slices,
+        BytecodeSlice[] memory slices,
         bytes memory metadata
     ) public returns (address pointer, File memory file) {
         return _createFile(filename, slices, metadata);
@@ -77,7 +77,7 @@ contract FileStore is IFileStore, Ownable2Step {
         address[] memory pointers,
         bytes memory metadata
     ) internal returns (address pointer, File memory file) {
-        ContentSlice[] memory slices = new ContentSlice[](pointers.length);
+        BytecodeSlice[] memory slices = new BytecodeSlice[](pointers.length);
         for (uint256 i = 0; i < pointers.length; ++i) {
             slices[i].pointer = pointers[i];
             // TODO: rework File to not use offset and prefer offset defined in slice so we can support any contract data
@@ -88,7 +88,7 @@ contract FileStore is IFileStore, Ownable2Step {
 
     function _createFile(
         string memory filename,
-        ContentSlice[] memory slices,
+        BytecodeSlice[] memory slices,
         bytes memory metadata
     ) internal returns (address pointer, File memory file) {
         if (files[filename] != address(0)) {
@@ -97,10 +97,10 @@ contract FileStore is IFileStore, Ownable2Step {
         uint256 size = 0;
         // TODO: optimize this
         for (uint256 i = 0; i < slices.length; ++i) {
-            if (slices[i].end == 0) {
-                slices[i].end = contentStore.contentLength(slices[i].pointer);
+            if (slices[i].size == 0) {
+                slices[i].size = contentStore.contentLength(slices[i].pointer);
             }
-            size += slices[i].end - slices[i].start;
+            size += slices[i].size;
         }
         if (size == 0) {
             revert EmptyFile();

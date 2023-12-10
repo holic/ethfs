@@ -7,7 +7,7 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
 import {FileStore} from "../src/FileStore.sol";
-import {File, ContentSlice} from "../src/File.sol";
+import {File, BytecodeSlice} from "../src/File.sol";
 
 contract FileStoreTest is Test, GasReporter {
     IContentStore public contentStore;
@@ -99,11 +99,12 @@ contract FileStoreTest is Test, GasReporter {
             fileStore.fileExists("hello.txt"),
             "expected file hello.txt to exist"
         );
+        assertEq(fileStore.getFile("hello.txt").read(), "hello world");
 
         vm.expectEmit(true, true, true, true);
         emit FileDeleted(
             "hello.txt",
-            address(0xF44764Ce40B56EdF2788f159D78224F59dC0C839),
+            address(0x74D1FF1B543350B174d44Ba748e713f10430Ac9B),
             "hello.txt"
         );
 
@@ -157,10 +158,10 @@ contract FileStoreTest is Test, GasReporter {
                 "The meaning of WORLD is the earthly state of human existence."
             )
         );
-        ContentSlice[] memory slices = new ContentSlice[](3);
-        slices[0] = ContentSlice({pointer: helloPointer, start: 15, end: 20});
-        slices[1] = ContentSlice({pointer: worldPointer, start: 14, end: 20});
-        slices[2] = ContentSlice({pointer: worldPointer, start: 60, end: 61});
+        BytecodeSlice[] memory slices = new BytecodeSlice[](3);
+        slices[0] = BytecodeSlice({pointer: helloPointer, offset: 15, size: 5});
+        slices[1] = BytecodeSlice({pointer: worldPointer, offset: 14, size: 6});
+        slices[2] = BytecodeSlice({pointer: worldPointer, offset: 60, size: 1});
 
         startGasReport("create file");
         fileStore.createFile("hello.txt", slices);
@@ -174,11 +175,11 @@ contract FileStoreTest is Test, GasReporter {
     }
 
     function testBytecode() public {
-        ContentSlice[] memory slices = new ContentSlice[](1);
-        slices[0] = ContentSlice({
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({
             pointer: address(contentStore),
-            start: 0,
-            end: 10
+            offset: 0,
+            size: 10
         });
 
         startGasReport("create file");
