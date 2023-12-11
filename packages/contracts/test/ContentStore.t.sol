@@ -2,11 +2,12 @@
 pragma solidity ^0.8.21;
 
 import "forge-std/Test.sol";
+import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 
-contract ContentStoreTest is Test {
+contract ContentStoreTest is Test, GasReporter {
     event NewContent(address indexed pointer, uint32 size);
 
     IContentStore public contentStore;
@@ -20,7 +21,9 @@ contract ContentStoreTest is Test {
 
     function testAddContent() public {
         bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
+        startGasReport("compute pointer");
         address pointer = contentStore.getPointer(content);
+        endGasReport();
 
         assertEq(pointer, address(0x837618a80DB6d3590bfB6cadC239bc09e793C12D));
         assertFalse(
@@ -30,7 +33,9 @@ contract ContentStoreTest is Test {
 
         vm.expectEmit(true, true, true, true);
         emit NewContent(pointer, uint32(content.length));
+        startGasReport("add content");
         address newPointer = contentStore.addContent(content);
+        endGasReport();
         assertEq(newPointer, pointer);
 
         // Adding the same content should revert
@@ -40,7 +45,9 @@ contract ContentStoreTest is Test {
                 pointer
             )
         );
+        startGasReport("add duplicate content");
         contentStore.addContent(content);
+        endGasReport();
 
         assertTrue(
             contentStore.pointerExists(pointer),
@@ -49,8 +56,8 @@ contract ContentStoreTest is Test {
 
         bytes memory storedContent = SSTORE2.read(pointer);
 
-        assertEq(storedContent, content, "expected content to match");
         assertEq(contentStore.contentLength(pointer), content.length);
+        assertEq(storedContent, content, "expected content to match");
     }
 
     function testContentLength() public {

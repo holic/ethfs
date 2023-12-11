@@ -1,5 +1,23 @@
 [
   {
+    "file": "test/ContentStore.t.sol",
+    "test": "testAddContent",
+    "name": "compute pointer",
+    "gasUsed": 76192
+  },
+  {
+    "file": "test/ContentStore.t.sol",
+    "test": "testAddContent",
+    "name": "add content",
+    "gasUsed": 5211549
+  },
+  {
+    "file": "test/ContentStore.t.sol",
+    "test": "testAddContent",
+    "name": "add duplicate content",
+    "gasUsed": 64006
+  },
+  {
     "file": "test/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
@@ -40,5 +58,11 @@
     "test": "testSlices",
     "name": "read file",
     "gasUsed": 8132
+  },
+  {
+    "file": "test/MockProject.t.sol",
+    "test": "testTokenURI",
+    "name": "token URI",
+    "gasUsed": 949706
   }
 ]

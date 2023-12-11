@@ -2,6 +2,7 @@
 pragma solidity >=0.8.10 <0.9.0;
 
 import "forge-std/Test.sol";
+import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {IContentStore} from "../src/IContentStore.sol";
@@ -31,7 +32,7 @@ contract MockProject {
     }
 }
 
-contract MockProjectTest is Test {
+contract MockProjectTest is Test, GasReporter {
     IContentStore public contentStore;
     IFileStore public fileStore;
     MockProject public project;
@@ -58,10 +59,10 @@ contract MockProjectTest is Test {
         project = new MockProject(fileStore);
     }
 
-    function testTokenURIGas() public {
-        uint256 startGas = gasleft();
+    function testTokenURI() public {
+        startGasReport("token URI");
         project.tokenURI(1);
-        console.log("tokenURI gas used:", startGas - gasleft());
+        endGasReport();
         assertEq(bytes(project.tokenURI(1)).length, 98380);
     }
 }
