@@ -4,6 +4,3 @@
 cache
 out
 broadcast
-
-abi/**/*.json
-!abi/**/*.abi.json
