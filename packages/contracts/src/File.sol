@@ -15,9 +15,9 @@ function read(File memory file) view returns (string memory contents) {
         let len := mload(slices)
         let totalSize := 0x20
         contents := mload(0x40)
-        let sliceSize
         let slice
         let pointer
+        let size
         let offset
 
         // loop through all slices
@@ -34,11 +34,11 @@ function read(File memory file) view returns (string memory contents) {
         } {
             slice := mload(add(slices, add(0x20, mul(i, 0x20))))
             pointer := mload(slice)
-            sliceSize := mload(add(slice, 0x20))
+            size := mload(add(slice, 0x20))
             offset := mload(add(slice, 0x40))
 
-            extcodecopy(pointer, add(contents, totalSize), offset, sliceSize)
-            totalSize := add(totalSize, sliceSize)
+            extcodecopy(pointer, add(contents, totalSize), offset, size)
+            totalSize := add(totalSize, size)
         }
 
         // update contents size
