@@ -1,0 +1,23 @@
+{
+  "name": "@ethfs/deploy",
+  "private": true,
+  "engines": {
+    "node": "18",
+    "pnpm": "8"
+  },
+  "scripts": {
+    "deploy": "tsx script/deploy.ts"
+  },
+  "dependencies": {
+    "@ethfs/contracts": "workspace:*",
+    "@latticexyz/common": "2.0.0-next.14",
+    "@safe-global/safe-singleton-factory": "^1.0.16",
+    "p-retry": "^6.1.0",
+    "viem": "1.14.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "tsx": "^4.6.2"
+  }
+}

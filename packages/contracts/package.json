@@ -11,9 +11,7 @@
     "lint:fix": "pnpm lint --fix",
     "build": "forge build",
     "test": "forge test",
-    "test-gas": "GAS_REPORTER_ENABLED=true forge test -vv | pnpm gas-report --stdin --save gas-report.json",
-    "deploy:goerli": "dotenv -e .env.goerli -e .env ts-node deploy.ts",
-    "deploy:mainnet": "dotenv -e .env.mainnet -e .env ts-node deploy.ts"
+    "test-gas": "GAS_REPORTER_ENABLED=true forge test -vv | pnpm gas-report --stdin --save gas-report.json"
   },
   "dependencies": {
     "@safe-global/safe-singleton-factory": "^1.0.16"
