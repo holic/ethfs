@@ -66,15 +66,18 @@ contract FileStore is IFileStore, Ownable2Step {
             revert FilenameExists(filename);
         }
         uint256 size = 0;
-        // TODO: optimize this
         for (uint256 i = 0; i < slices.length; ++i) {
             if (slices[i].size == 0) {
-                slices[i].size = contentStore.contentLength(slices[i].pointer);
+                revert SliceEmpty(slices[i]);
+            }
+            uint32 codeSize = _getCodeSize(slices[i].pointer);
+            if (slices[i].offset + slices[i].size > codeSize) {
+                revert SliceOutOfBounds(slices[i]);
             }
             size += slices[i].size;
         }
         if (size == 0) {
-            revert EmptyFile();
+            revert FileEmpty();
         }
         file = File({size: size, slices: slices});
         pointer = contentStore.addContent(abi.encode(file));
@@ -89,5 +92,11 @@ contract FileStore is IFileStore, Ownable2Step {
         }
         delete files[filename];
         emit FileDeleted(filename, pointer, filename);
+    }
+
+    function _getCodeSize(address target) internal view returns (uint32 size) {
+        assembly {
+            size := extcodesize(target)
+        }
     }
 }

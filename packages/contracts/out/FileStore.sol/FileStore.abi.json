@@ -451,7 +451,7 @@
   },
   {
     "type": "error",
-    "name": "EmptyFile",
+    "name": "FileEmpty",
     "inputs": []
   },
   {
@@ -495,6 +495,62 @@
         "name": "account",
         "type": "address",
         "internalType": "address"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "SliceEmpty",
+    "inputs": [
+      {
+        "name": "slice",
+        "type": "tuple",
+        "internalType": "struct BytecodeSlice",
+        "components": [
+          {
+            "name": "pointer",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "size",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "offset",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "SliceOutOfBounds",
+    "inputs": [
+      {
+        "name": "slice",
+        "type": "tuple",
+        "internalType": "struct BytecodeSlice",
+        "components": [
+          {
+            "name": "pointer",
+            "type": "address",
+            "internalType": "address"
+          },
+          {
+            "name": "size",
+            "type": "uint32",
+            "internalType": "uint32"
+          },
+          {
+            "name": "offset",
+            "type": "uint32",
+            "internalType": "uint32"
+          }
+        ]
       }
     ]
   }

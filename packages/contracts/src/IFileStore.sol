@@ -20,7 +20,9 @@ interface IFileStore {
 
     error FileNotFound(string filename);
     error FilenameExists(string filename);
-    error EmptyFile();
+    error FileEmpty();
+    error SliceEmpty(BytecodeSlice slice);
+    error SliceOutOfBounds(BytecodeSlice slice);
 
     function contentStore() external view returns (IContentStore);
 
