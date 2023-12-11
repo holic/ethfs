@@ -1,22 +1,20 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.21;
 
-interface IContentStore {
-    event NewContent(address indexed pointer, uint32 contentSize);
+import {BytecodeSlice} from "./BytecodeSlice.sol";
 
-    error ContentTooLarge(uint32 contentSize, uint32 maxSize);
+interface IContentStore {
+    event NewContent(address indexed pointer, uint32 size);
+
     error ContentAlreadyExists(address pointer);
     error ContentNotFound(address pointer);
-    error AddContentFailed();
     error UnexpectedPointer(address expectedPointer, address actualPointer);
 
     function pointerExists(address pointer) external view returns (bool);
 
     function contentLength(address pointer) external view returns (uint32 size);
 
-    function pointerForContent(
-        bytes memory content
-    ) external view returns (address);
+    function getPointer(bytes memory content) external view returns (address);
 
     function addContent(
         bytes memory content

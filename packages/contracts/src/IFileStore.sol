@@ -49,16 +49,5 @@ interface IFileStore {
         bytes memory metadata
     ) external returns (address pointer, File memory file);
 
-    function createFile(
-        string memory filename,
-        address[] memory pointers
-    ) external returns (address pointer, File memory file);
-
-    function createFile(
-        string memory filename,
-        address[] memory pointers,
-        bytes memory metadata
-    ) external returns (address pointer, File memory file);
-
     function deleteFile(string memory filename) external;
 }

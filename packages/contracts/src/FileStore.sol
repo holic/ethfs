@@ -57,35 +57,6 @@ contract FileStore is IFileStore, Ownable2Step {
         return _createFile(filename, slices, metadata);
     }
 
-    function createFile(
-        string memory filename,
-        address[] memory pointers
-    ) public returns (address pointer, File memory file) {
-        return createFile(filename, pointers, new bytes(0));
-    }
-
-    function createFile(
-        string memory filename,
-        address[] memory pointers,
-        bytes memory metadata
-    ) public returns (address pointer, File memory file) {
-        return _createFile(filename, pointers, metadata);
-    }
-
-    function _createFile(
-        string memory filename,
-        address[] memory pointers,
-        bytes memory metadata
-    ) internal returns (address pointer, File memory file) {
-        BytecodeSlice[] memory slices = new BytecodeSlice[](pointers.length);
-        for (uint256 i = 0; i < pointers.length; ++i) {
-            slices[i].pointer = pointers[i];
-            // TODO: rework File to not use offset and prefer offset defined in slice so we can support any contract data
-            // slices[i].start = uint16(SSTORE2.DATA_OFFSET);
-        }
-        return _createFile(filename, slices, metadata);
-    }
-
     function _createFile(
         string memory filename,
         BytecodeSlice[] memory slices,

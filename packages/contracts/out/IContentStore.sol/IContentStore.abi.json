@@ -58,6 +58,25 @@
   },
   {
     "type": "function",
+    "name": "getPointer",
+    "inputs": [
+      {
+        "name": "content",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "",
+        "type": "address",
+        "internalType": "address"
+      }
+    ],
+    "stateMutability": "view"
+  },
+  {
+    "type": "function",
     "name": "pointerExists",
     "inputs": [
       {
@@ -76,25 +95,6 @@
     "stateMutability": "view"
   },
   {
-    "type": "function",
-    "name": "pointerForContent",
-    "inputs": [
-      {
-        "name": "content",
-        "type": "bytes",
-        "internalType": "bytes"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
     "type": "event",
     "name": "NewContent",
     "inputs": [
@@ -105,18 +105,13 @@
         "internalType": "address"
       },
       {
-        "name": "contentSize",
+        "name": "size",
         "type": "uint32",
         "indexed": false,
         "internalType": "uint32"
       }
     ],
     "anonymous": false
-  },
-  {
-    "type": "error",
-    "name": "AddContentFailed",
-    "inputs": []
   },
   {
     "type": "error",
@@ -137,22 +132,6 @@
         "name": "pointer",
         "type": "address",
         "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
-    "name": "ContentTooLarge",
-    "inputs": [
-      {
-        "name": "contentSize",
-        "type": "uint32",
-        "internalType": "uint32"
-      },
-      {
-        "name": "maxSize",
-        "type": "uint32",
-        "internalType": "uint32"
       }
     ]
   },

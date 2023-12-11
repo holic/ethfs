@@ -7,7 +7,7 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 
 contract ContentStoreTest is Test {
-    event NewContent(address indexed pointer, uint32 contentSize);
+    event NewContent(address indexed pointer, uint32 size);
 
     IContentStore public contentStore;
 
@@ -20,7 +20,7 @@ contract ContentStoreTest is Test {
 
     function testAddContent() public {
         bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
-        address pointer = contentStore.pointerForContent(content);
+        address pointer = contentStore.getPointer(content);
 
         assertEq(pointer, address(0x837618a80DB6d3590bfB6cadC239bc09e793C12D));
         assertFalse(

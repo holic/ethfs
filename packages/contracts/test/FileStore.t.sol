@@ -38,8 +38,12 @@ contract FileStoreTest is Test, GasReporter {
     function testCreateFile() public {
         string memory contents = vm.readFile("test/files/sstore2-max.txt");
         address pointer = fileStore.contentStore().addContent(bytes(contents));
-        address[] memory pointers = new address[](1);
-        pointers[0] = pointer;
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({
+            pointer: pointer,
+            size: uint32(bytes(contents).length),
+            offset: 1
+        });
 
         vm.expectEmit(true, false, true, true);
         emit FileCreated(
@@ -51,7 +55,7 @@ contract FileStoreTest is Test, GasReporter {
         );
 
         startGasReport("create 24kb file");
-        (, File memory file) = fileStore.createFile("24kb.txt", pointers);
+        (, File memory file) = fileStore.createFile("24kb.txt", slices);
         endGasReport();
 
         assertEq(file.size, 24575);
@@ -64,15 +68,15 @@ contract FileStoreTest is Test, GasReporter {
                 "24kb.txt"
             )
         );
-        fileStore.createFile("24kb.txt", pointers);
+        fileStore.createFile("24kb.txt", slices);
     }
 
     function testCreateFileWithExtraData() public {
         address pointer = fileStore.contentStore().addContent(
             bytes("hello world")
         );
-        address[] memory pointers = new address[](1);
-        pointers[0] = pointer;
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
 
         vm.expectEmit(true, false, true, true);
         emit FileCreated(
@@ -83,7 +87,7 @@ contract FileStoreTest is Test, GasReporter {
             bytes("hello world")
         );
 
-        fileStore.createFile("hello.txt", pointers, bytes("hello world"));
+        fileStore.createFile("hello.txt", slices, bytes("hello world"));
         assertEq(fileStore.getFile("hello.txt").read(), "hello world");
     }
 
@@ -91,9 +95,9 @@ contract FileStoreTest is Test, GasReporter {
         address pointer = fileStore.contentStore().addContent(
             bytes("hello world")
         );
-        address[] memory pointers = new address[](1);
-        pointers[0] = pointer;
-        fileStore.createFile("hello.txt", pointers);
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
+        fileStore.createFile("hello.txt", slices);
 
         assertTrue(
             fileStore.fileExists("hello.txt"),
@@ -104,7 +108,7 @@ contract FileStoreTest is Test, GasReporter {
         vm.expectEmit(true, true, true, true);
         emit FileDeleted(
             "hello.txt",
-            address(0x74D1FF1B543350B174d44Ba748e713f10430Ac9B),
+            address(0xeF9b18c004694d2721C861E30322F9275DC02A31),
             "hello.txt"
         );
 
@@ -128,14 +132,14 @@ contract FileStoreTest is Test, GasReporter {
             bytes(vm.readFile("test/files/sstore2-max.txt"))
         );
 
-        address[] memory pointers = new address[](4);
-        pointers[0] = pointer;
-        pointers[1] = pointer;
-        pointers[2] = pointer;
-        pointers[3] = pointer;
+        BytecodeSlice[] memory slices = new BytecodeSlice[](4);
+        slices[0] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
+        slices[1] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
+        slices[2] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
+        slices[3] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
 
         startGasReport("create big file");
-        fileStore.createFile("big.txt", pointers);
+        fileStore.createFile("big.txt", slices);
         endGasReport();
 
         File memory file = fileStore.getFile("big.txt");
@@ -159,9 +163,9 @@ contract FileStoreTest is Test, GasReporter {
             )
         );
         BytecodeSlice[] memory slices = new BytecodeSlice[](3);
-        slices[0] = BytecodeSlice({pointer: helloPointer, offset: 15, size: 5});
-        slices[1] = BytecodeSlice({pointer: worldPointer, offset: 14, size: 6});
-        slices[2] = BytecodeSlice({pointer: worldPointer, offset: 60, size: 1});
+        slices[0] = BytecodeSlice({pointer: helloPointer, offset: 16, size: 5});
+        slices[1] = BytecodeSlice({pointer: worldPointer, offset: 15, size: 6});
+        slices[2] = BytecodeSlice({pointer: worldPointer, offset: 61, size: 1});
 
         startGasReport("create file");
         fileStore.createFile("hello.txt", slices);
@@ -190,7 +194,26 @@ contract FileStoreTest is Test, GasReporter {
         string memory contents = fileStore.getFile("file.txt").read();
         endGasReport();
 
-        // TODO: adjust this once we change to supporting any bytecode (not just SSTORE2 with offset)
-        assertEq(bytes(contents), hex"80604052348015610010");
+        assertEq(bytes(contents), hex"60806040523480156100");
+    }
+
+    function _getCode(address target) internal view returns (bytes memory) {
+        uint256 codeSize;
+
+        // Get the size of the code on target address
+        assembly {
+            codeSize := extcodesize(target)
+        }
+
+        bytes memory code = new bytes(codeSize);
+
+        // Copy the code using extcodecopy
+        assembly {
+            // Note: add(code, 32) is used because the first 32 bytes of a 'bytes' array
+            // is the length of the array.
+            extcodecopy(target, add(code, 32), 0, codeSize)
+        }
+
+        return code;
     }
 }

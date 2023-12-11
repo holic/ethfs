@@ -5,6 +5,7 @@ import "forge-std/Test.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {IContentStore} from "../src/IContentStore.sol";
+import {BytecodeSlice} from "../src/BytecodeSlice.sol";
 import {File} from "../src/File.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
@@ -46,13 +47,13 @@ contract MockProjectTest is Test {
             bytes(vm.readFile("test/files/sstore2-max.txt"))
         );
 
-        address[] memory pointers = new address[](4);
-        pointers[0] = pointer;
-        pointers[1] = pointer;
-        pointers[2] = pointer;
-        pointers[3] = pointer;
+        BytecodeSlice[] memory slices = new BytecodeSlice[](4);
+        slices[0] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
+        slices[1] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
+        slices[2] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
+        slices[3] = BytecodeSlice({pointer: pointer, size: 0, offset: 1});
 
-        fileStore.createFile("big.txt", pointers);
+        fileStore.createFile("big.txt", slices);
 
         project = new MockProject(fileStore);
     }

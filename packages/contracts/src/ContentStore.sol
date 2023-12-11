@@ -4,6 +4,7 @@ pragma solidity ^0.8.21;
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
 import {revertWithBytes} from "./revertWithBytes.sol";
+import {BytecodeSlice} from "./BytecodeSlice.sol";
 
 contract ContentStore is IContentStore {
     address internal immutable deployer;
@@ -14,25 +15,23 @@ contract ContentStore is IContentStore {
     }
 
     function pointerExists(address pointer) public view returns (bool) {
-        return getCodeSize(pointer) > 0;
+        return _getCodeSize(pointer) > 0;
     }
 
     function contentLength(address pointer) public view returns (uint32 size) {
-        size = getCodeSize(pointer);
+        size = _getCodeSize(pointer);
         if (size == 0) {
             revert ContentNotFound(pointer);
         }
         return size - uint32(SSTORE2.DATA_OFFSET);
     }
 
-    function pointerForContent(
-        bytes memory content
-    ) public view returns (address) {
+    function getPointer(bytes memory content) public view returns (address) {
         return SSTORE2.predictDeterministicAddress(content, salt, deployer);
     }
 
     function addContent(bytes memory content) public returns (address pointer) {
-        address expectedPointer = pointerForContent(content);
+        address expectedPointer = getPointer(content);
         if (pointerExists(expectedPointer)) {
             revert ContentAlreadyExists(expectedPointer);
         }
@@ -55,7 +54,7 @@ contract ContentStore is IContentStore {
             revert UnexpectedPointer(expectedPointer, pointer);
         }
 
-        emit NewContent(pointer, uint16(content.length));
+        emit NewContent(pointer, uint32(content.length));
     }
 
     function getContent(
@@ -64,11 +63,10 @@ contract ContentStore is IContentStore {
         if (!pointerExists(pointer)) {
             revert ContentNotFound(pointer);
         }
-
         return SSTORE2.read(pointer);
     }
 
-    function getCodeSize(address target) internal view returns (uint32 size) {
+    function _getCodeSize(address target) internal view returns (uint32 size) {
         assembly {
             size := extcodesize(target)
         }

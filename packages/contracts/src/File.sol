@@ -1,14 +1,7 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.21;
 
-import {DynamicBuffer} from "ethier/contracts/utils/DynamicBuffer.sol";
-import {SSTORE2} from "solady/utils/SSTORE2.sol";
-
-struct BytecodeSlice {
-    address pointer;
-    uint32 size;
-    uint32 offset;
-}
+import {BytecodeSlice} from "./BytecodeSlice.sol";
 
 struct File {
     uint256 size;
@@ -44,13 +37,7 @@ function read(File memory file) view returns (string memory contents) {
             sliceSize := mload(add(slice, 0x20))
             offset := mload(add(slice, 0x40))
 
-            extcodecopy(
-                pointer,
-                add(contents, totalSize),
-                // TODO: remove +1 once we write this as part of the slice
-                add(offset, 1),
-                sliceSize
-            )
+            extcodecopy(pointer, add(contents, totalSize), offset, sliceSize)
             totalSize := add(totalSize, sliceSize)
         }
 

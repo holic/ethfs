@@ -3,42 +3,42 @@
     "file": "test/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 189533
+    "gasUsed": 189214
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testBigFile",
     "name": "read big file",
-    "gasUsed": 53328
+    "gasUsed": 53845
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "create file",
-    "gasUsed": 128308
+    "gasUsed": 128343
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "read file",
-    "gasUsed": 5379
+    "gasUsed": 5386
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 120294
+    "gasUsed": 118802
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 162638
+    "gasUsed": 162673
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
-    "gasUsed": 8137
+    "gasUsed": 8132
   }
 ]
