@@ -21,7 +21,7 @@
     "file": "test/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 186137
+    "gasUsed": 185908
   },
   {
     "file": "test/FileStore.t.sol",
@@ -33,36 +33,36 @@
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "create file",
-    "gasUsed": 128772
+    "gasUsed": 128705
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "read file",
-    "gasUsed": 5580
+    "gasUsed": 5513
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 119231
+    "gasUsed": 119164
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 163936
+    "gasUsed": 163761
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
-    "gasUsed": 8636
+    "gasUsed": 8515
   },
   {
     "file": "test/MockProject.t.sol",
     "test": "testTokenURI",
     "name": "token URI",
-    "gasUsed": 950391
+    "gasUsed": 950243
   }
 ]

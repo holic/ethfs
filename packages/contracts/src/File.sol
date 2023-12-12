@@ -1,17 +1,24 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.22;
 
+/// @title EthFS File
+/// @notice A representation of an onchain file, composed of slices of contract bytecode and utilities to construct the file contents from those slices.
+/// @dev For best gas efficiency, it's recommended using `File.read()` as close to the output returned by the contract call as possible. Lots of gas is consumed every time a large data blob is passed between functions.
+
+/// @dev Represents a reference to a slice of bytecode in a contract
 struct BytecodeSlice {
     address pointer;
     uint32 size;
     uint32 offset;
 }
 
+/// @dev Represents a file composed of one or more bytecode slices
 struct File {
     uint256 size;
     BytecodeSlice[] slices;
 }
 
+/// @dev Error thrown when a slice is out of the bounds of the contract's bytecode
 error SliceOutOfBounds(
     address pointer,
     uint32 codeSize,
@@ -19,6 +26,9 @@ error SliceOutOfBounds(
     uint32 sliceOffset
 );
 
+/// @notice Reads the contents of a file by concatenating its slices
+/// @param file The file to read
+/// @return contents The concatenated contents of the file
 function read(File memory file) view returns (string memory contents) {
     BytecodeSlice[] memory slices = file.slices;
     bytes4 sliceOutOfBoundsSelector = SliceOutOfBounds.selector;
@@ -64,7 +74,9 @@ function read(File memory file) view returns (string memory contents) {
     }
 }
 
-// Same as `read` but doesn't revert on unreadable/invalid slices and instead just skips the slice
+/// @notice Reads the contents of a file without reverting on unreadable/invalid slices. Skips any slices that are out of bounds or invalid. Useful if you are composing contract bytecode where a contract can still selfdestruct (which would result in an invalid slice) and want to avoid reverts but still output potentially "corrupted" file contents (due to missing data).
+/// @param file The file to read
+/// @return contents The concatenated contents of the file, skipping invalid slices
 function readUnchecked(File memory file) view returns (string memory contents) {
     BytecodeSlice[] memory slices = file.slices;
 
@@ -102,5 +114,6 @@ function readUnchecked(File memory file) view returns (string memory contents) {
     }
 }
 
+// extend File struct with read functions
 using {read} for File global;
 using {readUnchecked} for File global;
