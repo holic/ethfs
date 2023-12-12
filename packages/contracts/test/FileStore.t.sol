@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity >=0.8.10 <0.9.0;
+pragma solidity ^0.8.22;
 
 import "forge-std/Test.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
@@ -19,20 +19,6 @@ contract FileStoreTest is Test, GasReporter {
     IContentStore public contentStore;
     IFileStore public fileStore;
     ExampleSelfDestruct public exampleSelfDestruct;
-
-    // TODO: import/reference from IFileStore instead of duplicating
-    event FileCreated(
-        string indexed indexedFilename,
-        address indexed pointer,
-        string filename,
-        uint256 size,
-        bytes metadata
-    );
-    event FileDeleted(
-        string indexed indexedFilename,
-        address indexed pointer,
-        string filename
-    );
 
     function setUp() public {
         // TODO: set up deployer instead of using CREATE2_FACTORY
@@ -65,7 +51,7 @@ contract FileStoreTest is Test, GasReporter {
         });
 
         vm.expectEmit(true, false, true, true);
-        emit FileCreated(
+        emit IFileStore.FileCreated(
             "24kb.txt",
             address(0),
             "24kb.txt",
@@ -101,7 +87,7 @@ contract FileStoreTest is Test, GasReporter {
         });
 
         vm.expectEmit(true, false, true, true);
-        emit FileCreated(
+        emit IFileStore.FileCreated(
             "hello.txt",
             address(0),
             "hello.txt",
@@ -131,7 +117,7 @@ contract FileStoreTest is Test, GasReporter {
         assertEq(fileStore.getFile("hello.txt").read(), "hello world");
 
         vm.expectEmit(true, true, true, true);
-        emit FileDeleted(
+        emit IFileStore.FileDeleted(
             "hello.txt",
             address(0xeF9b18c004694d2721C861E30322F9275DC02A31),
             "hello.txt"
@@ -265,17 +251,15 @@ contract FileStoreTest is Test, GasReporter {
         file.read();
     }
 
-    function _getCode(address target) internal view returns (bytes memory) {
+    function _getCode(
+        address target
+    ) internal view returns (bytes memory code) {
         uint256 codeSize;
-
-        // Get the size of the code on target address
         assembly {
             codeSize := extcodesize(target)
         }
 
-        bytes memory code = new bytes(codeSize);
-
-        // Copy the code using extcodecopy
+        code = new bytes(codeSize);
         assembly {
             // Note: add(code, 32) is used because the first 32 bytes of a 'bytes' array
             // is the length of the array.

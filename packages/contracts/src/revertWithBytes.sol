@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.8.21;
+pragma solidity ^0.8.22;
 
 /**
  * @notice Reverts the transaction using the provided raw bytes as the revert reason.

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.21;
+pragma solidity ^0.8.22;
 
 interface IContentStore {
     event NewContent(address indexed pointer, uint32 size);

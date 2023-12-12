@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Unlicense
-pragma solidity ^0.8.21;
+pragma solidity ^0.8.22;
 
 import "forge-std/Test.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
@@ -8,8 +8,6 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 
 contract ContentStoreTest is Test, GasReporter {
-    event NewContent(address indexed pointer, uint32 size);
-
     IContentStore public contentStore;
 
     function setUp() public {
@@ -32,7 +30,7 @@ contract ContentStoreTest is Test, GasReporter {
         );
 
         vm.expectEmit(true, true, true, true);
-        emit NewContent(pointer, uint32(content.length));
+        emit IContentStore.NewContent(pointer, uint32(content.length));
         startGasReport("add content");
         address newPointer = contentStore.addContent(content);
         endGasReport();
