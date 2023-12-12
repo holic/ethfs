@@ -6,7 +6,7 @@
     "pnpm": "8"
   },
   "scripts": {
-    "deploy": "tsx script/deploy.ts"
+    "deploy": "DEBUG=mud:* tsx script/deployToAllChains.ts"
   },
   "dependencies": {
     "@ethfs/contracts": "workspace:*",
