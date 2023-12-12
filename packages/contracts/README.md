@@ -1,4 +1,4 @@
-# On-chain, content addressable file store
+# On-chain, content-addressable file store
 
 Dom's on-chain 3D rose NFT inspired tons of fun conversations and projects. It surfaced many examples and use cases for highly reusable on-chain assets (JS libs, fonts, gifs). The smart contracts in this project are an effort to consolidate these into a single on-chain repository.
 

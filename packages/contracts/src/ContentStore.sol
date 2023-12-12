@@ -4,7 +4,6 @@ pragma solidity ^0.8.21;
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
 import {revertWithBytes} from "./revertWithBytes.sol";
-import {BytecodeSlice} from "./BytecodeSlice.sol";
 
 contract ContentStore is IContentStore {
     address internal immutable deployer;

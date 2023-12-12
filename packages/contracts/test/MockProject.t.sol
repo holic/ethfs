@@ -6,8 +6,7 @@ import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {IContentStore} from "../src/IContentStore.sol";
-import {BytecodeSlice} from "../src/BytecodeSlice.sol";
-import {File} from "../src/File.sol";
+import {File, BytecodeSlice} from "../src/File.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
 

@@ -5,14 +5,13 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
 import {Ownable} from "openzeppelin/access/Ownable.sol";
-import {File, BytecodeSlice} from "./File.sol";
+import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
 
 contract FileStore is IFileStore, Ownable2Step {
     IContentStore public immutable contentStore;
 
-    // filename => File pointer
-    mapping(string => address) public files;
+    mapping(string filename => address pointer) public files;
 
     constructor(IContentStore _contentStore) Ownable(msg.sender) {
         contentStore = _contentStore;
@@ -72,7 +71,12 @@ contract FileStore is IFileStore, Ownable2Step {
             }
             uint32 codeSize = _getCodeSize(slices[i].pointer);
             if (slices[i].offset + slices[i].size > codeSize) {
-                revert SliceOutOfBounds(slices[i]);
+                revert SliceOutOfBounds(
+                    slices[i].pointer,
+                    codeSize,
+                    slices[i].size,
+                    slices[i].offset
+                );
             }
             size += slices[i].size;
         }

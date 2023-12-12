@@ -7,11 +7,18 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
 import {FileStore} from "../src/FileStore.sol";
-import {File, BytecodeSlice} from "../src/File.sol";
+import {File, BytecodeSlice, SliceOutOfBounds} from "../src/File.sol";
+
+contract ExampleSelfDestruct {
+    function explode() public {
+        selfdestruct(payable(address(0)));
+    }
+}
 
 contract FileStoreTest is Test, GasReporter {
     IContentStore public contentStore;
     IFileStore public fileStore;
+    ExampleSelfDestruct public exampleSelfDestruct;
 
     // TODO: import/reference from IFileStore instead of duplicating
     event FileCreated(
@@ -33,6 +40,18 @@ contract FileStoreTest is Test, GasReporter {
             0x4e59b44847b379578588920cA78FbF26c0B4956C
         );
         fileStore = new FileStore(contentStore);
+
+        // foundry doesn't support selfdestruct within tests, so we'll set this one up here
+        // https://github.com/foundry-rs/foundry/issues/1543#issuecomment-1520405775
+        exampleSelfDestruct = new ExampleSelfDestruct();
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({
+            pointer: address(exampleSelfDestruct),
+            offset: 0,
+            size: 10
+        });
+        fileStore.createFile("corrupt.txt", slices);
+        exampleSelfDestruct.explode();
     }
 
     function testCreateFile() public {
@@ -216,6 +235,34 @@ contract FileStoreTest is Test, GasReporter {
         endGasReport();
 
         assertEq(bytes(contents), hex"60806040523480156100");
+    }
+
+    function testCorruptedFileReadUnchecked() public {
+        File memory file = fileStore.getFile("corrupt.txt");
+        string memory contents = file.readUnchecked();
+        assertEq(bytes(contents), bytes(""));
+    }
+
+    function testCorruptedFileRead() public {
+        File memory file = fileStore.getFile("corrupt.txt");
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                SliceOutOfBounds.selector,
+                file.slices[0].pointer,
+                0,
+                file.slices[0].size,
+                file.slices[0].offset
+            )
+        );
+        // foundry doesn't support expectRevert for library calls, so we need to call a wrapped function
+        // https://github.com/foundry-rs/foundry/issues/4405
+        this._readFile(file);
+    }
+
+    // foundry doesn't support expectRevert for library calls, so we need to wrap it in a function
+    // https://github.com/foundry-rs/foundry/issues/4405
+    function _readFile(File memory file) public view {
+        file.read();
     }
 
     function _getCode(address target) internal view returns (bytes memory) {

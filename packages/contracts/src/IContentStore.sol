@@ -1,8 +1,6 @@
 // SPDX-License-Identifier: Unlicense
 pragma solidity ^0.8.21;
 
-import {BytecodeSlice} from "./BytecodeSlice.sol";
-
 interface IContentStore {
     event NewContent(address indexed pointer, uint32 size);
 
