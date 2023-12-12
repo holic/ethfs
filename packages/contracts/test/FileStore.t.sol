@@ -99,37 +99,6 @@ contract FileStoreTest is Test, GasReporter {
         assertEq(fileStore.getFile("hello.txt").read(), "hello world");
     }
 
-    function testDeleteFile() public {
-        bytes memory content = "hello world";
-        address pointer = fileStore.contentStore().addContent(content);
-        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
-        slices[0] = BytecodeSlice({
-            pointer: pointer,
-            size: uint32(content.length),
-            offset: 1
-        });
-        fileStore.createFile("hello.txt", slices);
-
-        assertTrue(
-            fileStore.fileExists("hello.txt"),
-            "expected file hello.txt to exist"
-        );
-        assertEq(fileStore.getFile("hello.txt").read(), "hello world");
-
-        vm.expectEmit(true, true, true, true);
-        emit IFileStore.FileDeleted(
-            "hello.txt",
-            address(0xeF9b18c004694d2721C861E30322F9275DC02A31),
-            "hello.txt"
-        );
-
-        fileStore.deleteFile("hello.txt");
-        assertFalse(
-            fileStore.fileExists("hello.txt"),
-            "expected file hello.txt to no longer exist"
-        );
-    }
-
     function testBigFile() public {
         vm.expectRevert(
             abi.encodeWithSelector(

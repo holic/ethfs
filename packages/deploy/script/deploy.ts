@@ -1,6 +1,6 @@
 import "dotenv/config";
 
-import { createWalletClient, Hex, http, isHex } from "viem";
+import { createWalletClient, http, isHex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { z } from "zod";
 

@@ -3,17 +3,15 @@ pragma solidity ^0.8.22;
 
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IFileStore} from "./IFileStore.sol";
-import {Ownable2Step} from "openzeppelin/access/Ownable2Step.sol";
-import {Ownable} from "openzeppelin/access/Ownable.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
 
-contract FileStore is IFileStore, Ownable2Step {
+contract FileStore is IFileStore {
     IContentStore public immutable contentStore;
 
     mapping(string filename => address pointer) public files;
 
-    constructor(IContentStore _contentStore) Ownable(msg.sender) {
+    constructor(IContentStore _contentStore) {
         contentStore = _contentStore;
     }
 
@@ -87,15 +85,6 @@ contract FileStore is IFileStore, Ownable2Step {
         pointer = contentStore.addContent(abi.encode(file));
         files[filename] = pointer;
         emit FileCreated(filename, pointer, filename, file.size, metadata);
-    }
-
-    function deleteFile(string memory filename) public onlyOwner {
-        address pointer = files[filename];
-        if (pointer == address(0)) {
-            revert FileNotFound(filename);
-        }
-        delete files[filename];
-        emit FileDeleted(filename, pointer, filename);
     }
 
     function _getCodeSize(address target) internal view returns (uint32 size) {

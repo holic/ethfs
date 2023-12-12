@@ -12,11 +12,6 @@ interface IFileStore {
         uint256 size,
         bytes metadata
     );
-    event FileDeleted(
-        string indexed indexedFilename,
-        address indexed pointer,
-        string filename
-    );
 
     error FileNotFound(string filename);
     error FilenameExists(string filename);
@@ -49,6 +44,4 @@ interface IFileStore {
         BytecodeSlice[] memory slices,
         bytes memory metadata
     ) external returns (address pointer, File memory file);
-
-    function deleteFile(string memory filename) external;
 }
