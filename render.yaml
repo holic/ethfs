@@ -2,6 +2,8 @@ services:
   - type: web
     name: shovel
     runtime: docker
+    dockerfilePath: ./packages/shovel/Dockerfile
+    dockerContext: ./packages/shovel
     autoDeploy: false
     envVars:
       - key: PASSWORD
