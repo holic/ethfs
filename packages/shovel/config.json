@@ -7,32 +7,17 @@
     {
       "name": "mainnet",
       "chain_id": 1,
-      "url": "https://1.rlps.indexsupply.net"
+      "url": "https://ethereum.publicnode.com"
     },
     {
       "name": "goerli",
       "chain_id": 5,
-      "url": "https://5.rlps.indexsupply.net"
+      "url": "https://ethereum-goerli.publicnode.com"
     },
     {
-      "name": "optimism",
-      "chain_id": 10,
-      "url": "https://10.rlps.indexsupply.net"
-    },
-    {
-      "name": "optimism goerli",
-      "chain_id": 420,
-      "url": "https://420.rlps.indexsupply.net"
-    },
-    {
-      "name": "base",
-      "chain_id": 8453,
-      "url": "https://8453.rlps.indexsupply.net"
-    },
-    {
-      "name": "base goerli",
-      "chain_id": 84531,
-      "url": "https://84531.rlps.indexsupply.net"
+      "name": "sepolia",
+      "chain_id": 11155111,
+      "url": "https://ethereum-sepolia.publicnode.com"
     }
   ],
   "integrations": [
@@ -42,10 +27,7 @@
       "sources": [
         { "name": "mainnet" },
         { "name": "goerli" },
-        { "name": "optimism" },
-        { "name": "optimism goerli" },
-        { "name": "base" },
-        { "name": "base goerli" }
+        { "name": "sepolia" }
       ],
       "table": {
         "name": "token_transfers",
