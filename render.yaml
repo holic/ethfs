@@ -1,6 +1,7 @@
 services:
   - type: web
     name: shovel
+    region: ohio
     runtime: docker
     dockerfilePath: ./packages/shovel/Dockerfile
     dockerContext: ./packages/shovel
@@ -15,3 +16,4 @@ services:
 databases:
   - name: shovel
     plan: standard
+    region: ohio
