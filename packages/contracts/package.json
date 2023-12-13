@@ -9,7 +9,7 @@
     "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
     "lint": "solhint --config ../../.solhint.json \"src/**/*.sol\"",
     "lint:fix": "pnpm lint --fix",
-    "build": "forge build",
+    "build": "forge build && abi-ts",
     "test": "forge test",
     "test-gas": "GAS_REPORTER_ENABLED=true forge test -vv | pnpm gas-report --stdin --save gas-report.json"
   },
@@ -17,6 +17,7 @@
     "@safe-global/safe-singleton-factory": "^1.0.16"
   },
   "devDependencies": {
+    "@latticexyz/abi-ts": "2.0.0-next.14",
     "@latticexyz/gas-report": "2.0.0-next.14",
     "@types/node": "17.0.0",
     "dotenv-cli": "^6.0.0",
