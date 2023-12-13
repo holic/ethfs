@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: shovel
+    name: ethfs-shovel
     region: ohio
     runtime: docker
     dockerfilePath: ./packages/shovel/Dockerfile
@@ -11,9 +11,9 @@ services:
         sync: false
       - key: DATABASE_URL
         fromDatabase:
-          name: shovel
+          name: ethfs-shovel
           property: connectionString
 databases:
-  - name: shovel
+  - name: ethfs-shovel
     plan: standard
     region: ohio
