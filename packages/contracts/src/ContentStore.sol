@@ -5,6 +5,7 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
 import {getCodeSize} from "./getCodeSize.sol";
 import {revertWithBytes} from "./revertWithBytes.sol";
+import {Deployed} from "./common.sol";
 
 /// @title EthFS ContentStore
 /// @notice Content-addressable, immutable bytes storage for Ethereum. Using SSTORE2 and Safe's Singleton Factory, content is written to its content-derived deterministic address.
@@ -18,6 +19,7 @@ contract ContentStore is IContentStore {
     /// @param _deployer The address of the deployer
     constructor(address _deployer) {
         deployer = _deployer;
+        emit Deployed();
     }
 
     /// @notice Checks if content exists at a given pointer address

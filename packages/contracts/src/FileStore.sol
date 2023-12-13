@@ -6,6 +6,7 @@ import {IFileStore} from "./IFileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
 import {getCodeSize} from "./getCodeSize.sol";
+import {Deployed} from "./common.sol";
 
 /// @title EthFS FileStore
 /// @notice Content-addressable file storage for Ethereum. Files are composed of slices of bytecode.
@@ -20,6 +21,7 @@ contract FileStore is IFileStore {
     /// @param _contentStore The address of the ContentStore contract
     constructor(IContentStore _contentStore) {
         contentStore = _contentStore;
+        emit Deployed();
     }
 
     /// @notice Checks if a file exists for a given filename
