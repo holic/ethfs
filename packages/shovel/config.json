@@ -1,0 +1,97 @@
+{
+  "pg_url": "$DATABASE_URL",
+  "dashboard": {
+    "root_password": "$PASSWORD"
+  },
+  "eth_sources": [
+    {
+      "name": "mainnet",
+      "chain_id": 1,
+      "url": "https://1.rlps.indexsupply.net"
+    },
+    {
+      "name": "goerli",
+      "chain_id": 5,
+      "url": "https://5.rlps.indexsupply.net"
+    },
+    {
+      "name": "optimism",
+      "chain_id": 10,
+      "url": "https://10.rlps.indexsupply.net"
+    },
+    {
+      "name": "optimism goerli",
+      "chain_id": 420,
+      "url": "https://420.rlps.indexsupply.net"
+    },
+    {
+      "name": "base",
+      "chain_id": 8453,
+      "url": "https://8453.rlps.indexsupply.net"
+    },
+    {
+      "name": "base goerli",
+      "chain_id": 84531,
+      "url": "https://84531.rlps.indexsupply.net"
+    }
+  ],
+  "integrations": [
+    {
+      "name": "ERC20-Transfers",
+      "enabled": true,
+      "sources": [
+        { "name": "mainnet" },
+        { "name": "goerli" },
+        { "name": "optimism" },
+        { "name": "optimism goerli" },
+        { "name": "base" },
+        { "name": "base goerli" }
+      ],
+      "table": {
+        "name": "token_transfers",
+        "columns": [
+          { "name": "chain_id", "type": "numeric" },
+          { "name": "block_num", "type": "numeric" },
+          { "name": "block_time", "type": "numeric" },
+          { "name": "tx_hash", "type": "bytea" },
+          { "name": "contract", "type": "bytea" },
+          { "name": "f", "type": "bytea" },
+          { "name": "t", "type": "bytea" },
+          { "name": "amt", "type": "numeric" }
+        ]
+      },
+      "block": [
+        { "name": "chain_id", "column": "chain_id" },
+        { "name": "block_num", "column": "block_num" },
+        { "name": "block_time", "column": "block_time" },
+        { "name": "tx_hash", "column": "tx_hash" },
+        { "name": "log_addr", "column": "contract" }
+      ],
+      "event": {
+        "name": "Transfer",
+        "type": "event",
+        "anonymous": false,
+        "inputs": [
+          {
+            "indexed": true,
+            "name": "from",
+            "type": "address",
+            "column": "f"
+          },
+          {
+            "indexed": true,
+            "name": "to",
+            "type": "address",
+            "column": "t"
+          },
+          {
+            "indexed": false,
+            "name": "amount",
+            "type": "uint256",
+            "column": "amt"
+          }
+        ]
+      }
+    }
+  ]
+}
