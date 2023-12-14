@@ -16,6 +16,7 @@ export type Scalars = {
   BigDecimal: any;
   BigInt: any;
   Bytes: any;
+  Int8: any;
 };
 
 export type BlockChangedFilter = {
@@ -38,6 +39,7 @@ export type Chunk = {
 export type Chunk_Filter = {
   /** Filter for the block changed event. */
   readonly _change_block?: InputMaybe<BlockChangedFilter>;
+  readonly and?: InputMaybe<ReadonlyArray<InputMaybe<Chunk_Filter>>>;
   readonly checksum?: InputMaybe<Scalars['String']>;
   readonly checksum_contains?: InputMaybe<Scalars['String']>;
   readonly checksum_contains_nocase?: InputMaybe<Scalars['String']>;
@@ -86,6 +88,7 @@ export type Chunk_Filter = {
   readonly id_lte?: InputMaybe<Scalars['ID']>;
   readonly id_not?: InputMaybe<Scalars['ID']>;
   readonly id_not_in?: InputMaybe<ReadonlyArray<Scalars['ID']>>;
+  readonly or?: InputMaybe<ReadonlyArray<InputMaybe<Chunk_Filter>>>;
 };
 
 export enum Chunk_OrderBy {
@@ -110,6 +113,7 @@ export type File = {
 export type File_Filter = {
   /** Filter for the block changed event. */
   readonly _change_block?: InputMaybe<BlockChangedFilter>;
+  readonly and?: InputMaybe<ReadonlyArray<InputMaybe<File_Filter>>>;
   readonly compression?: InputMaybe<Scalars['String']>;
   readonly compression_contains?: InputMaybe<Scalars['String']>;
   readonly compression_contains_nocase?: InputMaybe<Scalars['String']>;
@@ -226,6 +230,7 @@ export type File_Filter = {
   readonly name_not_starts_with_nocase?: InputMaybe<Scalars['String']>;
   readonly name_starts_with?: InputMaybe<Scalars['String']>;
   readonly name_starts_with_nocase?: InputMaybe<Scalars['String']>;
+  readonly or?: InputMaybe<ReadonlyArray<InputMaybe<File_Filter>>>;
   readonly size?: InputMaybe<Scalars['Int']>;
   readonly size_gt?: InputMaybe<Scalars['Int']>;
   readonly size_gte?: InputMaybe<Scalars['Int']>;

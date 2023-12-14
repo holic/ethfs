@@ -1,5 +1,5 @@
 {
-  "name": "@ethfs/app",
+  "name": "@ethfs/app-deprecated",
   "private": true,
   "engines": {
     "node": "18",
