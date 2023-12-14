@@ -16,6 +16,8 @@ services:
     region: ohio
     runtime: node
     rootDir: packages/ponder
+    buildCommand: pnpm install
+    startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
         fromDatabase:
