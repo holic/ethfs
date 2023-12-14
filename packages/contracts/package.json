@@ -19,12 +19,8 @@
   "devDependencies": {
     "@latticexyz/abi-ts": "2.0.0-next.14",
     "@latticexyz/gas-report": "2.0.0-next.14",
-    "@types/node": "17.0.0",
-    "dotenv-cli": "^6.0.0",
-    "prettier-plugin-solidity": "^1.0.0-beta.19",
-    "solhint": "^3.3.7",
-    "solhint-plugin-prettier": "^0.0.5",
-    "ts-node": "^10.9.1",
-    "typescript": "^4.5.5"
+    "prettier-plugin-solidity": "^1.2.0",
+    "solhint": "^4.0.0",
+    "solhint-plugin-prettier": "^0.1.0"
   }
 }

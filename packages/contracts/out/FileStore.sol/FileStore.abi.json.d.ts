@@ -304,6 +304,12 @@ declare const abi: [
   },
   {
     "type": "event",
+    "name": "Deployed",
+    "inputs": [],
+    "anonymous": false
+  },
+  {
+    "type": "event",
     "name": "FileCreated",
     "inputs": [
       {
