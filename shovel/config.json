@@ -1,0 +1,66 @@
+{
+  "pg_url": "$DATABASE_URL",
+  "eth_sources": [
+    {
+      "name": "goerli",
+      "chain_id": 5,
+      "url": "https://www.noderpc.xyz/rpc-goerli/public"
+    }
+  ],
+  "integrations": [
+    {
+      "name": "FileStore-FileCreated",
+      "enabled": true,
+      "sources": [{ "name": "goerli" }],
+      "table": {
+        "name": "files",
+        "columns": [
+          { "name": "chain_id", "type": "int" },
+          { "name": "name", "type": "text" },
+          { "name": "created_at", "type": "int" },
+          { "name": "size", "type": "numeric" },
+          { "name": "metadata", "type": "text" }
+        ]
+      },
+      "block": [
+        { "name": "chain_id", "column": "chain_id" },
+        { "name": "block_time", "column": "created_at" }
+      ],
+      "event": {
+        "name": "FileCreated",
+        "type": "event",
+        "anonymous": false,
+        "inputs": [
+          {
+            "name": "indexedFilename",
+            "type": "string",
+            "indexed": true
+          },
+          {
+            "name": "pointer",
+            "type": "address",
+            "indexed": true
+          },
+          {
+            "name": "filename",
+            "type": "string",
+            "indexed": false,
+            "column": "name"
+          },
+          {
+            "name": "size",
+            "type": "uint256",
+            "indexed": false,
+            "column": "size"
+          },
+          {
+            "name": "metadata",
+            "type": "bytes",
+            "indexed": false,
+            "column": "metadata"
+          }
+        ]
+      }
+    }
+  ]
+}
