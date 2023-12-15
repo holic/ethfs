@@ -92,11 +92,33 @@ contract FileStoreTest is Test, GasReporter {
             address(0),
             "hello.txt",
             11,
-            bytes("hello world")
+            bytes("some metadata")
         );
-
-        fileStore.createFile("hello.txt", slices, bytes("hello world"));
+        fileStore.createFile("hello.txt", slices, bytes("some metadata"));
         assertEq(fileStore.getFile("hello.txt").read(), "hello world");
+    }
+
+    function testCreateFileFromExistingContents() public {
+        bytes memory content = "hello world";
+        address pointer = fileStore.contentStore().addContent(content);
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({
+            pointer: pointer,
+            size: uint32(content.length),
+            offset: 1
+        });
+        fileStore.createFile("hello.txt", slices, bytes("some metadata"));
+
+        vm.expectEmit(true, false, true, true);
+        emit IFileStore.FileCreated(
+            "same.txt",
+            address(0),
+            "same.txt",
+            11,
+            bytes("some metadata")
+        );
+        fileStore.createFile("same.txt", slices, bytes("some metadata"));
+        assertEq(fileStore.getFile("same.txt").read(), "hello world");
     }
 
     function testBigFile() public {

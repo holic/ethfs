@@ -66,7 +66,7 @@ contract FileStore is IFileStore {
         string memory filename,
         BytecodeSlice[] memory slices
     ) public returns (address pointer, File memory file) {
-        return createFile(filename, slices, new bytes(0));
+        return _createFile(filename, slices, new bytes(0));
     }
 
     /// @notice Creates a new file with the provided slices and metadata

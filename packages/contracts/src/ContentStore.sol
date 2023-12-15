@@ -55,7 +55,7 @@ contract ContentStore is IContentStore {
     function addContent(bytes memory content) public returns (address pointer) {
         address expectedPointer = getPointer(content);
         if (pointerExists(expectedPointer)) {
-            revert ContentAlreadyExists(expectedPointer);
+            return expectedPointer;
         }
 
         // Use the same strategy as Solady's SSTORE2 to write a data contract, but do this via the deployer for a constant address

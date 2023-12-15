@@ -14,14 +14,14 @@
   {
     "file": "test/ContentStore.t.sol",
     "test": "testAddContent",
-    "name": "add duplicate content",
-    "gasUsed": 64006
+    "name": "add existing content",
+    "gasUsed": 63976
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 185908
+    "gasUsed": 185775
   },
   {
     "file": "test/FileStore.t.sol",
@@ -33,7 +33,7 @@
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "create file",
-    "gasUsed": 128705
+    "gasUsed": 128573
   },
   {
     "file": "test/FileStore.t.sol",
@@ -45,13 +45,13 @@
     "file": "test/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 119164
+    "gasUsed": 119032
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 163761
+    "gasUsed": 163629
   },
   {
     "file": "test/FileStore.t.sol",

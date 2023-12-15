@@ -132,17 +132,6 @@ declare const abi: [
   },
   {
     "type": "error",
-    "name": "ContentAlreadyExists",
-    "inputs": [
-      {
-        "name": "pointer",
-        "type": "address",
-        "internalType": "address"
-      }
-    ]
-  },
-  {
-    "type": "error",
     "name": "ContentNotFound",
     "inputs": [
       {

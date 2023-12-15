@@ -36,14 +36,8 @@ contract ContentStoreTest is Test, GasReporter {
         endGasReport();
         assertEq(newPointer, pointer);
 
-        // Adding the same content should revert
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                IContentStore.ContentAlreadyExists.selector,
-                pointer
-            )
-        );
-        startGasReport("add duplicate content");
+        // Adding the same content should just return pointer
+        startGasReport("add existing content");
         contentStore.addContent(content);
         endGasReport();
 
@@ -87,12 +81,6 @@ contract ContentStoreTest is Test, GasReporter {
             0x4e59b44847b379578588920cA78FbF26c0B4956C
         );
 
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                IContentStore.ContentAlreadyExists.selector,
-                pointer
-            )
-        );
-        secondContentStore.addContent(content);
+        assertEq(pointer, secondContentStore.addContent(content));
     }
 }

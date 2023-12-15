@@ -303,6 +303,13 @@ declare const abi: [
   },
   {
     "type": "function",
+    "name": "testCreateFileFromExistingContents",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "testCreateFileWithExtraData",
     "inputs": [],
     "outputs": [],

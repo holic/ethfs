@@ -9,10 +9,6 @@ interface IContentStore {
     /// @param size The size of the content in bytes
     event NewContent(address indexed pointer, uint32 size);
 
-    /// @dev Error thrown when attempting to add content that already exists
-    /// @param pointer The address of the existing content
-    error ContentAlreadyExists(address pointer);
-
     /// @dev Error thrown when content is not found in the store
     /// @param pointer The address of the content queried
     error ContentNotFound(address pointer);
