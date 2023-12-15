@@ -13,18 +13,21 @@
       "enabled": true,
       "sources": [{ "name": "goerli" }],
       "table": {
-        "name": "files",
+        "name": "files_created",
         "columns": [
           { "name": "chain_id", "type": "int" },
-          { "name": "name", "type": "text" },
-          { "name": "created_at", "type": "int" },
+          { "name": "log_addr", "type": "bytea" },
+          { "name": "block_time", "type": "int" },
+          { "name": "filename", "type": "text" },
+          { "name": "pointer", "type": "bytea" },
           { "name": "size", "type": "numeric" },
           { "name": "metadata", "type": "text" }
         ]
       },
       "block": [
         { "name": "chain_id", "column": "chain_id" },
-        { "name": "block_time", "column": "created_at" }
+        { "name": "log_addr", "column": "log_addr", "filter_op": "contains", "filter_arg": ["5B1DE3330E8de015F823bf348cDE8d134A5cA251"]},
+        { "name": "block_time", "column": "block_time" }
       ],
       "event": {
         "name": "FileCreated",
@@ -39,13 +42,14 @@
           {
             "name": "pointer",
             "type": "address",
-            "indexed": true
+            "indexed": true,
+            "column": "pointer"
           },
           {
             "name": "filename",
             "type": "string",
             "indexed": false,
-            "column": "name"
+            "column": "filename"
           },
           {
             "name": "size",
