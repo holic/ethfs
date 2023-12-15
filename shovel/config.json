@@ -26,7 +26,7 @@
       },
       "block": [
         { "name": "chain_id", "column": "chain_id" },
-        { "name": "log_addr", "column": "log_addr", "filter_op": "contains", "filter_arg": ["5B1DE3330E8de015F823bf348cDE8d134A5cA251"]},
+        { "name": "log_addr", "column": "log_addr", "filter_op": "contains", "filter_arg": ["5b1de3330e8de015f823bf348cde8d134a5ca251"]},
         { "name": "block_time", "column": "block_time" }
       ],
       "event": {
