@@ -7,7 +7,7 @@ export default createConfig({
   networks: {
     goerli: {
       chainId: 5,
-      transport: http("https://www.noderpc.xyz/rpc-goerli/public"),
+      transport: http(process.env.RPC_HTTP_URL_5),
     },
   },
   contracts: {
@@ -16,7 +16,8 @@ export default createConfig({
       network: {
         goerli: {
           address: deploys[5]?.FileStore,
-          // TODO: get block number from Deployed event
+          startBlock: 10218693,
+          // TODO: get block number from Deployed event or deploys.json
         },
       },
     },
