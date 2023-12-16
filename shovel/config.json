@@ -4,14 +4,16 @@
     {
       "name": "goerli",
       "chain_id": 5,
-      "url": "$RPC_HTTP_URL_5"
+      "url": "$RPC_HTTP_URL_5",
+      "batch_size": 10,
+      "concurrency": 2
     }
   ],
   "integrations": [
     {
       "name": "FileStore-FileCreated",
       "enabled": true,
-      "sources": [{ "name": "goerli" }],
+      "sources": [{ "name": "goerli", "start": 10218693 }],
       "table": {
         "name": "files_created",
         "columns": [
