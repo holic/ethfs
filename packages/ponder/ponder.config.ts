@@ -8,6 +8,7 @@ export default createConfig({
     goerli: {
       chainId: 5,
       transport: http(process.env.RPC_HTTP_URL_5),
+      maxHistoricalTaskConcurrency: 2,
     },
   },
   contracts: {
