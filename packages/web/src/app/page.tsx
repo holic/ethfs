@@ -1,25 +1,60 @@
-import { sql } from "../database";
+import Link from "next/link";
+
+import { FileExplorer } from "../file-explorer/FileExplorer";
+import { DocumentArrowUpIcon } from "../icons/DocumentArrowUpIcon";
+import { GithubIcon } from "../icons/GithubIcon";
+import { TwitterIcon } from "../icons/TwitterIcon";
 
 export default async function HomePage() {
-  const files = Array.from(
-    await sql`
-      SELECT
-        filename, block_time as "createdAt", size, metadata
-      FROM files_created
-      WHERE chain_id = 5
-      ORDER BY block_time DESC
-    `,
-  );
-
-  console.log("got files", files);
-
   return (
-    <div>
-      {files.map((file) => (
-        <div key={file.filename}>
-          {file.filename} {new Date(file.createdAt * 1000).toLocaleString()}
+    <div className="w-screen min-h-screen bg-lime-200 text-lg leading-none relative overflow-hidden">
+      <div className="absolute inset-0 text-[12rem] font-black text-lime-400 pointer-events-none select-none">
+        Ethereum
+        <br />
+        File
+        <br />
+        System
+      </div>
+      <div className="absolute inset-0 flex flex-col items-end justify-end">
+        <div className="flex flex-col p-8 gap-8">
+          <Link
+            href="/bounties"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-2 border-2 border-transparent border-dotted outline-none focus:border-current"
+          >
+            <span className="text-5xl">
+              <DocumentArrowUpIcon />
+            </span>
+            File Bounties
+          </Link>
+          <a
+            href="https://twitter.com/frolic"
+            target="_blank"
+            rel="noopener noreferer noreferrer"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-2 border-2 border-transparent border-dotted outline-none focus:border-current"
+          >
+            <span className="text-5xl">
+              <TwitterIcon />
+            </span>
+            Say hello &rarr;
+          </a>
+          <a
+            href="https://github.com/holic/ethfs"
+            target="_blank"
+            rel="noopener noreferer noreferrer"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-2 border-2 border-transparent border-dotted outline-none focus:border-current"
+          >
+            <span className="text-5xl">
+              <GithubIcon />
+            </span>
+            View source &rarr;
+          </a>
         </div>
-      ))}
+      </div>
+      <div className="h-full relative flex flex-col">
+        <div className="self-end p-2">{/* <ConnectButton /> */}</div>
+        {/* <FileUploader /> */}
+        <FileExplorer />
+      </div>
     </div>
   );
 }

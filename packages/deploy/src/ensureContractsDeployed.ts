@@ -15,8 +15,8 @@ export async function ensureContractsDeployed({
   const txs = (
     await Promise.all(
       contracts.map((contract) =>
-        ensureContract({ client, deployer, ...contract })
-      )
+        ensureContract({ client, deployer, ...contract }),
+      ),
     )
   ).flat();
 

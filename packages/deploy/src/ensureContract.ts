@@ -53,7 +53,7 @@ export async function ensureContract({
           console.log(`failed to deploy ${label}, retrying in ${delay}ms...`);
           await wait(delay);
         },
-      }
+      },
     ),
   ];
 }

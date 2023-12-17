@@ -26,7 +26,7 @@ export type DeployResult = {
 };
 
 export async function deploy(
-  client: Client<Transport, Chain | undefined, Account>
+  client: Client<Transport, Chain | undefined, Account>,
 ): Promise<DeployResult> {
   const chainId = client.chain?.id ?? (await getChainId(client));
   const deployer = await ensureDeployer(client);
