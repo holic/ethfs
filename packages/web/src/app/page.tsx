@@ -1,3 +1,4 @@
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 import { FileExplorer } from "../file-explorer/FileExplorer";
@@ -19,9 +20,9 @@ export default async function HomePage() {
         <div className="flex flex-col p-8 gap-8">
           <Link
             href="/bounties"
-            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-2 border-2 border-transparent border-dotted outline-none focus:border-current"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
           >
-            <span className="text-5xl">
+            <span className="text-6xl">
               <DocumentArrowUpIcon />
             </span>
             File Bounties
@@ -30,9 +31,9 @@ export default async function HomePage() {
             href="https://twitter.com/frolic"
             target="_blank"
             rel="noopener noreferer noreferrer"
-            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-2 border-2 border-transparent border-dotted outline-none focus:border-current"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
           >
-            <span className="text-5xl">
+            <span className="text-6xl">
               <TwitterIcon />
             </span>
             Say hello &rarr;
@@ -41,9 +42,9 @@ export default async function HomePage() {
             href="https://github.com/holic/ethfs"
             target="_blank"
             rel="noopener noreferer noreferrer"
-            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-2 border-2 border-transparent border-dotted outline-none focus:border-current"
+            className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
           >
-            <span className="text-5xl">
+            <span className="text-6xl">
               <GithubIcon />
             </span>
             View source &rarr;
@@ -51,7 +52,9 @@ export default async function HomePage() {
         </div>
       </div>
       <div className="h-full relative flex flex-col">
-        <div className="self-end p-2">{/* <ConnectButton /> */}</div>
+        <div className="self-end p-2">
+          <ConnectButton />
+        </div>
         {/* <FileUploader /> */}
         <FileExplorer />
       </div>

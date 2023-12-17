@@ -1,5 +1,6 @@
 "use server";
 
+import { OnchainFile } from "../../../common";
 import { and, sql } from "../../../database";
 
 function parseJson(json: string) {
@@ -10,12 +11,14 @@ function parseJson(json: string) {
   }
 }
 
-export type GetFilesResult = Awaited<ReturnType<typeof getFiles>>;
-
-export async function getFiles(filename?: string) {
+export async function getFiles(
+  chainId: number,
+  filename?: string,
+): Promise<OnchainFile[]> {
   const rows = Array.from(
     await sql<
       {
+        chainId: number;
         filename: string;
         createdAt: number;
         size: string;
@@ -23,10 +26,10 @@ export async function getFiles(filename?: string) {
       }[]
     >`
       SELECT
-        filename, block_time as "createdAt", size, metadata
+        chain_id as "chainId", filename, block_time as "createdAt", size, metadata
       FROM files_created
       WHERE ${and(sql, [
-        sql`chain_id = 5`,
+        sql`chain_id = ${chainId}`,
         filename
           ? sql`filename ILIKE ${`%${filename.replace(
               /[%_]/g,
@@ -38,15 +41,17 @@ export async function getFiles(filename?: string) {
     `,
   );
 
-  return rows.map((row) => ({
-    filename: row.filename,
-    createdAt: row.createdAt,
-    size: parseInt(row.size), // a bigint but realistically never going to be >2gb
-    metadata: parseJson(row.metadata) as {
-      type?: string;
-      encoding?: string;
-      compression?: string;
-      license?: string;
-    } | null,
-  }));
+  return rows.map((row) => {
+    const metadata = parseJson(row.metadata);
+    return {
+      chainId: row.chainId,
+      filename: row.filename,
+      createdAt: row.createdAt,
+      size: parseInt(row.size), // a bigint but realistically never going to be >2gb
+      type: metadata?.type ?? null,
+      encoding: metadata?.encoding ?? null,
+      compression: metadata?.compression ?? null,
+      license: metadata?.license ?? null,
+    };
+  });
 }

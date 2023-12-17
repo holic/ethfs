@@ -1,14 +1,15 @@
 "use client";
 
 import { DateTime } from "luxon";
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { usePublicClient } from "wagmi";
 
-import { GetFilesResult } from "../app/api/files/getFiles";
+import { OnchainFile } from "../common";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { SearchIcon } from "../icons/SearchIcon";
 import { PendingPlaceholder } from "../PendingPlaceholder";
-// import { pluralize } from "../pluralize";
+import { pluralize } from "../pluralize";
 import { UIWindow } from "../UIWindow";
 import { useIsMounted } from "../useIsMounted";
 import { usePromise } from "../usePromise";
@@ -20,11 +21,13 @@ import {
   FileSize,
   FileType,
 } from "./FileList";
+import { FileViewer } from "./FileViewer";
 
 export function FileExplorer() {
+  const { chain } = usePublicClient();
   const isMounted = useIsMounted();
   const [searchQuery, setSearchQuery] = useState("");
-  // const [currentFile, setCurrentFile] = useState<File | null>(null);
+  const [currentFile, setCurrentFile] = useState<OnchainFile | null>(null);
   const focusWindow = useWindowStackStore((state) => state.focusWindow);
 
   const files = usePromise(
@@ -33,17 +36,18 @@ export function FileExplorer() {
         isMounted
           ? fetch(
               `/api/files?${new URLSearchParams({
+                chainId: chain.id.toString(),
                 filename: searchQuery,
               })}`,
-            ).then((res) => res.json() as Promise<GetFilesResult>)
+            ).then((res) => res.json() as Promise<OnchainFile[]>)
           : null,
-      [isMounted, searchQuery],
+      [isMounted, chain.id, searchQuery],
     ),
   );
 
   // TODO: refetch on interval
 
-  // const resetCurrentFile = useCallback(() => setCurrentFile(null), []);
+  const resetCurrentFile = useCallback(() => setCurrentFile(null), []);
 
   return (
     <>
@@ -64,17 +68,16 @@ export function FileExplorer() {
             </div>
           </>
         }
-        statusBar={<></>}
-        // statusBar={
-        //   <>
-        //     <div>
-        //       {files.data
-        //         ? pluralize(files.data.files.length, "file", "files")
-        //         : null}
-        //     </div>
-        //     <div>{targetChain.name}</div>
-        //   </>
-        // }
+        statusBar={
+          <>
+            <div>
+              {files.status === "fulfilled"
+                ? pluralize(files.value.length, "file", "files")
+                : null}
+            </div>
+            <div>{chain.name}</div>
+          </>
+        }
         initialX={380}
         initialY={100}
         initialWidth={800}
@@ -102,10 +105,12 @@ export function FileExplorer() {
                 key={file.filename}
                 className={twMerge(
                   "text-stone-500 hover:bg-lime-200 cursor-pointer select-none",
-                  // file.id === currentFile?.id ? "bg-stone-100" : null,
+                  file.filename === currentFile?.filename
+                    ? "bg-stone-100"
+                    : null,
                 )}
                 onDoubleClick={() => {
-                  // setCurrentFile(file);
+                  setCurrentFile(file);
                   focusWindow("FileViewer");
                 }}
               >
@@ -115,7 +120,7 @@ export function FileExplorer() {
                   </span>
                   <span className="text-black">{file.filename}</span>
                 </FileName>
-                <FileType>{file.metadata?.type}</FileType>
+                <FileType>{file.type}</FileType>
                 <FileSize className="tabular-nums">
                   {(file.size / 1024).toFixed(0)} KB
                 </FileSize>
@@ -173,13 +178,9 @@ export function FileExplorer() {
           )}
         </div>
       </UIWindow>
-      {/* {currentFile ? (
-        <MemoizedFileViewer
-          id={currentFile.id}
-          name={currentFile.name}
-          onClose={resetCurrentFile}
-        />
-      ) : null} */}
+      {currentFile ? (
+        <FileViewer file={currentFile} onClose={resetCurrentFile} />
+      ) : null}
     </>
   );
 }

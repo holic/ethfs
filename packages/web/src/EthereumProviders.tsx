@@ -9,25 +9,19 @@ import {
 } from "@rainbow-me/rainbowkit";
 import { ReactNode } from "react";
 import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { goerli } from "wagmi/chains";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 
-const rpcs: { readonly [chainId: number]: string } = {
-  [goerli.id]: process.env.NEXT_PUBLIC_RPC_HTTP_URL_5!,
-};
+import { rpcs, supportedChains } from "./chains";
 
-const { chains, publicClient } = configureChains(
-  [goerli],
-  [
-    jsonRpcProvider({
-      rpc: (chain) => ({
-        http: rpcs[chain.id],
-      }),
+const { chains, publicClient } = configureChains(supportedChains, [
+  jsonRpcProvider({
+    rpc: (chain) => ({
+      http: rpcs[chain.id],
     }),
-    publicProvider(),
-  ],
-);
+  }),
+  publicProvider(),
+]);
 
 const { connectors } = getDefaultWallets({
   appName: "EthFS",
