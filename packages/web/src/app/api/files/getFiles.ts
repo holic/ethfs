@@ -27,7 +27,12 @@ export async function getFiles(filename?: string) {
       FROM files_created
       WHERE ${and(sql, [
         sql`chain_id = 5`,
-        filename ? sql`filename ILIKE '%${sql(filename)}%'` : null,
+        filename
+          ? sql`filename ILIKE ${`%${filename.replace(
+              /[%_]/g,
+              "~$&",
+            )}%`} ESCAPE '~'`
+          : null,
       ])}
       ORDER BY block_time DESC
     `,
