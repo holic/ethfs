@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ethfs/contracts": "workspace:*",
     "@ethfs/deploy": "workspace:*",
     "@rainbow-me/rainbowkit": "^1.3.1",
     "luxon": "^3.4.4",

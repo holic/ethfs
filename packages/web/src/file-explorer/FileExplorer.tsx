@@ -3,8 +3,8 @@
 import { DateTime } from "luxon";
 import React, { useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { usePublicClient } from "wagmi";
 
+import { useChain } from "../ChainContext";
 import { OnchainFile } from "../common";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { SearchIcon } from "../icons/SearchIcon";
@@ -24,7 +24,7 @@ import {
 import { FileViewer } from "./FileViewer";
 
 export function FileExplorer() {
-  const { chain } = usePublicClient();
+  const chain = useChain();
   const isMounted = useIsMounted();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentFile, setCurrentFile] = useState<OnchainFile | null>(null);
@@ -35,8 +35,7 @@ export function FileExplorer() {
       () =>
         isMounted
           ? fetch(
-              `/api/files?${new URLSearchParams({
-                chainId: chain.id.toString(),
+              `/${chain.id}/api/files?${new URLSearchParams({
                 filename: searchQuery,
               })}`,
             ).then((res) => res.json() as Promise<OnchainFile[]>)

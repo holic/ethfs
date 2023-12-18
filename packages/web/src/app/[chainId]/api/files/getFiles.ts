@@ -1,7 +1,7 @@
 "use server";
 
-import { OnchainFile } from "../../../common";
-import { and, sql } from "../../../database";
+import { OnchainFile } from "../../../../common";
+import { and, sql } from "../../../../database";
 
 function parseJson(json: string) {
   try {

@@ -2,7 +2,8 @@ import "tailwindcss/tailwind.css";
 
 import type { Metadata } from "next";
 
-import { EthereumProviders } from "../EthereumProviders";
+import { ChainProvider } from "../../ChainContext";
+import { EthereumProviders } from "../../EthereumProviders";
 
 export const metadata: Metadata = {
   title: "EthFS: Ethereum File System",
@@ -17,13 +18,18 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { chainId: string };
 }) {
+  // TODO: validate chain ID is supported, redirect otherwise
   return (
     <html lang="en">
       <body>
-        <EthereumProviders>{children}</EthereumProviders>
+        <ChainProvider chainId={parseInt(params.chainId)}>
+          <EthereumProviders>{children}</EthereumProviders>
+        </ChainProvider>
       </body>
     </html>
   );

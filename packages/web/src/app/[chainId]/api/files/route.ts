@@ -1,12 +1,14 @@
 import { getFiles } from "./getFiles";
 
-export async function GET(req: Request) {
+export async function GET(
+  req: Request,
+  { params }: { params: { chainId: string } },
+) {
+  const chainId = params.chainId;
   const { searchParams } = new URL(req.url);
-  const chainId = searchParams.get("chainId");
   const filename = searchParams.get("filename");
 
   const data = await getFiles(parseInt(chainId ?? "0"), filename ?? undefined);
-  // console.log("got data", data);
 
   return Response.json(data);
 }

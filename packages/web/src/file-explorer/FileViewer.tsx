@@ -2,8 +2,8 @@ import deploys from "@ethfs/deploy/deploys.json";
 import { DateTime } from "luxon";
 import React from "react";
 
-import { supportedChains } from "../chains";
 import { OnchainFile } from "../common";
+import { supportedChains } from "../supportedChains";
 import { UIWindow } from "../UIWindow";
 
 type Props = {

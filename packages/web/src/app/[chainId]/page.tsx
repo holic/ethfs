@@ -1,10 +1,10 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
-import { FileExplorer } from "../file-explorer/FileExplorer";
-import { DocumentArrowUpIcon } from "../icons/DocumentArrowUpIcon";
-import { GithubIcon } from "../icons/GithubIcon";
-import { TwitterIcon } from "../icons/TwitterIcon";
+import { FileExplorer } from "../../file-explorer/FileExplorer";
+import { DocumentArrowUpIcon } from "../../icons/DocumentArrowUpIcon";
+import { GithubIcon } from "../../icons/GithubIcon";
+import { TwitterIcon } from "../../icons/TwitterIcon";
 
 export default async function HomePage() {
   return (

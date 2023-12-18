@@ -129,6 +129,9 @@ importers:
 
   packages/web:
     dependencies:
+      '@ethfs/contracts':
+        specifier: workspace:*
+        version: link:../contracts
       '@ethfs/deploy':
         specifier: workspace:*
         version: link:../deploy
