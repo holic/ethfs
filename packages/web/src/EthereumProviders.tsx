@@ -12,8 +12,8 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 
-import { supportedChains } from "./supportedChains";
 import { rpcs } from "./rpcs";
+import { supportedChains } from "./supportedChains";
 
 const { chains, publicClient } = configureChains(supportedChains, [
   jsonRpcProvider({

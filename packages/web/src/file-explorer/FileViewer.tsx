@@ -5,6 +5,7 @@ import React from "react";
 import { OnchainFile } from "../common";
 import { supportedChains } from "../supportedChains";
 import { UIWindow } from "../UIWindow";
+import { FileThumbnail } from "./FileThumbnail";
 
 type Props = {
   file: OnchainFile;
@@ -47,7 +48,7 @@ export const FileViewer = ({ file, onClose }: Props) => {
     >
       <div className="min-h-full flex flex-col">
         <div className="flex flex-col gap-4 p-8 items-center bg-stone-200">
-          {/* <FileThumbnail file={file} /> */}
+          <FileThumbnail file={file} />
           {file.filename}
         </div>
         <div className="flex-grow bg-white">

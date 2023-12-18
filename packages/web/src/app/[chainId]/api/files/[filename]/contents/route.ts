@@ -1,9 +1,4 @@
-import IFileStoreAbi from "@ethfs/contracts/out/IFileStore.sol/IFileStore.abi.json";
-import deploys from "@ethfs/deploy/deploys.json";
-import { createPublicClient, http } from "viem";
-import { readContract } from "viem/actions";
-
-import { rpcs } from "../../../../../../rpcs";
+import { getFileContents } from "./getFileContents";
 
 export async function GET(
   req: Request,
@@ -14,21 +9,7 @@ export async function GET(
     throw new Error("Invalid chain ID");
   }
 
-  const rpc = rpcs[parseInt(params.chainId)];
-  if (!rpc) {
-    throw new Error("Unsupported chain");
-  }
-
-  const publicClient = createPublicClient({
-    transport: http(rpc),
-  });
-
-  const contents = await readContract(publicClient, {
-    address: deploys[chainId].FileStore,
-    abi: IFileStoreAbi,
-    functionName: "readFile",
-    args: [params.filename],
-  });
+  const contents = await getFileContents(chainId, params.filename);
 
   // TODO: handle reverts (e.g. FileNotFound)
   // TODO: look up metadata in DB for file type + encoding
