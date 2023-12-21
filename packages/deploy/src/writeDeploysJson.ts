@@ -1,5 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
+
 import { Address } from "viem";
 
 import { DeployResult } from "./deploy";
@@ -25,6 +26,9 @@ export async function writeDeploysJson(deploy: DeployResult): Promise<void> {
   entries.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
 
   deploys = Object.fromEntries(entries);
+
+  // TODO: write deployer
+  // TODO: write block number
 
   console.log("writing to deploys.json");
   await fs.writeFile(deploysJsonPath, JSON.stringify(deploys, null, 2) + "\n");

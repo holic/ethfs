@@ -19,6 +19,7 @@ import { ensureDeployer } from "./ensureDeployer";
 
 export type DeployResult = {
   readonly chainId: number;
+  readonly deployer: Address;
   readonly contracts: {
     readonly ContentStore: Address;
     readonly FileStore: Address;
@@ -68,8 +69,11 @@ export async function deploy(
     ],
   });
 
+  // TODO: add deploy block number
+
   return {
     chainId,
+    deployer,
     contracts: {
       ContentStore: contentStore,
       FileStore: fileStore,

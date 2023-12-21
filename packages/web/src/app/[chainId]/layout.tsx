@@ -1,6 +1,8 @@
 import "tailwindcss/tailwind.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import type { Metadata } from "next";
+import { ToastContainer } from "react-toastify";
 
 import { ChainProvider } from "../../ChainContext";
 import { EthereumProviders } from "../../EthereumProviders";
@@ -28,7 +30,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <ChainProvider chainId={parseInt(params.chainId)}>
-          <EthereumProviders>{children}</EthereumProviders>
+          <EthereumProviders>
+            {children}
+            <ToastContainer position="bottom-right" draggable={false} />
+          </EthereumProviders>
         </ChainProvider>
       </body>
     </html>

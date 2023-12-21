@@ -2,6 +2,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 import { FileExplorer } from "../../file-explorer/FileExplorer";
+import { FileUploader } from "../../file-uploader/FileUploader";
 import { DocumentArrowUpIcon } from "../../icons/DocumentArrowUpIcon";
 import { GithubIcon } from "../../icons/GithubIcon";
 import { TwitterIcon } from "../../icons/TwitterIcon";
@@ -55,7 +56,7 @@ export default async function HomePage() {
         <div className="self-end p-2">
           <ConnectButton />
         </div>
-        {/* <FileUploader /> */}
+        <FileUploader />
         <FileExplorer />
       </div>
     </div>

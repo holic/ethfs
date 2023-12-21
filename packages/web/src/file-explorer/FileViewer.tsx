@@ -1,9 +1,11 @@
 import deploys from "@ethfs/deploy/deploys.json";
 import { DateTime } from "luxon";
 import React from "react";
+import { useQuery } from "wagmi";
 
+import { useChain } from "../ChainContext";
 import { OnchainFile } from "../common";
-import { supportedChains } from "../supportedChains";
+import { PendingIcon } from "../icons/PendingIcon";
 import { UIWindow } from "../UIWindow";
 import { FileThumbnail } from "./FileThumbnail";
 
@@ -12,12 +14,34 @@ type Props = {
   onClose: () => void;
 };
 
-export const FileViewer = ({ file, onClose }: Props) => {
-  const chain = supportedChains.find((chain) => chain.id === file.chainId);
-  if (!chain) {
-    throw new Error("Unexpected chain ID for file");
+function FileViewerThumbnail({ file }: { file: OnchainFile }) {
+  const { data: fetchResult } = useQuery(["file", file.filename], async () => {
+    return fetch(`/api/files/${file.filename}/contents`).then(
+      (res) => res.json() as Promise<{ contents: string }>,
+    );
+  });
+
+  if (!fetchResult) {
+    return (
+      <div className="flex items-center h-64 text-2xl text-stone-400">
+        <PendingIcon />
+      </div>
+    );
   }
 
+  return (
+    <div className="flex flex-col gap-4 p-8 items-center bg-stone-200">
+      <FileThumbnail file={file} contents={fetchResult.contents} />
+      {file.filename}
+    </div>
+  );
+}
+
+export function FileViewer({ file, onClose }: Props) {
+  const chain = useChain();
+  if (chain.id !== file.chainId) {
+    throw new Error("Unexpected chain ID for file");
+  }
   const fileStoreAddress = deploys[chain.id].FileStore;
 
   return (
@@ -46,9 +70,8 @@ export const FileViewer = ({ file, onClose }: Props) => {
       initialHeight={600}
     >
       <div className="min-h-full flex flex-col">
-        <div className="flex flex-col gap-4 p-8 items-center bg-stone-200">
-          <FileThumbnail file={file} />
-          {file.filename}
+        <div className="flex items-center justify-center p-8 bg-stone-200">
+          <FileViewerThumbnail file={file} />
         </div>
         <div className="flex-grow bg-white">
           <div className="grid grid-cols-12 p-6 gap-4 text-base leading-none">
@@ -135,7 +158,7 @@ string.concat(
                 </>
               ) : (
                 <>
-                  This file may have been uploaded separately from this UI.{" "}
+                  We&apos;re not sure how to best use this data type on chain.{" "}
                   <a
                     href={`https://github.com/holic/ethfs/issues/new?title=${encodeURIComponent(
                       `Add usage example for ${file.type}`,
@@ -156,6 +179,6 @@ string.concat(
       </div>
     </UIWindow>
   );
-};
+}
 
 export const MemoizedFileViewer = React.memo(FileViewer);

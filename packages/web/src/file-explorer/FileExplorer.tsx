@@ -30,6 +30,7 @@ export function FileExplorer() {
   const [currentFile, setCurrentFile] = useState<OnchainFile | null>(null);
   const focusWindow = useWindowStackStore((state) => state.focusWindow);
 
+  // TODO: switch to useQuery for better caching
   const files = usePromise(
     useMemo(
       () =>

@@ -1,87 +1,41 @@
 "use client";
 
-import { useMemo } from "react";
-
 import { OnchainFile } from "../common";
 import { gunzip } from "../gunzip";
-import { PendingIcon } from "../icons/PendingIcon";
-import { useIsMounted } from "../useIsMounted";
-import { usePromise } from "../usePromise";
 
 type Props = {
   file: OnchainFile;
+  contents: string;
 };
 
-export const FileThumbnail = ({ file: { filename } }: Props) => {
-  const isMounted = useIsMounted();
-  const file = usePromise(
-    useMemo(
-      () =>
-        isMounted
-          ? fetch(`/api/files/${filename}`).then(
-              (res) =>
-                res.json() as Promise<
-                  (OnchainFile & { contents: string }) | null
-                >,
-            )
-          : null,
-      [isMounted, filename],
-    ),
-  );
-
-  if (file.status === "pending" || file.status === "idle") {
-    return (
-      <div className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard flex items-center justify-center text-stone-500 italic text-2xl">
-        <PendingIcon />
-      </div>
-    );
-  }
-
-  if (file.status === "rejected") {
-    return (
-      <div className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard flex items-center justify-center text-stone-500 italic">
-        Could not load file contents.
-      </div>
-    );
-  }
-
-  if (file.value == null) {
-    return (
-      <div className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard flex items-center justify-center text-stone-500 italic">
-        File not found.
-      </div>
-    );
-  }
-
-  if (file.value.type?.startsWith("image/")) {
+export function FileThumbnail({ file, contents }: Props) {
+  if (file.type?.startsWith("image/")) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
       <img
-        src={`data:${file.value.type}${
-          file.value.encoding === "base64" ? ";base64" : ""
-        },${file.value.contents}`}
+        src={`data:${file.type}${
+          file.encoding === "base64" ? ";base64" : ""
+        },${contents}`}
         className="max-w-64 max-h-64 object-contain bg-white border-2 border-stone-400 shadow-hard"
-        alt={file.value.filename}
+        alt={file.filename}
       />
     );
   }
 
   const decodedContents =
-    file.value.encoding === "base64"
-      ? Buffer.from(file.value.contents, "base64")
-      : Buffer.from(file.value.contents);
+    file.encoding === "base64"
+      ? Buffer.from(contents, "base64")
+      : Buffer.from(contents);
 
-  const contents =
-    file.value.compression === "gzip"
-      ? gunzip(decodedContents)
-      : decodedContents;
+  const decompressedContents =
+    file.compression === "gzip" ? gunzip(decodedContents) : decodedContents;
 
   return (
     <iframe
       className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard"
-      src={`data:text/plain;charset=utf-8;base64,${contents
+      src={`data:text/plain;charset=utf-8;base64,${decompressedContents
         .slice(0, 1024 * 64)
         .toString("base64")}`}
     />
   );
-};
+}
