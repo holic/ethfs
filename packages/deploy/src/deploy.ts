@@ -9,9 +9,10 @@ import {
   getCreate2Address,
   Hex,
   parseAbi,
+  parseAbiItem,
   Transport,
 } from "viem";
-import { getChainId } from "viem/actions";
+import { getBlockNumber, getChainId, getLogs } from "viem/actions";
 
 import { salt } from "./common";
 import { ensureContractsDeployed } from "./ensureContractsDeployed";
@@ -19,10 +20,17 @@ import { ensureDeployer } from "./ensureDeployer";
 
 export type DeployResult = {
   readonly chainId: number;
-  readonly deployer: Address;
   readonly contracts: {
-    readonly ContentStore: Address;
-    readonly FileStore: Address;
+    readonly ContentStore: {
+      deployer: Address;
+      address: Address;
+      blockNumber: bigint;
+    };
+    readonly FileStore: {
+      deployer: Address;
+      address: Address;
+      blockNumber: bigint;
+    };
   };
 };
 
@@ -54,6 +62,7 @@ export async function deploy(
     salt,
   });
 
+  const startBlock = await getBlockNumber(client);
   await ensureContractsDeployed({
     client,
     deployer,
@@ -69,14 +78,41 @@ export async function deploy(
     ],
   });
 
-  // TODO: add deploy block number
+  const fromBlock = startBlock - 1000n;
+  const deployLogs = await getLogs(client, {
+    address: [contentStore, fileStore],
+    event: parseAbiItem("event Deployed()"),
+    fromBlock,
+  });
+  console.log("found", deployLogs.length, "deploy logs since block", fromBlock);
+
+  const contentStoreDeployLog = deployLogs.find(
+    (log) => log.address.toLowerCase() === contentStore.toLowerCase(),
+  );
+  if (!contentStoreDeployLog) {
+    throw new Error("No `Deployed` event log found for `ContentStore`");
+  }
+
+  const fileStoreDeployLog = deployLogs.find(
+    (log) => log.address.toLowerCase() === fileStore.toLowerCase(),
+  );
+  if (!fileStoreDeployLog) {
+    throw new Error("No `Deployed` event log found for `FileStore`");
+  }
 
   return {
     chainId,
-    deployer,
     contracts: {
-      ContentStore: contentStore,
-      FileStore: fileStore,
+      ContentStore: {
+        deployer,
+        address: contentStore,
+        blockNumber: contentStoreDeployLog.blockNumber,
+      },
+      FileStore: {
+        deployer,
+        address: fileStore,
+        blockNumber: fileStoreDeployLog.blockNumber,
+      },
     },
   };
 }

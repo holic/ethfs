@@ -42,7 +42,7 @@ export function FileViewer({ file, onClose }: Props) {
   if (chain.id !== file.chainId) {
     throw new Error("Unexpected chain ID for file");
   }
-  const fileStoreAddress = deploys[chain.id].FileStore;
+  const fileStoreAddress = deploys[chain.id].FileStore.address;
 
   return (
     <UIWindow

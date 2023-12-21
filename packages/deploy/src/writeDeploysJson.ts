@@ -7,7 +7,11 @@ import { DeployResult } from "./deploy";
 
 export type Deploys = {
   readonly [chainId: number]: {
-    readonly [contractName: string]: Address;
+    readonly [contractName: string]: {
+      deployer: Address;
+      address: Address;
+      blockNumber: bigint;
+    };
   };
 };
 
@@ -27,9 +31,14 @@ export async function writeDeploysJson(deploy: DeployResult): Promise<void> {
 
   deploys = Object.fromEntries(entries);
 
-  // TODO: write deployer
-  // TODO: write block number
-
   console.log("writing to deploys.json");
-  await fs.writeFile(deploysJsonPath, JSON.stringify(deploys, null, 2) + "\n");
+  await fs.writeFile(
+    deploysJsonPath,
+    JSON.stringify(
+      deploys,
+      // TODO: use a standardized JSON bigint encoder
+      (k, v) => (typeof v === "bigint" ? v.toString() : v),
+      2,
+    ) + "\n",
+  );
 }

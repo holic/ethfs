@@ -13,7 +13,7 @@
     {
       "name": "FileStore-FileCreated",
       "enabled": true,
-      "sources": [{ "name": "goerli", "start": 10218693 }],
+      "sources": [{ "name": "goerli", "start": 10249091 }],
       "table": {
         "name": "files_created",
         "columns": [

@@ -30,12 +30,12 @@ async function run() {
   console.log("codeSize", codeSize);
 
   const tx = await client.writeContract({
-    address: deploys[chain.id].FileStore,
+    address: deploys[chain.id].FileStore.address,
     abi: FileStoreAbi,
-    functionName: "createFile",
+    functionName: "createFileFromPointers",
     args: [
       "gunzipScripts-0.0.1.js",
-      [{ pointer, size: codeSize - 1, offset: 1 }],
+      [pointer],
       stringToHex(
         JSON.stringify({
           type: "text/javascript",

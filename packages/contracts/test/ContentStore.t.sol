@@ -6,13 +6,23 @@ import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
+import {Deployed} from "../src/common.sol";
 
 contract ContentStoreTest is Test, GasReporter {
     IContentStore public contentStore;
 
     function setUp() public {
-        // TODO: set up deployer instead of using CREATE2_FACTORY
         contentStore = new ContentStore(
+            // TODO: set up safe singleton instead of using CREATE2_FACTORY address
+            0x4e59b44847b379578588920cA78FbF26c0B4956C
+        );
+    }
+
+    function testConstructor() public {
+        vm.expectEmit(true, true, true, true);
+        emit Deployed();
+        new ContentStore(
+            // TODO: set up safe singleton instead of using CREATE2_FACTORY address
             0x4e59b44847b379578588920cA78FbF26c0B4956C
         );
     }

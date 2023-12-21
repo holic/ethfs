@@ -16,9 +16,8 @@ export default createConfig({
       abi: FileStoreAbi,
       network: {
         goerli: {
-          address: deploys[5]?.FileStore,
-          startBlock: 10218693,
-          // TODO: get block number from Deployed event or deploys.json
+          address: deploys[5]?.FileStore?.address,
+          startBlock: parseInt(deploys[5]?.FileStore?.blockNumber ?? "0"),
         },
       },
     },

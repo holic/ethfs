@@ -9,6 +9,7 @@ import {ContentStore} from "../src/ContentStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "../src/File.sol";
+import {Deployed} from "../src/common.sol";
 
 contract ExampleSelfDestruct {
     function explode() public {
@@ -22,8 +23,8 @@ contract FileStoreTest is Test, GasReporter {
     ExampleSelfDestruct public exampleSelfDestruct;
 
     function setUp() public {
-        // TODO: set up deployer instead of using CREATE2_FACTORY
         contentStore = new ContentStore(
+            // TODO: set up safe singleton instead of using CREATE2_FACTORY address
             0x4e59b44847b379578588920cA78FbF26c0B4956C
         );
         fileStore = new FileStore(contentStore);
@@ -39,6 +40,12 @@ contract FileStoreTest is Test, GasReporter {
         });
         fileStore.createFileFromSlices("corrupt.txt", slices);
         exampleSelfDestruct.explode();
+    }
+
+    function testConstructor() public {
+        vm.expectEmit(true, true, true, true);
+        emit Deployed();
+        new FileStore(contentStore);
     }
 
     function testCreateFileFromSlices() public {

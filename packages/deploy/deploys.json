@@ -1,10 +1,26 @@
 {
   "5": {
-    "ContentStore": "0xE61c980B8F26007Fe568D13854bd6B044A563F21",
-    "FileStore": "0x5B1DE3330E8de015F823bf348cDE8d134A5cA251"
+    "ContentStore": {
+      "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+      "address": "0x63F347f3f69a5DCaDA8fA38c118E13e8a406B873",
+      "blockNumber": "10249091"
+    },
+    "FileStore": {
+      "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+      "address": "0x868ee437C179e609f340206896F1CE88741de097",
+      "blockNumber": "10249091"
+    }
   },
   "11155111": {
-    "ContentStore": "0xE61c980B8F26007Fe568D13854bd6B044A563F21",
-    "FileStore": "0x5B1DE3330E8de015F823bf348cDE8d134A5cA251"
+    "ContentStore": {
+      "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+      "address": "0x63F347f3f69a5DCaDA8fA38c118E13e8a406B873",
+      "blockNumber": "4931780"
+    },
+    "FileStore": {
+      "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+      "address": "0x868ee437C179e609f340206896F1CE88741de097",
+      "blockNumber": "4931778"
+    }
   }
 }

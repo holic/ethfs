@@ -23,7 +23,7 @@ export async function uploadFile(
   onProgress("Checking filename…");
   const fileExists = await readContract({
     chainId,
-    address: deploys[chainId].FileStore,
+    address: deploys[chainId].FileStore.address,
     abi: IFileStoreAbi,
     functionName: "fileExists",
     args: [preparedFile.filename],
@@ -38,7 +38,7 @@ export async function uploadFile(
       async (content) =>
         await readContract({
           chainId,
-          address: deploys[walletClient.chain.id].ContentStore,
+          address: deploys[walletClient.chain.id].ContentStore.address,
           abi: IContentStoreAbi,
           functionName: "getPointer",
           args: [stringToHex(content)],
@@ -53,7 +53,7 @@ export async function uploadFile(
 
     const pointerExists = await readContract({
       chainId,
-      address: deploys[walletClient.chain.id].ContentStore,
+      address: deploys[walletClient.chain.id].ContentStore.address,
       abi: IContentStoreAbi,
       functionName: "pointerExists",
       args: [pointers[i]],
@@ -62,7 +62,7 @@ export async function uploadFile(
 
     const { hash: tx } = await writeContract({
       chainId,
-      address: deploys[walletClient.chain.id].ContentStore,
+      address: deploys[walletClient.chain.id].ContentStore.address,
       abi: IContentStoreAbi,
       functionName: "addContent",
       args: [stringToHex(content)],
@@ -96,7 +96,7 @@ export async function uploadFile(
 
   const { hash: tx } = await writeContract({
     chainId,
-    address: deploys[chainId].FileStore,
+    address: deploys[chainId].FileStore.address,
     abi: IFileStoreAbi,
     functionName: "createFileFromPointers",
     args: [

@@ -207,6 +207,13 @@ declare const abi: [
   },
   {
     "type": "function",
+    "name": "testConstructor",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "testContentLength",
     "inputs": [],
     "outputs": [],
@@ -225,6 +232,12 @@ declare const abi: [
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
+  },
+  {
+    "type": "event",
+    "name": "Deployed",
+    "inputs": [],
+    "anonymous": false
   },
   {
     "type": "event",

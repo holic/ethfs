@@ -22,7 +22,7 @@ export async function getFileContents(
 
   // TODO: handle reverts (e.g. FileNotFound)
   const contents = await readContract(publicClient, {
-    address: deploys[chainId].FileStore,
+    address: deploys[chainId].FileStore.address,
     abi: IFileStoreAbi,
     functionName: "readFile",
     args: [filename],
