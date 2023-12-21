@@ -2,6 +2,7 @@
 pragma solidity ^0.8.22;
 
 import "forge-std/Test.sol";
+import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {IContentStore} from "../src/IContentStore.sol";
 import {ContentStore} from "../src/ContentStore.sol";
@@ -36,13 +37,14 @@ contract FileStoreTest is Test, GasReporter {
             offset: 0,
             size: 10
         });
-        fileStore.createFile("corrupt.txt", slices);
+        fileStore.createFileFromSlices("corrupt.txt", slices);
         exampleSelfDestruct.explode();
     }
 
-    function testCreateFile() public {
+    function testCreateFileFromSlices() public {
         string memory contents = vm.readFile("test/files/sstore2-max.txt");
         address pointer = fileStore.contentStore().addContent(bytes(contents));
+
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
             pointer: pointer,
@@ -60,7 +62,10 @@ contract FileStoreTest is Test, GasReporter {
         );
 
         startGasReport("create 24kb file");
-        (, File memory file) = fileStore.createFile("24kb.txt", slices);
+        (, File memory file) = fileStore.createFileFromSlices(
+            "24kb.txt",
+            slices
+        );
         endGasReport();
 
         assertEq(file.size, 24575);
@@ -73,7 +78,42 @@ contract FileStoreTest is Test, GasReporter {
                 "24kb.txt"
             )
         );
-        fileStore.createFile("24kb.txt", slices);
+        fileStore.createFileFromSlices("24kb.txt", slices);
+    }
+
+    function testCreateFileFromPointers() public {
+        string memory contents = vm.readFile("test/files/sstore2-max.txt");
+        address pointer = fileStore.contentStore().addContent(bytes(contents));
+        address[] memory pointers = new address[](1);
+        pointers[0] = pointer;
+
+        vm.expectEmit(true, false, true, true);
+        emit IFileStore.FileCreated(
+            "24kb.txt",
+            address(0),
+            "24kb.txt",
+            24575,
+            new bytes(0)
+        );
+
+        startGasReport("create 24kb file");
+        (, File memory file) = fileStore.createFileFromPointers(
+            "24kb.txt",
+            pointers
+        );
+        endGasReport();
+
+        assertEq(file.size, 24575);
+        assertEq(bytes(file.read()).length, 24575);
+        assertEq(file.read(), contents);
+
+        vm.expectRevert(
+            abi.encodeWithSelector(
+                IFileStore.FilenameExists.selector,
+                "24kb.txt"
+            )
+        );
+        fileStore.createFileFromPointers("24kb.txt", pointers);
     }
 
     function testCreateFileWithExtraData() public {
@@ -94,7 +134,11 @@ contract FileStoreTest is Test, GasReporter {
             11,
             bytes("some metadata")
         );
-        fileStore.createFile("hello.txt", slices, bytes("some metadata"));
+        fileStore.createFileFromSlices(
+            "hello.txt",
+            slices,
+            bytes("some metadata")
+        );
         assertEq(fileStore.getFile("hello.txt").read(), "hello world");
     }
 
@@ -107,7 +151,11 @@ contract FileStoreTest is Test, GasReporter {
             size: uint32(content.length),
             offset: 1
         });
-        fileStore.createFile("hello.txt", slices, bytes("some metadata"));
+        fileStore.createFileFromSlices(
+            "hello.txt",
+            slices,
+            bytes("some metadata")
+        );
 
         vm.expectEmit(true, false, true, true);
         emit IFileStore.FileCreated(
@@ -117,7 +165,11 @@ contract FileStoreTest is Test, GasReporter {
             11,
             bytes("some metadata")
         );
-        fileStore.createFile("same.txt", slices, bytes("some metadata"));
+        fileStore.createFileFromSlices(
+            "same.txt",
+            slices,
+            bytes("some metadata")
+        );
         assertEq(fileStore.getFile("same.txt").read(), "hello world");
     }
 
@@ -156,7 +208,7 @@ contract FileStoreTest is Test, GasReporter {
         });
 
         startGasReport("create big file");
-        fileStore.createFile("big.txt", slices);
+        fileStore.createFileFromSlices("big.txt", slices);
         endGasReport();
 
         File memory file = fileStore.getFile("big.txt");
@@ -185,7 +237,7 @@ contract FileStoreTest is Test, GasReporter {
         slices[2] = BytecodeSlice({pointer: worldPointer, offset: 61, size: 1});
 
         startGasReport("create file");
-        fileStore.createFile("hello.txt", slices);
+        fileStore.createFileFromSlices("hello.txt", slices);
         endGasReport();
 
         startGasReport("read file");
@@ -204,7 +256,7 @@ contract FileStoreTest is Test, GasReporter {
         });
 
         startGasReport("create file");
-        fileStore.createFile("file.txt", slices);
+        fileStore.createFileFromSlices("file.txt", slices);
         endGasReport();
 
         startGasReport("read file");

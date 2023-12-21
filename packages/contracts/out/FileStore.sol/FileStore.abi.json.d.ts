@@ -25,7 +25,128 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "createFile",
+    "name": "createFileFromPointers",
+    "inputs": [
+      {
+        "name": "filename",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "pointers",
+        "type": "address[]",
+        "internalType": "address[]"
+      },
+      {
+        "name": "metadata",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "pointer",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "file",
+        "type": "tuple",
+        "internalType": "struct File",
+        "components": [
+          {
+            "name": "size",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "slices",
+            "type": "tuple[]",
+            "internalType": "struct BytecodeSlice[]",
+            "components": [
+              {
+                "name": "pointer",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "size",
+                "type": "uint32",
+                "internalType": "uint32"
+              },
+              {
+                "name": "offset",
+                "type": "uint32",
+                "internalType": "uint32"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createFileFromPointers",
+    "inputs": [
+      {
+        "name": "filename",
+        "type": "string",
+        "internalType": "string"
+      },
+      {
+        "name": "pointers",
+        "type": "address[]",
+        "internalType": "address[]"
+      }
+    ],
+    "outputs": [
+      {
+        "name": "pointer",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "file",
+        "type": "tuple",
+        "internalType": "struct File",
+        "components": [
+          {
+            "name": "size",
+            "type": "uint256",
+            "internalType": "uint256"
+          },
+          {
+            "name": "slices",
+            "type": "tuple[]",
+            "internalType": "struct BytecodeSlice[]",
+            "components": [
+              {
+                "name": "pointer",
+                "type": "address",
+                "internalType": "address"
+              },
+              {
+                "name": "size",
+                "type": "uint32",
+                "internalType": "uint32"
+              },
+              {
+                "name": "offset",
+                "type": "uint32",
+                "internalType": "uint32"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "createFileFromSlices",
     "inputs": [
       {
         "name": "filename",
@@ -105,7 +226,7 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "createFile",
+    "name": "createFileFromSlices",
     "inputs": [
       {
         "name": "filename",
@@ -369,6 +490,17 @@ declare const abi: [
         "name": "filename",
         "type": "string",
         "internalType": "string"
+      }
+    ]
+  },
+  {
+    "type": "error",
+    "name": "InvalidPointer",
+    "inputs": [
+      {
+        "name": "pointer",
+        "type": "address",
+        "internalType": "address"
       }
     ]
   },

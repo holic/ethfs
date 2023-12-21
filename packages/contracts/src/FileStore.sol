@@ -5,6 +5,7 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
+import {isValidPointer} from "./isValidPointer.sol";
 import {Deployed} from "./common.sol";
 
 /// @title EthFS FileStore
@@ -56,41 +57,91 @@ contract FileStore is IFileStore {
         return abi.decode(SSTORE2.read(pointer), (File));
     }
 
-    /// @notice Creates a new file where its content is composed of the provided slices
+    /// @notice Creates a new file where its content is composed of the provided SSTORE2 pointers
+    /// @param filename The name of the new file
+    /// @param pointers The SSTORE2 pointers composing the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromPointers(
+        string memory filename,
+        address[] memory pointers
+    ) public returns (address pointer, File memory file) {
+        return _createFile(filename, _fileFromPointers(pointers), new bytes(0));
+    }
+
+    /// @notice Creates a new file with the provided SSTORE2 pointers and file metadata
+    /// @param filename The name of the new file
+    /// @param pointers The SSTORE2 pointers composing the file
+    /// @param metadata Additional metadata for the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromPointers(
+        string memory filename,
+        address[] memory pointers,
+        bytes memory metadata
+    ) public returns (address pointer, File memory file) {
+        return _createFile(filename, _fileFromPointers(pointers), metadata);
+    }
+
+    /// @notice Creates a new file where its content is composed of the provided bytecode slices
     /// @param filename The name of the new file
     /// @param slices The bytecode slices composing the file
     /// @return pointer The pointer address of the new file
     /// @return file The newly created file
-    function createFile(
+    function createFileFromSlices(
         string memory filename,
         BytecodeSlice[] memory slices
     ) public returns (address pointer, File memory file) {
-        return _createFile(filename, slices, new bytes(0));
+        return _createFile(filename, _fileFromSlices(slices), new bytes(0));
     }
 
-    /// @notice Creates a new file with the provided slices and metadata
+    /// @notice Creates a new file with the provided bytecode slices and file metadata
     /// @param filename The name of the new file
     /// @param slices The bytecode slices composing the file
     /// @param metadata Additional metadata for the file
     /// @return pointer The pointer address of the new file
     /// @return file The newly created file
-    function createFile(
+    function createFileFromSlices(
         string memory filename,
         BytecodeSlice[] memory slices,
         bytes memory metadata
     ) public returns (address pointer, File memory file) {
-        return _createFile(filename, slices, metadata);
+        return _createFile(filename, _fileFromSlices(slices), metadata);
     }
 
-    /// @dev Internal function for creating a file and validating its slices
-    function _createFile(
-        string memory filename,
-        BytecodeSlice[] memory slices,
-        bytes memory metadata
-    ) internal returns (address pointer, File memory file) {
-        if (files[filename] != address(0)) {
-            revert FilenameExists(filename);
+    /// @notice Convenience method for reading files in frontends and indexers where libraries are not accessible.
+    /// @dev Contracts should use `File.read()` directly, rather than this method. Otherwise you will incur unnecessary gas for passing around large byte blobs.
+    /// @param filename The name of the file to read
+    /// @return contents The contents of the file
+    function readFile(
+        string memory filename
+    ) public view returns (string memory contents) {
+        return getFile(filename).read();
+    }
+
+    /// @dev Internal function for preparing a file from its pointers
+    function _fileFromPointers(
+        address[] memory pointers
+    ) internal view returns (File memory file) {
+        uint256 size = 0;
+        BytecodeSlice[] memory slices = new BytecodeSlice[](pointers.length);
+        for (uint256 i = 0; i < pointers.length; ++i) {
+            if (!isValidPointer(pointers[i])) {
+                revert InvalidPointer(pointers[i]);
+            }
+            uint32 codeSize = uint32(pointers[i].code.length);
+            slices[i].pointer = pointers[i];
+            slices[i].size = codeSize - uint32(SSTORE2.DATA_OFFSET);
+            slices[i].offset = uint32(SSTORE2.DATA_OFFSET);
+            size += slices[i].size;
         }
+        return File({size: size, slices: slices});
+    }
+
+    /// @dev Internal function for preparing a file from its slices
+    function _fileFromSlices(
+        BytecodeSlice[] memory slices
+    ) internal view returns (File memory file) {
         uint256 size = 0;
         for (uint256 i = 0; i < slices.length; ++i) {
             if (slices[i].size == 0) {
@@ -111,22 +162,24 @@ contract FileStore is IFileStore {
             }
             size += slices[i].size;
         }
-        if (size == 0) {
+        return File({size: size, slices: slices});
+    }
+
+    /// @dev Internal function for creating a file
+    function _createFile(
+        string memory filename,
+        File memory file,
+        bytes memory metadata
+    ) internal returns (address pointer, File memory) {
+        if (file.size == 0) {
             revert FileEmpty();
         }
-        file = File({size: size, slices: slices});
+        if (files[filename] != address(0)) {
+            revert FilenameExists(filename);
+        }
         pointer = contentStore.addContent(abi.encode(file));
         files[filename] = pointer;
         emit FileCreated(filename, pointer, filename, file.size, metadata);
-    }
-
-    /// @notice Convenience method for reading files in frontends and indexers where libraries are not accessible.
-    /// @dev Contracts should use `File.read()` directly, rather than this method. Otherwise you will incur unnecessary gas for passing around large byte blobs.
-    /// @param filename The name of the file to read
-    /// @return contents The contents of the file
-    function readFile(
-        string memory filename
-    ) public view returns (string memory contents) {
-        return getFile(filename).read();
+        return (pointer, file);
     }
 }

@@ -38,6 +38,10 @@ interface IFileStore {
     /// @param offset The byte offset of the slice within the content
     error SliceEmpty(address pointer, uint32 size, uint32 offset);
 
+    /// @dev Error thrown when the provided pointer's bytecode does not have the expected STOP opcode prefix from SSTORE2
+    /// @param pointer The SSTORE2 pointer address
+    error InvalidPointer(address pointer);
+
     /// @notice Returns the associated ContentStore contract used by this FileStore
     /// @return The ContentStore contract instance
     function contentStore() external view returns (IContentStore);
@@ -68,23 +72,45 @@ interface IFileStore {
         string memory filename
     ) external view returns (File memory file);
 
-    /// @notice Creates a new file where its content is composed of the provided slices
+    /// @notice Creates a new file where its content is composed of the provided SSTORE2 pointers
+    /// @param filename The name of the new file
+    /// @param pointers The SSTORE2 pointers composing the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromPointers(
+        string memory filename,
+        address[] memory pointers
+    ) external returns (address pointer, File memory file);
+
+    /// @notice Creates a new file with the provided SSTORE2 pointers and file metadata
+    /// @param filename The name of the new file
+    /// @param pointers The SSTORE2 pointers composing the file
+    /// @param metadata Additional metadata for the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromPointers(
+        string memory filename,
+        address[] memory pointers,
+        bytes memory metadata
+    ) external returns (address pointer, File memory file);
+
+    /// @notice Creates a new file where its content is composed of the provided bytecode slices
     /// @param filename The name of the new file
     /// @param slices The bytecode slices composing the file
     /// @return pointer The pointer address of the new file
     /// @return file The newly created file
-    function createFile(
+    function createFileFromSlices(
         string memory filename,
         BytecodeSlice[] memory slices
     ) external returns (address pointer, File memory file);
 
-    /// @notice Creates a new file with the provided slices and metadata
+    /// @notice Creates a new file with the provided bytecode slices and file metadata
     /// @param filename The name of the new file
     /// @param slices The bytecode slices composing the file
     /// @param metadata Additional metadata for the file
     /// @return pointer The pointer address of the new file
     /// @return file The newly created file
-    function createFile(
+    function createFileFromSlices(
         string memory filename,
         BytecodeSlice[] memory slices,
         bytes memory metadata

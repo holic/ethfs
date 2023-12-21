@@ -46,29 +46,13 @@ contract MockProjectTest is Test, GasReporter {
         bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
         address pointer = fileStore.contentStore().addContent(content);
 
-        BytecodeSlice[] memory slices = new BytecodeSlice[](4);
-        slices[0] = BytecodeSlice({
-            pointer: pointer,
-            size: uint32(content.length),
-            offset: 1
-        });
-        slices[1] = BytecodeSlice({
-            pointer: pointer,
-            size: uint32(content.length),
-            offset: 1
-        });
-        slices[2] = BytecodeSlice({
-            pointer: pointer,
-            size: uint32(content.length),
-            offset: 1
-        });
-        slices[3] = BytecodeSlice({
-            pointer: pointer,
-            size: uint32(content.length),
-            offset: 1
-        });
+        address[] memory pointers = new address[](4);
+        pointers[0] = pointer;
+        pointers[1] = pointer;
+        pointers[2] = pointer;
+        pointers[3] = pointer;
 
-        fileStore.createFile("big.txt", slices);
+        fileStore.createFileFromPointers("big.txt", pointers);
 
         project = new MockProject(fileStore);
     }

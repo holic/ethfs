@@ -1,4 +1,4 @@
-[
+declare const abi: [
   {
     "type": "function",
     "name": "IS_TEST",
@@ -8,74 +8,6 @@
         "name": "",
         "type": "bool",
         "internalType": "bool"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "_readFile",
-    "inputs": [
-      {
-        "name": "file",
-        "type": "tuple",
-        "internalType": "struct File",
-        "components": [
-          {
-            "name": "size",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "slices",
-            "type": "tuple[]",
-            "internalType": "struct BytecodeSlice[]",
-            "components": [
-              {
-                "name": "pointer",
-                "type": "address",
-                "internalType": "address"
-              },
-              {
-                "name": "size",
-                "type": "uint32",
-                "internalType": "uint32"
-              },
-              {
-                "name": "offset",
-                "type": "uint32",
-                "internalType": "uint32"
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "contentStore",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract IContentStore"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "exampleSelfDestruct",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract ExampleSelfDestruct"
       }
     ],
     "stateMutability": "view"
@@ -130,26 +62,6 @@
         "internalType": "bool"
       }
     ],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "fileStore",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract IFileStore"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "setUp",
-    "inputs": [],
-    "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
@@ -268,103 +180,31 @@
   },
   {
     "type": "function",
-    "name": "testBigFile",
+    "name": "testBigPointer",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "testBytecode",
+    "name": "testInvalidPointer",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "testCorruptedFileRead",
+    "name": "testNonexistentPointer",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "testCorruptedFileReadUnchecked",
+    "name": "testValidPointer",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileFromExistingContents",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileFromPointers",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileFromSlices",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileWithExtraData",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testSlices",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "event",
-    "name": "FileCreated",
-    "inputs": [
-      {
-        "name": "indexedFilename",
-        "type": "string",
-        "indexed": true,
-        "internalType": "string"
-      },
-      {
-        "name": "pointer",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "filename",
-        "type": "string",
-        "indexed": false,
-        "internalType": "string"
-      },
-      {
-        "name": "size",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "metadata",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
-      }
-    ],
-    "anonymous": false
   },
   {
     "type": "event",
@@ -730,4 +570,4 @@
     ],
     "anonymous": false
   }
-]
+]; export default abi;

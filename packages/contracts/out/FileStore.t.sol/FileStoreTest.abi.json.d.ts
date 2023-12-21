@@ -296,14 +296,21 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "testCreateFile",
+    "name": "testCreateFileFromExistingContents",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "testCreateFileFromExistingContents",
+    "name": "testCreateFileFromPointers",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "testCreateFileFromSlices",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"

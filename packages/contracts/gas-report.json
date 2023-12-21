@@ -21,7 +21,7 @@
     "file": "test/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 185799
+    "gasUsed": 185845
   },
   {
     "file": "test/FileStore.t.sol",
@@ -33,36 +33,66 @@
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "create file",
-    "gasUsed": 128588
+    "gasUsed": 128633
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testBytecode",
     "name": "read file",
-    "gasUsed": 5513
+    "gasUsed": 5478
   },
   {
     "file": "test/FileStore.t.sol",
-    "test": "testCreateFile",
+    "test": "testCreateFileFromPointers",
     "name": "create 24kb file",
-    "gasUsed": 119047
+    "gasUsed": 119467
+  },
+  {
+    "file": "test/FileStore.t.sol",
+    "test": "testCreateFileFromSlices",
+    "name": "create 24kb file",
+    "gasUsed": 119104
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 163650
+    "gasUsed": 163695
   },
   {
     "file": "test/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
-    "gasUsed": 8515
+    "gasUsed": 8480
+  },
+  {
+    "file": "test/isValidPointer.sol",
+    "test": "testBigPointer",
+    "name": "check big pointer",
+    "gasUsed": 318
+  },
+  {
+    "file": "test/isValidPointer.sol",
+    "test": "testInvalidPointer",
+    "name": "check invalid pointer",
+    "gasUsed": 317
+  },
+  {
+    "file": "test/isValidPointer.sol",
+    "test": "testNonexistentPointer",
+    "name": "check non-existent pointer",
+    "gasUsed": 174
+  },
+  {
+    "file": "test/isValidPointer.sol",
+    "test": "testValidPointer",
+    "name": "check valid pointer",
+    "gasUsed": 318
   },
   {
     "file": "test/MockProject.t.sol",
     "test": "testTokenURI",
     "name": "token URI",
-    "gasUsed": 950243
+    "gasUsed": 950208
   }
 ]
