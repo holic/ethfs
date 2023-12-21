@@ -5,7 +5,6 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
-import {getCodeSize} from "./getCodeSize.sol";
 import {Deployed} from "./common.sol";
 
 /// @title EthFS FileStore
@@ -101,7 +100,7 @@ contract FileStore is IFileStore {
                     slices[i].offset
                 );
             }
-            uint32 codeSize = getCodeSize(slices[i].pointer);
+            uint32 codeSize = uint32(slices[i].pointer.code.length);
             if (slices[i].offset + slices[i].size > codeSize) {
                 revert SliceOutOfBounds(
                     slices[i].pointer,

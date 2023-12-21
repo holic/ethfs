@@ -3,7 +3,6 @@ pragma solidity ^0.8.22;
 
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
-import {getCodeSize} from "./getCodeSize.sol";
 import {revertWithBytes} from "./revertWithBytes.sol";
 import {Deployed} from "./common.sol";
 
@@ -26,14 +25,14 @@ contract ContentStore is IContentStore {
     /// @param pointer The address of the content
     /// @return True if content exists, false otherwise
     function pointerExists(address pointer) public view returns (bool) {
-        return getCodeSize(pointer) > 0;
+        return pointer.code.length > 0;
     }
 
     /// @notice Get the length of the content stored at a specific pointer
     /// @param pointer The address of the content
     /// @return size The size of the content in bytes
     function contentLength(address pointer) public view returns (uint32 size) {
-        size = getCodeSize(pointer);
+        size = uint32(pointer.code.length);
         if (size == 0) {
             revert ContentNotFound(pointer);
         }
