@@ -46,40 +46,20 @@ export async function uploadFile(
     ),
   );
 
-  // TODO: add method to create from SSTORE2 pointer
-  const slices = preparedFile.contents.map((content, i) => ({
-    pointer: pointers[i],
-    size: content.length,
-    offset: 1,
-  }));
-
-  onProgress("Looking for existing chunks…");
-  // TODO: multicall
-  const chunksToUpload = (
-    await Promise.all(
-      preparedFile.contents.map(async (content, i) => {
-        const pointerExists = await readContract({
-          chainId,
-          address: deploys[walletClient.chain.id].ContentStore,
-          abi: IContentStoreAbi,
-          functionName: "pointerExists",
-          args: [pointers[i]],
-        });
-
-        if (pointerExists) {
-          return;
-        }
-        return content;
-      }),
-    )
-  ).filter((content): content is string => content != null);
-
   const transactions: Hex[] = [];
-  for (const [i, content] of chunksToUpload.entries()) {
-    // Kick off transactions serially, so that rejecting one will stop the rest
-    // from being executed.
-    // TODO: check again if content has already been uploaded
-    onProgress(`Uploading chunk ${i + 1} of ${chunksToUpload.length}…`);
+  // Kick off transactions serially, so that rejecting one will stop the rest from being executed.
+  for (const [i, content] of preparedFile.contents.entries()) {
+    onProgress(`Uploading chunk ${i + 1} of ${preparedFile.contents.length}…`);
+
+    const pointerExists = await readContract({
+      chainId,
+      address: deploys[walletClient.chain.id].ContentStore,
+      abi: IContentStoreAbi,
+      functionName: "pointerExists",
+      args: [pointers[i]],
+    });
+    if (pointerExists) return;
+
     const { hash: tx } = await writeContract({
       chainId,
       address: deploys[walletClient.chain.id].ContentStore,
@@ -118,10 +98,10 @@ export async function uploadFile(
     chainId,
     address: deploys[chainId].FileStore,
     abi: IFileStoreAbi,
-    functionName: "createFile",
+    functionName: "createFileFromPointers",
     args: [
       preparedFile.filename,
-      slices,
+      pointers,
       stringToHex(JSON.stringify(preparedFile.metadata)),
     ],
   });
