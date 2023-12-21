@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { OnchainFile } from "../common";
 import { gunzip } from "../gunzip";
+import { PendingIcon } from "../icons/PendingIcon";
 import { useIsMounted } from "../useIsMounted";
 import { usePromise } from "../usePromise";
 
@@ -28,13 +29,20 @@ export const FileThumbnail = ({ file: { filename } }: Props) => {
     ),
   );
 
-  // TODO: better loading indicator
   if (file.status === "pending" || file.status === "idle") {
-    return null;
+    return (
+      <div className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard flex items-center justify-center text-stone-500 italic text-2xl">
+        <PendingIcon />
+      </div>
+    );
   }
-  // TODO: better error state
+
   if (file.status === "rejected") {
-    return null;
+    return (
+      <div className="w-64 h-64 bg-white border-2 border-stone-400 shadow-hard flex items-center justify-center text-stone-500 italic">
+        Could not load file contents.
+      </div>
+    );
   }
 
   if (file.value == null) {

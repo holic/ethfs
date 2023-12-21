@@ -37,8 +37,7 @@ export const FileViewer = ({ file, onClose }: Props) => {
       statusBar={
         <>
           <div>{file.filename}</div>
-          {/* TODO: translate chain ID to chain name */}
-          <div>{file.chainId}</div>
+          <div>{chain.name}</div>
         </>
       }
       initialX={600}
