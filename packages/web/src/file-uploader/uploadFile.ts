@@ -58,7 +58,7 @@ export async function uploadFile(
       functionName: "pointerExists",
       args: [pointers[i]],
     });
-    if (pointerExists) return;
+    if (pointerExists) continue;
 
     const { hash: tx } = await writeContract({
       chainId,
