@@ -200,9 +200,11 @@ contract FileStore is IFileStore {
         BytecodeSlice[] memory slices = new BytecodeSlice[](chunks.length);
         for (uint256 i = 0; i < chunks.length; ++i) {
             slices[i].pointer = contentStore.addContent(bytes(chunks[i]));
-            slices[i].size = uint32(bytes(chunks[i]).length);
-            slices[i].offset = uint32(SSTORE2.DATA_OFFSET);
-            size += slices[i].size;
+            slices[i].start = uint32(SSTORE2.DATA_OFFSET);
+            slices[i].end = uint32(
+                SSTORE2.DATA_OFFSET + bytes(chunks[i]).length
+            );
+            size += slices[i].end - slices[i].start;
         }
         return File({size: size, slices: slices});
     }
@@ -218,11 +220,9 @@ contract FileStore is IFileStore {
                 revert InvalidPointer(pointers[i]);
             }
             slices[i].pointer = pointers[i];
-            slices[i].size = uint32(
-                pointers[i].code.length - SSTORE2.DATA_OFFSET
-            );
-            slices[i].offset = uint32(SSTORE2.DATA_OFFSET);
-            size += slices[i].size;
+            slices[i].start = uint32(SSTORE2.DATA_OFFSET);
+            slices[i].end = uint32(pointers[i].code.length);
+            size += slices[i].end - slices[i].start;
         }
         return File({size: size, slices: slices});
     }
@@ -233,23 +233,23 @@ contract FileStore is IFileStore {
     ) internal view returns (File memory file) {
         uint256 size = 0;
         for (uint256 i = 0; i < slices.length; ++i) {
-            if (slices[i].size == 0) {
+            if (slices[i].end - slices[i].start <= 0) {
                 revert SliceEmpty(
                     slices[i].pointer,
-                    slices[i].size,
-                    slices[i].offset
+                    slices[i].start,
+                    slices[i].end
                 );
             }
             uint32 codeSize = uint32(slices[i].pointer.code.length);
-            if (slices[i].offset + slices[i].size > codeSize) {
+            if (slices[i].end > codeSize) {
                 revert SliceOutOfBounds(
                     slices[i].pointer,
                     codeSize,
-                    slices[i].size,
-                    slices[i].offset
+                    slices[i].start,
+                    slices[i].end
                 );
             }
-            size += slices[i].size;
+            size += slices[i].end - slices[i].start;
         }
         return File({size: size, slices: slices});
     }

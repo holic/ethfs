@@ -200,6 +200,13 @@ declare const abi: [
   },
   {
     "type": "function",
+    "name": "testBytecode",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "testCorruptedFileRead",
     "inputs": [],
     "outputs": [],

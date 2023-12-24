@@ -220,13 +220,6 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "testBytecode",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
     "name": "testConstructor",
     "inputs": [],
     "outputs": [],

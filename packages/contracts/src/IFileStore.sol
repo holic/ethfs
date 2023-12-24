@@ -33,10 +33,10 @@ interface IFileStore {
     error FileEmpty();
 
     /// @dev Error thrown when a provided slice for a file is empty
-    /// @param pointer The address of the content
-    /// @param size The size of the slice
-    /// @param offset The byte offset of the slice within the content
-    error SliceEmpty(address pointer, uint32 size, uint32 offset);
+    /// @param pointer The contract address where the bytecode lives
+    /// @param start The byte offset to start the slice (inclusive)
+    /// @param end The byte offset to end the slice (exclusive)
+    error SliceEmpty(address pointer, uint32 start, uint32 end);
 
     /// @dev Error thrown when the provided pointer's bytecode does not have the expected STOP opcode prefix from SSTORE2
     /// @param pointer The SSTORE2 pointer address

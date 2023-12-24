@@ -27,67 +27,55 @@
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 186002
+    "gasUsed": 187158
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "read big file",
-    "gasUsed": 52355
-  },
-  {
-    "file": "src/FileStore.t.sol",
-    "test": "testBytecode",
-    "name": "create file",
-    "gasUsed": 128718
-  },
-  {
-    "file": "src/FileStore.t.sol",
-    "test": "testBytecode",
-    "name": "read file",
-    "gasUsed": 5609
+    "gasUsed": 51884
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 5456010
+    "gasUsed": 5456254
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file with two chunks, reusing one",
-    "gasUsed": 442015
+    "gasUsed": 442503
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromChunks",
     "name": "create file from chunks",
-    "gasUsed": 295158
+    "gasUsed": 295890
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromPointers",
     "name": "create 24kb file",
-    "gasUsed": 119499
+    "gasUsed": 119574
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromSlices",
     "name": "create 24kb file",
-    "gasUsed": 119189
+    "gasUsed": 119342
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 163828
+    "gasUsed": 164287
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
-    "gasUsed": 8659
+    "gasUsed": 8695
   },
   {
     "file": "src/isValidPointer.t.sol",
@@ -117,6 +105,6 @@
     "file": "test/MockProject.t.sol",
     "test": "testTokenURI",
     "name": "token URI",
-    "gasUsed": 950385
+    "gasUsed": 950433
   }
 ]

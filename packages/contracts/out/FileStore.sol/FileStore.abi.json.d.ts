@@ -65,12 +65,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -128,12 +128,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -191,12 +191,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -249,12 +249,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -312,12 +312,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -370,12 +370,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -406,12 +406,12 @@ declare const abi: [
             "internalType": "address"
           },
           {
-            "name": "size",
+            "name": "start",
             "type": "uint32",
             "internalType": "uint32"
           },
           {
-            "name": "offset",
+            "name": "end",
             "type": "uint32",
             "internalType": "uint32"
           }
@@ -450,12 +450,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -486,12 +486,12 @@ declare const abi: [
             "internalType": "address"
           },
           {
-            "name": "size",
+            "name": "start",
             "type": "uint32",
             "internalType": "uint32"
           },
           {
-            "name": "offset",
+            "name": "end",
             "type": "uint32",
             "internalType": "uint32"
           }
@@ -525,12 +525,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -611,12 +611,12 @@ declare const abi: [
                 "internalType": "address"
               },
               {
-                "name": "size",
+                "name": "start",
                 "type": "uint32",
                 "internalType": "uint32"
               },
               {
-                "name": "offset",
+                "name": "end",
                 "type": "uint32",
                 "internalType": "uint32"
               }
@@ -756,12 +756,12 @@ declare const abi: [
         "internalType": "address"
       },
       {
-        "name": "size",
+        "name": "start",
         "type": "uint32",
         "internalType": "uint32"
       },
       {
-        "name": "offset",
+        "name": "end",
         "type": "uint32",
         "internalType": "uint32"
       }
@@ -782,12 +782,12 @@ declare const abi: [
         "internalType": "uint32"
       },
       {
-        "name": "sliceSize",
+        "name": "sliceStart",
         "type": "uint32",
         "internalType": "uint32"
       },
       {
-        "name": "sliceOffset",
+        "name": "sliceEnd",
         "type": "uint32",
         "internalType": "uint32"
       }

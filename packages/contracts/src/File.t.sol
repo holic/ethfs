@@ -20,12 +20,23 @@ contract FileTest is Test {
         exampleSelfDestruct.explode();
     }
 
+    function testBytecode() public {
+        address pointer = vm.addr(uint256(bytes32("some contract")));
+        vm.etch(pointer, "some bytecode");
+
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({pointer: pointer, start: 0, end: 4});
+        File memory file = File({size: 4, slices: slices});
+        string memory contents = file.read();
+        assertEq(contents, "some");
+    }
+
     function testCorruptedFileReadUnchecked() public {
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
             pointer: address(exampleSelfDestruct),
-            offset: 0,
-            size: 10
+            start: 0,
+            end: 10
         });
         File memory file = File({size: 10, slices: slices});
         string memory contents = file.readUnchecked();
@@ -36,8 +47,8 @@ contract FileTest is Test {
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
             pointer: address(exampleSelfDestruct),
-            offset: 0,
-            size: 10
+            start: 0,
+            end: 10
         });
         File memory file = File({size: 10, slices: slices});
         vm.expectRevert(
@@ -45,8 +56,8 @@ contract FileTest is Test {
                 SliceOutOfBounds.selector,
                 file.slices[0].pointer,
                 0,
-                file.slices[0].size,
-                file.slices[0].offset
+                file.slices[0].start,
+                file.slices[0].end
             )
         );
         file.read();
