@@ -303,6 +303,20 @@ declare const abi: [
   },
   {
     "type": "function",
+    "name": "testCreateFile",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "testCreateFileFromChunks",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "testCreateFileFromExistingContents",
     "inputs": [],
     "outputs": [],
@@ -324,7 +338,14 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "testCreateFileWithExtraData",
+    "name": "testCreateFileWithMetadata",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "testNonExistentFile",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"

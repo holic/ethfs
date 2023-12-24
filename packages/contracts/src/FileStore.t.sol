@@ -48,6 +48,54 @@ contract FileStoreTest is Test, GasReporter {
         new FileStore(contentStore);
     }
 
+    function testCreateFile() public {
+        string memory contents = vm.readFile("test/files/sstore2-max.txt");
+
+        startGasReport("create 24kb file");
+        (, File memory file) = fileStore.createFile("24kb.txt", contents);
+        endGasReport();
+
+        assertEq(file.size, 24575);
+        assertEq(bytes(file.read()).length, 24575);
+        assertEq(file.read(), contents);
+        assertEq(file.slices.length, 1);
+
+        startGasReport("create 24kb file with two chunks, reusing one");
+        (, File memory secondFile) = fileStore.createFile(
+            "one-byte-overflow.txt",
+            string.concat(contents, "z")
+        );
+        endGasReport();
+
+        assertEq(secondFile.size, 24576);
+        assertEq(bytes(secondFile.read()).length, 24576);
+        assertEq(secondFile.read(), string.concat(contents, "z"));
+        assertEq(secondFile.slices.length, 2);
+        assertEq(file.slices[0].pointer, secondFile.slices[0].pointer);
+    }
+
+    function testCreateFileFromChunks() public {
+        string[] memory chunks = new string[](3);
+        chunks[0] = "hello";
+        chunks[1] = " ";
+        chunks[2] = "world";
+
+        startGasReport("create file from chunks");
+        (, File memory file) = fileStore.createFileFromChunks(
+            "helloworld.txt",
+            chunks
+        );
+        endGasReport();
+
+        assertEq(file.size, 11);
+        assertEq(bytes(file.read()).length, 11);
+        assertEq(file.read(), "hello world");
+        assertEq(file.slices.length, 3);
+        assertEq(SSTORE2.read(file.slices[0].pointer), "hello");
+        assertEq(SSTORE2.read(file.slices[1].pointer), " ");
+        assertEq(SSTORE2.read(file.slices[2].pointer), "world");
+    }
+
     function testCreateFileFromSlices() public {
         string memory contents = vm.readFile("test/files/sstore2-max.txt");
         address pointer = fileStore.contentStore().addContent(bytes(contents));
@@ -123,7 +171,7 @@ contract FileStoreTest is Test, GasReporter {
         fileStore.createFileFromPointers("24kb.txt", pointers);
     }
 
-    function testCreateFileWithExtraData() public {
+    function testCreateFileWithMetadata() public {
         bytes memory content = "hello world";
         address pointer = fileStore.contentStore().addContent(content);
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
@@ -180,7 +228,7 @@ contract FileStoreTest is Test, GasReporter {
         assertEq(fileStore.getFile("same.txt").read(), "hello world");
     }
 
-    function testBigFile() public {
+    function testNonExistentFile() public {
         vm.expectRevert(
             abi.encodeWithSelector(
                 IFileStore.FileNotFound.selector,
@@ -188,9 +236,13 @@ contract FileStoreTest is Test, GasReporter {
             )
         );
         fileStore.getFile("non-existent.txt");
+    }
 
+    function testBigFile() public {
         bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
+        startGasReport("add 24kb content");
         address pointer = fileStore.contentStore().addContent(content);
+        endGasReport();
 
         BytecodeSlice[] memory slices = new BytecodeSlice[](4);
         slices[0] = BytecodeSlice({

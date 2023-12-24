@@ -14,9 +14,13 @@ struct BytecodeSlice {
 
 /// @dev Represents a file composed of one or more bytecode slices
 struct File {
+    /// @dev Total length of file contents (sum of all slice sizes). Useful when you want to use DynamicBuffer to build the file contents from the slices.
     uint256 size;
     BytecodeSlice[] slices;
 }
+// extend File struct with read functions
+using {read} for File global;
+using {readUnchecked} for File global;
 
 /// @dev Error thrown when a slice is out of the bounds of the contract's bytecode
 error SliceOutOfBounds(
@@ -113,7 +117,3 @@ function readUnchecked(File memory file) view returns (string memory contents) {
         mstore(0x40, add(contents, and(add(totalSize, 0x1f), not(0x1f))))
     }
 }
-
-// extend File struct with read functions
-using {read} for File global;
-using {readUnchecked} for File global;

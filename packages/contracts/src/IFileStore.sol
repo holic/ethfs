@@ -72,6 +72,54 @@ interface IFileStore {
         string memory filename
     ) external view returns (File memory file);
 
+    /// @notice Creates a new file with the provided file contents
+    /// @dev This is a convenience method to simplify small file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular method splits `contents` into 24575-byte chunks before storing them via SSTORE2.
+    /// @param filename The name of the new file
+    /// @param contents The contents of the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFile(
+        string memory filename,
+        string memory contents
+    ) external returns (address pointer, File memory file);
+
+    /// @notice Creates a new file with the provided file contents and file metadata
+    /// @dev This is a convenience method to simplify small file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular method splits `contents` into 24575-byte chunks before storing them via SSTORE2.
+    /// @param filename The name of the new file
+    /// @param contents The contents of the file
+    /// @param metadata Additional file metadata, usually a JSON-encoded string, for offchain indexers
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFile(
+        string memory filename,
+        string memory contents,
+        bytes memory metadata
+    ) external returns (address pointer, File memory file);
+
+    /// @notice Creates a new file where its content is composed of the provided string chunks
+    /// @dev This is a convenience method to simplify small and nuanced file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular will store each chunk separately via SSTORE2. For best gas efficiency, each chunk should be as large as possible (up to the contract size limit) and at least 32 bytes.
+    /// @param filename The name of the new file
+    /// @param chunks The string chunks composing the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromChunks(
+        string memory filename,
+        string[] memory chunks
+    ) external returns (address pointer, File memory file);
+
+    /// @notice Creates a new file with the provided string chunks and file metadata
+    /// @dev This is a convenience method to simplify small and nuanced file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular will store each chunk separately via SSTORE2. For best gas efficiency, each chunk should be as large as possible (up to the contract size limit) and at least 32 bytes.
+    /// @param filename The name of the new file
+    /// @param chunks The string chunks composing the file
+    /// @param metadata Additional file metadata, usually a JSON-encoded string, for offchain indexers
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromChunks(
+        string memory filename,
+        string[] memory chunks,
+        bytes memory metadata
+    ) external returns (address pointer, File memory file);
+
     /// @notice Creates a new file where its content is composed of the provided SSTORE2 pointers
     /// @param filename The name of the new file
     /// @param pointers The SSTORE2 pointers composing the file

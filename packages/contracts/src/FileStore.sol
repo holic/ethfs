@@ -2,6 +2,7 @@
 pragma solidity ^0.8.22;
 
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
+import {LibString} from "solady/utils/LibString.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {IContentStore} from "./IContentStore.sol";
@@ -55,6 +56,62 @@ contract FileStore is IFileStore {
             revert FileNotFound(filename);
         }
         return abi.decode(SSTORE2.read(pointer), (File));
+    }
+
+    /// @notice Creates a new file with the provided file contents
+    /// @dev This is a convenience method to simplify small file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular method splits `contents` into 24575-byte chunks before storing them via SSTORE2.
+    /// @param filename The name of the new file
+    /// @param contents The contents of the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFile(
+        string memory filename,
+        string memory contents
+    ) public returns (address pointer, File memory file) {
+        return _createFile(filename, _fileFromContents(contents), new bytes(0));
+    }
+
+    /// @notice Creates a new file with the provided file contents and file metadata
+    /// @dev This is a convenience method to simplify small file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular method splits `contents` into 24575-byte chunks before storing them via SSTORE2.
+    /// @param filename The name of the new file
+    /// @param contents The contents of the file
+    /// @param metadata Additional file metadata, usually a JSON-encoded string, for offchain indexers
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFile(
+        string memory filename,
+        string memory contents,
+        bytes memory metadata
+    ) public returns (address pointer, File memory file) {
+        return _createFile(filename, _fileFromContents(contents), metadata);
+    }
+
+    /// @notice Creates a new file where its content is composed of the provided string chunks
+    /// @dev This is a convenience method to simplify small and nuanced file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular will store each chunk separately via SSTORE2. For best gas efficiency, each chunk should be as large as possible (up to the contract size limit) and at least 32 bytes.
+    /// @param filename The name of the new file
+    /// @param chunks The string chunks composing the file
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromChunks(
+        string memory filename,
+        string[] memory chunks
+    ) public returns (address pointer, File memory file) {
+        return _createFile(filename, _fileFromChunks(chunks), new bytes(0));
+    }
+
+    /// @notice Creates a new file with the provided string chunks and file metadata
+    /// @dev This is a convenience method to simplify small and nuanced file uploads. It's recommended to use `createFileFromPointers` or `createFileFromSlices` for larger files. This particular will store each chunk separately via SSTORE2. For best gas efficiency, each chunk should be as large as possible (up to the contract size limit) and at least 32 bytes.
+    /// @param filename The name of the new file
+    /// @param chunks The string chunks composing the file
+    /// @param metadata Additional file metadata, usually a JSON-encoded string, for offchain indexers
+    /// @return pointer The pointer address of the new file
+    /// @return file The newly created file
+    function createFileFromChunks(
+        string memory filename,
+        string[] memory chunks,
+        bytes memory metadata
+    ) public returns (address pointer, File memory file) {
+        return _createFile(filename, _fileFromChunks(chunks), metadata);
     }
 
     /// @notice Creates a new file where its content is composed of the provided SSTORE2 pointers
@@ -119,6 +176,37 @@ contract FileStore is IFileStore {
         return getFile(filename).read();
     }
 
+    /// @dev Internal function for preparing a file from its contents
+    function _fileFromContents(
+        string memory contents
+    ) internal returns (File memory file) {
+        uint256 size = bytes(contents).length;
+        uint256 chunkSize = 0x6000 - 1;
+        uint256 numChunks = (size + chunkSize - 1) / chunkSize;
+        string[] memory chunks = new string[](numChunks);
+        for (uint256 i = 0; i < numChunks; ++i) {
+            uint256 start = i * chunkSize;
+            uint256 end = start + chunkSize > size ? size : start + chunkSize;
+            chunks[i] = LibString.slice(contents, start, end);
+        }
+        return _fileFromChunks(chunks);
+    }
+
+    /// @dev Internal function for preparing a file from its chunks
+    function _fileFromChunks(
+        string[] memory chunks
+    ) internal returns (File memory file) {
+        uint256 size = 0;
+        BytecodeSlice[] memory slices = new BytecodeSlice[](chunks.length);
+        for (uint256 i = 0; i < chunks.length; ++i) {
+            slices[i].pointer = contentStore.addContent(bytes(chunks[i]));
+            slices[i].size = uint32(bytes(chunks[i]).length);
+            slices[i].offset = uint32(SSTORE2.DATA_OFFSET);
+            size += slices[i].size;
+        }
+        return File({size: size, slices: slices});
+    }
+
     /// @dev Internal function for preparing a file from its pointers
     function _fileFromPointers(
         address[] memory pointers
@@ -129,9 +217,10 @@ contract FileStore is IFileStore {
             if (!isValidPointer(pointers[i])) {
                 revert InvalidPointer(pointers[i]);
             }
-            uint32 codeSize = uint32(pointers[i].code.length);
             slices[i].pointer = pointers[i];
-            slices[i].size = codeSize - uint32(SSTORE2.DATA_OFFSET);
+            slices[i].size = uint32(
+                pointers[i].code.length - SSTORE2.DATA_OFFSET
+            );
             slices[i].offset = uint32(SSTORE2.DATA_OFFSET);
             size += slices[i].size;
         }
