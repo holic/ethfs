@@ -1,5 +1,6 @@
 [profile.default]
 solc = '0.8.22'
 verbosity = 2
+bytecode_hash = 'none' # remove metadata from bytecode for consistent deploys
 extra_output_files = ['abi', 'evm.bytecode']
 fs_permissions = [{ access = "read", path = "./"}]

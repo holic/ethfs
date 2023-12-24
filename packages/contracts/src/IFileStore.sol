@@ -85,7 +85,7 @@ interface IFileStore {
     /// @notice Creates a new file with the provided SSTORE2 pointers and file metadata
     /// @param filename The name of the new file
     /// @param pointers The SSTORE2 pointers composing the file
-    /// @param metadata Additional metadata for the file
+    /// @param metadata Additional file metadata, usually a JSON-encoded string, for offchain indexers
     /// @return pointer The pointer address of the new file
     /// @return file The newly created file
     function createFileFromPointers(
@@ -107,7 +107,7 @@ interface IFileStore {
     /// @notice Creates a new file with the provided bytecode slices and file metadata
     /// @param filename The name of the new file
     /// @param slices The bytecode slices composing the file
-    /// @param metadata Additional metadata for the file
+    /// @param metadata Additional file metadata, usually a JSON-encoded string, for offchain indexers
     /// @return pointer The pointer address of the new file
     /// @return file The newly created file
     function createFileFromSlices(
