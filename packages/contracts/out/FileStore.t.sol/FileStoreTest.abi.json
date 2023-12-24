@@ -14,48 +14,6 @@
   },
   {
     "type": "function",
-    "name": "_readFile",
-    "inputs": [
-      {
-        "name": "file",
-        "type": "tuple",
-        "internalType": "struct File",
-        "components": [
-          {
-            "name": "size",
-            "type": "uint256",
-            "internalType": "uint256"
-          },
-          {
-            "name": "slices",
-            "type": "tuple[]",
-            "internalType": "struct BytecodeSlice[]",
-            "components": [
-              {
-                "name": "pointer",
-                "type": "address",
-                "internalType": "address"
-              },
-              {
-                "name": "size",
-                "type": "uint32",
-                "internalType": "uint32"
-              },
-              {
-                "name": "offset",
-                "type": "uint32",
-                "internalType": "uint32"
-              }
-            ]
-          }
-        ]
-      }
-    ],
-    "outputs": [],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "contentStore",
     "inputs": [],
     "outputs": [
@@ -63,19 +21,6 @@
         "name": "",
         "type": "address",
         "internalType": "contract IContentStore"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "exampleSelfDestruct",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract ExampleSelfDestruct"
       }
     ],
     "stateMutability": "view"
@@ -283,20 +228,6 @@
   {
     "type": "function",
     "name": "testConstructor",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCorruptedFileRead",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCorruptedFileReadUnchecked",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"

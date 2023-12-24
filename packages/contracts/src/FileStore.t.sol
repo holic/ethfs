@@ -2,44 +2,24 @@
 pragma solidity ^0.8.22;
 
 import "forge-std/Test.sol";
-import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
+import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
 import {ContentStore} from "./ContentStore.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {FileStore} from "./FileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {Deployed} from "./common.sol";
-
-contract ExampleSelfDestruct {
-    function explode() public {
-        selfdestruct(payable(address(0)));
-    }
-}
+import {SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE} from "../test/safeSingletonFactory.sol";
 
 contract FileStoreTest is Test, GasReporter {
     IContentStore public contentStore;
     IFileStore public fileStore;
-    ExampleSelfDestruct public exampleSelfDestruct;
 
     function setUp() public {
-        contentStore = new ContentStore(
-            // TODO: set up safe singleton instead of using CREATE2_FACTORY address
-            0x4e59b44847b379578588920cA78FbF26c0B4956C
-        );
+        vm.etch(SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE);
+        contentStore = new ContentStore(SAFE_SINGLETON_FACTORY);
         fileStore = new FileStore(contentStore);
-
-        // foundry doesn't support selfdestruct within tests, so we'll set this one up here
-        // https://github.com/foundry-rs/foundry/issues/1543#issuecomment-1520405775
-        exampleSelfDestruct = new ExampleSelfDestruct();
-        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
-        slices[0] = BytecodeSlice({
-            pointer: address(exampleSelfDestruct),
-            offset: 0,
-            size: 10
-        });
-        fileStore.createFileFromSlices("corrupt.txt", slices);
-        exampleSelfDestruct.explode();
     }
 
     function testConstructor() public {
@@ -323,51 +303,5 @@ contract FileStoreTest is Test, GasReporter {
         endGasReport();
 
         assertEq(bytes(contents), hex"60806040523480156100");
-    }
-
-    function testCorruptedFileReadUnchecked() public {
-        File memory file = fileStore.getFile("corrupt.txt");
-        string memory contents = file.readUnchecked();
-        assertEq(bytes(contents), bytes(""));
-    }
-
-    function testCorruptedFileRead() public {
-        File memory file = fileStore.getFile("corrupt.txt");
-        vm.expectRevert(
-            abi.encodeWithSelector(
-                SliceOutOfBounds.selector,
-                file.slices[0].pointer,
-                0,
-                file.slices[0].size,
-                file.slices[0].offset
-            )
-        );
-        // foundry doesn't support expectRevert for library calls, so we need to call a wrapped function
-        // https://github.com/foundry-rs/foundry/issues/4405
-        this._readFile(file);
-    }
-
-    // foundry doesn't support expectRevert for library calls, so we need to wrap it in a function
-    // https://github.com/foundry-rs/foundry/issues/4405
-    function _readFile(File memory file) public view {
-        file.read();
-    }
-
-    function _getCode(
-        address target
-    ) internal view returns (bytes memory code) {
-        uint256 codeSize;
-        assembly {
-            codeSize := extcodesize(target)
-        }
-
-        code = new bytes(codeSize);
-        assembly {
-            // Note: add(code, 32) is used because the first 32 bytes of a 'bytes' array
-            // is the length of the array.
-            extcodecopy(target, add(code, 32), 0, codeSize)
-        }
-
-        return code;
     }
 }

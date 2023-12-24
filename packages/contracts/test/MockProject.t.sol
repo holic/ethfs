@@ -9,6 +9,7 @@ import {IContentStore} from "../src/IContentStore.sol";
 import {File, BytecodeSlice} from "../src/File.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
+import {SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE} from "../test/safeSingletonFactory.sol";
 
 contract MockProject {
     IFileStore public immutable fileStore;
@@ -37,22 +38,15 @@ contract MockProjectTest is Test, GasReporter {
     MockProject public project;
 
     function setUp() public {
-        // TODO: set up deployer instead of using CREATE2_FACTORY
-        contentStore = new ContentStore(
-            0x4e59b44847b379578588920cA78FbF26c0B4956C
-        );
+        vm.etch(SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE);
+        contentStore = new ContentStore(SAFE_SINGLETON_FACTORY);
         fileStore = new FileStore(contentStore);
 
-        bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
-        address pointer = fileStore.contentStore().addContent(content);
-
-        address[] memory pointers = new address[](4);
-        pointers[0] = pointer;
-        pointers[1] = pointer;
-        pointers[2] = pointer;
-        pointers[3] = pointer;
-
-        fileStore.createFileFromPointers("big.txt", pointers);
+        string memory content = vm.readFile("test/files/sstore2-max.txt");
+        fileStore.createFile(
+            "big.txt",
+            string.concat(content, content, content, content)
+        );
 
         project = new MockProject(fileStore);
     }

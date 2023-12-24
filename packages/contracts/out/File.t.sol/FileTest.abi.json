@@ -1,4 +1,4 @@
-declare const abi: [
+[
   {
     "type": "function",
     "name": "IS_TEST",
@@ -14,13 +14,13 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "contentStore",
+    "name": "exampleSelfDestruct",
     "inputs": [],
     "outputs": [
       {
         "name": "",
         "type": "address",
-        "internalType": "contract IContentStore"
+        "internalType": "contract ExampleSelfDestruct"
       }
     ],
     "stateMutability": "view"
@@ -76,19 +76,6 @@ declare const abi: [
       }
     ],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "fileStore",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract IFileStore"
-      }
-    ],
-    "stateMutability": "view"
   },
   {
     "type": "function",
@@ -213,123 +200,17 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "testBigFile",
+    "name": "testCorruptedFileRead",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
   },
   {
     "type": "function",
-    "name": "testBytecode",
+    "name": "testCorruptedFileReadUnchecked",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testConstructor",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFile",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileFromChunks",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileFromExistingContents",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileFromPointers",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileFromSlices",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testCreateFileWithMetadata",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testNonExistentFile",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testSlices",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "event",
-    "name": "Deployed",
-    "inputs": [],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "FileCreated",
-    "inputs": [
-      {
-        "name": "indexedFilename",
-        "type": "string",
-        "indexed": true,
-        "internalType": "string"
-      },
-      {
-        "name": "pointer",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "filename",
-        "type": "string",
-        "indexed": false,
-        "internalType": "string"
-      },
-      {
-        "name": "size",
-        "type": "uint256",
-        "indexed": false,
-        "internalType": "uint256"
-      },
-      {
-        "name": "metadata",
-        "type": "bytes",
-        "indexed": false,
-        "internalType": "bytes"
-      }
-    ],
-    "anonymous": false
   },
   {
     "type": "event",
@@ -695,4 +576,4 @@ declare const abi: [
     ],
     "anonymous": false
   }
-]; export default abi;
+]

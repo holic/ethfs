@@ -27,7 +27,7 @@
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 185976
+    "gasUsed": 186002
   },
   {
     "file": "src/FileStore.t.sol",
@@ -39,55 +39,55 @@
     "file": "src/FileStore.t.sol",
     "test": "testBytecode",
     "name": "create file",
-    "gasUsed": 128728
+    "gasUsed": 128718
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testBytecode",
     "name": "read file",
-    "gasUsed": 5619
+    "gasUsed": 5609
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 5456020
+    "gasUsed": 5456010
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file with two chunks, reusing one",
-    "gasUsed": 442013
+    "gasUsed": 442015
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromChunks",
     "name": "create file from chunks",
-    "gasUsed": 295144
+    "gasUsed": 295158
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromPointers",
     "name": "create 24kb file",
-    "gasUsed": 119509
+    "gasUsed": 119499
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromSlices",
     "name": "create 24kb file",
-    "gasUsed": 119199
+    "gasUsed": 119189
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 163814
+    "gasUsed": 163828
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
-    "gasUsed": 8645
+    "gasUsed": 8659
   },
   {
     "file": "src/isValidPointer.t.sol",

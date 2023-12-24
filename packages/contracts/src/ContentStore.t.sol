@@ -7,24 +7,20 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {IContentStore} from "./IContentStore.sol";
 import {ContentStore} from "./ContentStore.sol";
 import {Deployed} from "./common.sol";
+import {SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE} from "../test/safeSingletonFactory.sol";
 
 contract ContentStoreTest is Test, GasReporter {
     IContentStore public contentStore;
 
     function setUp() public {
-        contentStore = new ContentStore(
-            // TODO: set up safe singleton instead of using CREATE2_FACTORY address
-            0x4e59b44847b379578588920cA78FbF26c0B4956C
-        );
+        vm.etch(SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE);
+        contentStore = new ContentStore(SAFE_SINGLETON_FACTORY);
     }
 
     function testConstructor() public {
         vm.expectEmit(true, true, true, true);
         emit Deployed();
-        new ContentStore(
-            // TODO: set up safe singleton instead of using CREATE2_FACTORY address
-            0x4e59b44847b379578588920cA78FbF26c0B4956C
-        );
+        new ContentStore(SAFE_SINGLETON_FACTORY);
     }
 
     function testAddContent() public {
@@ -33,7 +29,7 @@ contract ContentStoreTest is Test, GasReporter {
         address pointer = contentStore.getPointer(content);
         endGasReport();
 
-        assertEq(pointer, address(0x837618a80DB6d3590bfB6cadC239bc09e793C12D));
+        assertEq(pointer, address(0x3c7F9F8bB96905325CdD1782d55B8Ebd6228Ed2e));
         assertFalse(
             contentStore.pointerExists(pointer),
             "expected checksum to not exist"
@@ -88,7 +84,7 @@ contract ContentStoreTest is Test, GasReporter {
 
         // TODO: set up deployer instead of using CREATE2_FACTORY
         ContentStore secondContentStore = new ContentStore(
-            0x4e59b44847b379578588920cA78FbF26c0B4956C
+            SAFE_SINGLETON_FACTORY
         );
 
         assertEq(pointer, secondContentStore.addContent(content));
