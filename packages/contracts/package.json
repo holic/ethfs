@@ -9,7 +9,7 @@
     "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
     "lint": "solhint --config ../../.solhint.json \"src/**/*.sol\"",
     "lint:fix": "pnpm lint --fix",
-    "build": "forge build && abi-ts",
+    "build": "forge build --force && abi-ts",
     "test": "forge test",
     "test-gas": "GAS_REPORTER_ENABLED=true forge test -vv | pnpm gas-report --stdin --save gas-report.json"
   },

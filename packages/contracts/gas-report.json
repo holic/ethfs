@@ -1,90 +1,90 @@
 [
   {
-    "file": "test/ContentStore.t.sol",
+    "file": "src/ContentStore.t.sol",
     "test": "testAddContent",
     "name": "compute pointer",
     "gasUsed": 76192
   },
   {
-    "file": "test/ContentStore.t.sol",
+    "file": "src/ContentStore.t.sol",
     "test": "testAddContent",
     "name": "add content",
     "gasUsed": 5211561
   },
   {
-    "file": "test/ContentStore.t.sol",
+    "file": "src/ContentStore.t.sol",
     "test": "testAddContent",
     "name": "add existing content",
     "gasUsed": 63988
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
     "gasUsed": 185845
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "read big file",
     "gasUsed": 54427
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testBytecode",
     "name": "create file",
     "gasUsed": 128633
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testBytecode",
     "name": "read file",
     "gasUsed": 5478
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromPointers",
     "name": "create 24kb file",
     "gasUsed": 119467
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromSlices",
     "name": "create 24kb file",
     "gasUsed": 119104
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
     "gasUsed": 163695
   },
   {
-    "file": "test/FileStore.t.sol",
+    "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
     "gasUsed": 8480
   },
   {
-    "file": "test/isValidPointer.sol",
+    "file": "src/isValidPointer.t.sol",
     "test": "testBigPointer",
     "name": "check big pointer",
     "gasUsed": 318
   },
   {
-    "file": "test/isValidPointer.sol",
+    "file": "src/isValidPointer.t.sol",
     "test": "testInvalidPointer",
     "name": "check invalid pointer",
     "gasUsed": 317
   },
   {
-    "file": "test/isValidPointer.sol",
+    "file": "src/isValidPointer.t.sol",
     "test": "testNonexistentPointer",
     "name": "check non-existent pointer",
     "gasUsed": 174
   },
   {
-    "file": "test/isValidPointer.sol",
+    "file": "src/isValidPointer.t.sol",
     "test": "testValidPointer",
     "name": "check valid pointer",
     "gasUsed": 318

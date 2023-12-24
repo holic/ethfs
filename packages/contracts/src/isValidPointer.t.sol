@@ -4,7 +4,7 @@ pragma solidity ^0.8.22;
 import "forge-std/Test.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
-import {isValidPointer} from "../src/isValidPointer.sol";
+import {isValidPointer} from "./isValidPointer.sol";
 
 contract IsValidPointerTest is Test, GasReporter {
     function testValidPointer() public {

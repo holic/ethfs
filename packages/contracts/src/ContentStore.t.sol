@@ -4,9 +4,9 @@ pragma solidity ^0.8.22;
 import "forge-std/Test.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
-import {IContentStore} from "../src/IContentStore.sol";
-import {ContentStore} from "../src/ContentStore.sol";
-import {Deployed} from "../src/common.sol";
+import {IContentStore} from "./IContentStore.sol";
+import {ContentStore} from "./ContentStore.sol";
+import {Deployed} from "./common.sol";
 
 contract ContentStoreTest is Test, GasReporter {
     IContentStore public contentStore;

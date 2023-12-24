@@ -4,12 +4,12 @@ pragma solidity ^0.8.22;
 import "forge-std/Test.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
-import {IContentStore} from "../src/IContentStore.sol";
-import {ContentStore} from "../src/ContentStore.sol";
-import {IFileStore} from "../src/IFileStore.sol";
-import {FileStore} from "../src/FileStore.sol";
-import {File, BytecodeSlice, SliceOutOfBounds} from "../src/File.sol";
-import {Deployed} from "../src/common.sol";
+import {IContentStore} from "./IContentStore.sol";
+import {ContentStore} from "./ContentStore.sol";
+import {IFileStore} from "./IFileStore.sol";
+import {FileStore} from "./FileStore.sol";
+import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
+import {Deployed} from "./common.sol";
 
 contract ExampleSelfDestruct {
     function explode() public {
