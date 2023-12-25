@@ -14,19 +14,6 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "contentStore",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract IContentStore"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "excludeArtifacts",
     "inputs": [],
     "outputs": [

@@ -2,11 +2,12 @@
 pragma solidity ^0.8.22;
 
 import {File, BytecodeSlice} from "./File.sol";
-import {IContentStore} from "./IContentStore.sol";
 
 /// @title EthFS FileStore interface
 /// @notice Specifies a content-addressable onchain file store
 interface IFileStore {
+    event Deployed();
+
     /// @dev Emitted when a new file is created
     /// @param indexedFilename The indexed filename for easier finding by filename in logs
     /// @param pointer The pointer address of the file
@@ -42,9 +43,9 @@ interface IFileStore {
     /// @param pointer The SSTORE2 pointer address
     error InvalidPointer(address pointer);
 
-    /// @notice Returns the associated ContentStore contract used by this FileStore
-    /// @return The ContentStore contract instance
-    function contentStore() external view returns (IContentStore);
+    /// @notice Returns the address of the CREATE2 deterministic deployer used by this FileStore
+    /// @return The address of the CREATE2 deterministic deployer
+    function deployer() external view returns (address);
 
     /// @notice Retrieves the pointer address of a file by its filename
     /// @param filename The name of the file

@@ -4,28 +4,24 @@ pragma solidity ^0.8.22;
 import "forge-std/Test.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
-import {IContentStore} from "./IContentStore.sol";
-import {ContentStore} from "./ContentStore.sol";
+import {addContent} from "./Content.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {FileStore} from "./FileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
-import {Deployed} from "./common.sol";
 import {SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE} from "../test/safeSingletonFactory.sol";
 
 contract FileStoreTest is Test, GasReporter {
-    IContentStore public contentStore;
     IFileStore public fileStore;
 
     function setUp() public {
         vm.etch(SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE);
-        contentStore = new ContentStore(SAFE_SINGLETON_FACTORY);
-        fileStore = new FileStore(contentStore);
+        fileStore = new FileStore(SAFE_SINGLETON_FACTORY);
     }
 
     function testConstructor() public {
         vm.expectEmit(true, true, true, true);
-        emit Deployed();
-        new FileStore(contentStore);
+        emit IFileStore.Deployed();
+        new FileStore(SAFE_SINGLETON_FACTORY);
     }
 
     function testCreateFile() public {
@@ -78,7 +74,7 @@ contract FileStoreTest is Test, GasReporter {
 
     function testCreateFileFromSlices() public {
         string memory contents = vm.readFile("test/files/sstore2-max.txt");
-        address pointer = fileStore.contentStore().addContent(bytes(contents));
+        address pointer = addContent(fileStore.deployer(), bytes(contents));
 
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
@@ -118,7 +114,7 @@ contract FileStoreTest is Test, GasReporter {
 
     function testCreateFileFromPointers() public {
         string memory contents = vm.readFile("test/files/sstore2-max.txt");
-        address pointer = fileStore.contentStore().addContent(bytes(contents));
+        address pointer = addContent(fileStore.deployer(), bytes(contents));
         address[] memory pointers = new address[](1);
         pointers[0] = pointer;
 
@@ -153,7 +149,7 @@ contract FileStoreTest is Test, GasReporter {
 
     function testCreateFileWithMetadata() public {
         bytes memory content = "hello world";
-        address pointer = fileStore.contentStore().addContent(content);
+        address pointer = addContent(fileStore.deployer(), content);
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
             pointer: pointer,
@@ -179,7 +175,7 @@ contract FileStoreTest is Test, GasReporter {
 
     function testCreateFileFromExistingContents() public {
         bytes memory content = "hello world";
-        address pointer = fileStore.contentStore().addContent(content);
+        address pointer = addContent(fileStore.deployer(), content);
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
             pointer: pointer,
@@ -221,7 +217,7 @@ contract FileStoreTest is Test, GasReporter {
     function testBigFile() public {
         bytes memory content = bytes(vm.readFile("test/files/sstore2-max.txt"));
         startGasReport("add 24kb content");
-        address pointer = fileStore.contentStore().addContent(content);
+        address pointer = addContent(fileStore.deployer(), content);
         endGasReport();
 
         address[] memory pointers = new address[](4);
@@ -244,12 +240,14 @@ contract FileStoreTest is Test, GasReporter {
     }
 
     function testSlices() public {
-        address helloPointer = fileStore.contentStore().addContent(
+        address helloPointer = addContent(
+            fileStore.deployer(),
             bytes(
                 "The meaning of HELLO is an expression or gesture of greeting - used interjectionally in greeting, in answering the telephone, or to express surprise."
             )
         );
-        address worldPointer = fileStore.contentStore().addContent(
+        address worldPointer = addContent(
+            fileStore.deployer(),
             bytes(
                 "The meaning of WORLD is the earthly state of human existence."
             )

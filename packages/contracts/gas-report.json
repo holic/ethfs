@@ -1,81 +1,81 @@
 [
   {
-    "file": "src/ContentStore.t.sol",
+    "file": "src/Content.t.sol",
     "test": "testAddContent",
     "name": "compute pointer",
-    "gasUsed": 76192
+    "gasUsed": 4981
   },
   {
-    "file": "src/ContentStore.t.sol",
+    "file": "src/Content.t.sol",
     "test": "testAddContent",
     "name": "add content",
-    "gasUsed": 5211561
+    "gasUsed": 5158515
   },
   {
-    "file": "src/ContentStore.t.sol",
+    "file": "src/Content.t.sol",
     "test": "testAddContent",
     "name": "add existing content",
-    "gasUsed": 63988
+    "gasUsed": 5180
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "add 24kb content",
-    "gasUsed": 5229561
+    "gasUsed": 5166094
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 187158
+    "gasUsed": 183311
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "read big file",
-    "gasUsed": 51884
+    "gasUsed": 66531
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 5456254
+    "gasUsed": 5389515
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file with two chunks, reusing one",
-    "gasUsed": 442503
+    "gasUsed": 370184
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromChunks",
     "name": "create file from chunks",
-    "gasUsed": 295890
+    "gasUsed": 281568
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromPointers",
     "name": "create 24kb file",
-    "gasUsed": 119574
+    "gasUsed": 116391
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromSlices",
     "name": "create 24kb file",
-    "gasUsed": 119342
+    "gasUsed": 116226
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 164287
+    "gasUsed": 160729
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
-    "gasUsed": 8695
+    "gasUsed": 8712
   },
   {
     "file": "src/isValidPointer.t.sol",

@@ -4,8 +4,6 @@ pragma solidity ^0.8.22;
 import "forge-std/Test.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {LibString} from "solady/utils/LibString.sol";
-import {ContentStore} from "../src/ContentStore.sol";
-import {IContentStore} from "../src/IContentStore.sol";
 import {File, BytecodeSlice} from "../src/File.sol";
 import {FileStore} from "../src/FileStore.sol";
 import {IFileStore} from "../src/IFileStore.sol";
@@ -33,14 +31,12 @@ contract MockProject {
 }
 
 contract MockProjectTest is Test, GasReporter {
-    IContentStore public contentStore;
     IFileStore public fileStore;
     MockProject public project;
 
     function setUp() public {
         vm.etch(SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE);
-        contentStore = new ContentStore(SAFE_SINGLETON_FACTORY);
-        fileStore = new FileStore(contentStore);
+        fileStore = new FileStore(SAFE_SINGLETON_FACTORY);
 
         string memory content = vm.readFile("test/files/sstore2-max.txt");
         fileStore.createFile(

@@ -14,19 +14,6 @@
   },
   {
     "type": "function",
-    "name": "contentStore",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract IContentStore"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "excludeArtifacts",
     "inputs": [],
     "outputs": [
@@ -207,56 +194,10 @@
   },
   {
     "type": "function",
-    "name": "testConstructor",
+    "name": "testContentToCreationCode",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testContentLength",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testDeterministicPointer",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "function",
-    "name": "testGetContent",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  },
-  {
-    "type": "event",
-    "name": "Deployed",
-    "inputs": [],
-    "anonymous": false
-  },
-  {
-    "type": "event",
-    "name": "NewContent",
-    "inputs": [
-      {
-        "name": "pointer",
-        "type": "address",
-        "indexed": true,
-        "internalType": "address"
-      },
-      {
-        "name": "size",
-        "type": "uint32",
-        "indexed": false,
-        "internalType": "uint32"
-      }
-    ],
-    "anonymous": false
   },
   {
     "type": "event",
@@ -621,5 +562,21 @@
       }
     ],
     "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "UnexpectedPointer",
+    "inputs": [
+      {
+        "name": "expectedPointer",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "actualPointer",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
   }
 ]

@@ -5,23 +5,21 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
-import {IContentStore} from "./IContentStore.sol";
 import {isValidPointer} from "./isValidPointer.sol";
-import {Deployed} from "./common.sol";
+import {addContent} from "./Content.sol";
 
 /// @title EthFS FileStore
-/// @notice Content-addressable file storage for Ethereum. Files are composed of slices of bytecode.
+/// @notice Content-addressable file storage for Ethereum. Files are composed of slices of contract bytecode, the most efficient way to store and retrieve data onchain.
 contract FileStore is IFileStore {
-    /// @notice The ContentStore used to cheaply store encoded file pointers
-    IContentStore public immutable contentStore;
+    /// @dev The address of the CREATE2 deterministic deployer
+    address public immutable deployer;
 
     /// @dev Mapping of filenames to their respective storage pointers
     mapping(string filename => address pointer) public files;
 
-    /// @notice Constructor that sets the associated ContentStore address
-    /// @param _contentStore The address of the ContentStore contract
-    constructor(IContentStore _contentStore) {
-        contentStore = _contentStore;
+    /// @param _deployer The address of the deterministic CREATE2 deployer
+    constructor(address _deployer) {
+        deployer = _deployer;
         emit Deployed();
     }
 
@@ -199,7 +197,7 @@ contract FileStore is IFileStore {
         uint256 size = 0;
         BytecodeSlice[] memory slices = new BytecodeSlice[](chunks.length);
         for (uint256 i = 0; i < chunks.length; ++i) {
-            slices[i].pointer = contentStore.addContent(bytes(chunks[i]));
+            slices[i].pointer = addContent(deployer, bytes(chunks[i]));
             slices[i].start = uint32(SSTORE2.DATA_OFFSET);
             slices[i].end = uint32(
                 SSTORE2.DATA_OFFSET + bytes(chunks[i]).length
@@ -266,7 +264,7 @@ contract FileStore is IFileStore {
         if (files[filename] != address(0)) {
             revert FilenameExists(filename);
         }
-        pointer = contentStore.addContent(abi.encode(file));
+        pointer = addContent(deployer, abi.encode(file));
         files[filename] = pointer;
         emit FileCreated(filename, pointer, filename, file.size, metadata);
         return (pointer, file);

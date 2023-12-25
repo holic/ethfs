@@ -14,19 +14,6 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "contentStore",
-    "inputs": [],
-    "outputs": [
-      {
-        "name": "",
-        "type": "address",
-        "internalType": "contract IContentStore"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "excludeArtifacts",
     "inputs": [],
     "outputs": [
@@ -687,5 +674,21 @@ declare const abi: [
       }
     ],
     "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "UnexpectedPointer",
+    "inputs": [
+      {
+        "name": "expectedPointer",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "actualPointer",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
   }
 ]; export default abi;
