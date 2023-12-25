@@ -1,6 +1,6 @@
 "use server";
 
-import IFileStoreAbi from "@ethfs/contracts/out/IFileStore.sol/IFileStore.abi.json";
+import FileStoreAbi from "@ethfs/contracts/out/FileStore.sol/FileStore.abi.json";
 import deploys from "@ethfs/deploy/deploys.json";
 import { createPublicClient, http } from "viem";
 import { readContract } from "viem/actions";
@@ -22,8 +22,8 @@ export async function getFileContents(
 
   // TODO: handle reverts (e.g. FileNotFound)
   const contents = await readContract(publicClient, {
-    address: deploys[chainId].FileStore.address,
-    abi: IFileStoreAbi,
+    address: deploys[chainId].contracts.FileStore.address,
+    abi: FileStoreAbi,
     functionName: "readFile",
     args: [filename],
   });

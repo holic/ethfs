@@ -636,25 +636,6 @@ declare const abi: [
     "stateMutability": "view"
   },
   {
-    "type": "function",
-    "name": "readFile",
-    "inputs": [
-      {
-        "name": "filename",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "contents",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
     "type": "event",
     "name": "Deployed",
     "inputs": [],

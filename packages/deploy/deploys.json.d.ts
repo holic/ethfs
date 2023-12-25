@@ -2,10 +2,12 @@ import { Address } from "viem";
 
 declare const deploys: {
   readonly [chainId: number]: {
-    readonly [contractName: string]: {
-      deployer: Address;
-      address: Address;
-      blockNumber: string;
+    readonly deployer: Address;
+    readonly contracts: {
+      readonly [contractName: string]: {
+        readonly address: Address;
+        readonly blockNumber: string;
+      };
     };
   };
 };

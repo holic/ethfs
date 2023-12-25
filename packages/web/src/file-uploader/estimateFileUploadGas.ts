@@ -1,10 +1,8 @@
-import { precomputedGasEstimates } from "./precomputedGasEstimates";
+import { contentGasEstimates } from "./contentGasEstimates";
 import { PreparedFile } from "./prepareFile";
 
 // For big files, this can be generate a lot of RPC calls, so we've
 // precomputed the gas estimates for increments of 512 bytes.
-//
-// This file will need to be regenerated if the content store changes.
 
 export async function estimateFileUploadGas(
   file: PreparedFile,
@@ -12,9 +10,9 @@ export async function estimateFileUploadGas(
   const estimatedGasForContents = await Promise.all(
     file.contents.map(async (content, i) => {
       const { gas } =
-        precomputedGasEstimates.find(
+        contentGasEstimates.find(
           (estimate) => estimate.size >= content.length,
-        ) ?? precomputedGasEstimates[precomputedGasEstimates.length - 1];
+        ) ?? contentGasEstimates[contentGasEstimates.length - 1];
       // TODO: make chunks + gas per chunk + progress more visible in UI
       console.log(
         `${file.filename} chunk[${i}]: ${

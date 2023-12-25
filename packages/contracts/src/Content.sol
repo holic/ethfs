@@ -4,14 +4,14 @@ pragma solidity ^0.8.22;
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {revertWithBytes} from "./revertWithBytes.sol";
 
-bytes32 constant SALT = bytes32(0);
+bytes32 constant SALT = bytes32("EthFS");
 
 /// @dev Error thrown when the pointer of the content added does not match the one we compute from the content, signaling something weird going on with the deployer
 /// @param expectedPointer The expected address of the content
 /// @param actualPointer The actual address of the content
 error UnexpectedPointer(address expectedPointer, address actualPointer);
 
-function contentToCreationCode(
+function contentToInitCode(
     bytes memory content
 ) pure returns (bytes memory creationCode) {
     // Use the same strategy as Solady's SSTORE2 to write a data contract, but do this via the deployer for a constant address
@@ -47,7 +47,7 @@ function addContent(
     }
 
     (bool success, bytes memory data) = deployer.call(
-        abi.encodePacked(SALT, contentToCreationCode(content))
+        abi.encodePacked(SALT, contentToInitCode(content))
     );
     if (!success) revertWithBytes(data);
 

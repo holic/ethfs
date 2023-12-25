@@ -13,7 +13,7 @@
     {
       "name": "FileStore-FileCreated",
       "enabled": true,
-      "sources": [{ "name": "goerli", "start": 10262878 }],
+      "sources": [{ "name": "goerli", "start": 10269289 }],
       "table": {
         "name": "files_created",
         "columns": [
@@ -32,7 +32,7 @@
           "name": "log_addr",
           "column": "log_addr",
           "filter_op": "contains",
-          "filter_arg": ["0x3c9F1e405e6209ef0191C985605d6219b80Ab5a8"]
+          "filter_arg": ["0x6d78D0c4bC861EFad37071d00f4492C78b065706"]
         },
         { "name": "block_time", "column": "block_time" }
       ],

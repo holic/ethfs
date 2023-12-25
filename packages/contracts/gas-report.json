@@ -3,31 +3,31 @@
     "file": "src/Content.t.sol",
     "test": "testAddContent",
     "name": "compute pointer",
-    "gasUsed": 4981
+    "gasUsed": 4987
   },
   {
     "file": "src/Content.t.sol",
     "test": "testAddContent",
     "name": "add content",
-    "gasUsed": 5158515
+    "gasUsed": 5158527
   },
   {
     "file": "src/Content.t.sol",
     "test": "testAddContent",
     "name": "add existing content",
-    "gasUsed": 5180
+    "gasUsed": 5186
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "add 24kb content",
-    "gasUsed": 5166094
+    "gasUsed": 5166106
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 183311
+    "gasUsed": 183390
   },
   {
     "file": "src/FileStore.t.sol",
@@ -39,37 +39,37 @@
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 5389515
+    "gasUsed": 5389606
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file with two chunks, reusing one",
-    "gasUsed": 370184
+    "gasUsed": 370281
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromChunks",
     "name": "create file from chunks",
-    "gasUsed": 281568
+    "gasUsed": 281616
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromPointers",
     "name": "create 24kb file",
-    "gasUsed": 116391
+    "gasUsed": 116470
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromSlices",
     "name": "create 24kb file",
-    "gasUsed": 116226
+    "gasUsed": 116216
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 160729
+    "gasUsed": 160719
   },
   {
     "file": "src/FileStore.t.sol",

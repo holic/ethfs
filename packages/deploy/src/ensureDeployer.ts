@@ -17,13 +17,13 @@ import {
 } from "viem/actions";
 
 export async function ensureDeployer(
-  client: Client<Transport, Chain | undefined, Account>
+  client: Client<Transport, Chain | undefined, Account>,
 ): Promise<Address> {
   const chainId = client.chain?.id ?? (await getChainId(client));
   const deployment = getSingletonFactoryInfo(chainId);
   if (!deployment) {
     throw new Error(
-      `Chain ID ${chainId} not supported. Create an issue at <https://github.com/safe-global/safe-singleton-factory> and <https://github.com/holic/ethfs> to request this chain be added.`
+      `Chain ID ${chainId} not supported. Create an issue at <https://github.com/safe-global/safe-singleton-factory> and <https://github.com/holic/ethfs> to request this chain be added.`,
     );
   }
 
@@ -39,7 +39,7 @@ export async function ensureDeployer(
   // send gas to signer
   console.log(
     "sending gas for singleton factory deployment to signer at",
-    deployment.signerAddress
+    deployment.signerAddress,
   );
   const gasTx = await sendTransaction(client, {
     chain: client.chain ?? null,

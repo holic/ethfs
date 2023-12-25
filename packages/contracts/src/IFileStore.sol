@@ -164,12 +164,4 @@ interface IFileStore {
         BytecodeSlice[] memory slices,
         bytes memory metadata
     ) external returns (address pointer, File memory file);
-
-    /// @notice Convenience method for reading files in frontends and indexers where libraries are not accessible.
-    /// @dev Contracts should use `File.read()` directly, rather than this method. Otherwise you will incur unnecessary gas for passing around large byte blobs.
-    /// @param filename The name of the file to read
-    /// @return contents The contents of the file
-    function readFile(
-        string memory filename
-    ) external view returns (string memory contents);
 }

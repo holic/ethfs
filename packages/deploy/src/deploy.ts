@@ -1,4 +1,3 @@
-import contentStoreBuild from "@ethfs/contracts/out/ContentStore.sol/ContentStore.json" assert { type: "json" };
 import fileStoreBuild from "@ethfs/contracts/out/FileStore.sol/FileStore.json" assert { type: "json" };
 import {
   Account,
@@ -20,16 +19,11 @@ import { ensureDeployer } from "./ensureDeployer";
 
 export type DeployResult = {
   readonly chainId: number;
+  readonly deployer: Address;
   readonly contracts: {
-    readonly ContentStore: {
-      deployer: Address;
-      address: Address;
-      blockNumber: bigint;
-    };
     readonly FileStore: {
-      deployer: Address;
-      address: Address;
-      blockNumber: bigint;
+      readonly address: Address;
+      readonly blockNumber: bigint;
     };
   };
 };
@@ -40,21 +34,10 @@ export async function deploy(
   const chainId = client.chain?.id ?? (await getChainId(client));
   const deployer = await ensureDeployer(client);
 
-  const contentStoreBytecode = encodeDeployData({
-    bytecode: contentStoreBuild.bytecode.object as Hex,
-    abi: parseAbi(["constructor(address)"]),
-    args: [deployer],
-  });
-  const contentStore = getCreate2Address({
-    from: deployer,
-    bytecode: contentStoreBytecode,
-    salt,
-  });
-
   const fileStoreBytecode = encodeDeployData({
     bytecode: fileStoreBuild.bytecode.object as Hex,
     abi: parseAbi(["constructor(address)"]),
-    args: [contentStore],
+    args: [deployer],
   });
   const fileStore = getCreate2Address({
     from: deployer,
@@ -68,10 +51,6 @@ export async function deploy(
     deployer,
     contracts: [
       {
-        bytecode: contentStoreBytecode,
-        label: "ContentStore",
-      },
-      {
         bytecode: fileStoreBytecode,
         label: "FileStore",
       },
@@ -80,18 +59,11 @@ export async function deploy(
 
   const fromBlock = startBlock - 1000n;
   const deployLogs = await getLogs(client, {
-    address: [contentStore, fileStore],
+    address: [fileStore],
     event: parseAbiItem("event Deployed()"),
     fromBlock,
   });
   console.log("found", deployLogs.length, "deploy logs since block", fromBlock);
-
-  const contentStoreDeployLog = deployLogs.find(
-    (log) => log.address.toLowerCase() === contentStore.toLowerCase(),
-  );
-  if (!contentStoreDeployLog) {
-    throw new Error("No `Deployed` event log found for `ContentStore`");
-  }
 
   const fileStoreDeployLog = deployLogs.find(
     (log) => log.address.toLowerCase() === fileStore.toLowerCase(),
@@ -102,14 +74,9 @@ export async function deploy(
 
   return {
     chainId,
+    deployer,
     contracts: {
-      ContentStore: {
-        deployer,
-        address: contentStore,
-        blockNumber: contentStoreDeployLog.blockNumber,
-      },
       FileStore: {
-        deployer,
         address: fileStore,
         blockNumber: fileStoreDeployLog.blockNumber,
       },

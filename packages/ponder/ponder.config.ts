@@ -16,8 +16,10 @@ export default createConfig({
       abi: FileStoreAbi,
       network: {
         goerli: {
-          address: deploys[5]?.FileStore?.address,
-          startBlock: parseInt(deploys[5]?.FileStore?.blockNumber ?? "0"),
+          address: deploys[5]?.contracts.FileStore?.address,
+          startBlock: parseInt(
+            deploys[5]?.contracts.FileStore?.blockNumber ?? "0",
+          ),
         },
       },
     },

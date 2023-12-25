@@ -6,7 +6,7 @@ import {LibString} from "solady/utils/LibString.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
 import {isValidPointer} from "./isValidPointer.sol";
-import {addContent} from "./Content.sol";
+import {addContent, getPointer as _getPointer, pointerExists as _pointerExists} from "./Content.sol";
 
 /// @title EthFS FileStore
 /// @notice Content-addressable file storage for Ethereum. Files are composed of slices of contract bytecode, the most efficient way to store and retrieve data onchain.
@@ -164,16 +164,6 @@ contract FileStore is IFileStore {
         return _createFile(filename, _fileFromSlices(slices), metadata);
     }
 
-    /// @notice Convenience method for reading files in frontends and indexers where libraries are not accessible.
-    /// @dev Contracts should use `File.read()` directly, rather than this method. Otherwise you will incur unnecessary gas for passing around large byte blobs.
-    /// @param filename The name of the file to read
-    /// @return contents The contents of the file
-    function readFile(
-        string memory filename
-    ) public view returns (string memory contents) {
-        return getFile(filename).read();
-    }
-
     /// @dev Internal function for preparing a file from its contents
     function _fileFromContents(
         string memory contents
@@ -268,5 +258,29 @@ contract FileStore is IFileStore {
         files[filename] = pointer;
         emit FileCreated(filename, pointer, filename, file.size, metadata);
         return (pointer, file);
+    }
+
+    /*
+        Convenience methods for frontends and indexers
+    */
+
+    /// @notice Convenience method for reading files in frontends and indexers where libraries are not accessible.
+    /// @dev Contracts should use `File.read()` directly, rather than this method. Otherwise you will incur unnecessary gas for passing around large byte blobs.
+    /// @param filename The name of the file to read
+    /// @return contents The contents of the file
+    function readFile(
+        string memory filename
+    ) public view returns (string memory contents) {
+        return getFile(filename).read();
+    }
+
+    function predictPointer(
+        string memory content
+    ) public view returns (address pointer) {
+        return _getPointer(deployer, bytes(content));
+    }
+
+    function pointerExists(address pointer) public view returns (bool) {
+        return _pointerExists(pointer);
     }
 }

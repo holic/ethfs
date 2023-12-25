@@ -194,7 +194,7 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "testContentToCreationCode",
+    "name": "testContentToInitCode",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"

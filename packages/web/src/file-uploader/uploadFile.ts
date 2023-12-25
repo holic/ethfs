@@ -1,17 +1,24 @@
-import IContentStoreAbi from "@ethfs/contracts/out/IContentStore.sol/IContentStore.abi.json";
 import IFileStoreAbi from "@ethfs/contracts/out/IFileStore.sol/IFileStore.abi.json";
 import deploys from "@ethfs/deploy/deploys.json";
 import {
   Account,
   Chain,
+  concatHex,
   Hex,
   stringToHex,
   Transport,
   WalletClient,
 } from "viem";
-import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
+import { getBytecode } from "viem/actions";
+import {
+  readContract,
+  sendTransaction,
+  waitForTransaction,
+  writeContract,
+} from "wagmi/actions";
 
 import { pluralize } from "../pluralize";
+import { contentToInitCode, getPointer, salt } from "./common";
 import { PreparedFile } from "./prepareFile";
 
 export async function uploadFile(
@@ -20,10 +27,12 @@ export async function uploadFile(
   preparedFile: PreparedFile,
   onProgress: (message: string) => void,
 ) {
+  const deploy = deploys[chainId];
+
   onProgress("Checking filename…");
   const fileExists = await readContract({
     chainId,
-    address: deploys[chainId].FileStore.address,
+    address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
     functionName: "fileExists",
     args: [preparedFile.filename],
@@ -32,18 +41,8 @@ export async function uploadFile(
     throw new Error("Filename already exists");
   }
 
-  onProgress("Splitting file into chunks…");
-  const pointers = await Promise.all(
-    preparedFile.contents.map(
-      async (content) =>
-        await readContract({
-          chainId,
-          address: deploys[walletClient.chain.id].ContentStore.address,
-          abi: IContentStoreAbi,
-          functionName: "getPointer",
-          args: [stringToHex(content)],
-        }),
-    ),
+  const pointers = preparedFile.contents.map((content) =>
+    getPointer(deploy.deployer, content),
   );
 
   const transactions: Hex[] = [];
@@ -51,21 +50,15 @@ export async function uploadFile(
   for (const [i, content] of preparedFile.contents.entries()) {
     onProgress(`Uploading chunk ${i + 1} of ${preparedFile.contents.length}…`);
 
-    const pointerExists = await readContract({
-      chainId,
-      address: deploys[walletClient.chain.id].ContentStore.address,
-      abi: IContentStoreAbi,
-      functionName: "pointerExists",
-      args: [pointers[i]],
+    const existingBytecode = await getBytecode(walletClient, {
+      address: pointers[i],
     });
-    if (pointerExists) continue;
+    if (existingBytecode) continue;
 
-    const { hash: tx } = await writeContract({
+    const { hash: tx } = await sendTransaction({
       chainId,
-      address: deploys[walletClient.chain.id].ContentStore.address,
-      abi: IContentStoreAbi,
-      functionName: "addContent",
-      args: [stringToHex(content)],
+      to: deploy.deployer,
+      data: concatHex([salt, contentToInitCode(content)]),
     });
     transactions.push(tx);
   }
@@ -96,7 +89,7 @@ export async function uploadFile(
 
   const { hash: tx } = await writeContract({
     chainId,
-    address: deploys[chainId].FileStore.address,
+    address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
     functionName: "createFileFromPointers",
     args: [

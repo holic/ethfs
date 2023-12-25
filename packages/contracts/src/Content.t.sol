@@ -5,7 +5,7 @@ import "forge-std/Test.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {SAFE_SINGLETON_FACTORY, SAFE_SINGLETON_FACTORY_BYTECODE} from "../test/safeSingletonFactory.sol";
-import {contentToCreationCode, getPointer, pointerExists, addContent} from "./Content.sol";
+import {contentToInitCode, getPointer, pointerExists, addContent} from "./Content.sol";
 
 contract ContentTest is Test, GasReporter {
     function setUp() public {
@@ -18,8 +18,8 @@ contract ContentTest is Test, GasReporter {
         address pointer = getPointer(SAFE_SINGLETON_FACTORY, content);
         endGasReport();
 
-        assertEq(pointer, address(0x3c7F9F8bB96905325CdD1782d55B8Ebd6228Ed2e));
-        assertFalse(pointerExists(pointer), "expected checksum to not exist");
+        assertEq(pointer, address(0x1fa2FC76CF0E28794803cd24B6D729B626F0aD25));
+        assertFalse(pointerExists(pointer), "expected pointer to not exist");
 
         startGasReport("add content");
         address newPointer = addContent(SAFE_SINGLETON_FACTORY, content);
@@ -39,9 +39,9 @@ contract ContentTest is Test, GasReporter {
         assertEq(storedContent, content, "expected content to match");
     }
 
-    function testContentToCreationCode() public {
+    function testContentToInitCode() public {
         assertEq(
-            contentToCreationCode("hello world"),
+            contentToInitCode("hello world"),
             hex"61000c80600a3d393df30068656c6c6f20776f726c64"
         );
     }

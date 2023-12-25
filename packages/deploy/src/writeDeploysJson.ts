@@ -7,10 +7,12 @@ import { DeployResult } from "./deploy";
 
 export type Deploys = {
   readonly [chainId: number]: {
-    readonly [contractName: string]: {
-      deployer: Address;
-      address: Address;
-      blockNumber: bigint;
+    readonly deployer: Address;
+    readonly contracts: {
+      readonly [contractName: string]: {
+        readonly address: Address;
+        readonly blockNumber: bigint;
+      };
     };
   };
 };
@@ -26,7 +28,7 @@ export async function writeDeploysJson(deploy: DeployResult): Promise<void> {
   }
 
   const entries = Object.entries(deploys);
-  entries.push([deploy.chainId.toString(), deploy.contracts]);
+  entries.push([deploy.chainId.toString(), deploy]);
   entries.sort((a, b) => parseInt(a[0]) - parseInt(b[0]));
 
   deploys = Object.fromEntries(entries);
