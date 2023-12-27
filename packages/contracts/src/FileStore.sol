@@ -300,13 +300,10 @@ contract FileStore is IFileStore {
         return (pointer, file);
     }
 
-    /*
-        Convenience methods for frontends and indexers
-    */
-
     /**
      * @notice Convenience method for reading files in frontends and indexers where libraries are not accessible.
-     * @dev Contracts should use `File.read()` directly, rather than this method. Otherwise you will incur unnecessary gas for passing around large byte blobs.
+     * @dev This method is intentionally left out of the `IFileStore` interface.
+     * Contracts should use `File.read()` directly, rather than this method. Otherwise you will incur unnecessary gas for passing around large byte blobs.
      * @param filename The name of the file to read
      * @return contents The contents of the file
      */
