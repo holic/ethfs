@@ -79,8 +79,8 @@ importers:
         specifier: ^6.1.0
         version: 6.1.0
       viem:
-        specifier: 1.14.0
-        version: 1.14.0(typescript@5.3.3)(zod@3.22.4)
+        specifier: ^1.20.0
+        version: 1.20.0(typescript@5.3.3)(zod@3.22.4)
       zod:
         specifier: ^3.22.4
         version: 3.22.4
@@ -167,7 +167,7 @@ importers:
         version: 2.1.0
       viem:
         specifier: ^1.20.0
-        version: 1.20.0(typescript@5.3.3)
+        version: 1.20.0(typescript@5.3.3)(zod@3.22.4)
       wagmi:
         specifier: ^1.4.12
         version: 1.4.12(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.20.0)
@@ -1346,7 +1346,7 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-remove-scroll: 2.5.4(@types/react@18.2.45)(react@18.2.0)
       ua-parser-js: 1.0.37
-      viem: 1.20.0(typescript@5.3.3)
+      viem: 1.20.0(typescript@5.3.3)(zod@3.22.4)
       wagmi: 1.4.12(@types/react@18.2.45)(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(viem@1.20.0)
     transitivePeerDependencies:
       - '@types/react'
@@ -1476,7 +1476,7 @@ packages:
     resolution: {integrity: sha512-XJbEPuaVc7b9n23MqlF6c+ToYIS3f7P2Sel8f3cSBQ9WORE4xrSuvhMpK9fDSFqJ7by/brc+rmJR/5HViRr0/w==}
     dependencies:
       '@safe-global/safe-gateway-typescript-sdk': 3.13.3
-      viem: 1.20.0(typescript@5.3.3)
+      viem: 1.20.0(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - bufferutil
       - typescript
@@ -2001,7 +2001,7 @@ packages:
       abitype: 0.8.7(typescript@5.3.3)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 1.20.0(typescript@5.3.3)
+      viem: 1.20.0(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -2037,7 +2037,7 @@ packages:
       abitype: 0.8.7(typescript@5.3.3)
       eventemitter3: 4.0.7
       typescript: 5.3.3
-      viem: 1.20.0(typescript@5.3.3)
+      viem: 1.20.0(typescript@5.3.3)(zod@3.22.4)
       zustand: 4.4.7(@types/react@18.2.45)(react@18.2.0)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -8415,7 +8415,7 @@ packages:
       - zod
     dev: false
 
-  /viem@1.20.0(typescript@5.3.3):
+  /viem@1.20.0(typescript@5.3.3)(zod@3.22.4):
     resolution: {integrity: sha512-yPjV9pJr10xi28C/9LEvs5zdZNEMiru3Kz7nufghVYABJAfeSkoZQXb6b23n7MscS7c55JO5nmUI3xKkd9g6Yg==}
     peerDependencies:
       typescript: '>=5.0.4'
@@ -8513,7 +8513,7 @@ packages:
       react: 18.2.0
       typescript: 5.3.3
       use-sync-external-store: 1.2.0(react@18.2.0)
-      viem: 1.20.0(typescript@5.3.3)
+      viem: 1.20.0(typescript@5.3.3)(zod@3.22.4)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'

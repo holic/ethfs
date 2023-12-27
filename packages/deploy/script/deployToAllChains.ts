@@ -2,7 +2,25 @@ import "dotenv/config";
 
 import { createWalletClient, http, isHex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { goerli, sepolia } from "viem/chains";
+import {
+  arbitrum,
+  arbitrumGoerli,
+  arbitrumSepolia,
+  base,
+  baseGoerli,
+  baseSepolia,
+  goerli,
+  holesky,
+  mainnet,
+  optimism,
+  optimismGoerli,
+  optimismSepolia,
+  polygon,
+  polygonMumbai,
+  polygonZkEvm,
+  polygonZkEvmTestnet,
+  sepolia,
+} from "viem/chains";
 import { z } from "zod";
 
 import { deploy } from "../src/deploy";
@@ -16,7 +34,26 @@ const envSchema = z.object({
 
 const env = parseEnv(envSchema);
 
-const chains = [goerli, sepolia];
+const chains = [
+  mainnet,
+  goerli,
+  sepolia,
+  holesky,
+  base,
+  baseGoerli,
+  baseSepolia,
+  optimism,
+  optimismGoerli,
+  optimismSepolia,
+  arbitrum,
+  arbitrumGoerli,
+  arbitrumSepolia,
+  polygon,
+  polygonMumbai,
+  polygonZkEvm,
+  polygonZkEvmTestnet,
+  // TODO: redstone
+];
 const account = privateKeyToAccount(env.DEPLOYER_PRIVATE_KEY);
 
 async function deployToAllChains() {

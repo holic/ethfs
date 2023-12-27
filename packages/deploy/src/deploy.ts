@@ -89,11 +89,15 @@ export async function deploy(
     throw new Error("No `Deployed` event log found for `FileStore`");
   }
 
-  console.log("verifying FileStore");
-  await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier etherscan --etherscan-api-key ${etherscanApiKey} --watch`;
-  // TODO: figure out how to get sourcify working, this gives a generic 500 with "Compiler error"
-  // TODO: try to do this with sourcify API instead of forge?
-  // await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier sourcify --watch`;
+  try {
+    console.log("verifying FileStore");
+    await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier etherscan --etherscan-api-key ${etherscanApiKey} --watch`;
+    // TODO: figure out how to get sourcify working, this gives a generic 500 with "Compiler error"
+    // TODO: try to do this with sourcify API instead of forge?
+    // await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier sourcify --watch`;
+  } catch (error) {
+    console.error("could not verify FileStore, skipping for now", error);
+  }
 
   return {
     chainId,
