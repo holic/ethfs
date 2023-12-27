@@ -648,44 +648,6 @@ declare const abi: [
   },
   {
     "type": "function",
-    "name": "pointerExists",
-    "inputs": [
-      {
-        "name": "pointer",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "",
-        "type": "bool",
-        "internalType": "bool"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
-    "name": "predictPointer",
-    "inputs": [
-      {
-        "name": "content",
-        "type": "string",
-        "internalType": "string"
-      }
-    ],
-    "outputs": [
-      {
-        "name": "pointer",
-        "type": "address",
-        "internalType": "address"
-      }
-    ],
-    "stateMutability": "view"
-  },
-  {
-    "type": "function",
     "name": "readFile",
     "inputs": [
       {

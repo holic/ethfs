@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
 import "forge-std/Test.sol";
@@ -31,18 +31,6 @@ contract FileTest is Test {
         assertEq(contents, "some");
     }
 
-    function testCorruptedFileReadUnchecked() public {
-        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
-        slices[0] = BytecodeSlice({
-            pointer: address(exampleSelfDestruct),
-            start: 0,
-            end: 10
-        });
-        File memory file = File({size: 10, slices: slices});
-        string memory contents = file.readUnchecked();
-        assertEq(bytes(contents), bytes(""));
-    }
-
     function testCorruptedFileRead() public {
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
@@ -61,5 +49,17 @@ contract FileTest is Test {
             )
         );
         file.read();
+    }
+
+    function testCorruptedFileReadUnchecked() public {
+        BytecodeSlice[] memory slices = new BytecodeSlice[](1);
+        slices[0] = BytecodeSlice({
+            pointer: address(exampleSelfDestruct),
+            start: 0,
+            end: 10
+        });
+        File memory file = File({size: 10, slices: slices});
+        string memory contents = file.readUnchecked();
+        assertEq(bytes(contents), bytes(""));
     }
 }

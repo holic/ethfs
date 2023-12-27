@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
+/**
+ * @dev Checks if the given address points to a valid SSTORE2 data contract (i.e. starts with STOP opcode)
+ * @param pointer The address to be checked
+ * @return isValid true if the address points to a valid contract (bytecode starts with a STOP opcode), false otherwise
+ */
 function isValidPointer(address pointer) view returns (bool isValid) {
     // The assembly below is equivalent to
     //

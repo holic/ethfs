@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
@@ -6,11 +6,18 @@ import {revertWithBytes} from "./revertWithBytes.sol";
 
 bytes32 constant SALT = bytes32("EthFS");
 
-/// @dev Error thrown when the pointer of the content added does not match the one we compute from the content, signaling something weird going on with the deployer
-/// @param expectedPointer The expected address of the content
-/// @param actualPointer The actual address of the content
+/**
+ * @dev Error thrown when the pointer of the content added does not match the one we compute from the content, signaling something weird going on with the deployer
+ * @param expectedPointer The expected address of the content
+ * @param actualPointer The actual address of the content
+ */
 error UnexpectedPointer(address expectedPointer, address actualPointer);
 
+/**
+ * @dev Converts data into creation code for an SSTORE2 data contract
+ * @param content The bytes content to be converted
+ * @return creationCode The creation code for the data contract
+ */
 function contentToInitCode(
     bytes memory content
 ) pure returns (bytes memory creationCode) {
@@ -26,6 +33,12 @@ function contentToInitCode(
         );
 }
 
+/**
+ * @dev Predicts the address of a data contract based on its content
+ * @param deployer The deployer's address
+ * @param content The content of the data contract
+ * @return pointer The predicted address of the data contract
+ */
 function getPointer(
     address deployer,
     bytes memory content
@@ -33,10 +46,21 @@ function getPointer(
     return SSTORE2.predictDeterministicAddress(content, SALT, deployer);
 }
 
+/**
+ * @dev Checks if a pointer (data contract address) already exists
+ * @param pointer The data contract address to check
+ * @return true if the data contract exists, false otherwise
+ */
 function pointerExists(address pointer) view returns (bool) {
     return pointer.code.length > 0;
 }
 
+/**
+ * @dev Adds content as a data contract using a deterministic deployer
+ * @param deployer The deployer's address
+ * @param content The content to be added as a data contract
+ * @return pointer The address of the data contract
+ */
 function addContent(
     address deployer,
     bytes memory content

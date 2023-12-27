@@ -1,20 +1,26 @@
-// SPDX-License-Identifier: Unlicense
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.22;
 
-/// @title EthFS File
-/// @notice A representation of an onchain file, composed of slices of contract bytecode and utilities to construct the file contents from those slices.
-/// @dev For best gas efficiency, it's recommended using `File.read()` as close to the output returned by the contract call as possible. Lots of gas is consumed every time a large data blob is passed between functions.
+/**
+ * @title EthFS File
+ * @notice A representation of an onchain file, composed of slices of contract bytecode and utilities to construct the file contents from those slices.
+ * @dev For best gas efficiency, it's recommended using `File.read()` as close to the output returned by the contract call as possible. Lots of gas is consumed every time a large data blob is passed between functions.
+ */
 
-/// @dev Represents a reference to a slice of bytecode in a contract
+/**
+ * @dev Represents a reference to a slice of bytecode in a contract
+ */
 struct BytecodeSlice {
     address pointer;
     uint32 start;
     uint32 end;
 }
 
-/// @dev Represents a file composed of one or more bytecode slices
+/**
+ * @dev Represents a file composed of one or more bytecode slices
+ */
 struct File {
-    /// @dev Total length of file contents (sum of all slice sizes). Useful when you want to use DynamicBuffer to build the file contents from the slices.
+    // Total length of file contents (sum of all slice sizes). Useful when you want to use DynamicBuffer to build the file contents from the slices.
     uint256 size;
     BytecodeSlice[] slices;
 }
@@ -22,7 +28,9 @@ struct File {
 using {read} for File global;
 using {readUnchecked} for File global;
 
-/// @dev Error thrown when a slice is out of the bounds of the contract's bytecode
+/**
+ * @dev Error thrown when a slice is out of the bounds of the contract's bytecode
+ */
 error SliceOutOfBounds(
     address pointer,
     uint32 codeSize,
@@ -30,9 +38,11 @@ error SliceOutOfBounds(
     uint32 sliceEnd
 );
 
-/// @notice Reads the contents of a file by concatenating its slices
-/// @param file The file to read
-/// @return contents The concatenated contents of the file
+/**
+ * @notice Reads the contents of a file by concatenating its slices
+ * @param file The file to read
+ * @return contents The concatenated contents of the file
+ */
 function read(File memory file) view returns (string memory contents) {
     BytecodeSlice[] memory slices = file.slices;
     bytes4 sliceOutOfBoundsSelector = SliceOutOfBounds.selector;
@@ -78,9 +88,11 @@ function read(File memory file) view returns (string memory contents) {
     }
 }
 
-/// @notice Reads the contents of a file without reverting on unreadable/invalid slices. Skips any slices that are out of bounds or invalid. Useful if you are composing contract bytecode where a contract can still selfdestruct (which would result in an invalid slice) and want to avoid reverts but still output potentially "corrupted" file contents (due to missing data).
-/// @param file The file to read
-/// @return contents The concatenated contents of the file, skipping invalid slices
+/**
+ * @notice Reads the contents of a file without reverting on unreadable/invalid slices. Skips any slices that are out of bounds or invalid. Useful if you are composing contract bytecode where a contract can still selfdestruct (which would result in an invalid slice) and want to avoid reverts but still output potentially "corrupted" file contents (due to missing data).
+ * @param file The file to read
+ * @return contents The concatenated contents of the file, skipping invalid slices
+ */
 function readUnchecked(File memory file) view returns (string memory contents) {
     BytecodeSlice[] memory slices = file.slices;
 
