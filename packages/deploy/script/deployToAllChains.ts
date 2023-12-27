@@ -11,6 +11,7 @@ import { parseEnv } from "./parseEnv";
 
 const envSchema = z.object({
   DEPLOYER_PRIVATE_KEY: z.string().refine(isHex),
+  ETHERSCAN_API_KEY: z.string(),
 });
 
 const env = parseEnv(envSchema);
@@ -27,7 +28,7 @@ async function deployToAllChains() {
       account,
     });
     console.log(`deploying to chain ${chain.id} (${chain.name})`);
-    const deployResult = await deploy(client);
+    const deployResult = await deploy(client, env.ETHERSCAN_API_KEY);
     await writeDeploysJson(deployResult);
   }
 }

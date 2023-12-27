@@ -10,6 +10,7 @@ import { parseEnv } from "./parseEnv";
 const envSchema = z.object({
   RPC_HTTP_URL: z.string(),
   DEPLOYER_PRIVATE_KEY: z.string().refine(isHex),
+  ETHERSCAN_API_KEY: z.string(),
 });
 
 const env = parseEnv(envSchema);
@@ -19,7 +20,7 @@ const client = createWalletClient({
   account: privateKeyToAccount(env.DEPLOYER_PRIVATE_KEY),
 });
 
-deploy(client).then(
+deploy(client, env.ETHERSCAN_API_KEY).then(
   () => {
     console.log("done!");
     process.exit(0);

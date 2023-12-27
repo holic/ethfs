@@ -1,14 +1,16 @@
 import fileStoreBuild from "@ethfs/contracts/out/FileStore.sol/FileStore.json" assert { type: "json" };
+import { $ } from "execa";
 import {
   Account,
   Address,
   Chain,
   Client,
-  encodeDeployData,
+  concatHex,
+  encodeAbiParameters,
   getCreate2Address,
   Hex,
-  parseAbi,
   parseAbiItem,
+  parseAbiParameters,
   Transport,
 } from "viem";
 import { getBlockNumber, getChainId, getLogs } from "viem/actions";
@@ -16,6 +18,11 @@ import { getBlockNumber, getChainId, getLogs } from "viem/actions";
 import { salt } from "./common";
 import { ensureContractsDeployed } from "./ensureContractsDeployed";
 import { ensureDeployer } from "./ensureDeployer";
+
+const contracts$ = $({
+  cwd: `${__dirname}/../../contracts`,
+  stdio: "inherit",
+});
 
 export type DeployResult = {
   readonly chainId: number;
@@ -30,15 +37,22 @@ export type DeployResult = {
 
 export async function deploy(
   client: Client<Transport, Chain | undefined, Account>,
+  etherscanApiKey: string,
 ): Promise<DeployResult> {
+  await contracts$`pnpm run build`;
+
   const chainId = client.chain?.id ?? (await getChainId(client));
   const deployer = await ensureDeployer(client);
 
-  const fileStoreBytecode = encodeDeployData({
-    bytecode: fileStoreBuild.bytecode.object as Hex,
-    abi: parseAbi(["constructor(address)"]),
-    args: [deployer],
-  });
+  const fileStoreConstructorArgs = encodeAbiParameters(
+    parseAbiParameters("address"),
+    [deployer],
+  );
+  const fileStoreBytecode = concatHex([
+    fileStoreBuild.bytecode.object as Hex,
+    fileStoreConstructorArgs,
+  ]);
+
   const fileStore = getCreate2Address({
     from: deployer,
     bytecode: fileStoreBytecode,
@@ -57,7 +71,10 @@ export async function deploy(
     ],
   });
 
-  const fromBlock = startBlock - 1000n;
+  // TODO: find a way to do to get deployment without block range issues
+
+  // const fromBlock = startBlock - 1000n;
+  const fromBlock = "earliest";
   const deployLogs = await getLogs(client, {
     address: [fileStore],
     event: parseAbiItem("event Deployed()"),
@@ -71,6 +88,12 @@ export async function deploy(
   if (!fileStoreDeployLog) {
     throw new Error("No `Deployed` event log found for `FileStore`");
   }
+
+  console.log("verifying FileStore");
+  await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier etherscan --etherscan-api-key ${etherscanApiKey} --watch`;
+  // TODO: figure out how to get sourcify working, this gives a generic 500 with "Compiler error"
+  // TODO: try to do this with sourcify API instead of forge?
+  // await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier sourcify --watch`;
 
   return {
     chainId,
