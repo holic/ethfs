@@ -4,7 +4,7 @@ pragma solidity ^0.8.22;
 import "forge-std/Test.sol";
 import {GasReporter} from "@latticexyz/gas-report/GasReporter.sol";
 import {SSTORE2} from "solady/utils/SSTORE2.sol";
-import {addContent} from "./Content.sol";
+import {addContent} from "./common.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {FileStore} from "./FileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";

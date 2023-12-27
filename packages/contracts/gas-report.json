@@ -1,21 +1,45 @@
 [
   {
-    "file": "src/Content.t.sol",
+    "file": "src/common.t.sol",
     "test": "testAddContent",
     "name": "compute pointer",
     "gasUsed": 4987
   },
   {
-    "file": "src/Content.t.sol",
+    "file": "src/common.t.sol",
     "test": "testAddContent",
     "name": "add content",
     "gasUsed": 5158527
   },
   {
-    "file": "src/Content.t.sol",
+    "file": "src/common.t.sol",
     "test": "testAddContent",
     "name": "add existing content",
     "gasUsed": 5186
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testBigPointer",
+    "name": "check big pointer",
+    "gasUsed": 318
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testInvalidPointer",
+    "name": "check invalid pointer",
+    "gasUsed": 317
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testNonexistentPointer",
+    "name": "check non-existent pointer",
+    "gasUsed": 174
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testValidPointer",
+    "name": "check valid pointer",
+    "gasUsed": 318
   },
   {
     "file": "src/FileStore.t.sol",
@@ -27,7 +51,7 @@
     "file": "src/FileStore.t.sol",
     "test": "testBigFile",
     "name": "create big file",
-    "gasUsed": 183390
+    "gasUsed": 183323
   },
   {
     "file": "src/FileStore.t.sol",
@@ -39,13 +63,13 @@
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
-    "gasUsed": 5389606
+    "gasUsed": 5389539
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file with two chunks, reusing one",
-    "gasUsed": 370281
+    "gasUsed": 370214
   },
   {
     "file": "src/FileStore.t.sol",
@@ -57,49 +81,25 @@
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromPointers",
     "name": "create 24kb file",
-    "gasUsed": 116470
+    "gasUsed": 116403
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testCreateFileFromSlices",
     "name": "create 24kb file",
-    "gasUsed": 116216
+    "gasUsed": 116238
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "create file",
-    "gasUsed": 160719
+    "gasUsed": 160741
   },
   {
     "file": "src/FileStore.t.sol",
     "test": "testSlices",
     "name": "read file",
     "gasUsed": 8712
-  },
-  {
-    "file": "src/isValidPointer.t.sol",
-    "test": "testBigPointer",
-    "name": "check big pointer",
-    "gasUsed": 318
-  },
-  {
-    "file": "src/isValidPointer.t.sol",
-    "test": "testInvalidPointer",
-    "name": "check invalid pointer",
-    "gasUsed": 317
-  },
-  {
-    "file": "src/isValidPointer.t.sol",
-    "test": "testNonexistentPointer",
-    "name": "check non-existent pointer",
-    "gasUsed": 174
-  },
-  {
-    "file": "src/isValidPointer.t.sol",
-    "test": "testValidPointer",
-    "name": "check valid pointer",
-    "gasUsed": 318
   },
   {
     "file": "test/MockProject.t.sol",

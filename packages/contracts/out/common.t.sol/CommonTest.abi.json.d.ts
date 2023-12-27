@@ -194,7 +194,35 @@ declare const abi: [
   },
   {
     "type": "function",
+    "name": "testBigPointer",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "testContentToInitCode",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "testInvalidPointer",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "testNonexistentPointer",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "testValidPointer",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"

@@ -5,8 +5,7 @@ import {SSTORE2} from "solady/utils/SSTORE2.sol";
 import {LibString} from "solady/utils/LibString.sol";
 import {IFileStore} from "./IFileStore.sol";
 import {File, BytecodeSlice, SliceOutOfBounds} from "./File.sol";
-import {isValidPointer} from "./isValidPointer.sol";
-import {addContent} from "./Content.sol";
+import {addContent, isValidPointer} from "./common.sol";
 
 /**
  * @title EthFS FileStore

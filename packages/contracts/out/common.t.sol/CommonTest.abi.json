@@ -66,6 +66,13 @@
   },
   {
     "type": "function",
+    "name": "setUp",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "targetArtifactSelectors",
     "inputs": [],
     "outputs": [
@@ -180,7 +187,21 @@
   },
   {
     "type": "function",
+    "name": "testAddContent",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
     "name": "testBigPointer",
+    "inputs": [],
+    "outputs": [],
+    "stateMutability": "nonpayable"
+  },
+  {
+    "type": "function",
+    "name": "testContentToInitCode",
     "inputs": [],
     "outputs": [],
     "stateMutability": "nonpayable"
@@ -569,5 +590,21 @@
       }
     ],
     "anonymous": false
+  },
+  {
+    "type": "error",
+    "name": "UnexpectedPointer",
+    "inputs": [
+      {
+        "name": "expectedPointer",
+        "type": "address",
+        "internalType": "address"
+      },
+      {
+        "name": "actualPointer",
+        "type": "address",
+        "internalType": "address"
+      }
+    ]
   }
 ]
