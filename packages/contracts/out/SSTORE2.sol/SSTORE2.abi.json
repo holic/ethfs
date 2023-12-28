@@ -1,17 +1,17 @@
 [
   {
-    "inputs": [],
+    "type": "error",
     "name": "DeploymentFailed",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "InvalidPointer",
-    "type": "error"
+    "inputs": []
   },
   {
-    "inputs": [],
+    "type": "error",
     "name": "ReadOutOfBounds",
-    "type": "error"
+    "inputs": []
   }
 ]

@@ -1,0 +1,110 @@
+[
+  {
+    "file": "src/common.t.sol",
+    "test": "testAddContent",
+    "name": "compute pointer",
+    "gasUsed": 4987
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testAddContent",
+    "name": "add content",
+    "gasUsed": 5158527
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testAddContent",
+    "name": "add existing content",
+    "gasUsed": 5186
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testBigPointer",
+    "name": "check big pointer",
+    "gasUsed": 318
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testInvalidPointer",
+    "name": "check invalid pointer",
+    "gasUsed": 317
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testNonexistentPointer",
+    "name": "check non-existent pointer",
+    "gasUsed": 174
+  },
+  {
+    "file": "src/common.t.sol",
+    "test": "testValidPointer",
+    "name": "check valid pointer",
+    "gasUsed": 318
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testBigFile",
+    "name": "add 24kb content",
+    "gasUsed": 5166106
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testBigFile",
+    "name": "create big file",
+    "gasUsed": 183323
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testBigFile",
+    "name": "read big file",
+    "gasUsed": 66531
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testCreateFile",
+    "name": "create 24kb file",
+    "gasUsed": 5389539
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testCreateFile",
+    "name": "create 24kb file with two chunks, reusing one",
+    "gasUsed": 370214
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testCreateFileFromChunks",
+    "name": "create file from chunks",
+    "gasUsed": 281616
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testCreateFileFromPointers",
+    "name": "create 24kb file",
+    "gasUsed": 116403
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testCreateFileFromSlices",
+    "name": "create 24kb file",
+    "gasUsed": 116238
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testSlices",
+    "name": "create file",
+    "gasUsed": 160741
+  },
+  {
+    "file": "src/FileStore.t.sol",
+    "test": "testSlices",
+    "name": "read file",
+    "gasUsed": 8712
+  },
+  {
+    "file": "test/MockProject.t.sol",
+    "test": "testTokenURI",
+    "name": "token URI",
+    "gasUsed": 950433
+  }
+]

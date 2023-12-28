@@ -1,0 +1,4 @@
+forge-std/=lib/forge-std/src/
+openzeppelin/=lib/openzeppelin-contracts/contracts/
+solady/=lib/solady/src/
+@latticexyz/gas-report/=node_modules/@latticexyz/gas-report/src/

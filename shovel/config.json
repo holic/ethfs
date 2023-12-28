@@ -1,0 +1,77 @@
+{
+  "pg_url": "$DATABASE_URL",
+  "eth_sources": [
+    {
+      "name": "goerli",
+      "chain_id": 5,
+      "url": "$RPC_HTTP_URL_5",
+      "batch_size": 10,
+      "concurrency": 2
+    }
+  ],
+  "integrations": [
+    {
+      "name": "FileStore-FileCreated",
+      "enabled": true,
+      "sources": [{ "name": "goerli", "start": 10269289 }],
+      "table": {
+        "name": "files_created",
+        "columns": [
+          { "name": "chain_id", "type": "int" },
+          { "name": "log_addr", "type": "bytea" },
+          { "name": "block_time", "type": "int" },
+          { "name": "filename", "type": "text" },
+          { "name": "pointer", "type": "bytea" },
+          { "name": "size", "type": "numeric" },
+          { "name": "metadata", "type": "text" }
+        ]
+      },
+      "block": [
+        { "name": "chain_id", "column": "chain_id" },
+        {
+          "name": "log_addr",
+          "column": "log_addr",
+          "filter_op": "contains",
+          "filter_arg": ["0x6d78D0c4bC861EFad37071d00f4492C78b065706"]
+        },
+        { "name": "block_time", "column": "block_time" }
+      ],
+      "event": {
+        "name": "FileCreated",
+        "type": "event",
+        "anonymous": false,
+        "inputs": [
+          {
+            "name": "indexedFilename",
+            "type": "string",
+            "indexed": true
+          },
+          {
+            "name": "pointer",
+            "type": "address",
+            "indexed": true,
+            "column": "pointer"
+          },
+          {
+            "name": "filename",
+            "type": "string",
+            "indexed": false,
+            "column": "filename"
+          },
+          {
+            "name": "size",
+            "type": "uint256",
+            "indexed": false,
+            "column": "size"
+          },
+          {
+            "name": "metadata",
+            "type": "bytes",
+            "indexed": false,
+            "column": "metadata"
+          }
+        ]
+      }
+    }
+  ]
+}

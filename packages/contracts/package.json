@@ -2,35 +2,25 @@
   "name": "@ethfs/contracts",
   "private": true,
   "engines": {
-    "node": "16",
-    "pnpm": "7"
+    "node": "18",
+    "pnpm": "8"
   },
   "scripts": {
     "prettier": "pnpm lint:fix && prettier --write \"src/**/*.sol\" --plugin=prettier-plugin-solidity",
     "lint": "solhint --config ../../.solhint.json \"src/**/*.sol\"",
     "lint:fix": "pnpm lint --fix",
-    "build": "pnpm abi:clean && pnpm abi:compile && pnpm abi:types",
-    "abi:clean": "rm -rf abi types",
-    "abi:compile": "forge build --out packages/contracts/abi --force --skip test script",
-    "abi:types": "typechain --target ethers-v5 \"abi/**/*.sol/!(*.abi).json\" --out-dir types && tsc",
-    "test": "forge test --no-match-contract Forked",
-    "test:fork": "source .env && forge test --fork-url $RPC_URL --match-contract Forked",
-    "deploy:goerli": "dotenv -e .env.goerli -e .env ts-node deploy.ts",
-    "deploy:mainnet": "dotenv -e .env.mainnet -e .env ts-node deploy.ts"
+    "build": "forge build --force && abi-ts",
+    "test": "forge test",
+    "test-gas": "GAS_REPORTER_ENABLED=true forge test -vv | pnpm gas-report --stdin --save gas-report.json"
+  },
+  "dependencies": {
+    "@safe-global/safe-singleton-factory": "^1.0.16"
   },
   "devDependencies": {
-    "@ethersproject/abi": "^5.0.0",
-    "@ethersproject/bytes": "^5.0.0",
-    "@ethersproject/providers": "^5.0.0",
-    "@typechain/ethers-v5": "^10.0.0",
-    "@types/node": "17.0.0",
-    "dotenv-cli": "^6.0.0",
-    "ethers": "^5.5.2",
-    "prettier-plugin-solidity": "^1.0.0-beta.19",
-    "solhint": "^3.3.7",
-    "solhint-plugin-prettier": "^0.0.5",
-    "ts-node": "^10.9.1",
-    "typechain": "^8.0.0",
-    "typescript": "^4.5.5"
+    "@latticexyz/abi-ts": "2.0.0-next.14",
+    "@latticexyz/gas-report": "2.0.0-next.14",
+    "prettier-plugin-solidity": "^1.2.0",
+    "solhint": "^4.0.0",
+    "solhint-plugin-prettier": "^0.1.0"
   }
 }

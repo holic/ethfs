@@ -1,9 +1,10 @@
+.env
 .env.*
 
-# forge output
+# ignore forge output
 cache
-out
 broadcast
-
-abi/**/*.json
-!abi/**/*.abi.json
+out/**/*.json
+# except ABIs and their types
+!out/**/*.abi.json
+!out/**/*.abi.json.d.ts
