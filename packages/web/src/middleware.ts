@@ -5,8 +5,6 @@ import { includes } from "./includes";
 const hostnameToChainId = {
   "ethfs.xyz": 1,
   "goerli.ethfs.xyz": 5,
-  localhost: 5,
-  "ethfs.vercel.app": 5,
 };
 
 const hostnames = Object.keys(
@@ -18,11 +16,10 @@ function isPathChainSpecific(pathname: string) {
 }
 
 export function middleware(req: NextRequest) {
-  if (
-    includes(hostnames, req.nextUrl.hostname) &&
-    isPathChainSpecific(req.nextUrl.pathname)
-  ) {
-    const chainId = hostnameToChainId[req.nextUrl.hostname];
+  if (isPathChainSpecific(req.nextUrl.pathname)) {
+    const chainId = includes(hostnames, req.nextUrl.hostname)
+      ? hostnameToChainId[req.nextUrl.hostname]
+      : 5;
     const url = req.nextUrl.clone();
     url.pathname = `/${chainId}${url.pathname}`;
     return NextResponse.rewrite(url);
