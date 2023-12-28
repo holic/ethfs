@@ -6,6 +6,7 @@ const hostnameToChainId = {
   "ethfs.xyz": 1,
   "goerli.ethfs.xyz": 5,
   localhost: 5,
+  "ethfs.vercel.app": 5,
 };
 
 const hostnames = Object.keys(
