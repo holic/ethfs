@@ -21,7 +21,9 @@ contract FileStoreTest is Test, GasReporter {
     function testConstructor() public {
         vm.expectEmit(true, true, true, true);
         emit IFileStore.Deployed();
+        startGasReport("deploy");
         new FileStore(SAFE_SINGLETON_FACTORY);
+        endGasReport();
     }
 
     function testCreateFile() public {

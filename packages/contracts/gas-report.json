@@ -61,6 +61,12 @@
   },
   {
     "file": "src/FileStore.t.sol",
+    "test": "testConstructor",
+    "name": "deploy",
+    "gasUsed": 1466759
+  },
+  {
+    "file": "src/FileStore.t.sol",
     "test": "testCreateFile",
     "name": "create 24kb file",
     "gasUsed": 5389539
