@@ -1,15 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { goerli } from "viem/chains";
 
-import { includes } from "./includes";
-
-const hostnameToChainId = {
-  "ethfs.xyz": 1,
-  "goerli.ethfs.xyz": 5,
-};
-
-const hostnames = Object.keys(
-  hostnameToChainId,
-) as (keyof typeof hostnameToChainId)[];
+import { supportedChains } from "./supportedChains";
 
 function isPathChainSpecific(pathname: string) {
   return pathname === "/" || /^\/api\//.test(pathname);
@@ -17,9 +9,11 @@ function isPathChainSpecific(pathname: string) {
 
 export function middleware(req: NextRequest) {
   if (isPathChainSpecific(req.nextUrl.pathname)) {
-    const chainId = includes(hostnames, req.nextUrl.hostname)
-      ? hostnameToChainId[req.nextUrl.hostname]
-      : 5;
+    const supportedChain = supportedChains.find(
+      (c) => c.hostname === req.nextUrl.hostname,
+    );
+    // Default to Goerli if we don't find the hostname in our supported chains
+    const chainId = supportedChain?.chain.id ?? goerli.id;
     const url = req.nextUrl.clone();
     url.pathname = `/${chainId}${url.pathname}`;
     return NextResponse.rewrite(url);

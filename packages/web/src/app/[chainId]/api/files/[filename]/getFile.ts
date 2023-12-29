@@ -2,7 +2,7 @@
 
 import { OnchainFile } from "../../../../../common";
 import { sql } from "../../../../../database";
-import { rpcs } from "../../../../../rpcs";
+import { supportedChains } from "../../../../../supportedChains";
 import { getFileContents } from "./contents/getFileContents";
 
 function parseJson(json: string) {
@@ -17,8 +17,8 @@ export async function getFile(
   chainId: number,
   filename: string,
 ): Promise<(OnchainFile & { contents: string }) | null> {
-  const rpc = rpcs[chainId];
-  if (!rpc) {
+  const supportedChain = supportedChains.find((c) => c.chain.id === chainId);
+  if (!supportedChain) {
     throw new Error("Unsupported chain");
   }
 

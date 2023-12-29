@@ -14,7 +14,9 @@ export function ChainProvider({
   chainId: number;
   children: ReactNode;
 }) {
-  const chain = supportedChains.find((c) => c.id === chainId);
+  const chain = supportedChains
+    .map((c) => c.chain)
+    .find((c) => c.id === chainId);
   // TODO: improve this
   if (!chain) throw new Error("Unsupported chain");
 

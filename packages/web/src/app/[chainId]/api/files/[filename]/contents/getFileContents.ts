@@ -5,19 +5,19 @@ import deploys from "@ethfs/deploy/deploys.json";
 import { createPublicClient, http } from "viem";
 import { readContract } from "viem/actions";
 
-import { rpcs } from "../../../../../../rpcs";
+import { supportedChains } from "../../../../../../supportedChains";
 
 export async function getFileContents(
   chainId: number,
   filename: string,
 ): Promise<string> {
-  const rpc = rpcs[chainId];
-  if (!rpc) {
+  const supportedChain = supportedChains.find((c) => c.chain.id === chainId);
+  if (!supportedChain) {
     throw new Error("Unsupported chain");
   }
 
   const publicClient = createPublicClient({
-    transport: http(rpc),
+    transport: http(supportedChain.rpcUrl),
   });
 
   // TODO: handle reverts (e.g. FileNotFound)

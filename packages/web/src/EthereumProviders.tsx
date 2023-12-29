@@ -12,17 +12,26 @@ import { configureChains, createConfig, WagmiConfig } from "wagmi";
 import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
 import { publicProvider } from "wagmi/providers/public";
 
-import { rpcs } from "./rpcs";
 import { supportedChains } from "./supportedChains";
 
-const { chains, publicClient } = configureChains(supportedChains, [
-  jsonRpcProvider({
-    rpc: (chain) => ({
-      http: rpcs[chain.id],
+const { chains, publicClient } = configureChains(
+  supportedChains.map((c) => c.chain),
+  [
+    jsonRpcProvider({
+      rpc: (chain) => {
+        // TODO: simplify, this feels wrong/ugly (maybe better in v2?)
+        const supportedChain = supportedChains.find(
+          (c) => c.chain.id === chain.id,
+        );
+        if (!supportedChain) return null;
+        return {
+          http: supportedChain.rpcUrl,
+        };
+      },
     }),
-  }),
-  publicProvider(),
-]);
+    publicProvider(),
+  ],
+);
 
 const { connectors } = getDefaultWallets({
   appName: "EthFS",
