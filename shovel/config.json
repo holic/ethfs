@@ -23,13 +23,6 @@
       "concurrency": 2
     },
     {
-      "name": "holesky",
-      "chain_id": 17000,
-      "url": "$RPC_HTTP_URL_17000",
-      "batch_size": 10,
-      "concurrency": 2
-    },
-    {
       "name": "base",
       "chain_id": 8453,
       "url": "$RPC_HTTP_URL_8453",
