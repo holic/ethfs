@@ -1,10 +1,6 @@
 import {
-  arbitrum,
-  arbitrumGoerli,
-  arbitrumSepolia,
   base,
   baseGoerli,
-  baseSepolia,
   Chain,
   goerli,
   holesky,
@@ -12,12 +8,8 @@ import {
   optimism,
   optimismGoerli,
   optimismSepolia,
-  polygon,
-  polygonMumbai,
-  polygonZkEvm,
-  polygonZkEvmTestnet,
   sepolia,
-} from "wagmi/chains";
+} from "viem/chains";
 
 // TODO: combine with deploys
 
