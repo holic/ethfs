@@ -29,58 +29,58 @@ type SupportedChain = {
 
 export const supportedChains = [
   /* Ethereum */
-  // {
-  //   hostname: "ethfs.xyz",
-  //   chain: mainnet,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_1!,
-  // },
+  {
+    hostname: "ethfs.xyz",
+    chain: mainnet,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_1!,
+  },
   {
     hostname: "goerli.ethfs.xyz",
     chain: goerli,
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_5!,
   },
-  // {
-  //   hostname: "sepolia.ethfs.xyz",
-  //   chain: sepolia,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155111!,
-  // },
-  // {
-  //   hostname: "holesky.ethfs.xyz",
-  //   chain: holesky,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_17000!,
-  // },
+  {
+    hostname: "sepolia.ethfs.xyz",
+    chain: sepolia,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155111!,
+  },
+  {
+    hostname: "holesky.ethfs.xyz",
+    chain: holesky,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_17000!,
+  },
   /* Base */
-  // {
-  //   hostname: "base.ethfs.xyz",
-  //   chain: base,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_8453!,
-  // },
-  // {
-  //   hostname: "base-goerli.ethfs.xyz",
-  //   chain: baseGoerli,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84531!,
-  // },
+  {
+    hostname: "base.ethfs.xyz",
+    chain: base,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_8453!,
+  },
+  {
+    hostname: "base-goerli.ethfs.xyz",
+    chain: baseGoerli,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84531!,
+  },
   // {
   //   hostname: "base-sepolia.ethfs.xyz",
   //   chain: baseSepolia,
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84532!,
   // },
   /* Optimism */
-  // {
-  //   hostname: "optimism.ethfs.xyz",
-  //   chain: optimism,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_10!,
-  // },
-  // {
-  //   hostname: "optimism-goerli.ethfs.xyz",
-  //   chain: optimismGoerli,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_420!,
-  // },
-  // {
-  //   hostname: "optimism-sepolia.ethfs.xyz",
-  //   chain: optimismSepolia,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155420!,
-  // },
+  {
+    hostname: "optimism.ethfs.xyz",
+    chain: optimism,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_10!,
+  },
+  {
+    hostname: "optimism-goerli.ethfs.xyz",
+    chain: optimismGoerli,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_420!,
+  },
+  {
+    hostname: "optimism-sepolia.ethfs.xyz",
+    chain: optimismSepolia,
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155420!,
+  },
   /* Arbitrum */
   // {
   //   hostname: "arbitrum.ethfs.xyz",

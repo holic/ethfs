@@ -1,11 +1,71 @@
 {
+  "1": {
+    "chainId": 1,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "18898263"
+      }
+    }
+  },
   "5": {
     "chainId": 5,
     "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
     "contracts": {
       "FileStore": {
-        "address": "0x6d78D0c4bC861EFad37071d00f4492C78b065706",
-        "blockNumber": "10269289"
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "10294380"
+      }
+    }
+  },
+  "10": {
+    "chainId": 10,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "114171031"
+      }
+    }
+  },
+  "420": {
+    "chainId": 420,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "19256388"
+      }
+    }
+  },
+  "8453": {
+    "chainId": 8453,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "8575423"
+      }
+    }
+  },
+  "17000": {
+    "chainId": 17000,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "634049"
+      }
+    }
+  },
+  "84531": {
+    "chainId": 84531,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "14373294"
       }
     }
   },
@@ -14,8 +74,18 @@
     "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
     "contracts": {
       "FileStore": {
-        "address": "0x6d78D0c4bC861EFad37071d00f4492C78b065706",
-        "blockNumber": "4955756"
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "4986686"
+      }
+    }
+  },
+  "11155420": {
+    "chainId": 11155420,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "6069158"
       }
     }
   }
