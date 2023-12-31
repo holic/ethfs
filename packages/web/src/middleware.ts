@@ -9,21 +9,11 @@ function isPathChainSpecific(pathname: string) {
 
 export function middleware(req: NextRequest) {
   if (isPathChainSpecific(req.nextUrl.pathname)) {
-    const supportedChain = supportedChains.find(
-      (c) => c.hostname === req.nextUrl.hostname,
-    );
-    let chainId = supportedChain?.chain.id;
+    // Next.js docs recommend `req.nextUrl.hostname` but this is `localhost` in Render
+    const hostname = req.headers.get("host");
+    const supportedChain = supportedChains.find((c) => c.hostname === hostname);
     // Default to Goerli if we don't find the hostname in our supported chains
-    if (!chainId) {
-      console.log(
-        "middleware: no chain found for hostname",
-        req.nextUrl.hostname,
-        req.nextUrl,
-        req.url,
-        req.headers.get("host"),
-      );
-      chainId = goerli.id;
-    }
+    const chainId = supportedChain?.chain.id ?? goerli.id;
     const url = req.nextUrl.clone();
     url.pathname = `/${chainId}${url.pathname}`;
     return NextResponse.rewrite(url);
