@@ -12,8 +12,15 @@ export function middleware(req: NextRequest) {
     const supportedChain = supportedChains.find(
       (c) => c.hostname === req.nextUrl.hostname,
     );
+    let chainId = supportedChain?.chain.id;
     // Default to Goerli if we don't find the hostname in our supported chains
-    const chainId = supportedChain?.chain.id ?? goerli.id;
+    if (!chainId) {
+      console.log(
+        "middleware: no chain found for hostname",
+        req.nextUrl.hostname,
+      );
+      chainId = goerli.id;
+    }
     const url = req.nextUrl.clone();
     url.pathname = `/${chainId}${url.pathname}`;
     return NextResponse.rewrite(url);
