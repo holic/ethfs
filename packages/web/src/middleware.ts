@@ -18,6 +18,9 @@ export function middleware(req: NextRequest) {
       console.log(
         "middleware: no chain found for hostname",
         req.nextUrl.hostname,
+        req.nextUrl,
+        req.url,
+        req.headers.get("host"),
       );
       chainId = goerli.id;
     }
