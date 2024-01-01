@@ -3,23 +3,15 @@
 import { createContext, ReactNode, useContext } from "react";
 import { Chain } from "viem";
 
-import { supportedChains } from "./supportedChains";
-
 const ChainContext = createContext<Chain | null>(null);
 
 export function ChainProvider({
-  chainId,
+  chain,
   children,
 }: {
-  chainId: number;
+  chain: Chain;
   children: ReactNode;
 }) {
-  const chain = supportedChains
-    .map((c) => c.chain)
-    .find((c) => c.id === chainId);
-  // TODO: improve this
-  if (!chain) throw new Error("Unsupported chain");
-
   return (
     <ChainContext.Provider value={chain}>{children}</ChainContext.Provider>
   );

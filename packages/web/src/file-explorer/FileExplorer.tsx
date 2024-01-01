@@ -36,12 +36,12 @@ export function FileExplorer() {
       () =>
         isMounted
           ? fetch(
-              `/api/files?${new URLSearchParams({
+              `/api/${chain.id}/files?${new URLSearchParams({
                 filename: searchQuery,
               })}`,
             ).then((res) => res.json() as Promise<OnchainFile[]>)
           : null,
-      [isMounted, searchQuery],
+      [chain.id, isMounted, searchQuery],
     ),
   );
 

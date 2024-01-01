@@ -4,9 +4,9 @@ export async function GET(
   req: Request,
   { params }: { params: { chainId: string; filename: string } },
 ) {
-  const chainId = params.chainId;
+  const chainId = parseInt(params.chainId) || 0;
 
-  const data = await getFile(parseInt(chainId ?? "0"), params.filename);
+  const data = await getFile(chainId, params.filename);
 
   // TODO: handle reverts (e.g. FileNotFound)
   // TODO: add cache headers

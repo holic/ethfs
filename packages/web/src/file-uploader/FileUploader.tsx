@@ -288,7 +288,10 @@ export function FileUploader() {
                 }
                 onClick={
                   shouldSwitchChain && switchNetwork
-                    ? () => void switchNetwork(chain.id)
+                    ? (event) => {
+                        event.preventDefault();
+                        switchNetwork(chain.id);
+                      }
                     : undefined
                 }
               >

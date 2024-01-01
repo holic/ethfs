@@ -4,10 +4,7 @@ export async function GET(
   req: Request,
   { params }: { params: { chainId: string; filename: string } },
 ) {
-  const chainId = parseInt(params.chainId);
-  if (!chainId) {
-    throw new Error("Invalid chain ID");
-  }
+  const chainId = parseInt(params.chainId) || 0;
 
   const contents = await getFileContents(chainId, params.filename);
 

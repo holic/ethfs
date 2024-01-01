@@ -16,7 +16,7 @@ type Props = {
 
 function FileViewerThumbnail({ file }: { file: OnchainFile }) {
   const { data: fetchResult } = useQuery(["file", file.filename], async () => {
-    return fetch(`/api/files/${file.filename}/contents`).then(
+    return fetch(`/api/${file.chainId}/files/${file.filename}/contents`).then(
       (res) => res.json() as Promise<{ contents: string }>,
     );
   });

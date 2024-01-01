@@ -4,11 +4,11 @@ export async function GET(
   req: Request,
   { params }: { params: { chainId: string } },
 ) {
-  const chainId = params.chainId;
+  const chainId = parseInt(params.chainId) || 0;
   const { searchParams } = new URL(req.url);
   const filename = searchParams.get("filename");
 
-  const data = await getFiles(parseInt(chainId ?? "0"), filename ?? undefined);
+  const data = await getFiles(chainId, filename ?? undefined);
 
   return Response.json(data);
 }
