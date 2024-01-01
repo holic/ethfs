@@ -1,5 +1,5 @@
 ---
-name: app
+name: web
 on:
   push:
     branches:
@@ -10,7 +10,7 @@ env:
 
 defaults:
   run:
-    working-directory: ./packages/app
+    working-directory: ./packages/web
 
 jobs:
   build:
@@ -34,7 +34,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.2
         with:
-          version: 7
+          version: 8
       - name: Setup node
         uses: actions/setup-node@v3
         with:
@@ -64,7 +64,7 @@ jobs:
       - name: Setup pnpm
         uses: pnpm/action-setup@v2.2.2
         with:
-          version: 7
+          version: 8
       - name: Setup node
         uses: actions/setup-node@v3
         with:
