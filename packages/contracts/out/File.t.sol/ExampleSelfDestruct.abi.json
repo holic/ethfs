@@ -1,9 +1,0 @@
-[
-  {
-    "type": "function",
-    "name": "explode",
-    "inputs": [],
-    "outputs": [],
-    "stateMutability": "nonpayable"
-  }
-]
