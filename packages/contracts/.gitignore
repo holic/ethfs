@@ -8,3 +8,8 @@ out/**/*.json
 # except ABIs and their types
 !out/**/*.abi.json
 !out/**/*.abi.json.d.ts
+# ignore case conflicts with Test.sol/test.sol
+out/test.sol/*.abi.json
+out/test.sol/*.abi.json.d.ts
+out/Test.sol/*.abi.json
+out/Test.sol/*.abi.json.d.ts
