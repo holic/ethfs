@@ -44,6 +44,13 @@
       "concurrency": 2
     },
     {
+      "name": "base-sepolia",
+      "chain_id": 84531,
+      "url": "$RPC_HTTP_URL_84532",
+      "batch_size": 10,
+      "concurrency": 2
+    },
+    {
       "name": "optimism",
       "chain_id": 10,
       "url": "$RPC_HTTP_URL_10",
@@ -76,6 +83,7 @@
         { "name": "holesky", "start": 634049 },
         { "name": "base", "start": 8575423 },
         { "name": "base-goerli", "start": 14373294 },
+        { "name": "base-sepolia", "start": 4384018 },
         { "name": "optimism", "start": 114171031 },
         { "name": "optimism-goerli", "start": 19256388 },
         { "name": "optimism-sepolia", "start": 6069158 }

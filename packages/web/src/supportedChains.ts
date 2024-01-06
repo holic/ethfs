@@ -1,6 +1,7 @@
 import {
   base,
   baseGoerli,
+  baseSepolia,
   Chain,
   goerli,
   holesky,
@@ -52,10 +53,11 @@ export const supportedChains = [
     slug: "base-goerli",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84531!,
   },
-  // {
-  //   chain: baseSepolia,
-  //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84532!,
-  // },
+  {
+    chain: baseSepolia,
+    slug: "base-sepolia",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84532!,
+  },
   /* Optimism */
   {
     chain: optimism,

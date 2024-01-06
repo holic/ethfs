@@ -43,7 +43,7 @@ const chains = [
   // holesky, // TODO: fix verification
   // base,
   // baseGoerli,
-  // baseSepolia, // TODO: https://github.com/safe-global/safe-singleton-factory/issues/312
+  // baseSepolia,
   // optimism,
   // optimismGoerli,
   // optimismSepolia,

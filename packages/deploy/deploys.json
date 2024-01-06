@@ -69,6 +69,16 @@
       }
     }
   },
+  "84532": {
+    "chainId": 84532,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "4384018"
+      }
+    }
+  },
   "11155111": {
     "chainId": 11155111,
     "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
