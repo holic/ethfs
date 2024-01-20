@@ -42,16 +42,23 @@ export async function getFiles(
   );
 
   return rows.map((row) => {
-    const metadata = parseJson(row.metadata);
+    const metadata = parseJson(row.metadata) ?? {};
+
+    // Fix gunzipScripts metadata on Sepolia:
+    if (row.chainId === 11155111 && row.filename === "gunzipScripts-0.0.1.js") {
+      metadata.type = "text/javascript";
+      metadata.encoding = "base64";
+    }
+
     return {
       chainId: row.chainId,
       filename: row.filename,
       createdAt: row.createdAt,
       size: parseInt(row.size), // a bigint but realistically never going to be >2gb
-      type: metadata?.type ?? null,
-      encoding: metadata?.encoding ?? null,
-      compression: metadata?.compression ?? null,
-      license: metadata?.license ?? null,
+      type: metadata.type ?? null,
+      encoding: metadata.encoding ?? null,
+      compression: metadata.compression ?? null,
+      license: metadata.license ?? null,
     };
   });
 }
