@@ -45,7 +45,7 @@
     },
     {
       "name": "base-sepolia",
-      "chain_id": 84531,
+      "chain_id": 84532,
       "url": "$RPC_HTTP_URL_84532",
       "batch_size": 10,
       "concurrency": 2
