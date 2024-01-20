@@ -1,10 +1,10 @@
 "use client";
 
-import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { Hex } from "viem";
-import { useNetwork, useSwitchNetwork, useWalletClient } from "wagmi";
 
 import { useChain } from "../../../ChainContext";
+import { WriteButton } from "../../../WriteButton";
+import { Button } from "./Button";
 import { createFile } from "./createFile";
 import { File } from "./getFiles";
 
@@ -14,27 +14,11 @@ type Props = {
 
 export function MigrateButton({ file }: Props) {
   const chain = useChain();
-  const { data: walletClient } = useWalletClient();
-  const { chain: walletChain } = useNetwork();
-  const { isLoading: isSwitchingChain, switchNetwork } = useSwitchNetwork();
-  const { openConnectModal } = useConnectModal();
-
-  const shouldSwitchChain = chain.id !== walletChain?.id;
-
   return (
-    <button
-      onClick={async (event) => {
-        event.preventDefault();
-
-        if (!walletClient) {
-          openConnectModal?.();
-          return;
-        }
-
-        if (shouldSwitchChain && switchNetwork) {
-          switchNetwork(chain.id);
-        }
-
+    <WriteButton
+      chainId={chain.id}
+      onWrite={async () => {
+        console.log("creating file");
         const pointers = (await fetch(
           `/api/${chain.id}/v1/files/${file.name}/pointers`,
         ).then((res) => res.json())) as Hex[];
@@ -42,7 +26,9 @@ export function MigrateButton({ file }: Props) {
         await createFile(chain.id, file, pointers, () => {});
       }}
     >
-      {file.name}
-    </button>
+      {({ "aria-label": ariaLabel, ...buttonProps }) => (
+        <Button label="Migrate" hoverLabel={ariaLabel} {...buttonProps} />
+      )}
+    </WriteButton>
   );
 }

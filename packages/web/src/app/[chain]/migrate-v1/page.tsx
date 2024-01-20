@@ -12,13 +12,12 @@ export default async function FromV1Page({
 
   return (
     <div className="w-screen min-h-screen bg-lime-200 text-lg leading-none relative overflow-hidden">
-      <div>
-        <ConnectButton />
-        <div className="flex flex-col items-start gap-2 p-4">
-          {files.map((file) => (
-            <MigrateButton key={file.name} file={file} />
-          ))}
-        </div>
+      <div className="flex flex-col items-start p-4">
+        {files.map((file) => (
+          <div key={file.name}>
+            {file.name} <MigrateButton file={file} />
+          </div>
+        ))}
       </div>
     </div>
   );
