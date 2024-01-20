@@ -38,7 +38,16 @@ export const supportedChains = [
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155111!,
   },
   {
-    chain: holesky,
+    chain: {
+      ...holesky,
+      // TODO: update viem to include this
+      blockExplorers: {
+        default: {
+          name: "Etherscan",
+          url: "https://holesky.etherscan.io",
+        },
+      },
+    },
     slug: "holesky",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_17000!,
   },
