@@ -20,7 +20,7 @@ export default async function RootLayout({
   }
   return (
     <body className="bg-lime-200 text-lime-800">
-      <ChainProvider chain={chain}>
+      <ChainProvider chainId={chain.id}>
         <EthereumProviders>
           {children}
           <ToastContainer position="bottom-right" draggable={false} />

@@ -1,26 +1,31 @@
 "use client";
 
 import { createContext, ReactNode, useContext } from "react";
-import { Chain } from "viem";
+import { extractChain } from "viem";
 
-const ChainContext = createContext<Chain | null>(null);
+import { SupportedChainIds, supportedChains } from "./supportedChains";
+
+const ChainContext = createContext<SupportedChainIds | null>(null);
 
 export function ChainProvider({
-  chain,
+  chainId,
   children,
 }: {
-  chain: Chain;
+  chainId: SupportedChainIds;
   children: ReactNode;
 }) {
   return (
-    <ChainContext.Provider value={chain}>{children}</ChainContext.Provider>
+    <ChainContext.Provider value={chainId}>{children}</ChainContext.Provider>
   );
 }
 
 export function useChain() {
-  const chain = useContext(ChainContext);
-  if (!chain) {
+  const chainId = useContext(ChainContext);
+  if (!chainId) {
     throw new Error("useChain can only be used inside ChainProvider");
   }
-  return chain;
+  return extractChain({
+    chains: supportedChains.map((c) => c.chain),
+    id: chainId,
+  });
 }

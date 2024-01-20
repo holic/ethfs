@@ -106,3 +106,5 @@ export const supportedChains = [
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_1442!,
   // },
 ] as const satisfies readonly SupportedChain[];
+
+export type SupportedChainIds = (typeof supportedChains)[number]["chain"]["id"];
