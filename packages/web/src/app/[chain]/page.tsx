@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { ChainSelector } from "../../ChainSelector";
 import { FileExplorer } from "../../file-explorer/FileExplorer";
 import { FileUploader } from "../../file-uploader/FileUploader";
 import { DocumentArrowUpIcon } from "../../icons/DocumentArrowUpIcon";
@@ -52,6 +53,9 @@ export default async function HomePage() {
         </div>
       </div>
       <div className="h-full relative flex flex-col">
+        <div className="self-end p-2">
+          <ChainSelector />
+        </div>
         <FileUploader />
         <FileExplorer />
       </div>
