@@ -2,7 +2,6 @@ import {
   base,
   baseGoerli,
   baseSepolia,
-  Chain,
   goerli,
   holesky,
   mainnet,
@@ -12,10 +11,12 @@ import {
   sepolia,
 } from "viem/chains";
 
+import { ChainConstants, toChainConstants } from "./common";
+
 // TODO: combine with deploys
 
 type SupportedChain = {
-  readonly chain: Chain;
+  readonly chain: ChainConstants;
   readonly slug: string;
   readonly rpcUrl: string;
 };
@@ -23,86 +24,86 @@ type SupportedChain = {
 export const supportedChains = [
   /* Ethereum */
   {
-    chain: mainnet,
+    chain: toChainConstants(mainnet),
     slug: "mainnet",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_1!,
   },
   {
-    chain: goerli,
+    chain: toChainConstants(goerli),
     slug: "goerli",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_5!,
   },
   {
-    chain: sepolia,
+    chain: toChainConstants(sepolia),
     slug: "sepolia",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155111!,
   },
   {
-    chain: holesky,
+    chain: toChainConstants(holesky),
     slug: "holesky",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_17000!,
   },
   /* Base */
   {
-    chain: base,
+    chain: toChainConstants(base),
     slug: "base",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_8453!,
   },
   {
-    chain: baseGoerli,
+    chain: toChainConstants(baseGoerli),
     slug: "base-goerli",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84531!,
   },
   {
-    chain: baseSepolia,
+    chain: toChainConstants(baseSepolia),
     slug: "base-sepolia",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84532!,
   },
   /* Optimism */
   {
-    chain: optimism,
+    chain: toChainConstants(optimism),
     slug: "optimism",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_10!,
   },
   {
-    chain: optimismGoerli,
+    chain: toChainConstants(optimismGoerli),
     slug: "optimism-goerli",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_420!,
   },
   {
-    chain: optimismSepolia,
+    chain: toChainConstants(optimismSepolia),
     slug: "optimism-sepolia",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155420!,
   },
   /* Arbitrum */
   // {
-  //   chain: arbitrum,
+  //   chain: toChainConstants(arbitrum),
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_42161!,
   // },
   // {
-  //   chain: arbitrumGoerli,
+  //   chain: toChainConstants(arbitrumGoerli),
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_421613!,
   // },
   // {
-  //   chain: arbitrumSepolia,
+  //   chain: toChainConstants(arbitrumSepolia),
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_421614!,
   // },
   /* TODO: Arbitrum Nova? */
   /* Polygon */
   // {
-  //   chain: polygon,
+  //   chain: toChainConstants(polygon),
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_137!,
   // },
   // {
-  //   chain: polygonMumbai,
+  //   chain: toChainConstants(polygonMumbai),
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_80001!,
   // },
   // {
-  //   chain: polygonZkEvm,
+  //   chain: toChainConstants(polygonZkEvm),
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_1101!,
   // },
   // {
-  //   chain: polygonZkEvmTestnet,
+  //   chain: toChainConstants(polygonZkEvmTestnet),
   //   rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_1442!,
   // },
 ] as const satisfies readonly SupportedChain[];

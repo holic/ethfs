@@ -1,15 +1,16 @@
 "use client";
 
 import { createContext, ReactNode, useContext } from "react";
-import { Chain } from "viem";
 
-const ChainContext = createContext<Chain | null>(null);
+import { ChainConstants } from "./common";
+
+const ChainContext = createContext<ChainConstants | null>(null);
 
 export function ChainProvider({
   chain,
   children,
 }: {
-  chain: Chain;
+  chain: ChainConstants;
   children: ReactNode;
 }) {
   return (
