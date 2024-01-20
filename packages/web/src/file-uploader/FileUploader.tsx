@@ -279,6 +279,7 @@ export function FileUploader() {
                   </span>
                 </label>
               </div>
+              {/* TODO: replace with WriteButton or similar */}
               <Button
                 type="submit"
                 pending={isSwitchingChain}

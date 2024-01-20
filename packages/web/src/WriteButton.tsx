@@ -7,6 +7,8 @@ import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import { useIsMounted } from "./useIsMounted";
 import { usePromise } from "./usePromise";
 
+// TODO: adapt to fit submit buttons
+
 // TODO: remove aria-label, aria-busy, aria-disabled?
 // TODO: normalize disabled/aria-disabled?
 export type ButtonProps = Omit<ComponentProps<"button">, "children">;
