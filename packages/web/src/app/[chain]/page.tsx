@@ -24,7 +24,7 @@ export default async function HomePage() {
       </div>
       <div className="absolute inset-0 flex flex-col items-end justify-end pointer-events-none">
         <div className="pointer-events-auto flex flex-col p-8 gap-8">
-          <Link
+          {/* <Link
             href="/bounties"
             className="text-lime-500 hover:text-lime-600 flex flex-col items-center justify-center p-2 gap-1 border-2 border-transparent border-dotted outline-none focus:border-current"
           >
@@ -32,7 +32,7 @@ export default async function HomePage() {
               <DocumentArrowUpIcon />
             </span>
             File Bounties
-          </Link>
+          </Link> */}
           <a
             href="https://twitter.com/frolic"
             target="_blank"
