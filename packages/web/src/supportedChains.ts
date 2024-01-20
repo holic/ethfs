@@ -17,6 +17,7 @@ import {
 type SupportedChain = {
   readonly chain: Chain;
   readonly slug: string;
+  readonly group: string;
   readonly rpcUrl: string;
 };
 
@@ -25,16 +26,19 @@ export const supportedChains = [
   {
     chain: mainnet,
     slug: "mainnet",
+    group: "Ethereum",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_1!,
   },
   {
     chain: goerli,
     slug: "goerli",
+    group: "Ethereum",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_5!,
   },
   {
     chain: sepolia,
     slug: "sepolia",
+    group: "Ethereum",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155111!,
   },
   {
@@ -49,38 +53,45 @@ export const supportedChains = [
       },
     },
     slug: "holesky",
+    group: "Ethereum",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_17000!,
   },
   /* Base */
   {
     chain: base,
     slug: "base",
+    group: "Base",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_8453!,
   },
   {
     chain: baseGoerli,
     slug: "base-goerli",
+    group: "Base",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84531!,
   },
   {
     chain: baseSepolia,
     slug: "base-sepolia",
+    group: "Base",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_84532!,
   },
   /* Optimism */
   {
     chain: optimism,
     slug: "optimism",
+    group: "Optimism",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_10!,
   },
   {
     chain: optimismGoerli,
     slug: "optimism-goerli",
+    group: "Optimism",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_420!,
   },
   {
     chain: optimismSepolia,
     slug: "optimism-sepolia",
+    group: "Optimism",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155420!,
   },
   /* Arbitrum */

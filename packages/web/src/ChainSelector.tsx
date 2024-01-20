@@ -3,7 +3,10 @@
 import { useRouter } from "next/navigation";
 
 import { useChain } from "./ChainContext";
+import { groupBy } from "./groupBy";
 import { supportedChains } from "./supportedChains";
+
+const groupedChains = groupBy(supportedChains, (c) => c.group);
 
 export function ChainSelector() {
   const chain = useChain();
@@ -25,10 +28,14 @@ export function ChainSelector() {
         router.push(`/${targetChain.slug}`);
       }}
     >
-      {supportedChains.map((c) => (
-        <option key={c.chain.id} value={c.chain.id}>
-          {c.chain.name}
-        </option>
+      {Array.from(groupedChains.keys()).map((group) => (
+        <optgroup key={group} label={group}>
+          {groupedChains.get(group)!.map((c) => (
+            <option key={c.chain.id} value={c.chain.id}>
+              {c.chain.name}
+            </option>
+          ))}
+        </optgroup>
       ))}
     </select>
   );
