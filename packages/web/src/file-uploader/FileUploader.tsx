@@ -285,7 +285,7 @@ export function FileUploader() {
                 pending={isSwitchingChain}
                 disabled={
                   (!walletClient && !openConnectModal) ||
-                  (shouldSwitchChain && !switchNetwork)
+                  (walletChain && shouldSwitchChain && !switchNetwork)
                 }
                 onClick={
                   shouldSwitchChain && switchNetwork

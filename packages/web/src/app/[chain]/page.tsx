@@ -1,4 +1,3 @@
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 
 import { FileExplorer } from "../../file-explorer/FileExplorer";
@@ -53,9 +52,6 @@ export default async function HomePage() {
         </div>
       </div>
       <div className="h-full relative flex flex-col">
-        <div className="self-end p-2">
-          <ConnectButton />
-        </div>
         <FileUploader />
         <FileExplorer />
       </div>
