@@ -11,7 +11,7 @@ export function ChainSelector() {
 
   return (
     <select
-      className="border-4 border-lime-300 bg-lime-300 p-1"
+      className="border-[0.5rem] border-lime-300 bg-lime-300"
       value={chain.id}
       onChange={(event) => {
         event.preventDefault();
