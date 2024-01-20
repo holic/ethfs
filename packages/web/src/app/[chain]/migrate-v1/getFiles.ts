@@ -26,6 +26,7 @@ const graphqlEndpoints = [
 
 export type File = {
   name: string;
+  size: number;
   type: string | null;
   encoding: string | null;
   compression: string | null;
@@ -46,6 +47,7 @@ export async function getFiles(chainSlug: string) {
         query {
           files(orderBy: createdAt, orderDirection: desc, first: 1000) {
             name
+            size
             type
             encoding
             compression

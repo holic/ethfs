@@ -19,11 +19,13 @@ export default async function RootLayout({
     redirect("/");
   }
   return (
-    <ChainProvider chain={chain}>
-      <EthereumProviders>
-        {children}
-        <ToastContainer position="bottom-right" draggable={false} />
-      </EthereumProviders>
-    </ChainProvider>
+    <body className="bg-lime-200 text-lime-800">
+      <ChainProvider chain={chain}>
+        <EthereumProviders>
+          {children}
+          <ToastContainer position="bottom-right" draggable={false} />
+        </EthereumProviders>
+      </ChainProvider>
+    </body>
   );
 }
