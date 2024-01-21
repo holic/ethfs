@@ -16,11 +16,9 @@ services:
     name: ethfs-shovel
     region: ohio
     runtime: docker
-    dockerfilePath: ./shovel/Dockerfile
-    dockerContext: ./shovel
-    buildFilter:
-      paths:
-        - shovel/**
+    rootDir: shovel
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./
     envVars:
       - key: DATABASE_URL
         fromDatabase:
