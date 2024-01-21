@@ -1,6 +1,7 @@
 "use client";
 
 import { DateTime } from "luxon";
+import Link from "next/link";
 import React, { useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -100,40 +101,64 @@ export function FileExplorer() {
           )}
         >
           {files.status === "fulfilled" ? (
-            files.value.map((file) => (
-              <FileListRow
-                key={file.filename}
-                className={twMerge(
-                  "text-stone-500 hover:bg-lime-200 cursor-pointer select-none",
-                  file.filename === currentFile?.filename
-                    ? "bg-stone-100"
-                    : null,
-                )}
-                onDoubleClick={() => {
-                  setCurrentFile(file);
-                  focusWindow("FileViewer");
-                }}
-              >
-                <FileName className="flex gap-2">
-                  <span className="text-stone-400">
-                    <DocumentIcon strokeWidth={2.5} />
-                  </span>
-                  <span className="text-black">{file.filename}</span>
-                </FileName>
-                <FileType>{file.type}</FileType>
-                <FileSize className="tabular-nums">
-                  {(file.size / 1024).toFixed(0)} KB
-                </FileSize>
-                <FileCreated
-                  className="tabular-nums"
-                  title={DateTime.fromSeconds(file.createdAt).toISO()}
+            <>
+              {files.value.map((file) => (
+                <FileListRow
+                  key={file.filename}
+                  className={twMerge(
+                    "text-stone-500 hover:bg-lime-200 cursor-pointer select-none",
+                    file.filename === currentFile?.filename
+                      ? "bg-stone-100"
+                      : null,
+                  )}
+                  onDoubleClick={() => {
+                    setCurrentFile(file);
+                    focusWindow("FileViewer");
+                  }}
                 >
-                  {DateTime.fromSeconds(file.createdAt).toRelativeCalendar({
-                    unit: "days",
-                  })}
-                </FileCreated>
-              </FileListRow>
-            ))
+                  <FileName className="flex gap-2">
+                    <span className="text-stone-400">
+                      <DocumentIcon strokeWidth={2.5} />
+                    </span>
+                    <span className="text-black">{file.filename}</span>
+                  </FileName>
+                  <FileType>{file.type}</FileType>
+                  <FileSize className="tabular-nums">
+                    {(file.size / 1024).toFixed(0)} KB
+                  </FileSize>
+                  <FileCreated
+                    className="tabular-nums"
+                    title={DateTime.fromSeconds(file.createdAt).toISO()}
+                  >
+                    {DateTime.fromSeconds(file.createdAt).toRelativeCalendar({
+                      unit: "days",
+                    })}
+                  </FileCreated>
+                </FileListRow>
+              ))}
+              {chain.id === 1 || chain.id === 5 ? (
+                <div className="m-3 mt-6 bg-stone-100 p-3 text-sm text-stone-500 [&_a]:underline [&_a]:underline-offset-2 [&_a]:decoration-stone-300 hover:[&_a]:text-black">
+                  Missing files? EthFS{" "}
+                  <a
+                    href="https://twitter.com/frolic/status/1749058887372636455"
+                    target="_blank"
+                  >
+                    just got an upgrade
+                  </a>
+                  . Files in v1 still exist onchain and{" "}
+                  <Link
+                    href={
+                      chain.id === 5
+                        ? "/goerli/migrate-v1"
+                        : "/mainnet/migrate-v1"
+                    }
+                  >
+                    can be migrated to v2
+                  </Link>
+                  .
+                </div>
+              ) : null}
+            </>
           ) : (
             <>
               <FileListRow className="text-stone-500">
