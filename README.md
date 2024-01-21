@@ -30,18 +30,56 @@ The `FileStore` contract acts as a minimum viable registry, a global namespace o
 
 ### Contract addresses
 
-|                  |                                                                                                                                        |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| **Ethereum**     |                                                                                                                                        |
-| Ethereum Mainnet | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)                  |
-| Ethereum Goerli  | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://goerli.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)           |
-| Ethereum Sepolia | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://sepolia.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)          |
-| Ethereum Holesky | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://holesky.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)          |
-| **Base**         |                                                                                                                                        |
-| Base Mainnet     | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)                  |
-| Base Goerli      | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://goerli.basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)           |
-| Base Sepolia     | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://sepolia.basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)          |
-| **Optimism**     |                                                                                                                                        |
-| Optimism Mainnet | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://optimistic.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)       |
-| Optimism Goerli  | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://goerli-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)  |
-| Optimism Sepolia | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://sepolia-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB) |
+<table>
+  <tbody>
+    <tr>
+      <th colspan="2">Ethereum</th>
+    </tr>
+    <tr>
+      <td>Ethereum Mainnet</td>
+      <td><a href="https://etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Ethereum Goerli</td>
+      <td><a href="https://goerli.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Ethereum Sepolia</td>
+      <td><a href="https://sepolia.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Ethereum Holesky</td>
+      <td><a href="https://holesky.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <th colspan="2">Base</th>
+    </tr>
+    <tr>
+      <td>Base Mainnet</td>
+      <td><a href="https://basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Base Goerli</td>
+      <td><a href="https://goerli.basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Base Sepolia</td>
+      <td><a href="https://sepolia.basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <th colspan="2">Optimism</th>
+    </tr>
+    <tr>
+      <td>Optimism Mainnet</td>
+      <td><a href="https://optimistic.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Optimism Goerli</td>
+      <td><a href="https://goerli-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Optimism Sepolia</td>
+      <td><a href="https://sepolia-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+  </tbody>
+</table>
