@@ -18,6 +18,9 @@ services:
     runtime: docker
     dockerfilePath: ./shovel/Dockerfile
     dockerContext: ./shovel
+    buildFilter:
+      paths:
+        - shovel/**
     envVars:
       - key: DATABASE_URL
         fromDatabase:
