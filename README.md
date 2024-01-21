@@ -10,13 +10,11 @@ EthFS is an effort to consolidate these assets into a public, durable on-chain r
 
 ## How does it work?
 
-EthFS leans on [SSTORE2](https://github.com/0xsequence/sstore2)'s strategy to efficiently read and write data in the form of contract bytecode. The frontend splits files into 24kb chunks (max contract size) and writes them to the `ContentStore`, a content-addressable data storage contract.
+EthFS leans on [SSTORE2](https://github.com/0xsequence/sstore2)'s strategy to efficiently read and write data in the form of contract bytecode. The frontend splits files into 24kb chunks (max contract size) and writes them to deterministic content addresses via [Safe Singleton Factory](https://github.com/safe-global/safe-singleton-factory). This means the content address can be computed ahead of time and is the same across EVM chains.
 
-A `File` struct wraps a set of content checksums that, when concatenated in order, represent the full file contents. It also holds the logic for reading/unwrapping the file contents into a single string in a very gas-efficient way.
+A `File` struct wraps a set of bytecode slices that, when concatenated, represent the full file contents. It also holds the logic for reading/unwrapping the file contents into a single string in a very gas-efficient way.
 
-The `FileStore` contract acts as a minimum viable registry, a global namespace of human-readable filenames for more ergonomic use within consumer contracts and the frontend's file browser.
-
-> For specific use cases (e.g. different naming schemes, permissioning, etc.), you may decide to create your own file store abstraction. That's great! The `ContentStore` is designed to be unopinionated (strictly content-addressable), so that building on top of it can benefit everyone.
+The `FileStore` contract acts as a minimum viable registry, a global namespace of human-readable filenames for more ergonomic use within consumer contracts and the frontend's file browser. A CDN of sorts.
 
 ## Installation (Foundry)
 
@@ -30,18 +28,27 @@ The `FileStore` contract acts as a minimum viable registry, a global namespace o
 
 ## Reference
 
-### Ethereum Mainnet contracts
+### Ethereum chains
 
-|                   |                                                                                                                       |
-| ----------------- | --------------------------------------------------------------------------------------------------------------------- |
-| ContentStore      | [0xC6806fd75745bB5F5B32ADa19963898155f9DB91](https://etherscan.io/address/0xC6806fd75745bB5F5B32ADa19963898155f9DB91) |
-| FileStore         | [0x9746fD0A77829E12F8A9DBe70D7a322412325B91](https://etherscan.io/address/0x9746fD0A77829E12F8A9DBe70D7a322412325B91) |
-| FileStoreFrontend | [0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b](https://etherscan.io/address/0xBc66C61BCF49Cc3fe4E321aeCEa307F61EC57C0b) |
+|         |                                                                                                                               |
+| ------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Ethereum Mainnet | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)         |
+| Ethereum Goerli  | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://goerli.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)  |
+| Ethereum Sepolia | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://sepolia.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB) |
+| EThereum Holesky | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://holesky.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB) |
 
-### Ethereum Goerli contracts
+### Base chains
 
-|                   |                                                                                                                              |
-| ----------------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| ContentStore      | [0x7c1730B7bE9424D0b983B84aEb254e3a2a105d91](https://goerli.etherscan.io/address/0x7c1730B7bE9424D0b983B84aEb254e3a2a105d91) |
-| FileStore         | [0x5E348d0975A920E9611F8140f84458998A53af94](https://goerli.etherscan.io/address/0x5E348d0975A920E9611F8140f84458998A53af94) |
-| FileStoreFrontend | [0xC8f76cb751B9e983bcF1Cf4824dD1A9441c6F190](https://goerli.etherscan.io/address/0xC8f76cb751B9e983bcF1Cf4824dD1A9441c6F190) |
+|              |                                                                                                                               |
+| ------------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| Base Mainnet | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)         |
+| Base Goerli  | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://goerli.basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)  |
+| Base Sepolia | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://sepolia.basescan.org/address/0xFe1411d6864592549AdE050215482e4385dFa0FB) |
+
+### Optimism chains
+
+|                  |                                                                                                                                        |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Optimism Mainnet | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://optimistic.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)       |
+| Optimism Goerli  | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://goerli-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB)  |
+| Optimism Sepolia | [0xFe1411d6864592549AdE050215482e4385dFa0FB](https://sepolia-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB) |
