@@ -35,7 +35,9 @@ export function FileUploader() {
   const chain = useChain();
   const { data: walletClient } = useWalletClient();
   const { chain: walletChain } = useNetwork();
-  const { isLoading: isSwitchingChain, switchNetwork } = useSwitchNetwork();
+  const { isLoading: isSwitchingChain, switchNetwork } = useSwitchNetwork({
+    chainId: chain.id,
+  });
   const { openConnectModal } = useConnectModal();
   // TODO: handle multiple files?
   const [file, setFile] = useState<PreparedFile | null>(null);
@@ -44,7 +46,7 @@ export function FileUploader() {
 
   const shouldSwitchChain = chain.id !== walletChain?.id;
 
-  const { data: feeData } = useFeeData();
+  const { data: feeData } = useFeeData({ chainId: chain.id });
   const { data: gasEstimate } = useQuery(
     ["file-upload-gas", file?.filename],
     async () => {
@@ -156,7 +158,7 @@ export function FileUploader() {
                       (one per 24 KB chunk, one for file metadata)
                     </li>
                     <li className="pl-1">
-                      {!estimatedFee ? (
+                      {estimatedFee == null ? (
                         <>estimating gas&hellip;</>
                       ) : (
                         <>estimated ~{estimatedFee} ETH in total gas fees</>
@@ -291,7 +293,7 @@ export function FileUploader() {
                   shouldSwitchChain && switchNetwork
                     ? (event) => {
                         event.preventDefault();
-                        switchNetwork(chain.id);
+                        switchNetwork();
                       }
                     : undefined
                 }
