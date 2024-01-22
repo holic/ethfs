@@ -81,5 +81,20 @@ The `FileStore` contract acts as a minimum viable registry, a global namespace o
       <td>Optimism Sepolia</td>
       <td><a href="https://sepolia-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
     </tr>
+    <tr>
+      <th colspan="2">Zora</th>
+    </tr>
+    <tr>
+      <td>Zora Mainnet</td>
+      <td><a href="https://explorer.zora.energy/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Zora Goerli</td>
+      <td><a href="https://testnet.explorer.zora.energy/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Zora Sepolia</td>
+      <td><a href="https://sepolia.explorer.zora.energy/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
   </tbody>
 </table>

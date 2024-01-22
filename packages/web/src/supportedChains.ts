@@ -10,6 +10,9 @@ import {
   optimismGoerli,
   optimismSepolia,
   sepolia,
+  zora,
+  zoraSepolia,
+  zoraTestnet,
 } from "viem/chains";
 
 // TODO: combine with deploys
@@ -93,6 +96,25 @@ export const supportedChains = [
     slug: "optimism-sepolia",
     group: "Optimism",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155420!,
+  },
+  /* Zora */
+  {
+    chain: zora,
+    slug: "zora",
+    group: "Zora",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_7777777!,
+  },
+  {
+    chain: zoraTestnet,
+    slug: "zora-goerli",
+    group: "Zora",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_999!,
+  },
+  {
+    chain: zoraSepolia,
+    slug: "zora-sepolia",
+    group: "Zora",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_999999999!,
   },
   /* Arbitrum */
   // {

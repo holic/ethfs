@@ -20,6 +20,9 @@ import {
   polygonZkEvm,
   polygonZkEvmTestnet,
   sepolia,
+  zora,
+  zoraSepolia,
+  zoraTestnet,
 } from "viem/chains";
 import { z } from "zod";
 
@@ -47,13 +50,16 @@ const chains = [
   // optimism,
   // optimismGoerli,
   // optimismSepolia,
-  arbitrum,
-  arbitrumGoerli,
-  arbitrumSepolia,
-  polygon,
-  polygonMumbai,
-  polygonZkEvm,
-  polygonZkEvmTestnet,
+  zora,
+  zoraTestnet,
+  zoraSepolia,
+  // arbitrum,
+  // arbitrumGoerli,
+  // arbitrumSepolia,
+  // polygon,
+  // polygonMumbai,
+  // polygonZkEvm,
+  // polygonZkEvmTestnet,
   // TODO: redstone
 ];
 const account = privateKeyToAccount(env.DEPLOYER_PRIVATE_KEY);

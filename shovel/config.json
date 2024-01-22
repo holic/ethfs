@@ -70,6 +70,27 @@
       "url": "$RPC_HTTP_URL_11155420",
       "batch_size": 10,
       "concurrency": 2
+    },
+    {
+      "name": "zora",
+      "chain_id": 7777777,
+      "url": "$RPC_HTTP_URL_7777777",
+      "batch_size": 10,
+      "concurrency": 2
+    },
+    {
+      "name": "zora-goerli",
+      "chain_id": 999,
+      "url": "$RPC_HTTP_URL_999",
+      "batch_size": 10,
+      "concurrency": 2
+    },
+    {
+      "name": "zora-sepolia",
+      "chain_id": 999999999,
+      "url": "$RPC_HTTP_URL_999999999",
+      "batch_size": 10,
+      "concurrency": 2
     }
   ],
   "integrations": [
@@ -86,7 +107,10 @@
         { "name": "base-sepolia", "start": 4384018 },
         { "name": "optimism", "start": 114171031 },
         { "name": "optimism-goerli", "start": 19256388 },
-        { "name": "optimism-sepolia", "start": 6069158 }
+        { "name": "optimism-sepolia", "start": 6069158 },
+        { "name": "zora", "start": 9623739 },
+        { "name": "zora-goerli", "start": 2271045 },
+        { "name": "zora-sepolia", "start": 3930816 }
       ],
       "table": {
         "name": "files_created",

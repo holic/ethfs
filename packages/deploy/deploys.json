@@ -39,6 +39,16 @@
       }
     }
   },
+  "999": {
+    "chainId": 999,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "2271045"
+      }
+    }
+  },
   "8453": {
     "chainId": 8453,
     "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
@@ -79,6 +89,16 @@
       }
     }
   },
+  "7777777": {
+    "chainId": 7777777,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "9623739"
+      }
+    }
+  },
   "11155111": {
     "chainId": 11155111,
     "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
@@ -96,6 +116,16 @@
       "FileStore": {
         "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
         "blockNumber": "6069158"
+      }
+    }
+  },
+  "999999999": {
+    "chainId": 999999999,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+        "blockNumber": "3930816"
       }
     }
   }
