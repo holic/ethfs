@@ -1,3 +1,3 @@
-FROM indexsupply/shovel:0d1f
+FROM indexsupply/shovel:d1e1
 COPY config.json .
 CMD shovel -config config.json -l :$PORT
