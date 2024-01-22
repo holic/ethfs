@@ -1,12 +1,13 @@
 import { gzipSync } from "fflate";
+import mime from "mime/lite";
 
 export type PreparedFile = {
   filename: string;
   contents: string[];
   size: number;
   metadata: {
-    type: string;
-    encoding: "base64";
+    type?: string;
+    encoding?: "base64";
     compression?: "gzip";
     license?: string;
   };
@@ -46,7 +47,10 @@ export async function prepareFile(file: File): Promise<PreparedFile> {
   const contents = await readFile(file);
   return {
     filename: file.name,
-    metadata: { type: file.type, encoding: "base64" },
+    metadata: {
+      type: mime.getType(file.name) ?? undefined,
+      encoding: "base64",
+    },
     original: {
       filename: file.name,
       size: file.size,

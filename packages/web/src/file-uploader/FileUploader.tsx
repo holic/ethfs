@@ -110,8 +110,8 @@ export function FileUploader() {
                 createdAt: Math.floor(Date.now() / 1000),
                 filename: file.filename,
                 size: file.contents.join("").length,
-                type: file.metadata.type,
-                encoding: file.metadata.encoding,
+                type: file.metadata.type ?? null,
+                encoding: file.metadata.encoding ?? null,
                 compression: null,
                 license: null,
               }}
@@ -129,7 +129,7 @@ export function FileUploader() {
                   <div className="flex gap-8">
                     <span className="text-black">{file.filename}</span>
 
-                    {file.metadata.type.startsWith("text/") &&
+                    {file.metadata.type?.startsWith("text/") &&
                     file.original.size > gunzipScriptsSize ? (
                       <label className="flex items-center gap-1 text-sm text-">
                         <input
