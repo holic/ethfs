@@ -4,16 +4,12 @@ import { createWalletClient, http, isHex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import {
   arbitrum,
-  arbitrumGoerli,
   arbitrumSepolia,
   base,
-  baseGoerli,
   baseSepolia,
-  goerli,
   holesky,
   mainnet,
   optimism,
-  optimismGoerli,
   optimismSepolia,
   polygon,
   polygonMumbai,
@@ -22,7 +18,6 @@ import {
   sepolia,
   zora,
   zoraSepolia,
-  zoraTestnet,
 } from "viem/chains";
 import { z } from "zod";
 
@@ -40,21 +35,16 @@ const envSchema = z.object({
 const env = parseEnv(envSchema);
 
 const chains = [
-  // mainnet,
-  // goerli,
-  // sepolia,
-  // holesky, // TODO: fix verification
-  // base,
-  // baseGoerli,
-  // baseSepolia,
-  // optimism,
-  // optimismGoerli,
-  // optimismSepolia,
+  mainnet,
+  sepolia,
+  holesky, // TODO: fix verification
+  base,
+  baseSepolia,
+  optimism,
+  optimismSepolia,
   zora,
-  zoraTestnet,
   zoraSepolia,
   // arbitrum,
-  // arbitrumGoerli,
   // arbitrumSepolia,
   // polygon,
   // polygonMumbai,

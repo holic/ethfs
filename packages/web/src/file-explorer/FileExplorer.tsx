@@ -136,7 +136,7 @@ export function FileExplorer() {
                   </FileCreated>
                 </FileListRow>
               ))}
-              {chain.id === 1 || chain.id === 5 ? (
+              {chain.id === 1 ? (
                 <div className="m-3 mt-6 bg-stone-100 p-3 text-sm text-stone-500 [&_a]:underline [&_a]:underline-offset-2 [&_a]:decoration-stone-300 hover:[&_a]:text-black">
                   Missing files? EthFS{" "}
                   <a
@@ -146,16 +146,7 @@ export function FileExplorer() {
                     just got an upgrade
                   </a>
                   . Files in v1 still exist onchain and{" "}
-                  <Link
-                    href={
-                      chain.id === 5
-                        ? "/goerli/migrate-v1"
-                        : "/mainnet/migrate-v1"
-                    }
-                  >
-                    can be migrated to v2
-                  </Link>
-                  .
+                  <Link href="/mainnet/migrate-v1">can be migrated to v2</Link>.
                 </div>
               ) : null}
             </>
