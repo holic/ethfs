@@ -25,24 +25,7 @@ services:
           name: ethfs-shovel-db
           property: connectionString
 
-  # - type: web
-  #   name: ethfs-ponder
-  #   region: ohio
-  #   runtime: node
-  #   rootDir: packages/ponder
-  #   buildCommand: pnpm install
-  #   startCommand: pnpm start
-  #   envVars:
-  #     - key: DATABASE_URL
-  #       fromDatabase:
-  #         name: ethfs-ponder-db
-  #         property: connectionString
-
 databases:
   - name: ethfs-shovel-db
     plan: starter
     region: ohio
-
-  # - name: ethfs-ponder-db
-  #   plan: starter
-  #   region: ohio
