@@ -6,7 +6,7 @@
       "chain_id": 1,
       "url": "$RPC_HTTP_URL_1",
       "poll_duration": "12s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -14,7 +14,7 @@
       "chain_id": 11155111,
       "url": "$RPC_HTTP_URL_11155111",
       "poll_duration": "12s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -22,7 +22,7 @@
       "chain_id": 17000,
       "url": "$RPC_HTTP_URL_17000",
       "poll_duration": "12s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -30,7 +30,7 @@
       "chain_id": 8453,
       "url": "$RPC_HTTP_URL_8453",
       "poll_duration": "2s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -38,7 +38,7 @@
       "chain_id": 84532,
       "url": "$RPC_HTTP_URL_84532",
       "poll_duration": "2s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -46,7 +46,7 @@
       "chain_id": 10,
       "url": "$RPC_HTTP_URL_10",
       "poll_duration": "2s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -54,7 +54,7 @@
       "chain_id": 11155420,
       "url": "$RPC_HTTP_URL_11155420",
       "poll_duration": "2s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -62,7 +62,7 @@
       "chain_id": 7777777,
       "url": "$RPC_HTTP_URL_7777777",
       "poll_duration": "2s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     },
     {
@@ -70,7 +70,7 @@
       "chain_id": 999999999,
       "url": "$RPC_HTTP_URL_999999999",
       "poll_duration": "2s",
-      "batch_size": 10,
+      "batch_size": 20,
       "concurrency": 1
     }
   ],
