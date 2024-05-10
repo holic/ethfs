@@ -16,6 +16,7 @@ services:
     name: ethfs-shovel
     region: ohio
     runtime: docker
+    maxShutdownDelaySeconds: 1
     rootDir: shovel
     dockerfilePath: ./Dockerfile
     dockerContext: ./
