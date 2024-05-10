@@ -5,7 +5,7 @@
       "name": "mainnet",
       "chain_id": 1,
       "url": "$RPC_HTTP_URL_1",
-      "poll_duration": 6000,
+      "poll_duration": "6s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -13,7 +13,7 @@
       "name": "sepolia",
       "chain_id": 11155111,
       "url": "$RPC_HTTP_URL_11155111",
-      "poll_duration": 6000,
+      "poll_duration": "6s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -21,7 +21,7 @@
       "name": "holesky",
       "chain_id": 17000,
       "url": "$RPC_HTTP_URL_17000",
-      "poll_duration": 6000,
+      "poll_duration": "6s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -29,7 +29,7 @@
       "name": "base",
       "chain_id": 8453,
       "url": "$RPC_HTTP_URL_8453",
-      "poll_duration": 2000,
+      "poll_duration": "2s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -37,7 +37,7 @@
       "name": "base-sepolia",
       "chain_id": 84532,
       "url": "$RPC_HTTP_URL_84532",
-      "poll_duration": 2000,
+      "poll_duration": "2s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -45,7 +45,7 @@
       "name": "optimism",
       "chain_id": 10,
       "url": "$RPC_HTTP_URL_10",
-      "poll_duration": 2000,
+      "poll_duration": "2s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -53,7 +53,7 @@
       "name": "optimism-sepolia",
       "chain_id": 11155420,
       "url": "$RPC_HTTP_URL_11155420",
-      "poll_duration": 2000,
+      "poll_duration": "2s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -61,7 +61,7 @@
       "name": "zora",
       "chain_id": 7777777,
       "url": "$RPC_HTTP_URL_7777777",
-      "poll_duration": 2000,
+      "poll_duration": "2s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -69,7 +69,7 @@
       "name": "zora-sepolia",
       "chain_id": 999999999,
       "url": "$RPC_HTTP_URL_999999999",
-      "poll_duration": 2000,
+      "poll_duration": "2s",
       "batch_size": 10,
       "concurrency": 1
     }
