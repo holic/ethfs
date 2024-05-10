@@ -5,7 +5,7 @@
       "name": "mainnet",
       "chain_id": 1,
       "url": "$RPC_HTTP_URL_1",
-      "poll_duration": "6s",
+      "poll_duration": "12s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -13,7 +13,7 @@
       "name": "sepolia",
       "chain_id": 11155111,
       "url": "$RPC_HTTP_URL_11155111",
-      "poll_duration": "6s",
+      "poll_duration": "12s",
       "batch_size": 10,
       "concurrency": 1
     },
@@ -21,7 +21,7 @@
       "name": "holesky",
       "chain_id": 17000,
       "url": "$RPC_HTTP_URL_17000",
-      "poll_duration": "6s",
+      "poll_duration": "12s",
       "batch_size": 10,
       "concurrency": 1
     },
