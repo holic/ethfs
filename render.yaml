@@ -7,6 +7,7 @@ services:
     buildCommand: npm install -g pnpm@9 && pnpm install && pnpm build
     startCommand: pnpm start
     envVars:
+      - fromGroup: EthFS RPCs
       - key: DATABASE_URL
         fromDatabase:
           name: ethfs-shovel-db
@@ -21,6 +22,7 @@ services:
     dockerfilePath: ./Dockerfile
     dockerContext: ./
     envVars:
+      - fromGroup: EthFS RPCs
       - key: DATABASE_URL
         fromDatabase:
           name: ethfs-shovel-db
