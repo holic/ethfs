@@ -1,6 +1,16 @@
-import { onchainTable } from "ponder";
+import { onchainTable, primaryKey } from "ponder";
 
-export const example = onchainTable("example", (t) => ({
-  id: t.text().primaryKey(),
-  name: t.text(),
-}));
+export const file = onchainTable(
+  "files",
+  (t) => ({
+    chainId: t.integer().notNull(),
+    createdAt: t.bigint().notNull(),
+    filename: t.text().notNull(),
+    pointer: t.hex().notNull(),
+    size: t.bigint().notNull(),
+    metadata: t.text(),
+  }),
+  (table) => ({
+    pk: primaryKey({ columns: [table.chainId, table.filename] }),
+  }),
+);

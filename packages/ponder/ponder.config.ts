@@ -1,21 +1,22 @@
 import { createConfig } from "ponder";
 import { http } from "viem";
 
-import { ExampleContractAbi } from "./abis/ExampleContractAbi";
+import { FileStoreAbi } from "./abis/FileStoreAbi";
 
 export default createConfig({
   networks: {
     mainnet: {
       chainId: 1,
-      transport: http(process.env.PONDER_RPC_URL_1),
+      transport: http(process.env.RPC_HTTP_URL_1),
     },
   },
   contracts: {
-    ExampleContract: {
-      network: "mainnet",
-      abi: ExampleContractAbi,
-      address: "0x0000000000000000000000000000000000000000",
-      startBlock: 1234567,
+    FileStore: {
+      address: "0xFe1411d6864592549AdE050215482e4385dFa0FB",
+      abi: FileStoreAbi,
+      network: {
+        mainnet: { startBlock: 18898263 },
+      },
     },
   },
 });
