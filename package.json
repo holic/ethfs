@@ -6,6 +6,7 @@
     "node": "18",
     "pnpm": "9"
   },
+  "packageManager": "pnpm@9.6.0",
   "scripts": {
     "preinstall": "npx -y only-allow pnpm",
     "dev": "pnpm --parallel dev",
