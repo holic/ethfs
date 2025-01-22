@@ -45,5 +45,5 @@ databases:
     plan: starter
     region: ohio
   - name: ethfs-ponder-db
-    plan: starter
+    plan: basic-256mb
     region: ohio
