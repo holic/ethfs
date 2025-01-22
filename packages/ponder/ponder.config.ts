@@ -13,12 +13,10 @@ export default createConfig({
   },
   contracts: {
     FileStore: {
+      address: "0xFe1411d6864592549AdE050215482e4385dFa0FB",
       abi: FileStoreAbi,
       network: {
-        mainnet: {
-          address: "0xFe1411d6864592549AdE050215482e4385dFa0FB",
-          startBlock: 18898263,
-        },
+        mainnet: { startBlock: 18898263 },
       },
     },
   },
