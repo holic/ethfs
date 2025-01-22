@@ -4,7 +4,7 @@ services:
     region: ohio
     runtime: node
     rootDir: packages/web
-    buildCommand: npm install -g pnpm@8 && pnpm install && pnpm build
+    buildCommand: npm install -g pnpm@9 && pnpm install && pnpm build
     startCommand: pnpm start
     envVars:
       - key: DATABASE_URL
@@ -26,7 +26,24 @@ services:
           name: ethfs-shovel-db
           property: connectionString
 
+  - type: web
+    name: ethfs-ponder
+    region: ohio
+    runtime: node
+    rootDir: packages/ponder
+    buildCommand: npm install -g pnpm@9 && pnpm install
+    startCommand: pnpm start --schema $RENDER_GIT_COMMIT
+    healthCheckPath: /ready
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: ethfs-shovel-db
+          property: connectionString
+
 databases:
   - name: ethfs-shovel-db
+    plan: starter
+    region: ohio
+  - name: ethfs-ponder-db
     plan: starter
     region: ohio

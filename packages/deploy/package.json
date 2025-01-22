@@ -1,10 +1,6 @@
 {
   "name": "@ethfs/deploy",
   "private": true,
-  "engines": {
-    "node": "18",
-    "pnpm": "8"
-  },
   "scripts": {
     "deploy": "DEBUG=mud:* tsx script/deployToAllChains.ts"
   },
