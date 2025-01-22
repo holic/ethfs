@@ -35,7 +35,7 @@ services:
     rootDir: packages/ponder
     buildCommand: npm install -g pnpm@9 && pnpm install
     startCommand: pnpm start --schema $RENDER_GIT_COMMIT
-    healthCheckPath: /ready
+    healthCheckPath: /health
     envVars:
       - fromGroup: EthFS RPCs
       - key: DATABASE_URL
