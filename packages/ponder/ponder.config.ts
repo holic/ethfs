@@ -10,6 +10,46 @@ export default createConfig({
       transport: http(process.env.RPC_HTTP_URL_1),
       pollingInterval: 12_000,
     },
+    sepolia: {
+      chainId: 11155111,
+      transport: http(process.env.RPC_HTTP_URL_11155111),
+      pollingInterval: 12_000,
+    },
+    holesky: {
+      chainId: 17000,
+      transport: http(process.env.RPC_HTTP_URL_17000),
+      pollingInterval: 12_000,
+    },
+    base: {
+      chainId: 8453,
+      transport: http(process.env.RPC_HTTP_URL_8453),
+      pollingInterval: 2_000,
+    },
+    baseSepolia: {
+      chainId: 84532,
+      transport: http(process.env.RPC_HTTP_URL_84532),
+      pollingInterval: 2_000,
+    },
+    optimism: {
+      chainId: 10,
+      transport: http(process.env.RPC_HTTP_URL_10),
+      pollingInterval: 2_000,
+    },
+    optimismSepolia: {
+      chainId: 11155420,
+      transport: http(process.env.RPC_HTTP_URL_11155420),
+      pollingInterval: 2_000,
+    },
+    zora: {
+      chainId: 7777777,
+      transport: http(process.env.RPC_HTTP_URL_7777777),
+      pollingInterval: 2_000,
+    },
+    zoraSepolia: {
+      chainId: 999999999,
+      transport: http(process.env.RPC_HTTP_URL_999999999),
+      pollingInterval: 2_000,
+    },
   },
   contracts: {
     FileStore: {
@@ -17,6 +57,14 @@ export default createConfig({
       abi: FileStoreAbi,
       network: {
         mainnet: { startBlock: 18898263 },
+        sepolia: { startBlock: 4986686 },
+        holesky: { startBlock: 634049 },
+        base: { startBlock: 8575423 },
+        baseSepolia: { startBlock: 4384018 },
+        optimism: { startBlock: 114171031 },
+        optimismSepolia: { startBlock: 6069158 },
+        zora: { startBlock: 9623739 },
+        zoraSepolia: { startBlock: 3930816 },
       },
     },
   },
