@@ -8,6 +8,7 @@ export default createConfig({
     mainnet: {
       chainId: 1,
       transport: http(process.env.RPC_HTTP_URL_1),
+      pollingInterval: 12_000,
     },
   },
   contracts: {
