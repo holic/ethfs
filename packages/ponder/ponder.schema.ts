@@ -8,7 +8,7 @@ export const file = onchainTable(
     filename: t.text().notNull(),
     pointer: t.hex().notNull(),
     size: t.bigint().notNull(),
-    metadata: t.text(),
+    metadata: t.hex(),
   }),
   (table) => ({
     pk: primaryKey({ columns: [table.chainId, table.filename] }),

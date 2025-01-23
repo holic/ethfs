@@ -1,6 +1,5 @@
 import { ponder } from "ponder:registry";
 import { file } from "ponder:schema";
-import { hexToString } from "viem";
 
 ponder.on("FileStore:FileCreated", async ({ event, context }) => {
   await context.db.insert(file).values({
@@ -9,6 +8,6 @@ ponder.on("FileStore:FileCreated", async ({ event, context }) => {
     filename: event.args.filename,
     pointer: event.args.pointer,
     size: event.args.size,
-    metadata: hexToString(event.args.metadata),
+    metadata: event.args.metadata,
   });
 });
