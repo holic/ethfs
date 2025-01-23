@@ -8,6 +8,8 @@ services:
     startCommand: pnpm start
     envVars:
       - fromGroup: EthFS RPCs
+      - key: NEXT_PUBLIC_PONDER_URL
+        value: https://ethfs.ponder-dev.com
       - key: DATABASE_URL
         fromDatabase:
           name: ethfs-shovel-db

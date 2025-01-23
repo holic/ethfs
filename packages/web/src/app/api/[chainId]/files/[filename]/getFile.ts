@@ -2,16 +2,9 @@
 
 import { OnchainFile } from "../../../../../common";
 import { sql } from "../../../../../database";
+import { parseJson } from "../../../../../parseJson";
 import { supportedChains } from "../../../../../supportedChains";
 import { getFileContents } from "./contents/getFileContents";
-
-function parseJson(json: string) {
-  try {
-    return JSON.parse(json);
-  } catch (error) {
-    return null;
-  }
-}
 
 export async function getFile(
   chainId: number,
