@@ -1,20 +1,16 @@
 "use client";
 
-import { and, desc, eq, ilike } from "@ponder/client";
 import { DateTime } from "luxon";
 import Link from "next/link";
 import React, { useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import { hexToString } from "viem";
 
 import { useChain } from "../ChainContext";
 import { OnchainFile } from "../common";
 import { DocumentIcon } from "../icons/DocumentIcon";
 import { SearchIcon } from "../icons/SearchIcon";
-import { parseJson } from "../parseJson";
 import { PendingPlaceholder } from "../PendingPlaceholder";
 import { pluralize } from "../pluralize";
-import { ponder, schema } from "../ponder";
 import { UIWindow } from "../UIWindow";
 import { useIsMounted } from "../useIsMounted";
 import { usePromise } from "../usePromise";
@@ -39,42 +35,13 @@ export function FileExplorer() {
   const files = usePromise(
     useMemo(() => {
       if (!isMounted) return;
-      return ponder.db
-        .select()
-        .from(schema.file)
-        .where(
-          and(
-            eq(schema.file.chainId, chain.id),
-            searchQuery
-              ? ilike(schema.file.filename, `%${searchQuery}%`)
-              : undefined,
-          ),
-        )
-        .orderBy(desc(schema.file.createdAt))
-        .then((rows) =>
-          rows.map((row) => {
-            const metadata = parseJson(hexToString(row.metadata)) ?? {};
-
-            // Fix gunzipScripts metadata on Sepolia:
-            if (
-              row.chainId === 11155111 &&
-              row.filename === "gunzipScripts-0.0.1.js"
-            ) {
-              metadata.type = "text/javascript";
-              metadata.encoding = "base64";
-            }
-
-            return {
-              ...row,
-              createdAt: Number(row.createdAt), // a Unix timestamp stored in a uint256 onchain :(
-              size: Number(row.size), // emitted as uint256, but realistically never going to be >2gb
-              type: metadata.type ?? null,
-              encoding: metadata.encoding ?? null,
-              compression: metadata.compression ?? null,
-              license: metadata.license ?? null,
-            };
-          }),
-        );
+      return fetch(
+        `${process.env.NEXT_PUBLIC_PONDER_URL}/api/${
+          chain.id
+        }/files?${new URLSearchParams({
+          filename: searchQuery,
+        })}`,
+      ).then((res) => res.json() as Promise<OnchainFile[]>);
     }, [chain.id, isMounted, searchQuery]),
   );
 
