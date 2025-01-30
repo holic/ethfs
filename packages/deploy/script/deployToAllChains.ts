@@ -3,18 +3,18 @@ import "dotenv/config";
 import { createWalletClient, http, isHex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import {
-  arbitrum,
-  arbitrumSepolia,
+  // arbitrum,
+  // arbitrumSepolia,
   base,
   baseSepolia,
   holesky,
   mainnet,
   optimism,
   optimismSepolia,
-  polygon,
-  polygonMumbai,
-  polygonZkEvm,
-  polygonZkEvmTestnet,
+  // polygon,
+  // polygonMumbai,
+  // polygonZkEvm,
+  // polygonZkEvmTestnet,
   sepolia,
   zora,
   zoraSepolia,
@@ -65,9 +65,9 @@ async function deployToAllChains() {
     console.log(`deploying to chain ${chain.id} (${chain.name})`);
     const deployResult = await deploy(
       client,
-      (chain.id == 8453 || chain.id == 84532)
+      chain.id == base.id || chain.id == baseSepolia.id
         ? env.BASESCAN_API_KEY
-        : (chain.id == 10 || chain.id == 11155420)
+        : chain.id == optimism.id || chain.id == optimismSepolia.id
           ? env.OPTIMISM_ETHERSCAN_API_KEY
           : env.ETHERSCAN_API_KEY,
     );
