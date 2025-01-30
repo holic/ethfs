@@ -1,5 +1,5 @@
 import fileStoreBuild from "@ethfs/contracts/out/FileStore.sol/FileStore.json" assert { type: "json" };
-import { $ } from "execa";
+import { execa } from "execa";
 import {
   Account,
   Address,
@@ -19,11 +19,6 @@ import { salt } from "./common";
 import { ensureContractsDeployed } from "./ensureContractsDeployed";
 import { ensureDeployer } from "./ensureDeployer";
 import { writeDeploysJson } from "./writeDeploysJson";
-
-const contracts$ = $({
-  cwd: `${__dirname}/../../contracts`,
-  stdio: "inherit",
-});
 
 export type DeployResult = {
   readonly chainId: number;
@@ -95,23 +90,35 @@ export async function deploy(
   try {
     console.log("verifying FileStore");
 
-    const verifierFlags = [];
+    const verifierFlags: (string | string[])[] = [];
     if (verifier.type === "etherscan") {
-      verifierFlags.push("--verifier etherscan");
-      verifierFlags.push(`--etherscan-api-key ${verifier.apiKey}`);
+      verifierFlags.push(["--verifier", verifier.type]);
+      verifierFlags.push(["--etherscan-api-key", verifier.apiKey]);
     } else if (verifier.type === "blockscout") {
-      verifierFlags.push("--verifier blockscout");
-      verifierFlags.push(`--verifier-url ${verifier.url}`);
+      verifierFlags.push(["--verifier", verifier.type]);
+      verifierFlags.push(["--verifier-url", verifier.url]);
     }
 
-    await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore
-      --chain-id ${chainId}
-      --compiler-version ${fileStoreBuild.metadata.compiler.version}
-      --evm-version ${fileStoreBuild.metadata.settings.evmVersion}
-      --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs}
-      --constructor-args ${fileStoreConstructorArgs}
-      --watch
-      ${verifierFlags.join(" ")}`;
+    await execa(
+      "forge",
+      [
+        ["verify-contract", fileStore, "src/FileStore.sol:FileStore"],
+        ["--chain-id", `${chainId}`],
+        ["--compiler-version", fileStoreBuild.metadata.compiler.version],
+        ["--evm-version", fileStoreBuild.metadata.settings.evmVersion],
+        [
+          "--num-of-optimizations",
+          `${fileStoreBuild.metadata.settings.optimizer.runs}`,
+        ],
+        ["--constructor-args", fileStoreConstructorArgs],
+        "--watch",
+        verifierFlags,
+      ].flat(5),
+      {
+        cwd: `${__dirname}/../../contracts`,
+        stdio: "inherit",
+      },
+    );
 
     // TODO: figure out how to get sourcify working, this gives a generic 500 with "Compiler error"
     // TODO: try to do this with sourcify API instead of forge?
