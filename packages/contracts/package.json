@@ -9,9 +9,6 @@
     "test": "forge test",
     "test-gas": "GAS_REPORTER_ENABLED=true forge test -vv | pnpm gas-report --stdin --save gas-report.json"
   },
-  "dependencies": {
-    "@safe-global/safe-singleton-factory": "^1.0.16"
-  },
   "devDependencies": {
     "@latticexyz/abi-ts": "2.0.0-next.14",
     "@latticexyz/gas-report": "2.0.0-next.14",
