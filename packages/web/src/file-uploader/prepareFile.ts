@@ -69,7 +69,7 @@ export function compressPreparedFile(preparedFile: PreparedFile): PreparedFile {
       ...preparedFile.metadata,
       compression: "gzip",
     },
-    ...chunkContents(compressed),
+    ...chunkContents(compressed.slice().buffer),
   };
 }
 
