@@ -1,6 +1,9 @@
 [profile.default]
-solc = '0.8.23'
 verbosity = 2
+solc_version = '0.8.24'
+evm_version = "paris"
+optimizer = true
+optimizer_runs = 200
 bytecode_hash = 'none' # remove metadata from bytecode for consistent deploys
 extra_output_files = ['abi', 'evm.bytecode']
 fs_permissions = [{ access = "read", path = "./"}]
