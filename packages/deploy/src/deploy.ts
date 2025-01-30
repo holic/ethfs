@@ -13,11 +13,12 @@ import {
   parseAbiParameters,
   Transport,
 } from "viem";
-import { getBlockNumber, getChainId, getLogs } from "viem/actions";
+import { getChainId, getLogs } from "viem/actions";
 
 import { salt } from "./common";
 import { ensureContractsDeployed } from "./ensureContractsDeployed";
 import { ensureDeployer } from "./ensureDeployer";
+import { writeDeploysJson } from "./writeDeploysJson";
 
 const contracts$ = $({
   cwd: `${__dirname}/../../contracts`,
@@ -35,9 +36,13 @@ export type DeployResult = {
   };
 };
 
+export type VerifierConfig =
+  | { type: "etherscan"; apiKey: string }
+  | { type: "blockscout"; url: string };
+
 export async function deploy(
   client: Client<Transport, Chain | undefined, Account>,
-  etherscanApiKey: string,
+  verifier: VerifierConfig,
 ): Promise<DeployResult> {
   const chainId = client.chain?.id ?? (await getChainId(client));
   const deployer = await ensureDeployer(client);
@@ -57,7 +62,7 @@ export async function deploy(
     salt,
   });
 
-  const startBlock = await getBlockNumber(client);
+  // const startBlock = await getBlockNumber(client);
   await ensureContractsDeployed({
     client,
     deployer,
@@ -89,7 +94,25 @@ export async function deploy(
 
   try {
     console.log("verifying FileStore");
-    await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier etherscan --etherscan-api-key ${etherscanApiKey} --watch`;
+
+    const verifierFlags = [];
+    if (verifier.type === "etherscan") {
+      verifierFlags.push("--verifier etherscan");
+      verifierFlags.push(`--etherscan-api-key ${verifier.apiKey}`);
+    } else if (verifier.type === "blockscout") {
+      verifierFlags.push("--verifier blockscout");
+      verifierFlags.push(`--verifier-url ${verifier.url}`);
+    }
+
+    await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore
+      --chain-id ${chainId}
+      --compiler-version ${fileStoreBuild.metadata.compiler.version}
+      --evm-version ${fileStoreBuild.metadata.settings.evmVersion}
+      --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs}
+      --constructor-args ${fileStoreConstructorArgs}
+      --watch
+      ${verifierFlags.join(" ")}`;
+
     // TODO: figure out how to get sourcify working, this gives a generic 500 with "Compiler error"
     // TODO: try to do this with sourcify API instead of forge?
     // await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier sourcify --watch`;
@@ -97,7 +120,7 @@ export async function deploy(
     console.error("could not verify FileStore, skipping for now", error);
   }
 
-  return {
+  const deployResult = {
     chainId,
     deployer,
     contracts: {
@@ -107,4 +130,9 @@ export async function deploy(
       },
     },
   };
+
+  // Write the deployment results to a JSON file
+  await writeDeploysJson(deployResult);
+
+  return deployResult;
 }

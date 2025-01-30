@@ -76,8 +76,8 @@ importers:
         specifier: 2.0.0-next.14
         version: 2.0.0-next.14(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@6.0.5)(zod@3.24.1)
       '@safe-global/safe-singleton-factory':
-        specifier: github:safe-global/safe-singleton-factory#5f9046a
-        version: https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a
+        specifier: ^1.0.38
+        version: 1.0.38
       execa:
         specifier: ^8.0.1
         version: 8.0.1
@@ -90,6 +90,9 @@ importers:
       zod:
         specifier: ^3.22.4
         version: 3.24.1
+      zod-validation-error:
+        specifier: ^3.4.0
+        version: 3.4.0(zod@3.24.1)
     devDependencies:
       dotenv:
         specifier: ^16.3.1
@@ -1061,10 +1064,6 @@ packages:
 
   '@safe-global/safe-singleton-factory@1.0.38':
     resolution: {integrity: sha512-ubC6vZz7umiTijbIJ2e2PiEoUR0FaG5uIlC4NZt8hmDS0DZaJ+Duktz7cz8D/An7ogC3Azn+IYZUkD9CA2zV9w==}
-
-  '@safe-global/safe-singleton-factory@https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a':
-    resolution: {tarball: https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a}
-    version: 1.0.17
 
   '@scure/base@1.1.9':
     resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
@@ -5084,6 +5083,12 @@ packages:
   yoga-wasm-web@0.3.3:
     resolution: {integrity: sha512-N+d4UJSJbt/R3wqY7Coqs5pcV0aUj2j9IaQ3rNj9bVCLld8tTGKRa2USARjnvZJWVx1NDmQev8EknoczaOQDOA==}
 
+  zod-validation-error@3.4.0:
+    resolution: {integrity: sha512-ZOPR9SVY6Pb2qqO5XHt+MkkTRxGXb4EVtnjc9JpXUOtUB1T9Ru7mZOT361AN3MsetVe7R0a1KZshJDZdgp9miQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      zod: ^3.18.0
+
   zod@3.24.1:
     resolution: {integrity: sha512-muH7gBL9sI1nciMZV67X5fTKKBLtwpZ5VBp1vsOQzj1MhrBZ4wlVCm3gedKZWLp0Oyel8sIGfeiz54Su+OVT+A==}
 
@@ -5912,8 +5917,6 @@ snapshots:
   '@safe-global/safe-gateway-typescript-sdk@3.22.9': {}
 
   '@safe-global/safe-singleton-factory@1.0.38': {}
-
-  '@safe-global/safe-singleton-factory@https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a': {}
 
   '@scure/base@1.1.9': {}
 
@@ -10805,6 +10808,10 @@ snapshots:
   yocto-queue@0.1.0: {}
 
   yoga-wasm-web@0.3.3: {}
+
+  zod-validation-error@3.4.0(zod@3.24.1):
+    dependencies:
+      zod: 3.24.1
 
   zod@3.24.1: {}
 

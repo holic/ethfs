@@ -1,32 +1,51 @@
 import "dotenv/config";
 
-import { createWalletClient, http, isHex } from "viem";
+import { createClient, http, isHex } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { z } from "zod";
 
 import { deploy } from "../src/deploy";
+import { verifierEnvSchema } from "../src/verifier";
 import { parseEnv } from "./parseEnv";
 
-const envSchema = z.object({
-  RPC_HTTP_URL: z.string(),
-  DEPLOYER_PRIVATE_KEY: z.string().refine(isHex),
-  ETHERSCAN_API_KEY: z.string(),
-});
+const envSchema = z.intersection(
+  z.object({
+    RPC_HTTP_URL: z.string().url(),
+    DEPLOYER_PRIVATE_KEY: z.string().refine(isHex),
+  }),
+  verifierEnvSchema,
+);
 
+// Parse and validate environment variables
 const env = parseEnv(envSchema);
 
-const client = createWalletClient({
+const account = privateKeyToAccount(env.DEPLOYER_PRIVATE_KEY);
+
+const client = createClient({
   transport: http(env.RPC_HTTP_URL),
-  account: privateKeyToAccount(env.DEPLOYER_PRIVATE_KEY),
+  account,
 });
 
-deploy(client, env.ETHERSCAN_API_KEY).then(
-  () => {
-    console.log("done!");
+const verifierConfig =
+  env.VERIFIER === "etherscan"
+    ? {
+        type: env.VERIFIER,
+        url: env.VERIFIER_URL,
+        apiKey: env.VERIFIER_API_KEY,
+      }
+    : {
+        type: env.VERIFIER,
+        url: env.VERIFIER_URL,
+        apiKey: env.VERIFIER_API_KEY,
+      };
+
+// Execute the deployment process
+deploy(client, verifierConfig)
+  .then(() => {
+    console.log("Deployment successful!");
     process.exit(0);
-  },
-  (error) => {
-    console.error(error);
+  })
+  .catch((error) => {
+    console.error("Deployment failed:", error);
     process.exit(1);
-  },
-);
+  });

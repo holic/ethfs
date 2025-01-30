@@ -1,4 +1,11 @@
 import { z, ZodError, ZodTypeAny } from "zod";
+import { createMessageBuilder } from "zod-validation-error";
+
+const formatError = createMessageBuilder({
+  prefix: null,
+  issueSeparator: "\n",
+  unionSeparator: "\nor\n",
+});
 
 export function parseEnv<TSchema extends ZodTypeAny>(
   envSchema: TSchema,
@@ -7,11 +14,8 @@ export function parseEnv<TSchema extends ZodTypeAny>(
     return envSchema.parse(process.env);
   } catch (error) {
     if (error instanceof ZodError) {
-      const { _errors, ...invalidEnvVars } = error.format();
-      console.error(
-        `\nMissing or invalid environment variables:\n\n  ${Object.keys(
-          invalidEnvVars,
-        ).join("\n  ")}\n`,
+      console.log(
+        `Missing or invalid environment variables:\n\n${formatError(error.issues as never)}\n`,
       );
       process.exit(1);
     }
