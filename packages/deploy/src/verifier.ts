@@ -9,7 +9,7 @@ export const verifierEnvSchema = z.union([
   z.object({
     VERIFIER: z.literal("blockscout"),
     VERIFIER_URL: z.string(),
-    VERIFIER_API_KEY: z.string().optional(),
+    VERIFIER_API_KEY: z.undefined().optional(),
   }),
 ]);
 

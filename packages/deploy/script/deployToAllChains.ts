@@ -27,11 +27,10 @@ import { parseEnv } from "./parseEnv";
 
 const envSchema = z.object({
   DEPLOYER_PRIVATE_KEY: z.string().refine(isHex),
-  BLOCKSOUT_API_KEY: z.string(),
   ETHERSCAN_API_KEY: z.string(),
   BASESCAN_API_KEY: z.string(),
   OPTIMISM_ETHERSCAN_API_KEY: z.string(),
-  VERIFIER_URL_360: z.string(),
+  SHAPE_VERIFIER_URL: z.string().optional(),
 });
 
 const env = parseEnv(envSchema);
@@ -74,8 +73,7 @@ async function deployToAllChains() {
       // Shape chain ID
       verifierConfig = {
         type: "blockscout",
-        url: env.VERIFIER_URL_360!,
-        apiKey: env.BLOCKSOUT_API_KEY,
+        url: env.SHAPE_VERIFIER_URL!,
       };
     } else if (chain.id === base.id || chain.id === baseSepolia.id) {
       // Base chains

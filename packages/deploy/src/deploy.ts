@@ -38,7 +38,7 @@ export type DeployResult = {
 
 export type VerifierConfig =
   | { type: "etherscan"; apiKey: string }
-  | { type: "blockscout"; url: string; apiKey?: string };
+  | { type: "blockscout"; url: string };
 
 export async function deploy(
   client: Client<Transport, Chain | undefined, Account>,
@@ -102,9 +102,6 @@ export async function deploy(
     } else if (verifier.type === "blockscout") {
       verifierFlags.push("--verifier blockscout");
       verifierFlags.push(`--verifier-url ${verifier.url}`);
-      if (verifier.apiKey) {
-        verifierFlags.push(`--blockscout-api-key ${verifier.apiKey}`);
-      }
     }
 
     await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore

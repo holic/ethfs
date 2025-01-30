@@ -2,8 +2,8 @@
   "name": "@ethfs/deploy",
   "private": true,
   "scripts": {
-    "deploy": "DEBUG=mud:* tsx script/deploy.ts",
-    "deploy:all": "DEBUG=mud:* tsx script/deployToAllChains.ts"
+    "deploy": "tsx script/deploy.ts",
+    "deploy:all": "tsx script/deployToAllChains.ts"
   },
   "dependencies": {
     "@ethfs/contracts": "workspace:*",
