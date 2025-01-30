@@ -8,7 +8,7 @@
   "dependencies": {
     "@ethfs/contracts": "workspace:*",
     "@latticexyz/common": "2.0.0-next.14",
-    "@safe-global/safe-singleton-factory": "github:safe-global/safe-singleton-factory#5f9046a",
+    "@safe-global/safe-singleton-factory": "^1.0.38",
     "execa": "^8.0.1",
     "p-retry": "^6.1.0",
     "viem": "^2.22.17",

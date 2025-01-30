@@ -76,8 +76,8 @@ importers:
         specifier: 2.0.0-next.14
         version: 2.0.0-next.14(bufferutil@4.0.9)(typescript@5.7.3)(utf-8-validate@6.0.5)(zod@3.24.1)
       '@safe-global/safe-singleton-factory':
-        specifier: github:safe-global/safe-singleton-factory#5f9046a
-        version: https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a
+        specifier: ^1.0.38
+        version: 1.0.38
       execa:
         specifier: ^8.0.1
         version: 8.0.1
@@ -1064,10 +1064,6 @@ packages:
 
   '@safe-global/safe-singleton-factory@1.0.38':
     resolution: {integrity: sha512-ubC6vZz7umiTijbIJ2e2PiEoUR0FaG5uIlC4NZt8hmDS0DZaJ+Duktz7cz8D/An7ogC3Azn+IYZUkD9CA2zV9w==}
-
-  '@safe-global/safe-singleton-factory@https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a':
-    resolution: {tarball: https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a}
-    version: 1.0.17
 
   '@scure/base@1.1.9':
     resolution: {integrity: sha512-8YKhl8GHiNI/pU2VMaofa2Tor7PJRAjwQLBBuilkJ9L5+13yVbC7JO/wS7piioAvPSwR3JKM1IJ/u4xQzbcXKg==}
@@ -5921,8 +5917,6 @@ snapshots:
   '@safe-global/safe-gateway-typescript-sdk@3.22.9': {}
 
   '@safe-global/safe-singleton-factory@1.0.38': {}
-
-  '@safe-global/safe-singleton-factory@https://codeload.github.com/safe-global/safe-singleton-factory/tar.gz/5f9046a': {}
 
   '@scure/base@1.1.9': {}
 
