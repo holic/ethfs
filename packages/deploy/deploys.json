@@ -29,6 +29,16 @@
       }
     }
   },
+  "360": {
+    "chainId": 360,
+    "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
+    "contracts": {
+      "FileStore": {
+        "address": "0x5Ad19F2A2C7B919C362f9361E9B32b39f64E8d8A",
+        "blockNumber": "8263268"
+      }
+    }
+  },
   "420": {
     "chainId": 420,
     "deployer": "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7",
