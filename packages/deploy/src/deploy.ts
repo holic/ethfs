@@ -35,9 +35,13 @@ export type DeployResult = {
   };
 };
 
+export type VerifierConfig = 
+  | { type: "etherscan"; apiKey: string }
+  | { type: "blockscout"; url: string; apiKey?: string };
+
 export async function deploy(
   client: Client<Transport, Chain | undefined, Account>,
-  etherscanApiKey: string,
+  verifier: VerifierConfig,
 ): Promise<DeployResult> {
   const chainId = client.chain?.id ?? (await getChainId(client));
   const deployer = await ensureDeployer(client);
@@ -89,7 +93,19 @@ export async function deploy(
 
   try {
     console.log("verifying FileStore");
-    await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier etherscan --etherscan-api-key ${etherscanApiKey} --watch`;
+    // Construct the forge verify-contract command based on the verifier type
+    let verifyCommand = `forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --watch`;
+
+    if (verifier.type === "etherscan") {
+      verifyCommand += ` --verifier etherscan --etherscan-api-key ${verifier.apiKey}`;
+    } else if (verifier.type === "blockscout") {
+      verifyCommand += ` --verifier blockscout --verifier-url ${verifier.url}/api/`;
+      if (verifier.apiKey) {
+        verifyCommand += ` --blockscout-api-key ${verifier.apiKey}`;
+      }
+    }
+
+    await contracts$(verifyCommand);
     // TODO: figure out how to get sourcify working, this gives a generic 500 with "Compiler error"
     // TODO: try to do this with sourcify API instead of forge?
     // await contracts$`forge verify-contract ${fileStore} src/FileStore.sol:FileStore --chain-id ${chainId} --compiler-version ${fileStoreBuild.metadata.compiler.version} --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs} --constructor-args ${fileStoreConstructorArgs} --verifier sourcify --watch`;

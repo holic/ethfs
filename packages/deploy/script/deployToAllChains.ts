@@ -16,20 +16,23 @@ import {
   // polygonZkEvm,
   // polygonZkEvmTestnet,
   sepolia,
+  shape,
   zora,
   zoraSepolia,
 } from "viem/chains";
 import { z } from "zod";
 
-import { deploy } from "../src/deploy";
+import { deploy, VerifierConfig } from "../src/deploy";
 import { writeDeploysJson } from "../src/writeDeploysJson";
 import { parseEnv } from "./parseEnv";
 
 const envSchema = z.object({
   DEPLOYER_PRIVATE_KEY: z.string().refine(isHex),
+  BLOCKSOUT_API_KEY: z.string(),
   ETHERSCAN_API_KEY: z.string(),
   BASESCAN_API_KEY: z.string(),
   OPTIMISM_ETHERSCAN_API_KEY: z.string(),
+  VERIFIER_URL_360: z.string()
 });
 
 const env = parseEnv(envSchema);
@@ -44,6 +47,7 @@ const chains = [
   optimismSepolia,
   zora,
   zoraSepolia,
+  shape
   // arbitrum,
   // arbitrumSepolia,
   // polygon,
@@ -63,15 +67,44 @@ async function deployToAllChains() {
       account,
     });
     console.log(`deploying to chain ${chain.id} (${chain.name})`);
-    const deployResult = await deploy(
-      client,
-      chain.id == base.id || chain.id == baseSepolia.id
-        ? env.BASESCAN_API_KEY
-        : chain.id == optimism.id || chain.id == optimismSepolia.id
-          ? env.OPTIMISM_ETHERSCAN_API_KEY
-          : env.ETHERSCAN_API_KEY,
-    );
-    await writeDeploysJson(deployResult);
+
+    // Determine the appropriate VerifierConfig based on the chain ID
+    let verifierConfig: VerifierConfig;
+
+    if (chain.id === shape.id) { // Shape chain ID
+      verifierConfig = {
+        type: "blockscout",
+        url: env.VERIFIER_URL_360!,
+        apiKey: env.BLOCKSOUT_API_KEY,
+      };
+    } else if (chain.id === base.id || chain.id === baseSepolia.id) { // Base chains
+      verifierConfig = {
+        type: "etherscan",
+        apiKey: env.BASESCAN_API_KEY!,
+      };
+    } else if (chain.id === optimism.id || chain.id === optimismSepolia.id) { // Optimism chains
+      verifierConfig = {
+        type: "etherscan",
+        apiKey: env.OPTIMISM_ETHERSCAN_API_KEY!,
+      };
+    } else { // Default Etherscan
+      verifierConfig = {
+        type: "etherscan",
+        apiKey: env.ETHERSCAN_API_KEY!,
+      };
+    }
+
+    try {
+      // Deploy the contract with the specified VerifierConfig
+      const deployResult = await deploy(client, verifierConfig);
+
+      // Write the deployment results to a JSON file
+      await writeDeploysJson(deployResult);
+
+      console.log(`Successfully deployed to chain ${chain.id} (${chain.name})`);
+    } catch (error) {
+      console.error(`Failed to deploy to chain ${chain.id} (${chain.name}):`, error);
+    }
   }
 }
 
