@@ -31,6 +31,7 @@ contract FileTest is Test {
         assertEq(contents, "some");
     }
 
+    /// forge-config: default.allow_internal_expect_revert = true
     function testCorruptedFileRead() public {
         BytecodeSlice[] memory slices = new BytecodeSlice[](1);
         slices[0] = BytecodeSlice({
