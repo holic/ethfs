@@ -13,11 +13,12 @@ import {
   parseAbiParameters,
   Transport,
 } from "viem";
-import { getBlockNumber, getChainId, getLogs } from "viem/actions";
+import { getChainId, getLogs } from "viem/actions";
 
 import { salt } from "./common";
 import { ensureContractsDeployed } from "./ensureContractsDeployed";
 import { ensureDeployer } from "./ensureDeployer";
+import { writeDeploysJson } from "./writeDeploysJson";
 
 const contracts$ = $({
   cwd: `${__dirname}/../../contracts`,
@@ -35,7 +36,7 @@ export type DeployResult = {
   };
 };
 
-export type VerifierConfig = 
+export type VerifierConfig =
   | { type: "etherscan"; apiKey: string }
   | { type: "blockscout"; url: string; apiKey?: string };
 
@@ -61,7 +62,7 @@ export async function deploy(
     salt,
   });
 
-  const startBlock = await getBlockNumber(client);
+  // const startBlock = await getBlockNumber(client);
   await ensureContractsDeployed({
     client,
     deployer,
@@ -94,13 +95,13 @@ export async function deploy(
   try {
     console.log("verifying FileStore");
 
-    const verifierFlags = []
+    const verifierFlags = [];
     if (verifier.type === "etherscan") {
-      verifierFlags.push('--verifier etherscan')
+      verifierFlags.push("--verifier etherscan");
       verifierFlags.push(`--etherscan-api-key ${verifier.apiKey}`);
     } else if (verifier.type === "blockscout") {
-      verifierFlags.push('--verifier blockscout')
-      verifierFlags.push(`--verifier-url ${verifier.url}`)
+      verifierFlags.push("--verifier blockscout");
+      verifierFlags.push(`--verifier-url ${verifier.url}`);
       if (verifier.apiKey) {
         verifierFlags.push(`--blockscout-api-key ${verifier.apiKey}`);
       }
@@ -113,7 +114,7 @@ export async function deploy(
       --num-of-optimizations ${fileStoreBuild.metadata.settings.optimizer.runs}
       --constructor-args ${fileStoreConstructorArgs}
       --watch
-      ${verifierFlags.join(' ')}`;
+      ${verifierFlags.join(" ")}`;
 
     // TODO: figure out how to get sourcify working, this gives a generic 500 with "Compiler error"
     // TODO: try to do this with sourcify API instead of forge?
@@ -122,7 +123,7 @@ export async function deploy(
     console.error("could not verify FileStore, skipping for now", error);
   }
 
-  return {
+  const deployResult = {
     chainId,
     deployer,
     contracts: {
@@ -132,4 +133,9 @@ export async function deploy(
       },
     },
   };
+
+  // Write the deployment results to a JSON file
+  await writeDeploysJson(deployResult);
+
+  return deployResult;
 }
