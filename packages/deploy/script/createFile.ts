@@ -30,7 +30,7 @@ async function run() {
   console.log("codeSize", codeSize);
 
   const tx = await client.writeContract({
-    address: deploys[chain.id].contracts.FileStore.address,
+    address: `0x${deploys[chain.id].contracts.FileStore.address.substring(2)}`,
     abi: FileStoreAbi,
     functionName: "createFileFromPointers",
     args: [

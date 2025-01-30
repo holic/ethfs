@@ -10,7 +10,7 @@
     "@safe-global/safe-singleton-factory": "github:safe-global/safe-singleton-factory#5f9046a",
     "execa": "^8.0.1",
     "p-retry": "^6.1.0",
-    "viem": "^1.20.0",
+    "viem": "^2.22.17",
     "zod": "^3.22.4"
   },
   "devDependencies": {

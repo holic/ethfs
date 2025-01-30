@@ -65,9 +65,9 @@ async function deployToAllChains() {
     console.log(`deploying to chain ${chain.id} (${chain.name})`);
     const deployResult = await deploy(
       client,
-      chain.network.startsWith("base")
+      (chain.id == 8453 || chain.id == 84532)
         ? env.BASESCAN_API_KEY
-        : chain.network.startsWith("optimism")
+        : (chain.id == 10 || chain.id == 11155420)
           ? env.OPTIMISM_ETHERSCAN_API_KEY
           : env.ETHERSCAN_API_KEY,
     );
