@@ -76,7 +76,7 @@ export async function deploy(
   // TODO: find a way to do to get deployment without block range issues
 
   // const fromBlock = startBlock - 1000n;
-  const fromBlock = "earliest";
+  const fromBlock = 1n;
   const deployLogs = await getLogs(client, {
     address: [fileStore],
     event: parseAbiItem("event Deployed()"),
