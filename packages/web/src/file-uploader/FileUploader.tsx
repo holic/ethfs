@@ -123,7 +123,6 @@ export function FileUploader() {
               }}
               contents={file.contents.join("")}
             />
-            {file.filename}
           </div>
           <div className="flex flex-col p-3 pb-8 gap-8 text-stone-500">
             <div className="flex items-start justify-between">

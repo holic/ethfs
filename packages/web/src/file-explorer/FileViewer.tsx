@@ -49,12 +49,13 @@ function FileViewerThumbnail({ file }: { file: OnchainFile }) {
   return (
     <div className="flex flex-col gap-4 p-8 items-center bg-stone-200">
       <FileThumbnail file={file} contents={fetchResult.contents} />
-      {file.filename}
+      {/* {file.filename} */}
     </div>
   );
 }
 
 export function FileViewer({ file, onClose }: Props) {
+  console.log(file);
   const chain = useChain();
   if (chain.id !== file.chainId) {
     throw new Error("Unexpected chain ID for file");
