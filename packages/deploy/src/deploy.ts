@@ -1,3 +1,5 @@
+import assert from "node:assert";
+
 import fileStoreBuild from "@ethfs/contracts/out/FileStore.sol/FileStore.json" assert { type: "json" };
 import { execa } from "execa";
 import {
@@ -41,6 +43,7 @@ export async function deploy(
 ): Promise<DeployResult> {
   const chainId = client.chain?.id ?? (await getChainId(client));
   const deployer = await ensureDeployer(client);
+  assert.equal(deployer, "0x914d7Fec6aaC8cd542e72Bca78B30650d45643d7");
 
   const fileStoreConstructorArgs = encodeAbiParameters(
     parseAbiParameters("address"),
@@ -56,6 +59,7 @@ export async function deploy(
     bytecode: fileStoreBytecode,
     salt,
   });
+  assert.equal(fileStore, "0xFe1411d6864592549AdE050215482e4385dFa0FB");
 
   // const startBlock = await getBlockNumber(client);
   await ensureContractsDeployed({
@@ -72,7 +76,7 @@ export async function deploy(
   // TODO: find a way to do to get deployment without block range issues
 
   // const fromBlock = startBlock - 1000n;
-  const fromBlock = "earliest";
+  const fromBlock = 1n;
   const deployLogs = await getLogs(client, {
     address: [fileStore],
     event: parseAbiItem("event Deployed()"),

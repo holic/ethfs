@@ -19,11 +19,8 @@ The `FileStore` contract acts as a minimum viable registry, a global namespace o
 ## Installation (Foundry)
 
 1. `forge install holic/ethfs`
-
-2. Go into your `foundry.toml` and add `"@holic/ethfs/"` to your `remappings` array
-
-3. Go into your `.sol` file and add `import "@holic/ethfs/contracts/src/FileStore.sol";`
-
+2. Add `ethfs/` to `remappings.txt` or `foundry.toml`
+3. `import "ethfs/contracts/src/FileStore.sol";` in your contract
 4. Have fun!
 
 ## Reference
@@ -68,6 +65,17 @@ The `FileStore` contract acts as a minimum viable registry, a global namespace o
     <tr>
       <td>Optimism Sepolia</td>
       <td><a href="https://sepolia-optimism.etherscan.io/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <th colspan="2">Shape</th>
+    </tr>
+    <tr>
+      <td>Shape Mainnet</td>
+      <td><a href="https://shapescan.xyz/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
+    </tr>
+    <tr>
+      <td>Shape Sepolia</td>
+      <td><a href="https://explorer-sepolia.shape.network/address/0xFe1411d6864592549AdE050215482e4385dFa0FB">0xFe1411d6864592549AdE050215482e4385dFa0FB</a></td>
     </tr>
     <tr>
       <th colspan="2">Zora</th>

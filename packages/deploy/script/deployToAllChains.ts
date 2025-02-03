@@ -17,6 +17,7 @@ import {
   // polygonZkEvmTestnet,
   sepolia,
   shape,
+  shapeSepolia,
   zora,
   zoraSepolia,
 } from "viem/chains";
@@ -46,6 +47,7 @@ const chains = [
   zora,
   zoraSepolia,
   shape,
+  shapeSepolia,
   // arbitrum,
   // arbitrumSepolia,
   // polygon,
@@ -69,7 +71,7 @@ async function deployToAllChains() {
     // Determine the appropriate VerifierConfig based on the chain ID
     let verifierConfig: VerifierConfig;
 
-    if (chain.id === shape.id) {
+    if (chain.id === shape.id || chain.id === shapeSepolia.id) {
       // Shape chain ID
       verifierConfig = {
         type: "blockscout",
