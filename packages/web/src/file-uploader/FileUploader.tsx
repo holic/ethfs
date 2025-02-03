@@ -4,13 +4,8 @@ import { useConnectModal } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { BaseError, formatEther } from "viem";
-import {
-  useFeeData,
-  useNetwork,
-  useQuery,
-  useSwitchNetwork,
-  useWalletClient,
-} from "wagmi";
+import { useAccount, useFeeData, useSwitchChain, useWalletClient } from "wagmi";
+import { useQuery } from "wagmi/query";
 
 import { Button } from "../Button";
 import { useChain } from "../ChainContext";
@@ -34,10 +29,8 @@ const gunzipScriptsSize = 6088;
 export function FileUploader() {
   const chain = useChain();
   const { data: walletClient } = useWalletClient();
-  const { chain: walletChain } = useNetwork();
-  const { isLoading: isSwitchingChain, switchNetwork } = useSwitchNetwork({
-    chainId: chain.id,
-  });
+  const { chain: walletChain } = useAccount();
+  const { isPending: isSwitchingChain, switchChain } = useSwitchChain();
   const { openConnectModal } = useConnectModal();
   // TODO: handle multiple files?
   const [file, setFile] = useState<PreparedFile | null>(null);
@@ -47,7 +40,7 @@ export function FileUploader() {
   const shouldSwitchChain = chain.id !== walletChain?.id;
 
   const { data: feeData } = useFeeData({ chainId: chain.id });
-  const { data: gasEstimate } = useQuery(
+  /* const { data: gasEstimate } = useQuery(
     ["file-upload-gas", file?.filename],
     async () => {
       if (!file) throw new Error("No file to estimate gas for");
@@ -56,7 +49,20 @@ export function FileUploader() {
     {
       enabled: !!file,
     },
-  );
+  ); */
+
+  const {
+    data: gasEstimate,
+    isLoading,
+    error,
+  } = useQuery<number, Error, number, [string, string | undefined]>({
+    queryKey: ["file-upload-gas", file?.filename],
+    queryFn: async () => {
+      if (!file) throw new Error("No file to estimate gas for");
+      return estimateFileUploadGas(file);
+    },
+    enabled: !!file,
+  });
 
   const estimatedFee =
     feeData?.maxFeePerGas && gasEstimate
@@ -287,13 +293,13 @@ export function FileUploader() {
                 pending={isSwitchingChain}
                 disabled={
                   (!walletClient && !openConnectModal) ||
-                  (walletChain && shouldSwitchChain && !switchNetwork)
+                  (walletChain && shouldSwitchChain && !switchChain)
                 }
                 onClick={
-                  shouldSwitchChain && switchNetwork
+                  shouldSwitchChain && switchChain
                     ? (event) => {
                         event.preventDefault();
-                        switchNetwork();
+                        switchChain({ chainId: chain.id });
                       }
                     : undefined
                 }
@@ -301,7 +307,7 @@ export function FileUploader() {
                 {!walletClient
                   ? "Connect wallet"
                   : shouldSwitchChain
-                    ? switchNetwork
+                    ? switchChain
                       ? "Switch network"
                       : `Switch network to ${chain.name}`
                     : "Upload"}

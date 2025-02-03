@@ -13,7 +13,8 @@
     "@ethfs/deploy": "workspace:*",
     "@ethfs/ponder": "workspace:*",
     "@ponder/client": "0.9.0-next.10",
-    "@rainbow-me/rainbowkit": "^1.3.1",
+    "@rainbow-me/rainbowkit": "^2.2.3",
+    "@tanstack/react-query": "^5.66.0",
     "fflate": "^0.7.4",
     "luxon": "^3.4.4",
     "mime": "^4.0.1",
@@ -23,8 +24,8 @@
     "react-dom": "^18",
     "react-toastify": "^9.1.3",
     "tailwind-merge": "^2.1.0",
-    "viem": "^1.20.0",
-    "wagmi": "^1.4.12",
+    "viem": "^2.22.17",
+    "wagmi": "^2.14.9",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
