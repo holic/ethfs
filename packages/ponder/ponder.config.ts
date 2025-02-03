@@ -40,6 +40,16 @@ export default createConfig({
       transport: http(process.env.RPC_HTTP_URL_11155420),
       pollingInterval: 2_000,
     },
+    shape: {
+      chainId: 360,
+      transport: http(process.env.RPC_HTTP_URL_360),
+      pollingInterval: 2_000,
+    },
+    shapeSepolia: {
+      chainId: 11011,
+      transport: http(process.env.RPC_HTTP_URL_11011),
+      pollingInterval: 2_000,
+    },
     zora: {
       chainId: 7777777,
       transport: http(process.env.RPC_HTTP_URL_7777777),
@@ -63,6 +73,8 @@ export default createConfig({
         baseSepolia: { startBlock: 4384018 },
         optimism: { startBlock: 114171031 },
         optimismSepolia: { startBlock: 6069158 },
+        shape: {startBlock: 8263268},
+        shapeSepolia: {startBlock: 9670055},
         zora: { startBlock: 9623739 },
         zoraSepolia: { startBlock: 3930816 },
       },
