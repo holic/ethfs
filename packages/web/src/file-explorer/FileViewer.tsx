@@ -1,7 +1,7 @@
 import deploys from "@ethfs/deploy/deploys.json";
 import { DateTime } from "luxon";
 import React from "react";
-import { useQuery } from "wagmi";
+import { useQuery } from "wagmi/query";
 
 import { useChain } from "../ChainContext";
 import { OnchainFile } from "../common";
@@ -15,10 +15,27 @@ type Props = {
 };
 
 function FileViewerThumbnail({ file }: { file: OnchainFile }) {
-  const { data: fetchResult } = useQuery(["file", file.filename], async () => {
-    return fetch(`/api/${file.chainId}/files/${file.filename}/contents`).then(
-      (res) => res.json() as Promise<{ contents: string }>,
-    );
+  const {
+    data: fetchResult,
+    isLoading,
+    error,
+  } = useQuery<
+    { contents: string }, // TQueryFnData
+    Error, // TError
+    { contents: string }, // TData (the final data shape)
+    [string, string] // TQueryKey, since your queryKey is an array of two strings
+  >({
+    queryKey: ["file", file.filename],
+    queryFn: async () => {
+      const res = await fetch(
+        `/api/${file.chainId}/files/${file.filename}/contents`,
+      );
+      if (!res.ok) {
+        throw new Error("Network error");
+      }
+      return res.json();
+    },
+    staleTime: 30_000, // 30 seconds
   });
 
   if (!fetchResult) {
@@ -32,12 +49,13 @@ function FileViewerThumbnail({ file }: { file: OnchainFile }) {
   return (
     <div className="flex flex-col gap-4 p-8 items-center bg-stone-200">
       <FileThumbnail file={file} contents={fetchResult.contents} />
-      {file.filename}
+      {/* {file.filename} */}
     </div>
   );
 }
 
 export function FileViewer({ file, onClose }: Props) {
+  console.log(file);
   const chain = useChain();
   if (chain.id !== file.chainId) {
     throw new Error("Unexpected chain ID for file");

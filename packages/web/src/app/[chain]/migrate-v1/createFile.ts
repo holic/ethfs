@@ -1,21 +1,27 @@
 import IFileStoreAbi from "@ethfs/contracts/out/IFileStore.sol/IFileStore.abi.json";
 import deploys from "@ethfs/deploy/deploys.json";
-import { Hex, stringToHex, TransactionReceipt } from "viem";
-import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
+import { Address, Chain, Hex, stringToHex, TransactionReceipt } from "viem";
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "wagmi/actions";
 
+import { config } from "../../../EthereumProviders";
 import { File } from "./getFiles";
 
 export async function createFile(
-  chainId: number,
+  chain: Chain,
   file: File,
   pointers: Hex[],
+  address: Address,
   onProgress: (message: string) => void,
 ): Promise<TransactionReceipt> {
-  const deploy = deploys[chainId];
+  const deploy = deploys[chain.id];
 
   onProgress("Checking filename…");
-  const fileExists = await readContract({
-    chainId,
+  const fileExists = await readContract(config, {
+    chainId: chain.id,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
     functionName: "fileExists",
@@ -30,8 +36,10 @@ export async function createFile(
   // TODO: add progress messages for long running requests
   //       https://github.com/holic/a-fundamental-dispute/blob/f83ea42fa60c3b8667f6b0eb03a009d264219ba6/packages/app/src/MintButton.tsx#L118-L131
 
-  const { hash: tx } = await writeContract({
-    chainId,
+  const tx = await writeContract(config, {
+    account: address,
+    chainId: chain.id,
+    chain: chain,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
     functionName: "createFileFromPointers",
@@ -51,8 +59,8 @@ export async function createFile(
   console.log("create file tx", tx);
 
   onProgress(`Waiting for transaction…`);
-  const receipt = await waitForTransaction({
-    chainId,
+  const receipt = await waitForTransactionReceipt(config, {
+    chainId: chain.id,
     hash: tx,
   });
   console.log("create file receipt", receipt);

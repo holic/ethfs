@@ -7,57 +7,55 @@ import {
   lightTheme,
   RainbowKitProvider,
 } from "@rainbow-me/rainbowkit";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactNode } from "react";
-import { configureChains, createConfig, WagmiConfig } from "wagmi";
-import { jsonRpcProvider } from "wagmi/providers/jsonRpc";
-import { publicProvider } from "wagmi/providers/public";
+import { Chain } from "viem";
+import { createConfig, http, WagmiProvider } from "wagmi";
 
 import { supportedChains } from "./supportedChains";
 
-const { chains, publicClient } = configureChains(
-  supportedChains.map((c) => c.chain),
-  [
-    jsonRpcProvider({
-      rpc: (chain) => {
-        // TODO: simplify, this feels wrong/ugly (maybe better in v2?)
-        const supportedChain = supportedChains.find(
-          (c) => c.chain.id === chain.id,
-        );
-        if (!supportedChain) return null;
-        return {
-          http: supportedChain.rpcUrl,
-        };
-      },
-    }),
-    publicProvider(),
-  ],
-);
+// Prepare chains and transports as before
+const chains = supportedChains.map((c) => c.chain) as unknown as [
+  Chain,
+  ...Chain[],
+];
+const transports = supportedChains.reduce<
+  Record<number, ReturnType<typeof http>>
+>((acc, supportedChain) => {
+  acc[supportedChain.chain.id] = http(supportedChain.rpcUrl);
+  return acc;
+}, {});
 
 const { connectors } = getDefaultWallets({
   appName: "EthFS",
   projectId: "bbc87dca59c4e2ac827da9083052f194",
-  chains,
 });
 
-const wagmiConfig = createConfig({
-  autoConnect: true,
+// Create Wagmi config (no need to pass the React Query client here)
+export const config = createConfig({
+  chains,
+  transports,
   connectors,
-  publicClient,
 });
+
+export const queryClient = new QueryClient();
 
 export function EthereumProviders({ children }: { children: ReactNode }) {
   return (
-    <WagmiConfig config={wagmiConfig}>
-      <RainbowKitProvider
-        chains={chains}
-        theme={lightTheme({
-          borderRadius: "none",
-          accentColor: "#57534e",
-          fontStack: "system",
-        })}
-      >
-        {children}
-      </RainbowKitProvider>
-    </WagmiConfig>
+    // Wrap the whole provider tree in QueryClientProvider:
+    <QueryClientProvider client={queryClient}>
+      <WagmiProvider config={config}>
+        <RainbowKitProvider
+          initialChain={chains[0]}
+          theme={lightTheme({
+            borderRadius: "none",
+            accentColor: "#57534e",
+            fontStack: "system",
+          })}
+        >
+          {children}
+        </RainbowKitProvider>
+      </WagmiProvider>
+    </QueryClientProvider>
   );
 }

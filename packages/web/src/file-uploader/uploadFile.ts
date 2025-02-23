@@ -13,10 +13,11 @@ import { getBytecode } from "viem/actions";
 import {
   readContract,
   sendTransaction,
-  waitForTransaction,
+  waitForTransactionReceipt,
   writeContract,
 } from "wagmi/actions";
 
+import { config } from "../EthereumProviders";
 import { pluralize } from "../pluralize";
 import { contentToInitCode, getPointer, salt } from "./common";
 import { PreparedFile } from "./prepareFile";
@@ -30,7 +31,7 @@ export async function uploadFile(
   const deploy = deploys[chainId];
 
   onProgress("Checking filename…");
-  const fileExists = await readContract({
+  const fileExists = await readContract(config, {
     chainId,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
@@ -55,7 +56,7 @@ export async function uploadFile(
     });
     if (existingBytecode) continue;
 
-    const { hash: tx } = await sendTransaction({
+    const tx = await sendTransaction(config, {
       chainId,
       to: deploy.deployer,
       data: concatHex([salt, contentToInitCode(content)]),
@@ -69,7 +70,7 @@ export async function uploadFile(
   );
   const receipts = await Promise.all(
     transactions.map(async (tx) => {
-      const receipt = await waitForTransaction({
+      const receipt = await waitForTransactionReceipt(config, {
         chainId,
         hash: tx,
       });
@@ -87,7 +88,7 @@ export async function uploadFile(
 
   onProgress(`Creating file…`);
 
-  const { hash: tx } = await writeContract({
+  const tx = await writeContract(config, {
     chainId,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
@@ -101,7 +102,7 @@ export async function uploadFile(
   console.log("create file tx", tx);
 
   onProgress(`Waiting for transaction…`);
-  const receipt = await waitForTransaction({
+  const receipt = await waitForTransactionReceipt(config, {
     chainId,
     hash: tx,
   });

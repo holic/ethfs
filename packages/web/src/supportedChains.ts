@@ -7,9 +7,11 @@ import {
   optimism,
   optimismSepolia,
   sepolia,
+  shape,
+  shapeSepolia,
   zora,
   zoraSepolia,
-} from "viem/chains";
+} from "wagmi/chains";
 
 // TODO: combine with deploys
 
@@ -75,6 +77,19 @@ export const supportedChains = [
     group: "Optimism",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155420!,
   },
+  /* Shape */
+  {
+    chain: shape,
+    slug: "shape",
+    group: "Shape",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_360!,
+  },
+  {
+    chain: shapeSepolia,
+    slug: "shape-sepolia",
+    group: "Shape",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11011!,
+  },
   /* Zora */
   {
     chain: zora,
@@ -88,6 +103,7 @@ export const supportedChains = [
     group: "Zora",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_999999999!,
   },
+
   /* Arbitrum */
   // {
   //   chain: arbitrum,

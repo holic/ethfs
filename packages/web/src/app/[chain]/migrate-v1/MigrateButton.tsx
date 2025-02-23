@@ -2,6 +2,7 @@
 
 import { toast } from "react-toastify";
 import { BaseError, Hex } from "viem";
+import { useAccount } from "wagmi";
 
 import { useChain } from "../../../ChainContext";
 import { WriteButton } from "../../../WriteButton";
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function MigrateButton({ file }: Props) {
+  const { address } = useAccount();
   const chain = useChain();
   const blockExplorer = chain.blockExplorers?.default;
 
@@ -27,7 +29,7 @@ export function MigrateButton({ file }: Props) {
         ).then((res) => res.json())) as Hex[];
 
         console.log("creating file");
-        await createFile(chain.id, file, pointers, (message) => {
+        await createFile(chain, file, pointers, address!, (message) => {
           toast.update(toastId, { render: message });
         }).then(
           (receipt) => {
