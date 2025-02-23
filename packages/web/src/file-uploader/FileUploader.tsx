@@ -298,7 +298,11 @@ export function FileUploader() {
                   shouldSwitchChain && switchChain
                     ? (event) => {
                         event.preventDefault();
-                        switchChain({ chainId: chain.id });
+                        if (!walletClient) {
+                          openConnectModal?.();
+                        } else {
+                          switchChain({ chainId: chain.id });
+                        }
                       }
                     : undefined
                 }
@@ -306,7 +310,7 @@ export function FileUploader() {
                 {!walletClient
                   ? "Connect wallet"
                   : shouldSwitchChain
-                    ? switchChain
+                    ? !chain.name
                       ? "Switch network"
                       : `Switch network to ${chain.name}`
                     : "Upload"}
