@@ -13,29 +13,30 @@
     "@ethfs/deploy": "workspace:*",
     "@ethfs/ponder": "workspace:*",
     "@ponder/client": "0.9.0-next.10",
-    "@rainbow-me/rainbowkit": "^1.3.1",
+    "@rainbow-me/rainbowkit": "^2.2.4",
+    "@tanstack/react-query": "^5.66.9",
     "fflate": "^0.7.4",
     "luxon": "^3.4.4",
     "mime": "^4.0.1",
     "next": "14.0.4",
     "postgres": "^3.4.3",
-    "react": "^18",
-    "react-dom": "^18",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "react-toastify": "^9.1.3",
     "tailwind-merge": "^2.1.0",
-    "viem": "^1.20.0",
-    "wagmi": "^1.4.12",
+    "viem": "^2.23.5",
+    "wagmi": "^2.14.12",
     "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/luxon": "^3.3.7",
-    "@types/react": "^18",
-    "@types/react-dom": "^18",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
     "autoprefixer": "^10.0.1",
     "eslint": "^8",
     "eslint-config-next": "14.0.4",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "typescript": "^5"
+    "typescript": "^5.7.3"
   }
 }

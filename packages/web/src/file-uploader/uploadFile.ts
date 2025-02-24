@@ -1,36 +1,28 @@
 import IFileStoreAbi from "@ethfs/contracts/out/IFileStore.sol/IFileStore.abi.json";
 import deploys from "@ethfs/deploy/deploys.json";
+import { concatHex, Hex, stringToHex } from "viem";
 import {
-  Account,
-  Chain,
-  concatHex,
-  Hex,
-  stringToHex,
-  Transport,
-  WalletClient,
-} from "viem";
-import { getBytecode } from "viem/actions";
-import {
+  getBytecode,
   readContract,
   sendTransaction,
-  waitForTransaction,
+  waitForTransactionReceipt,
   writeContract,
 } from "wagmi/actions";
 
+import { wagmiConfig } from "../EthereumProviders";
 import { pluralize } from "../pluralize";
 import { contentToInitCode, getPointer, salt } from "./common";
 import { PreparedFile } from "./prepareFile";
 
 export async function uploadFile(
   chainId: number,
-  walletClient: WalletClient<Transport, Chain, Account>,
   preparedFile: PreparedFile,
   onProgress: (message: string) => void,
 ) {
   const deploy = deploys[chainId];
 
   onProgress("Checking filename…");
-  const fileExists = await readContract({
+  const fileExists = await readContract(wagmiConfig, {
     chainId,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
@@ -50,12 +42,12 @@ export async function uploadFile(
   for (const [i, content] of preparedFile.contents.entries()) {
     onProgress(`Uploading chunk ${i + 1} of ${preparedFile.contents.length}…`);
 
-    const existingBytecode = await getBytecode(walletClient, {
+    const existingBytecode = await getBytecode(wagmiConfig, {
       address: pointers[i],
     });
     if (existingBytecode) continue;
 
-    const { hash: tx } = await sendTransaction({
+    const tx = await sendTransaction(wagmiConfig, {
       chainId,
       to: deploy.deployer,
       data: concatHex([salt, contentToInitCode(content)]),
@@ -69,7 +61,7 @@ export async function uploadFile(
   );
   const receipts = await Promise.all(
     transactions.map(async (tx) => {
-      const receipt = await waitForTransaction({
+      const receipt = await waitForTransactionReceipt(wagmiConfig, {
         chainId,
         hash: tx,
       });
@@ -87,7 +79,7 @@ export async function uploadFile(
 
   onProgress(`Creating file…`);
 
-  const { hash: tx } = await writeContract({
+  const tx = await writeContract(wagmiConfig, {
     chainId,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
@@ -101,7 +93,7 @@ export async function uploadFile(
   console.log("create file tx", tx);
 
   onProgress(`Waiting for transaction…`);
-  const receipt = await waitForTransaction({
+  const receipt = await waitForTransactionReceipt(wagmiConfig, {
     chainId,
     hash: tx,
   });

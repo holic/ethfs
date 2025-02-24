@@ -1,7 +1,7 @@
 import deploys from "@ethfs/deploy/deploys.json";
+import { useQuery } from "@tanstack/react-query";
 import { DateTime } from "luxon";
 import React from "react";
-import { useQuery } from "wagmi";
 
 import { useChain } from "../ChainContext";
 import { OnchainFile } from "../common";
@@ -15,10 +15,13 @@ type Props = {
 };
 
 function FileViewerThumbnail({ file }: { file: OnchainFile }) {
-  const { data: fetchResult } = useQuery(["file", file.filename], async () => {
-    return fetch(`/api/${file.chainId}/files/${file.filename}/contents`).then(
-      (res) => res.json() as Promise<{ contents: string }>,
-    );
+  const { data: fetchResult } = useQuery({
+    queryKey: ["file", file.filename],
+    queryFn: async () => {
+      return fetch(`/api/${file.chainId}/files/${file.filename}/contents`).then(
+        (res) => res.json() as Promise<{ contents: string }>,
+      );
+    },
   });
 
   if (!fetchResult) {
