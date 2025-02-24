@@ -7,6 +7,8 @@ import {
   optimism,
   optimismSepolia,
   sepolia,
+  shape,
+  shapeSepolia,
   zora,
   zoraSepolia,
 } from "viem/chains";
@@ -74,6 +76,19 @@ export const supportedChains = [
     slug: "optimism-sepolia",
     group: "Optimism",
     rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11155420!,
+  },
+  /* Shape */
+  {
+    chain: shape,
+    slug: "shape",
+    group: "Shape",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_360!,
+  },
+  {
+    chain: shapeSepolia,
+    slug: "shape-sepolia",
+    group: "Shape",
+    rpcUrl: process.env.NEXT_PUBLIC_RPC_HTTP_URL_11011!,
   },
   /* Zora */
   {
