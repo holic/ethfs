@@ -2,7 +2,7 @@
 
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import React, { ComponentProps, ReactNode, useState } from "react";
-import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 
 import { useIsMounted } from "./useIsMounted";
 import { usePromise } from "./usePromise";
@@ -27,11 +27,8 @@ export const WriteButton = React.forwardRef<HTMLButtonElement, Props>(
   ) => {
     const isMounted = useIsMounted();
     const { openConnectModal, connectModalOpen } = useConnectModal();
-    const { isConnected, isConnecting } = useAccount();
-    const { chain } = useNetwork();
-    const { switchNetwork, isLoading: isSwitchingNetwork } = useSwitchNetwork({
-      chainId,
-    });
+    const { isConnected, isConnecting, chain } = useAccount();
+    const { switchChain, isPending: isSwitchingChain } = useSwitchChain();
 
     const [writePromise, setWritePromise] = useState<Promise<void> | null>(
       null,
@@ -77,30 +74,20 @@ export const WriteButton = React.forwardRef<HTMLButtonElement, Props>(
     }
 
     if (chain != null && chain.id !== chainId) {
-      if (switchNetwork) {
-        return render({
-          ...buttonProps,
-          ref,
-          type,
-          "aria-label": "Switch network",
-          "aria-busy": isSwitchingNetwork,
-          onClick: (event) => {
-            if (event.defaultPrevented) return;
-            if (event.currentTarget.ariaBusy === "true") return;
-            if (event.currentTarget.ariaDisabled === "true") return;
-            event.preventDefault();
-            switchNetwork();
-          },
-        });
-      } else {
-        return render({
-          ...buttonProps,
-          ref,
-          type,
-          "aria-label": "Wrong network",
-          "aria-disabled": true,
-        });
-      }
+      return render({
+        ...buttonProps,
+        ref,
+        type,
+        "aria-label": "Switch network",
+        "aria-busy": isSwitchingChain,
+        onClick: (event) => {
+          if (event.defaultPrevented) return;
+          if (event.currentTarget.ariaBusy === "true") return;
+          if (event.currentTarget.ariaDisabled === "true") return;
+          event.preventDefault();
+          switchChain({ chainId });
+        },
+      });
     }
 
     return render({

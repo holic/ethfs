@@ -1,16 +1,11 @@
 "use client";
 
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { BaseError, formatEther } from "viem";
-import {
-  useFeeData,
-  useNetwork,
-  useQuery,
-  useSwitchNetwork,
-  useWalletClient,
-} from "wagmi";
+import { useAccount, useFeeData, useSwitchChain, useWalletClient } from "wagmi";
 
 import { Button } from "../Button";
 import { useChain } from "../ChainContext";
@@ -33,30 +28,27 @@ const gunzipScriptsSize = 6088;
 
 export function FileUploader() {
   const chain = useChain();
+  const account = useAccount();
   const { data: walletClient } = useWalletClient();
-  const { chain: walletChain } = useNetwork();
-  const { isLoading: isSwitchingChain, switchNetwork } = useSwitchNetwork({
-    chainId: chain.id,
-  });
+  const { switchChain, isPending: isSwitchingChain } = useSwitchChain();
   const { openConnectModal } = useConnectModal();
   // TODO: handle multiple files?
   const [file, setFile] = useState<PreparedFile | null>(null);
   const windowId = "FileUploader";
   const windowOrder = useWindowStack(windowId);
 
-  const shouldSwitchChain = chain.id !== walletChain?.id;
+  const shouldSwitchChain = chain.id !== account.chainId;
 
   const { data: feeData } = useFeeData({ chainId: chain.id });
-  const { data: gasEstimate } = useQuery(
-    ["file-upload-gas", file?.filename],
-    async () => {
+  const { data: gasEstimate } = useQuery({
+    // TODO: cache with checksum instead of filename
+    queryKey: ["file-upload-gas", file?.filename],
+    queryFn: async () => {
       if (!file) throw new Error("No file to estimate gas for");
       return estimateFileUploadGas(file);
     },
-    {
-      enabled: !!file,
-    },
-  );
+    enabled: !!file,
+  });
 
   const estimatedFee =
     feeData?.maxFeePerGas && gasEstimate
@@ -205,7 +197,6 @@ export function FileUploader() {
                 const toastId = toast.loading("Starting…");
                 uploadFile(
                   chain.id,
-                  walletClient,
                   {
                     ...file,
                     metadata: {
@@ -285,25 +276,25 @@ export function FileUploader() {
               <Button
                 type="submit"
                 pending={isSwitchingChain}
-                disabled={
-                  (!walletClient && !openConnectModal) ||
-                  (walletChain && shouldSwitchChain && !switchNetwork)
-                }
+                disabled={!walletClient && !openConnectModal}
                 onClick={
-                  shouldSwitchChain && switchNetwork
+                  !walletClient
                     ? (event) => {
                         event.preventDefault();
-                        switchNetwork();
+                        openConnectModal?.();
                       }
-                    : undefined
+                    : shouldSwitchChain
+                      ? (event) => {
+                          event.preventDefault();
+                          switchChain({ chainId: chain.id });
+                        }
+                      : undefined
                 }
               >
                 {!walletClient
                   ? "Connect wallet"
                   : shouldSwitchChain
-                    ? switchNetwork
-                      ? "Switch network"
-                      : `Switch network to ${chain.name}`
+                    ? "Switch network"
                     : "Upload"}
               </Button>
             </form>

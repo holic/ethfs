@@ -1,8 +1,9 @@
 "use client";
 
+import { useQuery } from "@tanstack/react-query";
 import { DateTime } from "luxon";
 import Link from "next/link";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { useChain } from "../ChainContext";
@@ -12,8 +13,6 @@ import { SearchIcon } from "../icons/SearchIcon";
 import { PendingPlaceholder } from "../PendingPlaceholder";
 import { pluralize } from "../pluralize";
 import { UIWindow } from "../UIWindow";
-import { useIsMounted } from "../useIsMounted";
-import { usePromise } from "../usePromise";
 import { useStore as useWindowStackStore } from "../useWindowStack";
 import {
   FileCreated,
@@ -26,15 +25,13 @@ import { FileViewer } from "./FileViewer";
 
 export function FileExplorer() {
   const chain = useChain();
-  const isMounted = useIsMounted();
   const [searchQuery, setSearchQuery] = useState("");
   const [currentFile, setCurrentFile] = useState<OnchainFile | null>(null);
   const focusWindow = useWindowStackStore((state) => state.focusWindow);
 
-  // TODO: switch to useQuery for better caching
-  const files = usePromise(
-    useMemo(() => {
-      if (!isMounted) return;
+  const files = useQuery({
+    queryKey: ["files", chain.id, searchQuery],
+    queryFn: async () => {
       return fetch(
         `${process.env.NEXT_PUBLIC_PONDER_URL}/api/${
           chain.id
@@ -42,10 +39,9 @@ export function FileExplorer() {
           filename: searchQuery,
         })}`,
       ).then((res) => res.json() as Promise<OnchainFile[]>);
-    }, [chain.id, isMounted, searchQuery]),
-  );
-
-  // TODO: refetch on interval
+    },
+    refetchInterval: 4000,
+  });
 
   const resetCurrentFile = useCallback(() => setCurrentFile(null), []);
 
@@ -71,8 +67,8 @@ export function FileExplorer() {
         statusBar={
           <>
             <div>
-              {files.status === "fulfilled"
-                ? pluralize(files.value.length, "file", "files")
+              {files.isSuccess
+                ? pluralize(files.data.length, "file", "files")
                 : null}
             </div>
             <div>{chain.name}</div>
@@ -94,14 +90,12 @@ export function FileExplorer() {
         <div
           className={twMerge(
             `flex-grow py-1`,
-            files.status === "pending"
-              ? "opacity-50 pointer-events-none"
-              : null,
+            files.isPending ? "opacity-50 pointer-events-none" : null,
           )}
         >
-          {files.status === "fulfilled" ? (
+          {files.isSuccess ? (
             <>
-              {files.value.map((file) => (
+              {files.data.map((file) => (
                 <FileListRow
                   key={file.filename}
                   className={twMerge(

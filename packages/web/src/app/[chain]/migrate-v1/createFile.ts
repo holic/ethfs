@@ -1,8 +1,13 @@
 import IFileStoreAbi from "@ethfs/contracts/out/IFileStore.sol/IFileStore.abi.json";
 import deploys from "@ethfs/deploy/deploys.json";
 import { Hex, stringToHex, TransactionReceipt } from "viem";
-import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
+import {
+  readContract,
+  waitForTransactionReceipt,
+  writeContract,
+} from "wagmi/actions";
 
+import { wagmiConfig } from "../../../EthereumProviders";
 import { File } from "./getFiles";
 
 export async function createFile(
@@ -14,7 +19,7 @@ export async function createFile(
   const deploy = deploys[chainId];
 
   onProgress("Checking filename…");
-  const fileExists = await readContract({
+  const fileExists = await readContract(wagmiConfig, {
     chainId,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
@@ -30,7 +35,7 @@ export async function createFile(
   // TODO: add progress messages for long running requests
   //       https://github.com/holic/a-fundamental-dispute/blob/f83ea42fa60c3b8667f6b0eb03a009d264219ba6/packages/app/src/MintButton.tsx#L118-L131
 
-  const { hash: tx } = await writeContract({
+  const tx = await writeContract(wagmiConfig, {
     chainId,
     address: deploy.contracts.FileStore.address,
     abi: IFileStoreAbi,
@@ -51,7 +56,7 @@ export async function createFile(
   console.log("create file tx", tx);
 
   onProgress(`Waiting for transaction…`);
-  const receipt = await waitForTransaction({
+  const receipt = await waitForTransactionReceipt(wagmiConfig, {
     chainId,
     hash: tx,
   });
